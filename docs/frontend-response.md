@@ -84,3 +84,24 @@ of secure erasure from RAM. Do not save the response to frontend persistent stor
 SQLite and `--durable-export` continue excluding live grounded content. Development
 snapshots are the explicit local debugging exception. This display
 transport does not authorize passing grounded text into another analysis model.
+
+### Structured public-source records
+
+`report.result.evidence[]` now includes optional `record_id`, `source_updated_at`,
+`record_date`, `attribution`, `match_method`, and a `details` object. These fields
+have defaults, so existing saved snapshots remain readable. `details` preserves
+selected WPRDC property/permit/closure fields, FEMA attributes/layer IDs, OSM
+object IDs/tags and distances, or Census address/geography metadata. Matching
+qualifications remain in observation flags. Dates from source records remain
+separate from retrieval timestamps; absent publication/record dates stay null.
+The dashboard exposes these records within topic sections and the evidence library.
+OpenStreetMap evidence is `reported`, with contributor attribution and ODbL details;
+it is a structured API source, not a Gemini web result.
+
+OSM produces one evidence/observation pair per requested category (`schools`,
+`groceries`, `transit`, `pharmacies`), including explicit no-result summaries.
+Category evidence `details` holds `mapped_feature_count`, `count_is_lower_bound`,
+`nearest_returned_center_distance_m`, the query, and up to 50 supporting `members`
+with OSM IDs, links, names, tags and approximate distances. Individual members are
+not promoted to separate claims. The dashboard keeps those members collapsed.
+Counts measure map features, not verified distinct facilities or service levels.

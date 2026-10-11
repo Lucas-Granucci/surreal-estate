@@ -45,10 +45,36 @@ async def run(
 ) -> RunOutcome:
     results, displays = [], []
     plan = None
+    # Fixed, policy-gated public adapters are a baseline, independent of model choices.
+    api_ran = getattr(api_channel, "default_enabled", False)
+    if api_ran:
+        ctx.trace.append("channel:apis:started")
+        try:
+            async with asyncio.timeout(ctx.remaining):
+                results.append(await api_channel.run(case, ctx))
+        except EXPECTED_ERRORS as exc:
+            results.append(api_channel.partial_result)
+            results.append(
+                ChannelResult(
+                    coverage=[
+                        Coverage(
+                            channel="apis",
+                            topic="research",
+                            status="truncated",
+                            reason=f"Structured research stopped ({failure_reason(exc)}); completed sources retained",
+                        )
+                    ]
+                )
+            )
+        ctx.trace.append("channel:apis:finished")
     try:
         async with asyncio.timeout(ctx.remaining):
             ctx.trace.append("planner:started")
             plan = await planner.plan(case, ctx)
+            if api_ran:
+                plan = plan.model_copy(
+                    update={"channels": ["apis", *(c for c in plan.channels if c != "apis")]}
+                )
             event = ctx.debug.begin(
                 "Policy gate",
                 {
@@ -88,6 +114,8 @@ async def run(
         if search is not None:
             channels["web"] = WebChannel(plan.queries, search, extractor, fact_checker)
         for name in plan.channels:
+            if name == "apis" and api_ran:
+                continue
             if name not in channels:
                 results.append(
                     ChannelResult(

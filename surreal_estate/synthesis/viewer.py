@@ -7,6 +7,7 @@ from time import monotonic
 
 from surreal_estate.orchestrator.runner import RunOutcome
 from surreal_estate.synthesis.debug_view import pretty, render_debug
+from surreal_estate.synthesis.dashboard import render_dashboard
 from surreal_estate.synthesis.frontend import build_frontend_response
 from surreal_estate.synthesis.markdown import render_model_markdown
 from surreal_estate.synthesis.sources_view import render_sources
@@ -46,7 +47,8 @@ def render_html(outcome: RunOutcome) -> str:
         f"<p>{escape(report.case.address)} · As of {report.case.as_of}</p>",
         "<p class='muted'>Completed run snapshot. Results remain available while this process runs.</p>",
         (
-            "<nav><a class='step-link' href='#debug'>Inspect prompts &amp; responses ↓</a>"
+            '<nav><a class="step-link" href="__DASHBOARD_URL__">Open property dashboard →</a>'
+            "<a class='step-link' href='#debug'>Inspect prompts &amp; responses ↓</a>"
             "<a class='step-link' href='#frontend-json'>View full JSON ↓</a></nav>"
         ),
     ]
@@ -89,6 +91,8 @@ def render_html(outcome: RunOutcome) -> str:
             parts.append(
                 f'<li><a rel="noreferrer noopener" href="{escape(str(item.uri), quote=True)}">{escape(item.title)}</a></li>'
             )
+            if item.attribution:
+                parts.append("<li class='muted'>" + escape(item.attribution) + "</li>")
         parts.append("</ul><p class='muted'>" + escape(", ".join(claim.flags)) + "</p>")
     parts.append("</section><details open><summary>Execution trace</summary><ol>")
     parts.extend(f"<li>{escape(event)}</li>" for event in report.trace)
@@ -139,6 +143,7 @@ class TransientView:
         if ttl_seconds <= 0:
             raise ValueError("Display lifetime must be positive")
         self.html = render_html(outcome).encode()
+        self.dashboard = render_dashboard(build_frontend_response(outcome)).encode()
         self.json = build_frontend_response(outcome).model_dump_json(indent=2).encode()
         self.expires_at = monotonic() + ttl_seconds
 
@@ -150,6 +155,7 @@ class TransientView:
 
     def release(self):
         self.html = None
+        self.dashboard = None
         self.json = None
 
 
@@ -159,6 +165,8 @@ def display_handler(view: TransientView, token: str):
         def do_GET(self):
             routes = {
                 "/" + token: (view.html, "text/html; charset=utf-8"),
+                "/" + token + "/": (view.html, "text/html; charset=utf-8"),
+                "/" + token + "/dashboard": (view.dashboard, "text/html; charset=utf-8"),
                 "/" + token + "/result.json": (view.json, "application/json; charset=utf-8"),
             }
             if self.path not in routes:
@@ -168,6 +176,8 @@ def display_handler(view: TransientView, token: str):
                 self.respond(410)
                 return
             body, content_type = routes[self.path]
+            if content_type.startswith("text/html") and body is not None:
+                body = body.replace(b"__DASHBOARD_URL__", ("/" + token + "/dashboard").encode())
             self.respond(200, body, content_type)
 
         def do_POST(self):
@@ -204,6 +214,7 @@ def serve(outcome: RunOutcome, port: int = 8765, ttl_seconds: float = 900):
     with HTTPServer(("127.0.0.1", port), Handler) as server:
         server.timeout = 0.5
         print(f"Transient results: http://127.0.0.1:{server.server_port}/{token}", flush=True)
+        print(f"Property dashboard: http://127.0.0.1:{server.server_port}/{token}/dashboard", flush=True)
         print(
             f"Frontend JSON: http://127.0.0.1:{server.server_port}/{token}/result.json", flush=True
         )

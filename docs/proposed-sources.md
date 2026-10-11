@@ -1,13 +1,30 @@
 # Proposed sources for Pittsburgh property research
 
-This is a source roadmap, not a list of enabled integrations. Initial geography:
+This catalog distinguishes enabled integrations from later roadmap candidates. Initial geography:
 Pittsburgh and Allegheny County, Pennsylvania. Source documentation reviewed
-2026-10-04. Resolve dataset versions and resource IDs when implementing each
-adapter; avoid hardcoding a catalog resource that may be replaced.
+2026-10-11. WPRDC adapters resolve current resource IDs from catalog metadata
+each run; catalog changes fail closed rather than selecting an archived resource.
 
 ## Current implementation
 
-Channel A calls the **U.S. Census Geocoder**. Channel B has an explicit
+Channel A includes the **U.S. Census Geocoder**, **Allegheny County assessments**,
+**Pittsburgh PLI permits**, **FEMA NFHL**, **OpenStreetMap / Overpass**, and
+**Pittsburgh DOMI street closures** by default in live research. All are key-free.
+Census geographic identifiers gate county/city sources. Assessments require a
+unique exact address match; permits require that parcel. Closure lookup is bounded
+to same-street segments within 1 km, not every nearby street. OSM uses the
+[main Overpass instance](https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances),
+with provider failures recorded independently. See the README for limits.
+
+Live verification on 2026-10-11 returned Census, assessment, PLI, FEMA and closure
+records. The initial Private.coffee Overpass endpoint returned HTTP 500. Switching
+to the main endpoint with raw Overpass QL, an identifying project User-Agent, and
+a 35-second request window restored results. The adapter now emits four concise
+area summaries (schools, groceries, transit stops, pharmacies), with at most 50
+supporting map objects per category held in expandable details. Restaurants,
+cafés, parks and clinics are excluded from the default query.
+
+Channel B has an explicit
 not-implemented placeholder; there is no file-upload flow yet. Channel C already
 uses **Gemini API with Google Search grounding**, with separate neighborhood
 discussion and nearby restaurant review prompts. A separate local Nemotron role
@@ -24,12 +41,12 @@ chunks and support mappings.
 
 | Source | Proposed use | Access and implementation notes | Priority |
 | --- | --- | --- | --- |
-| [U.S. Census Geocoder](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) | Address normalization, coordinates; later census geographic identifiers | REST API; already implemented for address matching. Coordinates are address-range interpolation, not proof of parcel boundaries. Add the geography endpoint before tract/block-group lookups. | Current |
-| [Allegheny County property assessments via WPRDC](https://data.wprdc.org/dataset/property-assessments) | Parcel ID, recorded building characteristics, assessment values, recorded sale attributes; compare against listing documents | Dataset offers an API-oriented resource through CKAN. Resolve the current resource and inspect its data dictionary. Display publication date and match confidence. Assessments are dynamic records, not appraisals or proof of structural condition. | Next |
-| [Pittsburgh PLI permits via WPRDC](https://data.wprdc.org/dataset/pli-permits) | Issued building, mechanical, electrical and other permit records near/on the parcel | Structured dataset, published from the city's permitting system. Includes records from June 2019 onward. Include the newer Building & Development Application type as well as older building permits. Plumbing permits are outside this dataset. Check the resource's API availability before choosing CKAN DataStore vs a bounded data-file adapter. | Next |
-| [FEMA National Flood Hazard Layer](https://www.fema.gov/flood-maps/national-flood-hazard-layer) | Mapped flood zone, map effective date and coverage limitations | GIS services/digital map products. Query the mapped location and retain layer/map identifiers. A point result with interpolated coordinates is preliminary context; it is not a guarantee that a parcel or building will not flood. | High |
-| [OpenStreetMap / Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) | Nearby parks, grocery stores, restaurants, trails and other mapped amenities | Query bounded areas, preserve OSM object IDs/tags and attribution, and respect endpoint limits. Missing data does not imply absence. Geometric proximity and travel time are different quantities; routing is a later adapter. [OSM license and attribution](https://www.openstreetmap.org/copyright). | High |
-| [Pittsburgh DOMI street closures via WPRDC](https://data.wprdc.org/dataset/street-closures) | Planned/recorded street closure context near the address | Use this current feed rather than the archived right-of-way permit dataset. Preserve closure dates and status; a permit is not proof that work is currently underway. Verify update completeness and spatial fields. | High |
+| [U.S. Census Geocoder](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html) | Address normalization, coordinates; later census geographic identifiers | REST API; already implemented for address matching. Coordinates are address-range interpolation, not proof of parcel boundaries. Geography lookup is now included; tract/block-group analyses remain later work. | Current |
+| [Allegheny County property assessments via WPRDC](https://data.wprdc.org/dataset/property-assessments) | Parcel ID, recorded building characteristics, assessment values, recorded sale attributes; compare against listing documents | Dataset offers an API-oriented resource through CKAN. Resolve the current resource and inspect its data dictionary. Display publication date and match confidence. Assessments are dynamic records, not appraisals or proof of structural condition. | Enabled |
+| [Pittsburgh PLI permits via WPRDC](https://data.wprdc.org/dataset/pli-permits) | Issued building, mechanical, electrical and other permit records near/on the parcel | Structured dataset, published from the city's permitting system. Includes records from June 2019 onward. Include the newer Building & Development Application type as well as older building permits. Plumbing permits are outside this dataset. Check the resource's API availability before choosing CKAN DataStore vs a bounded data-file adapter. | Enabled |
+| [FEMA National Flood Hazard Layer](https://www.fema.gov/flood-maps/national-flood-hazard-layer) | Mapped flood zone, map effective date and coverage limitations | GIS services/digital map products. Query the mapped location and retain layer/map identifiers. A point result with interpolated coordinates is preliminary context; it is not a guarantee that a parcel or building will not flood. | Enabled |
+| [OpenStreetMap / Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) | Area summaries for schools, grocery stores, public transit stops and pharmacies | Query bounded areas, preserve OSM object IDs/tags and attribution, and respect endpoint limits. Missing data does not imply absence. Geometric proximity and travel time are different quantities; routing is a later adapter. [OSM license and attribution](https://www.openstreetmap.org/copyright). | Enabled |
+| [Pittsburgh DOMI street closures via WPRDC](https://data.wprdc.org/dataset/street-closures) | Planned/recorded street closure context near the address | Use this current feed rather than the archived right-of-way permit dataset. Preserve closure dates and status; a permit is not proof that work is currently underway. Verify update completeness and spatial fields. | Enabled |
 | [Census ACS five-year API](https://www.census.gov/data/developers/data-sets/acs-5year.html) | Aggregate housing characteristics and commute context, if requested | Resolve the available release, geography and variables; keep margins of error and vintage. These are area estimates, not facts about the property or its occupants. Avoid demographic desirability, steering and school-quality rankings. | Later |
 | [EPA Envirofacts Data Service API](https://www.epa.gov/enviro/envirofacts-data-service-api) | Nearby facility/program records and environmental questions to investigate | EPA provides a data-service API over multiple databases. Pick a concrete program/table before implementation, record its update date, and explain geographic matching. Facility proximity alone is not proof of exposure or contamination. | Later |
 | [National Weather Service API](https://www.weather.gov/documentation/services-web-api) | Optional current alerts/forecast context for a visit | Documented API; follow its identification and caching requirements. Weather alerts are time-sensitive and should remain separate from enduring property claims. | Optional |
@@ -97,10 +114,10 @@ source policy.
 
 ## Proposed implementation order
 
-1. Add Allegheny assessments and Pittsburgh PLI permit adapters, with fixtures for
-   matching ambiguity, incomplete records and municipality boundaries.
-2. Add FEMA and OSM, then DOMI closures; enforce request budgets, freshness and
-   per-provider retention/attribution through the existing policy gate.
+1. Implemented: assessments, PLI, FEMA, OSM and same-street DOMI closures, with
+   bounded requests, source policies, metadata, attribution and matching fixtures.
+2. Next structured work: improve unit/parcel selection, expand closure spatial coverage,
+   add caching and verify provider availability before expanding to ACS/EPA.
 3. Implement the upload manifest and page-cited document extraction for Channel B.
 4. Expand Gemini specialists to government/projects and HOA context only after
    evals show correct geography, support and useful coverage on those topics.

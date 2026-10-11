@@ -46,6 +46,36 @@ async def test_incomplete_ollama_json_fails_closed():
             await Planner(NemotronClient(http)).plan(fixture_case(), RunContext())
 
 
+@pytest.mark.parametrize("web_enabled,budget", [(False, 2), (True, 0)])
+async def test_planner_disallows_web_queries_without_web(web_enabled, budget):
+    ctx = RunContext(budget=Budget(max_grounded_calls=budget))
+
+    def handler(request):
+        body = json.loads(request.content)
+        payload = json.loads(body["messages"][1]["content"])
+        assert payload["allowed_channels"] == ["apis", "listing"]
+        assert payload["allowed_grounded_calls"] == 0
+        fields = body["format"]["properties"]
+        assert fields["queries"]["maxItems"] == 0
+        assert fields["channels"]["items"]["enum"] == ["apis", "listing"]
+        return httpx.Response(
+            200,
+            json={
+                "done": True,
+                "message": {
+                    "content": json.dumps({"channels": ["apis", "listing"], "queries": []})
+                },
+            },
+        )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        result = await Planner(NemotronClient(http), web_enabled=web_enabled).plan(
+            fixture_case(), ctx
+        )
+    assert result.channels == ["apis", "listing"]
+    assert result.queries == []
+
+
 async def test_gemini_request_no_json_mode_and_preserves_metadata():
     ctx = RunContext()
     spec = (await FixturePlanner().plan(fixture_case(), ctx)).queries[0]

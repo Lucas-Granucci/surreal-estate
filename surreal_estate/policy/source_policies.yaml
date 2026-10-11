@@ -14,3 +14,28 @@ gemini_search:
   extract: false
   refine_with_same_provider: true
   hosts: []
+wprdc_assessments:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [data.wprdc.org]
+wprdc_permits:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [data.wprdc.org]
+wprdc_closures:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [data.wprdc.org]
+fema_nfhl:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [hazards.fema.gov]
+openstreetmap:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [overpass-api.de, www.openstreetmap.org]

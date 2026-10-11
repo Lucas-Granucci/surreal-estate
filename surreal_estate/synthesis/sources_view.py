@@ -16,7 +16,10 @@ def source_link(uri, title):
 
 def render_sources(outcome: RunOutcome) -> str:
     result = outcome.report.result
-    api_evidence = [e for e in result.evidence if e.kind == "official_record"]
+    api_providers = {c.provider for c in result.coverage if c.channel == "apis" and c.provider}
+    api_evidence = [
+        e for e in result.evidence if e.kind == "official_record" or e.provider in api_providers
+    ]
     providers = sorted(
         {e.provider for e in api_evidence}
         | {c.provider for c in result.coverage if c.channel == "apis" and c.provider}
@@ -30,7 +33,14 @@ def render_sources(outcome: RunOutcome) -> str:
     else:
         parts.append("<ul>")
         for provider in providers:
-            name = {"census": "U.S. Census Geocoder"}.get(provider, provider)
+            name = {
+                "census": "U.S. Census Geocoder",
+                "wprdc_assessments": "Allegheny County assessments · WPRDC",
+                "wprdc_permits": "Pittsburgh PLI permits · WPRDC",
+                "wprdc_closures": "Pittsburgh DOMI closures · WPRDC",
+                "fema_nfhl": "FEMA National Flood Hazard Layer",
+                "openstreetmap": "OpenStreetMap contributors · ODbL",
+            }.get(provider, provider)
             items = [e for e in api_evidence if e.provider == provider]
             statuses = sorted(
                 {
@@ -95,7 +105,7 @@ def render_sources(outcome: RunOutcome) -> str:
             item["cited"] |= index in cited
     # The offline fixture produces ordinary evidence instead of live display objects.
     for evidence in result.evidence:
-        if evidence.kind in {"reported", "synthetic"}:
+        if evidence.kind in {"reported", "synthetic"} and evidence.provider not in api_providers:
             refs.setdefault(
                 str(evidence.uri),
                 {"title": evidence.title, "tags": {evidence.provider}, "cited": True},

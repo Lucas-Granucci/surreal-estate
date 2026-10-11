@@ -6,7 +6,7 @@ from pathlib import Path
 import httpx
 from dotenv import load_dotenv
 
-from surreal_estate.channels.apis.census import CensusGeocoder
+from surreal_estate.channels.apis.channel import DataPlanner, StructuredDataChannel
 from surreal_estate.channels.web.fact_checker import FactChecker
 from surreal_estate.channels.web.planner import Planner
 from surreal_estate.errors import ConfigurationError, failure_reason
@@ -26,7 +26,7 @@ from surreal_estate.orchestrator.runner import run
 from surreal_estate.store.export import write_export
 from surreal_estate.store.sqlite import Store
 from surreal_estate.synthesis.dossier import render_markdown
-from surreal_estate.synthesis.frontend import save_development_snapshot
+from surreal_estate.synthesis.frontend import load_snapshot_outcome, save_development_snapshot
 from surreal_estate.synthesis.viewer import serve
 
 
@@ -73,8 +73,8 @@ async def execute(args):
             outcome = await run(
                 case,
                 ctx,
-                Planner(NemotronClient(http)),
-                CensusGeocoder(http),
+                Planner(NemotronClient(http), web_enabled=True) if args.web else DataPlanner(),
+                StructuredDataChannel(http),
                 search=search,
                 fact_checker=FactChecker(NemotronClient(http), search) if search else None,
             )
@@ -99,9 +99,17 @@ def main():
     commands.add_parser(
         "gemini-models", help="Check configured model against Google's model list; no generation"
     )
+    view = commands.add_parser(
+        "view", help="Open a saved development results JSON in the local dashboard"
+    )
+    view.add_argument("path", help="Path to exports/<run-id>.json")
+    view.add_argument("--port", type=int, default=8765)
+    view.set_defaults(viewer=True)
     demo = commands.add_parser("demo", help="Offline synthetic Pittsburgh fixture")
     demo.add_argument("--db", help="Optional SQLite path")
-    research = commands.add_parser("research", help="Local Nemotron planning and Census geocoding")
+    research = commands.add_parser(
+        "research", help="Default key-free structured data; optional Nemotron/Gemini web research"
+    )
     research.add_argument("--address", required=True)
     research.add_argument("--geography", default="Pittsburgh, Pennsylvania")
     research.add_argument(
@@ -149,7 +157,11 @@ def main():
     try:
         if args.command == "gemini-models":
             parser.exit(asyncio.run(diagnose_gemini()))
-        outcome = asyncio.run(execute(args))
+        outcome = (
+            load_snapshot_outcome(args.path)
+            if args.command == "view"
+            else asyncio.run(execute(args))
+        )
     except ConfigurationError as exc:
         parser.exit(2, f"Configuration error: {exc}\n")
     except (ValueError, OSError) as exc:

@@ -50,10 +50,10 @@ pending; use remains local research.
 
 ```mermaid
 flowchart TD
-    C[PropertyCase and priorities] --> P[Local Nemotron research planner]
+    C[PropertyCase and priorities] --> A[Default structured APIs]
+    A --> P[Optional local Nemotron web planner]
     P --> G[Policy gate: scope, dates, budgets]
     G --> R[Sequential channel runner]
-    R --> A[Channel A: Census geocoder]
     R --> B[Channel B: explicit not implemented]
     R --> W[Channel C: neighborhood or restaurant query]
     W --> GS[Gemini search]
@@ -164,7 +164,7 @@ run envelope; normalized tables and migrations can follow multi-user requirement
 ## Budgets, orchestration and failures
 
 Defaults per run: two initial grounded requests, two separately budgeted fact-check
-requests, four local LLM calls, two official API calls, 2,048 generated tokens per local call and 4,096 per Gemini call, 60 seconds per request and a shared 180-second deadline. The checker usually
+requests, four local LLM calls, 12 public-data API calls (10 for the full structured path), 2,048 generated tokens per local call and 4,096 per Gemini call, 60 seconds per model request, 12 seconds per public-data request (35 for Overpass admission/execution) and 2 MB per response, and a shared 180-second deadline. The checker usually
 adds one local Nemotron call and one Gemini call per displayed research result.
 There are no automatic retries or model fallbacks. Calls reserve their budget before
 dispatch; the checker checks its search budget before spending another local call.
@@ -188,7 +188,7 @@ research Nemotron → research policy → Gemini search → fact-check Nemotron 
 policy → Gemini re-check. Exact submitted JSON, readable prompts, full responses,
 parsed handoffs, duration and HTTP status are inspectable. Only the two implemented
 model roles and policy stages are captured as detailed events; channel traces also
-show Census/listing execution. This is actual payload inspection, not inferred reasoning.
+show structured-provider and listing execution. This is actual payload inspection, not inferred reasoning.
 
 Authentication headers are never captured and known key values are redacted. All
 JSON/HTML content is escaped; Search Suggestions are rendered in a sandboxed iframe.
@@ -198,11 +198,19 @@ live progress stream, public dashboard or static grounded-content export.
 
 ## Next integrations
 
-Allegheny County assessor and Pittsburgh permits are the next official local data
-sources after access/policy review. ACS/FEMA/OSM, PDF page evidence, photo questions,
-assessor discrepancies, structured conflict analysis and labeled-property evaluation
-remain unimplemented. The current Census adapter verifies an address-range match,
-not parcel identity or structural condition.
+The default structured channel calls Census geography, WPRDC assessments and PLI,
+FEMA hazard/panel layers, OSM/Overpass and same-street DOMI closures. The fixed
+baseline runs before optional model planning and is never omitted by a model.
+Structured-only research uses a deterministic plan and does not need Ollama.
+Each provider failure is isolated; the runner retains completed results on timeout.
+Census IDs gate county/city jurisdictions. Assessment ambiguity blocks parcel
+selection and parcel-specific permits. Public data is a current snapshot, not a
+historical reconstruction for the case date. Evidence retains structured records,
+source/record dates, attribution and match method under the existing policy gate.
+
+ACS/EPA, PDF page evidence, photo questions, assessor discrepancies, structured
+conflict analysis and labeled-property evaluation remain future work. Census
+coordinates are address-range interpolation, not parcel identity or condition.
 
 References: [Ollama chat](https://docs.ollama.com/api/chat),
 [Gemini GenerateContent grounding](https://ai.google.dev/gemini-api/docs/generate-content/google-search),

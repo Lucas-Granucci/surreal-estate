@@ -44,6 +44,8 @@ def render_markdown(report: RunReport) -> str:
         for evidence_id in claim.evidence_ids:
             item = evidence[evidence_id]
             lines.append(f"  - Source: <{item.uri}>")
+            if item.attribution:
+                lines.append("  - Attribution: " + item.attribution)
         if claim.flags:
             lines.append("  - Flags: " + ", ".join(claim.flags))
     if not report.claims:

@@ -16,7 +16,7 @@ class Budget(Model):
     max_grounded_calls: int = Field(default=2, ge=0, le=5)
     max_factcheck_calls: int = Field(default=2, ge=0, le=5)
     max_llm_calls: int = Field(default=4, ge=1, le=12)
-    max_api_calls: int = Field(default=2, ge=0, le=10)
+    max_api_calls: int = Field(default=12, ge=0, le=32)
     output_tokens_per_call: int = Field(default=2048, ge=128, le=8192)
     grounded_output_tokens_per_call: int = Field(default=4096, ge=128, le=8192)
     deadline_seconds: float = Field(default=180, gt=0, le=600)

@@ -2,7 +2,7 @@ from datetime import UTC, date, datetime
 from typing import Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, JsonValue, model_validator
 
 
 def identifier() -> str:
@@ -42,6 +42,12 @@ class Evidence(Model):
     retrieved_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     retention: Literal["persistent", "ephemeral"]
     kind: Literal["official_record", "user_document", "reported", "synthetic"]
+    record_id: str | None = None
+    source_updated_at: str | None = None
+    record_date: str | None = None
+    attribution: str | None = None
+    match_method: str | None = None
+    details: dict[str, JsonValue] = Field(default_factory=dict)
 
 
 class Observation(Model):

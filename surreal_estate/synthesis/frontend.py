@@ -63,3 +63,15 @@ def build_frontend_response(outcome: RunOutcome) -> FrontendResponse:
             for display in outcome.displays
         ],
     )
+
+
+def load_snapshot_outcome(path: str) -> RunOutcome:
+    """Reopen a validated saved display snapshot without running any providers."""
+    from surreal_estate.channels.web.channel import LiveDisplay
+
+    snapshot = DevelopmentSnapshot.model_validate_json(Path(path).read_text(encoding="utf-8"))
+    return RunOutcome(
+        report=snapshot.report,
+        displays=[LiveDisplay(item.response, item.topic, item.stage) for item in snapshot.web],
+        snapshot_path=path,
+    )

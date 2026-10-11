@@ -1,7 +1,6 @@
-import asyncio
-
 import httpx
 
+from surreal_estate.channels.apis.common import Location, public_json
 from surreal_estate.models import ChannelResult, Coverage, Evidence, Observation, PropertyCase
 from surreal_estate.orchestrator.context import RunContext
 
@@ -12,22 +11,23 @@ class CensusGeocoder:
 
     def __init__(self, http: httpx.AsyncClient):
         self.http = http
+        self.location: Location | None = None
 
     async def fetch(self, case: PropertyCase, ctx: RunContext) -> ChannelResult:
-        ctx.policy.require("census")
-        timeout = ctx.reserve("api")
-        async with asyncio.timeout(timeout):
-            response = await self.http.get(
-                "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress",
-                params={
-                    "address": case.address,
-                    "benchmark": "Public_AR_Current",
-                    "format": "json",
-                },
-                timeout=timeout,
-            )
-            response.raise_for_status()
-            matches = response.json()["result"]["addressMatches"]
+        self.location = None
+        payload, response_url = await public_json(
+            self.http,
+            ctx,
+            self.provider,
+            "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress",
+            params={
+                "address": case.address,
+                "benchmark": "Public_AR_Current",
+                "vintage": "Current_Current",
+                "format": "json",
+            },
+        )
+        matches = payload["result"]["addressMatches"]
         if len(matches) != 1:
             return ChannelResult(
                 coverage=[
@@ -36,6 +36,7 @@ class CensusGeocoder:
                         provider=self.provider,
                         topic="geocoding",
                         status="empty" if not matches else "blocked",
+                        queries_run=1,
                         reason="No address match"
                         if not matches
                         else "Ambiguous address; no match selected",
@@ -47,6 +48,13 @@ class CensusGeocoder:
         lat, lon = float(coordinates["y"]), float(coordinates["x"])
         if not (-90 <= lat <= 90 and -180 <= lon <= 180):
             raise ValueError("Invalid Census coordinates")
+        self.location = Location(
+            lat,
+            lon,
+            match["matchedAddress"],
+            match.get("addressComponents", {}),
+            match.get("geographies", {}),
+        )
         statement = (
             f"Census address match: {match['matchedAddress']}; "
             f"latitude {lat:.6f}, longitude {lon:.6f}. "
@@ -54,11 +62,21 @@ class CensusGeocoder:
         )
         evidence = Evidence(
             provider="census",
-            uri=str(response.url),
+            uri=response_url,
             title="Census Geocoder",
             excerpt=statement,
             retention="persistent",
             kind="official_record",
+            match_method="single_census_address_range_match",
+            details={
+                "latitude": lat,
+                "longitude": lon,
+                "matched_address": match["matchedAddress"],
+                "address_components": match.get("addressComponents", {}),
+                "geographies": match.get("geographies", {}),
+                "benchmark": "Public_AR_Current",
+                "vintage": "Current_Current",
+            },
         )
         return ChannelResult(
             evidence=[evidence],
@@ -82,6 +100,7 @@ class CensusGeocoder:
                     status="complete",
                     reason="One Census match returned; not independently confirmed",
                     sources_returned=1,
+                    queries_run=1,
                 )
             ],
         )

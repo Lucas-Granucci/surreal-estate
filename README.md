@@ -1,7 +1,8 @@
 # Surreal Estate backend
 
 Small Python/asyncio property-research backend. Pittsburgh is the initial geography.
-Local Ollama `nemotron-3-nano:4b` plans the run and selects typed Channel C calls.
+Structured-data runs use a fixed set of public APIs and need no model or API keys.
+With `--web`, local Ollama `nemotron-3-nano:4b` plans typed Channel C calls.
 No agent framework, crawler, autonomous shell tools, or public deployment.
 
 ## Run
@@ -16,15 +17,13 @@ python3 -m venv .venv
 The demo runs entirely offline with synthetic evidence; it makes no claims about
 its Pittsburgh fixture address. The demo SQLite database can be discarded.
 
-Live Census + local planning (requires a running Ollama server):
+Default live structured research (no Ollama or API key required):
 
 ```sh
-ollama pull nemotron-3-nano:4b
-export OLLAMA_MODEL=nemotron-3-nano:4b
 .venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --db research.db
 ```
 
-Add Gemini grounding explicitly. The default is `gemini-3.8-flash` with
+Add Gemini grounding explicitly (requires local Ollama with `nemotron-3-nano:4b`). The default is `gemini-3.8-flash` with
 Google Search enabled. This project uses a billing-enabled Gemini account;
 model tokens and search usage can incur charges. See [current pricing](https://ai.google.dev/gemini-api/docs/pricing).
 Older 2.5 models may appear in the model catalog while rejecting new-user requests.
@@ -76,6 +75,70 @@ report the HTTP status and a static troubleshooting hint; raw response bodies an
 request headers are not logged. Redacted JSON responses are available only in the in-memory dashboard debugger. A 429 indicates a rate/quota limit, not necessarily
 a requirement to enable billing.
 
+
+## Default structured-data sources
+
+Every live `research` run includes these sources, with or without `--web`:
+
+| Source | What is included | Setup |
+| --- | --- | --- |
+| Census Geocoder | Normalized address, interpolated coordinates, county and municipal geography | None |
+| Allegheny County assessments / WPRDC | Unique parcel match, recorded building attributes, assessed values and sale fields | None |
+| Pittsburgh PLI / WPRDC | Up to 50 latest permits on the uniquely matched parcel, including Building & Development Applications | None |
+| FEMA NFHL | Flood-zone intersection and map-panel effective dates at the interpolated address point | None |
+| OpenStreetMap / Overpass | Four concise area summaries: schools, grocery stores, transit stops and pharmacies within a 1 km query | None |
+| Pittsburgh DOMI / WPRDC | Same-street closure segments within 1 km; records not ended as of the case date, starting no more than 90 days ahead | None |
+
+**No new API keys or `.env` entries are needed.** Gemini credentials remain optional
+and apply only to `--web`. `demo` stays offline and synthetic; `view` only reopens
+saved data. The structured baseline runs before optional model planning, so model
+omissions or planning errors cannot suppress it.
+
+WPRDC resource IDs are resolved from current catalog entries on every run. County
+and city boundaries come from Census geographic identifiers, not postal city names.
+Assessment matching requires a unique exact house number/street/ZIP with no unit
+or fraction; ambiguous parcels are blocked rather than chosen. PLI lookup requires
+that parcel, starts with the feed's June 2019 coverage, and excludes plumbing.
+Closures search the matched street only, not every nearby street; missing end dates
+and active flags remain uncertain. No returned records is not proof of absence.
+
+Evidence JSON includes selected structured fields, record/resource IDs, publication
+and record dates when supplied, attribution, and matching methods. Owner names and
+mailing addresses are not requested. These public records are eligible for the
+existing durable export/SQLite path; OSM attribution and ODbL licensing are retained.
+Assessments describe recorded values, not current appraisals. FEMA uses an
+interpolated point, not parcel/building boundaries. OSM distances are straight-line
+point/center distances, not walking times or confirmed entrances.
+
+Calls are sequential and bounded: 12 API calls per run (10 on the full successful
+path), 12 seconds per request (35 seconds for Overpass queue/execution time) and 2 MB
+per response, with no automatic retries. Empty, blocked,
+truncated and failed sources appear individually in coverage; completed sources
+survive later failures. The shared 180-second deadline still applies.
+
+The OSM adapter uses `https://overpass-api.de/api/interpreter` with a raw
+Overpass QL POST body and a User-Agent identifying this project's repository.
+This replaces the failing Private.coffee endpoint. Live verification returned
+usable objects around the sample Pittsburgh address. Results are now summarized
+into exactly four categories, not one finding per place. Each category has its own
+50-object cap; a dense transit category cannot crowd out schools or groceries.
+Successful summaries are marked complete even when a category reaches its cap;
+limit metadata remains available in the data. Supporting names, links and tags
+remain in expandable details. Restaurants, cafés,
+parks and clinics are excluded by default. Counts describe mapped features, not
+verified distinct facilities; capped counts are lower bounds, and the closest
+returned point/center need not be the area's nearest amenity. School attendance
+zones/quality and transit service frequency are not inferred.
+Each record includes the query endpoint in its provenance. No API key is needed.
+Public Overpass availability varies; errors remain isolated, with no immediate
+retries on throttling. Run research again to replace a previously failed snapshot. A bounded live check is available:
+
+```sh
+.venv/bin/python scripts/smoke_sources.py --address '1430 McKenna Ave, Pittsburgh, PA 15205'
+```
+
+It calls no models, saves no output files, and reports source status and counts.
+
 ## Structured downstream export
 
 CLI runs save a development display snapshot to `exports/<run-id>.json` by default.
@@ -111,7 +174,7 @@ and response payloads are excluded from both JSON contracts. The offline
 - Local Nemotron research planner, separate fact-check planner, and fixture-only extractor.
 - Typed query policy, call budgets, deadlines, deterministic sequential runner,
   execution trace, explicit error/empty/not-implemented coverage.
-- Census geocoder with ambiguous-match rejection and address interpolation caveats.
+- Census geography lookup, county assessments, city PLI permits and DOMI closures, FEMA map context, and OSM amenities; explicit matching, attribution and bounded public requests.
 - Gemini grounded client preserving chunk/support indexing and Search Suggestions;
   isolated in-memory display, no extraction or persistence of live results.
 - Conservative fixture verifier: same-support text/date/geography, citation existence,
@@ -120,8 +183,7 @@ and response payloads are excluded from both JSON contracts. The offline
 ## Deliberately next
 
 Audience (private buyer vs agent tool vs public reports) is not yet decided.
-Start local data work with Allegheny County assessor and Pittsburgh permits after
-checking provider access and policies. ACS, FEMA, OSM, API cache/rate limiting,
+Next: ACS, EPA, API caching,
 PDF/page citations, photo questions, assessor discrepancies, semantic conflict
 analysis, and labeled-property evaluation are not yet implemented.
 
@@ -258,3 +320,23 @@ Run just the restaurant integration check with:
 ```sh
 .venv/bin/python scripts/smoke_research.py --topic restaurant_reviews
 ```
+
+## Property dashboard
+
+Open **Open property dashboard →** from the debug dashboard, or use the
+**Property dashboard** URL printed by `demo --viewer` / `research --viewer`.
+The responsive report includes an overview, topic navigation, original searches
+and re-checks, expandable sources and citation mappings, an evidence library,
+research coverage, and the full results JSON. Source numbers preserve the provider's
+original ordering, including slots with no URL. Model summaries and assessments
+remain labeled separately from supported dossier observations.
+
+Reopen a previously generated development results JSON without calling providers:
+
+```sh
+.venv/bin/surreal-estate view exports/<run-id>.json --port 8765
+```
+
+Both dashboards share the existing loopback-only, no-store viewer and its
+15-minute expiration. The property dashboard links back to the debug dashboard;
+saved files do not contain the original run's in-memory debug payloads.
