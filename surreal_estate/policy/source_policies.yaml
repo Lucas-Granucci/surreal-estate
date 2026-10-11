@@ -1,0 +1,16 @@
+census:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [geocoding.geo.census.gov]
+synthetic_web:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [example.org]
+gemini_search:
+  enabled: true
+  retention: ephemeral
+  extract: false
+  refine_with_same_provider: true
+  hosts: []

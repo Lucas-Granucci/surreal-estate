@@ -1,0 +1,7 @@
+{
+  "id": "pittsburgh-demo",
+  "address": "414 Grant Street, Pittsburgh, PA 15219",
+  "geography": "Pittsburgh, Pennsylvania",
+  "priorities": ["neighborhood_discussion"],
+  "as_of": "2026-10-02"
+}

@@ -1,0 +1,260 @@
+# Surreal Estate backend
+
+Small Python/asyncio property-research backend. Pittsburgh is the initial geography.
+Local Ollama `nemotron-3-nano:4b` plans the run and selects typed Channel C calls.
+No agent framework, crawler, autonomous shell tools, or public deployment.
+
+## Run
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -e '.[dev]'
+.venv/bin/surreal-estate demo --db demo.db
+.venv/bin/pytest -q
+```
+
+The demo runs entirely offline with synthetic evidence; it makes no claims about
+its Pittsburgh fixture address. The demo SQLite database can be discarded.
+
+Live Census + local planning (requires a running Ollama server):
+
+```sh
+ollama pull nemotron-3-nano:4b
+export OLLAMA_MODEL=nemotron-3-nano:4b
+.venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --db research.db
+```
+
+Add Gemini grounding explicitly. The default is `gemini-3.8-flash` with
+Google Search enabled. This project uses a billing-enabled Gemini account;
+model tokens and search usage can incur charges. See [current pricing](https://ai.google.dev/gemini-api/docs/pricing).
+Older 2.5 models may appear in the model catalog while rejecting new-user requests.
+
+```sh
+export GEMINI_API_KEY='your-key'
+export GEMINI_MODEL=gemini-3.8-flash
+.venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --web --db research.db
+```
+
+`--web` prints a random, loopback-only URL after research completes. Open it to see
+Gemini's separate answer, links, and Search Suggestions. The CLI also prints a
+`Frontend JSON` URL containing the main report and both web responses with their
+source links, citation mappings and Search Suggestions. This response is for
+same-application user display and includes live web content. See
+[the frontend response contract](docs/frontend-response.md).
+Ctrl-C ends the viewer; results also expire after 15 minutes, or when the frontend
+acknowledges viewing with `POST /<token>/release`.
+Live responses never enter SQLite or terminal output. During development, CLI runs
+also save `exports/<run-id>.json`, including the main report, original Gemini answer,
+re-check, source chunks, supports and Search Suggestions. The CLI prints the filename
+before opening the viewer. Each run gets its own file; failed runs are saved too.
+Use `--no-save-json` to disable this development snapshot. `exports/` is Git-ignored.
+These files persist after the viewer closes; delete them when finished debugging.
+Snapshots are labeled `development_debug` / `development_file` and exclude debug
+request/response payloads. Model text is preserved exactly in JSON and rendered
+as Markdown in the viewer (headings, lists, tables, links, emphasis and code).
+The viewer
+sets `Cache-Control: no-store`, disables access logs, and sandboxes provider HTML.
+It is a development viewer, not a reviewed production display implementation.
+No live Gemini call occurs unless `--web` is supplied. The CLI automatically loads
+`.env` from the current working directory; run commands from the project root to
+use its `.env`. See `.env.example` for variable names. Exported environment variables
+take precedence, including empty values; use `unset GEMINI_API_KEY` to let the file
+supply the key if your shell already defines it. `.env` is ignored by Git.
+
+If `--web` reports a missing key, add `GEMINI_API_KEY=your-key` to `.env`, or set it
+in the same zsh terminal without putting its value in shell history:
+
+```zsh
+read -rs 'GEMINI_API_KEY?Paste Gemini API key: '
+printf '\n'
+export GEMINI_API_KEY
+export GEMINI_MODEL=gemini-3.8-flash
+```
+
+Configuration errors name the setting without showing its value. Provider errors
+report the HTTP status and a static troubleshooting hint; raw response bodies and
+request headers are not logged. Redacted JSON responses are available only in the in-memory dashboard debugger. A 429 indicates a rate/quota limit, not necessarily
+a requirement to enable billing.
+
+## Structured downstream export
+
+CLI runs save a development display snapshot to `exports/<run-id>.json` by default.
+Use `--export exports/property.json` to choose the filename for that full snapshot:
+
+```sh
+.venv/bin/surreal-estate research \
+  --address '414 Grant Street, Pittsburgh, PA 15219' \
+  --web --viewer --export exports/property.json
+```
+
+The development JSON contains `schema_version`, `purpose`, `retention`, `report`
+and `web`. `web[]` holds both original search and re-check entries, with full text,
+source URL/title chunks, supported segments and citation mappings, search queries,
+Search Suggestions and truncation status. It is pretty-printed with two-space
+indentation. An explicit filename is overwritten on subsequent runs; default
+run-ID filenames preserve each run. Consumers can validate with
+`DevelopmentSnapshot.model_validate_json(...)` from `surreal_estate.synthesis.frontend`.
+The dashboard's **View full JSON** link opens the same data in an indented,
+scrollable section; `/result.json` is also pretty-printed. Nemotron's JSON output
+is indented in the debug inspector. Model summaries remain Markdown-rendered.
+
+For policy-filtered processing exports, use `--durable-export PATH`. This writes
+`ResearchExport` (including `omissions`) and excludes live grounded content.
+`--db research.db` applies the same retention filter to SQLite. These explicit
+durable paths remain separate from the full development snapshots. Debug request
+and response payloads are excluded from both JSON contracts. The offline
+`demo --export exports/demo.json` exercises snapshot saving with synthetic evidence.
+
+## What's implemented
+
+- Pydantic channel contracts and provenance references; SQLAlchemy/SQLite run store.
+- Local Nemotron research planner, separate fact-check planner, and fixture-only extractor.
+- Typed query policy, call budgets, deadlines, deterministic sequential runner,
+  execution trace, explicit error/empty/not-implemented coverage.
+- Census geocoder with ambiguous-match rejection and address interpolation caveats.
+- Gemini grounded client preserving chunk/support indexing and Search Suggestions;
+  isolated in-memory display, no extraction or persistence of live results.
+- Conservative fixture verifier: same-support text/date/geography, citation existence,
+  single-URL source flag; deterministic dossier synthesis and offline tests.
+
+## Deliberately next
+
+Audience (private buyer vs agent tool vs public reports) is not yet decided.
+Start local data work with Allegheny County assessor and Pittsburgh permits after
+checking provider access and policies. ACS, FEMA, OSM, API cache/rate limiting,
+PDF/page citations, photo questions, assessor discrepancies, semantic conflict
+analysis, and labeled-property evaluation are not yet implemented.
+
+See [architecture and decisions](docs/architecture.md) for boundaries and limitations.
+See [proposed sources](docs/proposed-sources.md) for API, upload and open-web
+integration candidates for Pittsburgh. The viewer lists each run's actual sources
+at the top, grouped into Channels A/B/C, with returned and cited web links.
+
+## SSH browser viewer and model diagnostics
+
+Check the configured model against Google's model list without generating content:
+
+```sh
+.venv/bin/surreal-estate gemini-models
+```
+
+This loads `.env`, prints the effective model and lists models supporting
+`generateContent`. It does not establish grounding support or project quota.
+Google's [model availability notice](https://ai.google.dev/gemini-api/docs/deprecations#gemini-2.5-flash-models)
+currently restricts 2.5 access to prior users, so the published free allowance alone
+is not a guarantee of access for a new project. No automatic model substitution occurs.
+
+On your laptop, establish a tunnel (replace `user@remote-host`):
+
+```sh
+ssh -N -L 8765:127.0.0.1:8765 user@remote-host
+```
+
+In your SSH terminal on the remote machine, run:
+
+```sh
+.venv/bin/surreal-estate research \
+  --address '414 Grant Street, Pittsburgh, PA 15219' \
+  --web --viewer --port 8765
+```
+
+Open the complete `http://127.0.0.1:8765/<random-token>` URL printed by the remote
+command in your laptop's browser. Keep both the tunnel and research process running.
+The viewer is loopback-only and remains available even when a channel fails. It
+shows the plan, channel statuses, supported observations, execution trace and any
+separate Gemini responses. This is a completed-run snapshot, not live streaming.
+Use `demo --viewer --port 8765` to test the viewer without external calls.
+If the port is in use, choose another port in both commands. `--port 0` retains
+random-port behavior. Results remain in memory; no static Gemini HTML export is made.
+
+
+## Dashboard debugger
+
+Use `--web --viewer --port 8765` as above. After the run, open **Inspect prompts &
+responses**. Numbered steps show:
+
+1. **Nemotron / ResearchPlan:** actual system/user messages, request schema and
+   generation options, provider response, parsed plan, timing, HTTP status.
+2. **Policy gate:** case, proposed plan and budgets, allowed/blocked decision.
+3. **Gemini / grounded search:** exact query specification, endpoint/model,
+   prompt and `google_search` configuration, full response JSON, search queries,
+   grounding chunks/supports, completion metadata and reported token usage.
+4. **Nemotron / FactCheckPlan:** separate agent's checks based only on the case/topic.
+5. **Fact-check policy:** model-proposed checks, required checks added by the runner,
+   deduplicated effective checklist, scope validation and allowed/blocked outcome.
+6. **Gemini / claim re-check:** original answer sent back to Gemini with Google Search
+   to assess claims and provide citations, uncertainties and follow-up questions.
+
+The main result section keeps the Gemini answer alongside its links and Search
+Suggestions. The debug panel is a read-only run snapshot, not a live console or
+an agent's inferred reasoning. It shows actual submitted/returned payloads. Open
+**Full response JSON** for all provider-returned fields, including errors.
+
+`RunContext.debug` collects redacted request/response snapshots; `RunOutcome`
+passes them to the viewer separately from `RunReport`. They are never written to
+SQLite, printed to the CLI, or exported to files. Authentication headers are not
+captured and known API key values are redacted. Closing the process releases them.
+
+The CLI reads `.env` at startup. Existing shell variables still take precedence:
+if an old model was exported, `unset GEMINI_MODEL` before running to use `.env`.
+A real end-to-end test is available (uses local Ollama, Census and paid Gemini):
+
+```sh
+.venv/bin/python scripts/smoke_research.py
+```
+
+It prints only call statuses and grounding counts, not prompts or response text.
+
+
+## Fact-checking and nearby restaurant reviews
+
+Live runs default to both `neighborhood_discussion` and `restaurant_reviews`.
+Each successful displayed search is followed by a separate Nemotron-planned Gemini
+re-check. The original and re-check appear in labeled panels. Successful retrieval
+now says **Search completed · displayed separately**. Re-check assessments can
+identify corroborated, contradicted, unresolved and opinion claims, but do not
+promote any of them to independently verified dossier facts.
+
+To test only nearby restaurant reviews:
+
+```sh
+.venv/bin/surreal-estate research \
+  --address '414 Grant Street, Pittsburgh, PA 15219' \
+  --topic restaurant_reviews --web --viewer --port 8765
+```
+
+The query uses Google Search for general restaurant reviews, local food publications
+and Google Reviews in the immediate vicinity of the property. There is no Yelp-only
+site filter and no Google Places API integration. `address_anchor` and `radius_meters`
+remain in the specification for downstream use; exact radius/distance verification
+is not a requirement for including a restaurant. The date window is recency context,
+not an exact-date filter. Recent review themes are preferred; when snippets lack
+specific themes, the model summarizes reputation from available search results.
+
+Opinions are retained, labeled and attributed. The re-check verifies factual parts
+of a statement separately and does not reject subjective perspectives for lacking
+independent agreement or precise dates. Missing attribution/evidence still cannot
+be replaced with invented claims. Reputation summaries remain opinion, not verified facts.
+
+The checker plans scope/date/independence/contradiction/opinion checks plus restaurant
+identity, proximity and review freshness. It never receives the original grounded
+text: Python sends that text back to Gemini to refine its answer, preserving the
+agreed provider-policy boundary. See the updated architecture diagram for the split.
+
+Defaults permit up to two initial Gemini calls plus two fact-check calls and four
+local model calls, within the same 180-second run deadline. A Gemini call may make
+multiple internal searches. `max_queries` defaults to 3 as search guidance inside
+each request; it is not a guaranteed provider-side cap. API-call limits count query
+specifications, not this search guidance. Re-check failures keep the original result available.
+All live grounded answers, model assessments and debug payloads remain memory-only.
+
+The live smoke test accepts honest empty-source responses; it fails on missing
+requested topics, transport/validation failures and truncation. Passing does not
+mean review evidence was found or that any claim was corroborated. Unit tests exercise
+supported opinion-only responses and re-check failures deterministically.
+
+Run just the restaurant integration check with:
+
+```sh
+.venv/bin/python scripts/smoke_research.py --topic restaurant_reviews
+```
