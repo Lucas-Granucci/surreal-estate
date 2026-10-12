@@ -1,47 +1,24 @@
 """User-facing property dashboard rendered from the shared results JSON contract."""
 
 from html import escape
+from importlib.resources import files
+from urllib.parse import urlencode
 
 from surreal_estate.synthesis.frontend import FrontendResponse
 from surreal_estate.synthesis.markdown import render_model_markdown
+from surreal_estate.synthesis.report_visuals import nearby_map, closure_timeline
 
 
-STYLE = """
-:root{color-scheme:light;--ink:#203a35;--muted:#61736c;--line:#dce4dc;--paper:#fffefa;--green:#23654f}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
-body{margin:0;background:#f3f4ed;color:var(--ink);font:15px/1.65 system-ui,-apple-system,sans-serif}
-a{color:var(--green);text-underline-offset:4px}a:hover{color:#123d30}
-a:focus-visible,summary:focus-visible{outline:3px solid #b76b26;outline-offset:5px}
-.skip{position:absolute;top:-100px;background:white;padding:12px}.skip:focus{top:8px;z-index:5}
-.layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
-aside{padding:34px 24px;background:#183f34;color:#f2f5e9;position:sticky;top:0;height:100vh;overflow:auto}
-.brand{font-size:18px;font-weight:750;letter-spacing:-.5px}.brand span{color:#c8dd95}
-.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:700}
-aside .eyebrow{color:#b5cbbd;margin-top:42px}nav a{display:block;color:#edf3e8;padding:10px 12px;border-radius:7px;text-decoration:none;margin:3px 0}
-nav a:hover,nav a:focus{color:white;background:#305747}.nav-foot{border-top:1px solid #517064;margin-top:28px;padding-top:18px}
-main{width:100%;max-width:1260px;padding:36px 48px 70px;margin:auto}
-.topline{display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:12px}
-h1,h2,h3,p{overflow-wrap:anywhere}h1{font-family:Georgia,serif;font-size:clamp(30px,4vw,46px);line-height:1.16;letter-spacing:-1px;margin:18px 0}
-h2{font-size:25px;letter-spacing:-.6px;margin:0 0 6px}h3{font-size:18px;margin:0 0 12px}p{margin:10px 0}
-.muted{color:var(--muted)}.intro{max-width:680px}.tag{display:inline-block;padding:3px 9px;background:#edf1e8;border-radius:5px;font-size:12px;font-weight:650}
-.tag.complete{background:#e1efdf;color:#27543c}.notice,.tag.error,.tag.blocked,.tag.truncated{background:#fff0d8;color:#754316}
-.notice{padding:14px 18px;border-radius:8px;margin:18px 0;border:1px solid #e5d3af}
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:28px 0 36px}
-.metric{padding:20px;background:var(--paper);border:1px solid var(--line);border-radius:10px}.metric strong{display:block;font-size:32px;line-height:1.3;font-weight:550}.metric span{font-size:12px;color:var(--muted)}
-section{margin:34px 0;scroll-margin-top:24px}.section-head{margin-bottom:18px}.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px;margin:14px 0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid .card{margin:0}
-.card-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
-.model{overflow-wrap:anywhere}.model h1{font:700 25px/1.3 system-ui;letter-spacing:0}.model h2{font-size:21px;margin-top:24px}.model h3{margin-top:20px}
-.model blockquote{border-left:3px solid #b2c99b;margin:18px 0;padding:0 18px;color:var(--muted)}
-.model table{display:block;overflow:auto}.model img{max-width:100%}table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:left;vertical-align:top;padding:12px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--muted)}
-.scroll{overflow:auto}details{border-top:1px solid var(--line);padding:15px 0 0;margin-top:18px}summary{cursor:pointer;font-weight:650}details[open]>summary{margin-bottom:16px}
-pre{background:#edf0e8;border-radius:8px;padding:16px;max-height:480px;overflow:auto;font-size:12px;white-space:pre;line-height:1.6}code{overflow-wrap:anywhere}
-.sources{list-style:none;padding:0;counter-reset:source}.sources li{padding:12px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.source-meta{font-size:12px;color:var(--muted)}
-blockquote{margin:14px 0;padding-left:16px;border-left:3px solid #cdd8c7;overflow-wrap:anywhere}iframe{width:100%;height:240px;border:1px solid var(--line);border-radius:8px;background:white}
-footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
-@media(max-width:1100px){main{padding:30px 26px}.layout{grid-template-columns:210px minmax(0,1fr)}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:760px){.layout{display:block}aside{position:static;height:auto;padding:20px}aside .eyebrow{margin-top:16px}nav{display:flex;flex-wrap:wrap}nav a{padding:6px 10px;font-size:13px}.nav-foot{margin-top:12px;padding-top:10px}main{padding:24px 18px}.grid{grid-template-columns:1fr}.card{padding:18px}.topline{flex-wrap:wrap}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+# Keep the report and research form on the same design system.
+
+STYLE = files("surreal_estate.webapp").joinpath("static", "app.css").read_text() + """
+main{min-width:0}.section-head{display:grid;gap:8px;margin-bottom:20px}.section-head p{color:var(--muted)}
+.model{overflow-wrap:anywhere}.model p{margin:12px 0}.model h1{font-size:30px}.model h2{font-size:26px;margin-top:24px}.model h3{margin-top:20px}.model table{display:block;overflow:auto}.model img{max-width:100%}.model ul,.model ol{padding-left:24px}
+.card p{margin:10px 0}.card h3{margin:8px 0 12px}.card-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.source-meta{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.sources li{padding:10px 0;overflow-wrap:anywhere}.scroll{overflow:auto}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid .card{min-width:0}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0 0}.metric{padding:16px;border:1px solid var(--line);border-radius:16px}.metric strong{display:block;font:32px Georgia,serif}.metric span{font-size:12px;color:var(--muted)}
+.notice{background:var(--warn-bg);color:var(--warn-ink);padding:16px;border-radius:14px;margin:20px 0}.tag:not(.t-off):not(.t-com):not(.t-ai){background:var(--com-bg);color:var(--com-ink)}.tag.complete{background:var(--off-bg);color:var(--off-ink)}.tag.error,.tag.blocked,.tag.truncated{background:var(--warn-bg);color:var(--warn-ink)}
+blockquote{border-left:3px solid var(--lav);padding-left:18px;margin:16px 0}iframe{width:100%;height:240px;border:1px solid var(--line);border-radius:12px;background:white}pre{white-space:pre;max-height:480px}summary{overflow-wrap:anywhere}.rail .nav-foot{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}.report-hero .hero-in{align-items:center}.glance ul{max-height:270px;overflow:auto}.glance .st{margin-left:auto}.glance a{flex-wrap:wrap}.coverage-gap{margin:0;padding:14px 0;border-bottom:1px solid var(--line)}.coverage-gap:last-child{border:0}.amenity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.amenity-grid h3{font-size:25px}.amenity-grid details{max-height:300px;overflow:auto}.mini-map{width:100%;max-height:360px}.map-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px}.map-key{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}h1,h2,h3,p{overflow-wrap:anywhere}
+@media(max-width:900px){.metrics{grid-template-columns:repeat(2,1fr)}.grid,.map-wrap{grid-template-columns:1fr}.rail .nav-foot{margin:0;padding:6px 0;display:block}.rail{max-width:100%}}
+@media(max-width:500px){.amenity-grid{grid-template-columns:1fr}.card{padding:18px}}
 """
 
 
@@ -102,7 +79,74 @@ def render_amenity_members(item) -> str:
     )
 
 
-def render_dashboard(payload: FrontendResponse) -> str:
+def section_start(identifier: str, title: str, subtitle: str, *, expanded: bool = False) -> str:
+    return (
+        f'<section id="{escape(identifier, quote=True)}"><details class="report-section"'
+        + (' open' if expanded else '')
+        + f'><summary><h2>{escape(title)}</h2><span class="section-meta">{escape(subtitle)}</span></summary><div class="section-body">'
+    )
+
+
+def topic_summary(topic: str, payload: FrontendResponse) -> str:
+    responses = sum(item.topic == topic for item in payload.web)
+    records = sum(item.topic == topic for item in payload.report.result.observations)
+    statuses = list(dict.fromkeys(item.status.replace("_", " ") for item in payload.report.result.coverage if item.topic == topic))
+    counts = []
+    if responses:
+        counts.append(f"{responses} search / re-check responses")
+    if records:
+        counts.append(f"{records} structured records")
+    return " · ".join([*counts, *statuses]) or "No results available"
+
+
+def coverage_summary(coverage, topic_indices) -> str:
+    included = [item for item in coverage if item.reason not in {"Not selected for this run", "Not selected by planner"}]
+    buckets = [
+        ("complete", "Completed", [item for item in included if item.status == "complete"]),
+        ("blocked", "Blocked", [item for item in included if item.status == "blocked"]),
+        ("error", "Errors", [item for item in included if item.status == "error"]),
+        ("partial", "Partial / no results", [item for item in included if item.status not in {"complete", "blocked", "error"}]),
+    ]
+    total = len(included)
+    completed = len(buckets[0][2])
+    description = ", ".join(f"{len(items)} {title.lower()}" for _, title, items in buckets)
+    parts = [f'<div class="coverage-overview" aria-labelledby="coverage-title"><div class="coverage-heading"><h2 id="coverage-title">Research coverage</h2><a href="#coverage">See all steps ↗</a></div><p><strong>{completed}/{total}</strong> selected research steps completed</p>']
+    if not total:
+        parts.append('<p class="muted">No coverage information available.</p>')
+    parts.append(f'<div class="coverage-meter" role="img" aria-label="{escape(description)}">')
+    for status, title, items in buckets:
+        if items:
+            parts.append(f'<span class="coverage-segment {status}" style="width:{len(items) / max(total, 1) * 100:.2f}%"></span>')
+    parts.append('</div><div class="coverage-counts">')
+    for status, title, items in buckets:
+        parts.append(f'<a href="#coverage" class="coverage-count {status}"><strong>{len(items)}</strong><span>{title}</span></a>')
+    parts.append('</div>')
+    attention = [item for item in included if item.status in {"blocked", "error"}]
+    if attention:
+        parts.append('<div class="coverage-attention"><span>Needs attention:</span>')
+        for topic in dict.fromkeys(item.topic for item in attention):
+            target = f"topic-{topic_indices[topic]}" if topic in topic_indices else "coverage"
+            parts.append(f'<a href="#{target}">{label(topic)}</a>')
+        parts.append('</div>')
+    parts.append('<p class="source-meta">Completion describes research availability, not confidence in the property. Unselected channels are excluded.</p></div>')
+    return ''.join(parts)
+
+
+def parcel_choices(candidates, case, *, app_mode=False) -> str:
+    parts = ['<div class="card parcel-choices"><h3>Choose the intended parcel</h3><p>These are distinct county records at the same address. Compare the parcel IDs and uses; none has been attached to this report.</p><div class="grid">']
+    for candidate in candidates:
+        parts.append('<article class="parcel-choice"><h4>' + escape(candidate.property_use) + '</h4><p><b>' + escape(candidate.parcel_id) + '</b></p><p>' + escape(candidate.address) + '</p>')
+        parts.append('<p class="source-meta">Recorded lot area: ' + escape(candidate.lot_area or 'Not supplied') + ' sq ft<br>County assessment: ' + escape(candidate.assessed_value or 'Not supplied') + ' USD</p>')
+        parts.append('<p>' + source_link(candidate.source_url, 'View county data') + '</p>')
+        if app_mode:
+            query = urlencode(dict(address=case.address, geography=case.geography, parcel_id=candidate.parcel_id))
+            parts.append(f'<a class="pill" href="/?{escape(query, quote=True)}#research-form">Research this parcel ↗</a>')
+        parts.append('</article>')
+    parts.append('</div></div>')
+    return ''.join(parts)
+
+
+def render_dashboard(payload: FrontendResponse, *, app_mode: bool = False) -> str:
     """Accept both transient responses and validated DevelopmentSnapshot objects."""
     report = payload.report
     topics = list(
@@ -110,80 +154,81 @@ def render_dashboard(payload: FrontendResponse) -> str:
             [
                 *report.case.priorities,
                 *(item.topic for item in payload.web),
-                *(item.topic for item in report.result.coverage),
+                *(item.topic for item in report.result.coverage if item.reason != "Not selected for this run" and item.topic not in {"research", "plan"}),
                 *(item.topic for item in report.result.observations),
             ]
         )
     )
+    # One order drives both the sidebar and the actual report sections.
+    topic_order = ["mapped_amenities", "amenities", "street_closures", "road_projects",
+                   "neighborhood_discussion", "restaurant_reviews", "geocoding", "flood_hazard",
+                   "flood_map_panels", "property_assessment", "building_permits"]
+    ranks = {topic: index for index, topic in enumerate(topic_order)}
+    topics.sort(key=lambda topic: ranks.get(topic, len(ranks)))
     evidence = {item.id: item for item in report.result.evidence}
     urls = {str(item.uri) for item in evidence.values()}
     urls.update(
         str(chunk.uri) for item in payload.web for chunk in item.response.chunks if chunk.uri
     )
-    complete = sum(item.status == "complete" for item in report.result.coverage)
+    topic_titles = {
+        "neighborhood_discussion": "What locals say", "restaurant_reviews": "Where to eat",
+        "amenities": "Around the block", "mapped_amenities": "Around the block", "road_projects": "Street closures", "street_closures": "Street closures",
+        "flood_hazard": "Flood hazard", "flood_map_panels": "Flood map details",
+        "geocoding": "Address match", "property_assessment": "Property assessment",
+        "building_permits": "Building permits",
+    }
+    topic_title = lambda topic: topic_titles.get(topic, topic.replace("_", " ").capitalize())
+    gaps = [item for item in report.result.coverage
+            if item.status != "complete" and item.reason != "Not selected for this run"]
+    topic_indices = {topic: index for index, topic in enumerate(topics)}
+    property_topics = {"geocoding", "property_assessment", "building_permits", "flood_hazard", "flood_map_panels"}
+    neighborhood_topics = {"neighborhood_discussion", "restaurant_reviews", "mapped_amenities", "amenities", "street_closures", "road_projects"}
+    navigation = ['<a href="#overview">Overview</a>']
+    for group_title, group_topics in [("Neighborhood", neighborhood_topics), ("Property & records", property_topics), ("Other research", set(topics) - property_topics - neighborhood_topics)]:
+        group = [topic for topic in topics if topic in group_topics]
+        if group:
+            navigation.append(f'<details class="nav-group" open><summary>{group_title}</summary>')
+            navigation.extend(f'<a href="#topic-{topic_indices[topic]}">{escape(topic_title(topic))}</a>' for topic in group)
+            navigation.append('</details>')
+    navigation.append('<details class="nav-group"><summary>Report details</summary><a href="#gaps">What’s missing</a><a href="#findings">All observations</a><a href="#sources">Sources &amp; credits</a><a href="#coverage">Research coverage</a><a href="#data">Raw report data</a></details>')
+    debug_url = "debug" if app_mode else "./"
     parts = [
         '<!doctype html><html lang="en"><head><meta charset="utf-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1">',
-        f"<title>{escape(report.case.address)} · Surreal Estate</title><style>{STYLE}</style></head><body>",
-        '<a class="skip" href="#overview">Skip to property report</a><div class="layout"><aside>',
-        '<div class="brand">surreal<span> estate.</span></div><p class="eyebrow">Property intelligence</p>',
-        '<nav aria-label="Report sections"><a href="#overview">Overview</a><a href="#findings">Supported observations</a>',
-        *(f'<a href="#topic-{i}">{label(topic)}</a>' for i, topic in enumerate(topics)),
-        '<a href="#sources">Evidence library</a><a href="#coverage">Research coverage</a><a href="#data">Report data</a></nav>',
-        '<nav class="nav-foot" aria-label="Tools"><a href="./">Debug dashboard ↗</a><a href="result.json">Open results JSON ↗</a></nav></aside>',
-        '<main id="overview"><div class="topline"><span class="eyebrow">Your property report</span>',
-        f"<span>As of {report.case.as_of:%b %d, %Y}</span></div>",
-        f'<h1>{escape(report.case.address)}</h1><p class="muted">{escape(report.case.geography)}</p>',
-        '<p class="intro">Explore the research behind this address. Read the findings, compare search responses with their re-checks, and follow each source.</p>',
+        f"<title>{escape(report.case.address)} · SurrealEstate</title><style>{STYLE}</style>",
+        '<script src="/app.js" defer></script>' if app_mode else "",
+        '</head><body><a class="skip" href="#overview">Skip to property report</a>',
+        '<header class="bar"><div class="logo"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M4 16 17 4l13 12z" fill="#b5a8e0" stroke="#1b2036" stroke-width="2"/><path d="M7 16h20v10c0 3-2 5-3 2-1-3-3-3-4 0-1 3-3 3-4 0-1-3-3-3-4 0-1 2-3 2-5-1z" fill="#aed6c4" stroke="#1b2036" stroke-width="2"/></svg>SurrealEstate</div>',
+        '<a class="pill" href="/">New address</a><a class="pill" href="/#history">Saved reports</a><button class="pill" id="theme" type="button">◐ Theme</button>' if app_mode else '',
+        '</header><div class="hero report-hero" id="overview"><div class="hero-in"><div>',
+        f'<div class="asof">Researched {report.case.as_of:%b %d, %Y}</div>',
+        f'<h1>{escape(report.case.address)}</h1><p class="muted" style="margin-top:12px">{escape(report.case.geography)}</p>',
+        '<p class="lede">The records, the local context, and the questions still open. Explore what we found and follow the sources behind it.</p>',
+        '</div></div><svg class="drip" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 35C180 90 320 0 520 38S800 85 1030 35 1310 10 1440 40V70H0Z"/></svg></div>',
+        '<div class="shell"><nav class="rail" aria-label="Report sections"><p class="rail-title">In this report</p>',
+        *navigation,
+        '<div class="section-controls"><button type="button" class="pill" data-sections="expand">Expand all</button><button type="button" class="pill" data-sections="collapse">Collapse all</button></div>' if app_mode else '',
+        f'<details class="nav-group nav-foot"><summary>Developer tools</summary><a href="{debug_url}">Debug dashboard ↗</a><a href="result.json">Open results JSON ↗</a></details></nav><main>',
+        '<div class="legend">Reading this report <span class="tag t-off">Official records</span><span class="tag t-com">Community-mapped</span><span class="tag t-ai">Model-reported</span></div>',
     ]
+    match = next((item for item in evidence.values() if item.provider == "census" and item.details.get("matched_address")), None)
+    if match:
+        parts.append('<div class="confirm"><span><b>Check the match.</b> ' + escape(str(match.details["matched_address"])) + '. Distances use an estimated address point, not the building.</span>' + ('<a class="pill" href="/">Fix address</a>' if app_mode else '') + '</div>')
     if report.demo:
         parts.append(
             '<div class="notice"><strong>Synthetic demo</strong> — not findings about this property or Pittsburgh.</div>'
         )
-    parts.append('<div class="metrics">')
-    for count, title in [
-        (len(report.claims), "Supported observations"),
-        (len(urls), "Unique source links"),
-        (len(payload.web), "Search & re-check responses"),
-        (f"{complete}/{len(report.result.coverage)}", "Research steps completed"),
-    ]:
-        parts.append(f'<div class="metric"><strong>{count}</strong><span>{title}</span></div>')
-    parts.append(
-        '</div><section id="findings"><div class="section-head"><h2>Supported observations</h2><p class="muted">Dossier findings with their evidence and qualifications.</p></div>'
-    )
-    if not report.claims:
-        parts.append(
-            '<div class="card"><h3>No supported observations yet</h3><p class="muted">Available model summaries are below. A completed search does not establish a verified finding.</p></div>'
-        )
-    for claim in report.claims:
-        parts.append(
-            f'<article class="card"><span class="tag">{label(claim.qualifier)}</span><p>{escape(claim.statement)}</p>'
-        )
-        if claim.flags:
-            parts.append('<p class="muted">' + escape(" · ".join(claim.flags)) + "</p>")
-        for evidence_id in claim.evidence_ids:
-            item = evidence.get(evidence_id)
-            if item:
-                parts.append(f"<p>{source_link(item.uri, item.title)}</p>")
-        attributions = sorted(
-            {
-                evidence[eid].attribution
-                for eid in claim.evidence_ids
-                if eid in evidence and evidence[eid].attribution
-            }
-        )
-        for attribution in attributions:
-            parts.append('<p class="source-meta">' + escape(attribution) + "</p>")
-        for evidence_id in claim.evidence_ids:
-            if evidence_id in evidence:
-                parts.append(render_amenity_members(evidence[evidence_id]))
-        parts.append(raw_details("Inspect provenance", claim) + "</article>")
-    parts.append("</section>")
+    parts.append(f'<p class="report-stats">{len(report.claims)} supported observations · {len(urls)} source links · {len(payload.web)} search / re-check responses</p>')
+    parts.append(coverage_summary(report.result.coverage, topic_indices))
     for index, topic in enumerate(topics):
         entries = [(i, item) for i, item in enumerate(payload.web) if item.topic == topic]
         parts.append(
-            f'<section id="topic-{index}"><div class="section-head"><p class="eyebrow">Research topic {index + 1:02d}</p><h2>{label(topic)}</h2></div>'
+            section_start(f"topic-{index}", topic_title(topic), topic_summary(topic, payload), expanded=not app_mode or index == 0)
         )
+        if topic == "mapped_amenities":
+            parts.append(nearby_map(list(evidence.values()), interactive=app_mode))
+        if topic == "street_closures":
+            parts.append(closure_timeline(list(evidence.values()), report.case.as_of))
         if entries:
             parts.append(
                 '<p class="muted">Model-reported content. Re-checks are model assessments, not independently verified dossier evidence.</p>'
@@ -208,9 +253,8 @@ def render_dashboard(payload: FrontendResponse) -> str:
                         )
                 parts.append("</div>")
             else:
-                parts.append(
-                    '<div class="card"><p>No web response available for this topic.</p></div>'
-                )
+                message = "No web response available for this topic." if topic in {"neighborhood_discussion", "restaurant_reviews"} else "No structured results available. See the coverage reason below."
+                parts.append(f'<div class="card"><p>{message}</p></div>')
         for i, entry in entries:
             response = entry.response
             heading = "Claim re-check" if entry.label == "model_assessment" else "Original search"
@@ -273,12 +317,53 @@ def render_dashboard(payload: FrontendResponse) -> str:
             )
         coverage = [item for item in report.result.coverage if item.topic == topic]
         for item in coverage:
+            if item.parcel_candidates:
+                parts.append(parcel_choices(item.parcel_candidates, report.case, app_mode=app_mode))
+            if item.provider == "fema_nfhl" and item.status in {"error", "truncated"}:
+                parts.append('<p><a href="https://msc.fema.gov/portal/home" target="_blank" rel="noopener noreferrer">Open FEMA’s Map Service Center ↗</a></p>')
             parts.append(
                 f'<p><span class="tag {item.status}">{label(item.status)}</span> {escape(item.reason)}</p>'
             )
-        parts.append("</section>")
+        parts.append("</div></details></section>")
+    parts.append(section_start("gaps", "What we couldn’t check", f"{len(gaps)} gaps or empty results. A gap is not good news.", expanded=not app_mode) + '<div class="card">')
+    for item in gaps:
+        parts.append(f'<div class="coverage-gap"><span class="tag {item.status}">{label(item.status)}</span><p><b>{label(item.topic)}</b> · {escape(item.reason)}</p></div>')
+    if not gaps:
+        parts.append('<p>No incomplete steps reported for the selected research scope.</p>')
+    parts.append('</div></div></details></section>')
     parts.append(
-        '<section id="sources"><h2>Evidence library</h2><p class="muted">Dossier evidence. Web sources remain attached to their original responses above.</p><div class="grid">'
+        section_start("findings", "Supported observations", "Dossier findings with their evidence and qualifications.", expanded=not app_mode)
+    )
+    if not report.claims:
+        parts.append(
+            '<div class="card"><h3>No supported observations yet</h3><p class="muted">Available model summaries are below. A completed search does not establish a verified finding.</p></div>'
+        )
+    for claim in report.claims:
+        parts.append(
+            f'<article class="card"><span class="tag">{label(claim.qualifier)}</span><p>{escape(claim.statement)}</p>'
+        )
+        if claim.flags:
+            parts.append('<p class="muted">' + escape(" · ".join(claim.flags)) + "</p>")
+        for evidence_id in claim.evidence_ids:
+            item = evidence.get(evidence_id)
+            if item:
+                parts.append(f"<p>{source_link(item.uri, item.title)}</p>")
+        attributions = sorted(
+            {
+                evidence[eid].attribution
+                for eid in claim.evidence_ids
+                if eid in evidence and evidence[eid].attribution
+            }
+        )
+        for attribution in attributions:
+            parts.append('<p class="source-meta">' + escape(attribution) + "</p>")
+        for evidence_id in claim.evidence_ids:
+            if evidence_id in evidence:
+                parts.append(render_amenity_members(evidence[evidence_id]))
+        parts.append(raw_details("Inspect provenance", claim) + "</article>")
+    parts.append("</div></details></section>")
+    parts.append(
+        section_start("sources", "Sources & credits", "Dossier evidence. Web sources remain attached to their original responses.", expanded=not app_mode) + '<div class="grid">'
     )
     for item in evidence.values():
         parts.append(
@@ -297,7 +382,7 @@ def render_dashboard(payload: FrontendResponse) -> str:
     if not evidence:
         parts.append('<p class="muted">No dossier evidence returned.</p>')
     parts.append(
-        '</div></section><section id="coverage"><h2>Research coverage</h2><p class="muted">What was attempted, what returned, and what remains unavailable.</p><div class="card scroll"><table><thead><tr><th>Topic / channel</th><th>Status</th><th>Details</th><th>Queries / sources</th></tr></thead><tbody>'
+        '</div></div></details></section>' + section_start("coverage", "Research coverage", "What was attempted, what returned, and what remains unavailable.", expanded=not app_mode) + '<div class="card scroll"><table><thead><tr><th>Topic / channel</th><th>Status</th><th>Details</th><th>Queries / sources</th></tr></thead><tbody>'
     )
     for item in report.result.coverage:
         parts.append(
@@ -320,10 +405,11 @@ def render_dashboard(payload: FrontendResponse) -> str:
     else:
         parts.append('<p class="muted">No validated research plan available.</p>')
     parts.append(
-        '</section><section id="data"><h2>Report data</h2><p class="muted">All fields from the results JSON, preserved for inspection.</p><div class="card">'
+        '</div></details></section>' + section_start("data", "Report data", "All fields from the results JSON, preserved for inspection.", expanded=not app_mode) + '<div class="card">'
     )
     parts.append(raw_details("Explore full results JSON", payload))
+    lifetime = "Saved on this computer. Reopen this report from your research shelf." if app_mode else "This local viewer expires after its configured lifetime. Saved development JSON files remain on disk."
     parts.append(
-        f"</div></section><footer>Run {escape(report.id)} · Schema {escape(payload.schema_version)}<br>This local viewer expires after its configured lifetime. Saved development JSON files remain on disk.</footer></main></div></body></html>"
+        f"</div></div></details></section><footer>Run {escape(report.id)} · Schema {escape(payload.schema_version)}<br>{lifetime}</footer></main></div></body></html>"
     )
     return "\n".join(parts)

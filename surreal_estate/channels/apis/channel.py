@@ -57,7 +57,7 @@ class StructuredDataChannel:
                     adapter.provider,
                     topic,
                     status,
-                    f"Source lookup stopped ({failure_reason(exc)}); other sources remain available.",
+                    f"Source lookup stopped ({failure_reason(exc, provider=adapter.provider)}); other sources remain available.",
                 )
             if result.coverage:
                 result.coverage[0].queries_run = ctx.counts.get("api", 0) - before

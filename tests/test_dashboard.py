@@ -137,3 +137,94 @@ def test_view_rejects_invalid_snapshot_without_serving(tmp_path, monkeypatch):
     with pytest.raises(SystemExit) as error:
         cli.main()
     assert error.value.code == 2
+
+
+def test_app_report_has_grouped_navigation_and_native_collapsible_sections():
+    class Structure(HTMLParser):
+        def __init__(self, html):
+            super().__init__()
+            self.sections = []
+            self.disclosures = []
+            self.groups = 0
+            self.feed(html)
+
+        def handle_starttag(self, tag, attrs):
+            attrs = dict(attrs)
+            if tag == "section":
+                self.sections.append(attrs["id"])
+            if tag == "details" and attrs.get("class") == "report-section":
+                self.disclosures.append(attrs)
+            if tag == "details" and attrs.get("class") == "nav-group":
+                self.groups += 1
+
+    html = render_dashboard(build_frontend_response(outcome_fixture()), app_mode=True)
+    structure = Structure(html)
+    assert len(structure.sections) == len(structure.disclosures)
+    assert sum("open" in attrs for attrs in structure.disclosures) == 1
+    assert structure.groups >= 2
+    assert 'data-sections="expand"' in html and 'data-sections="collapse"' in html
+    assert 'aria-label="At a glance"' not in html
+    assert "PRIVATE-WEB" in html and "PRIVATE-CHECK" in html
+    links = Links(html)
+    assert len(links.ids) == len(set(links.ids))
+    assert all(href[1:] in links.ids for href in links.hrefs if href.startswith("#"))
+
+
+def test_empty_geocoding_result_is_in_gaps():
+    outcome = outcome_fixture()
+    item = outcome.report.result.coverage[0]
+    item.topic = "geocoding"
+    item.status = "empty"
+    item.reason = "No address match; check city and state"
+    html = render_dashboard(build_frontend_response(outcome), app_mode=True)
+    gaps = html.split('<section id="gaps">', 1)[1].split('</section>', 1)[0]
+    assert item.reason in gaps
+
+
+def test_sidebar_and_report_have_identical_order_with_map_first():
+    from surreal_estate.models import Coverage
+    outcome = outcome_fixture()
+    for topic in ["property_assessment", "flood_map_panels", "geocoding", "mapped_amenities", "street_closures"]:
+        outcome.report.result.coverage.append(Coverage(channel="apis", topic=topic, status="complete", reason="Done"))
+    html = render_dashboard(build_frontend_response(outcome), app_mode=True)
+    rail = html.split('aria-label="Report sections"', 1)[1].split('</nav>', 1)[0]
+    main = html.split('<main>', 1)[1]
+    import re
+    sidebar_targets = re.findall(r'href="#([^"]+)"', rail)
+    main_sections = re.findall(r'<section id="([^"]+)"', main)
+    assert sidebar_targets[1:] == main_sections
+    assert main_sections[0] == "topic-0"
+    first = main.split('<section id="topic-0">', 1)[1].split('</section>', 1)[0]
+    assert "Around the block" in first and 'class="report-section" open' in first
+    assert main.index('coverage-overview') < main.index('<section')
+    assert main.index('<section id="findings">') > main.index('<section id="gaps">')
+
+
+def test_visual_coverage_counts_exclude_unselected_channels_and_keep_error_links():
+    from surreal_estate.models import Coverage
+    from surreal_estate.synthesis.dashboard import coverage_summary
+    rows = [Coverage(channel="apis", topic=topic, status=status, reason=reason) for topic, status, reason in [
+        ("geocoding", "complete", "Matched"), ("flood_hazard", "error", "Cannot connect"),
+        ("property_assessment", "blocked", "Choose a parcel"), ("street_closures", "empty", "No results"),
+        ("research", "blocked", "Not selected for this run"),
+    ]]
+    html = coverage_summary(rows, {"flood_hazard": 1, "property_assessment": 2})
+    assert '<strong>1/4</strong>' in html
+    assert '1 completed, 1 blocked, 1 errors, 1 partial / no results' in html
+    assert 'href="#topic-1"' in html and 'href="#topic-2"' in html
+    assert html.count('width:25.00%') == 4
+
+
+def test_parcel_candidate_links_preserve_address_and_selected_id():
+    from surreal_estate.models import ParcelCandidate
+    from surreal_estate.synthesis.dashboard import parcel_choices
+    from urllib.parse import parse_qs, urlsplit
+    case = outcome_fixture().report.case
+    candidate = ParcelCandidate(parcel_id="0002E00284000000", address=case.address, property_use="<unsafe>", source_url="https://data.wprdc.org/dataset/property-assessments")
+    html = parcel_choices([candidate], case, app_mode=True)
+    assert "<unsafe>" not in html and "&lt;unsafe&gt;" in html
+    href = next(h for h in Links(html).hrefs if h.startswith('/?'))
+    params = parse_qs(urlsplit(href).query)
+    assert params["address"] == [case.address]
+    assert params["parcel_id"] == [candidate.parcel_id]
+    assert params["geography"] == [case.geography]

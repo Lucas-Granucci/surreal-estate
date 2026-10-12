@@ -7,6 +7,7 @@ from datetime import date, timedelta
 from uuid import UUID
 
 from surreal_estate.channels.apis.common import add_record, coverage, public_json
+from surreal_estate.models import ParcelCandidate
 
 API = "https://data.wprdc.org/api/3/action/"
 ASSESSMENT_FIELDS = (
@@ -199,19 +200,40 @@ class Assessments:
         if any(not r.get("PARID") for r in rows):
             raise ValueError("Assessment record missing parcel ID")
         parcels = {str(r["PARID"]) for r in rows}
-        if len(parcels) != 1:
-            return coverage(
+        if (case.parcel_id and case.parcel_id not in parcels) or (not case.parcel_id and len(parcels) != 1):
+            reason = (
+                "The selected parcel does not match this address's county candidates. Review the candidates and select again."
+                if case.parcel_id else
+                f"{len(parcels)} distinct parcels share this address. Select the intended parcel below to continue assessment and building-permit research."
+                if parcels else
+                "No matching county parcel returned. This does not establish that the property is absent from county records."
+            )
+            result = coverage(
                 self.provider,
                 self.topic,
-                "blocked" if parcels else "empty",
-                f"{len(parcels)} matching parcels returned; no unique parcel selected. Empty results do not establish that a property is absent from county records.",
+                "blocked" if parcels or case.parcel_id else "empty",
+                reason,
             )
-        self.parcel = next(iter(parcels))
+            distinct = {str(row["PARID"]): row for row in rows}
+            result.coverage[0].parcel_candidates = [
+                ParcelCandidate(
+                    parcel_id=identifier,
+                    address=f"{row['PROPERTYHOUSENUM']} {row['PROPERTYADDRESS']}, {row.get('PROPERTYCITY') or ''} PA {zipcode}",
+                    property_use=str(row.get("USEDESC") or row.get("CLASSDESC") or "Use not supplied"),
+                    assessed_value=str(row["COUNTYTOTAL"]) if row.get("COUNTYTOTAL") is not None else None,
+                    lot_area=str(row["LOTAREA"]) if row.get("LOTAREA") is not None else None,
+                    source_url=client.uri,
+                ) for identifier, row in distinct.items()
+            ]
+            return result
+        self.parcel = case.parcel_id or next(iter(parcels))
+        rows = [row for row in rows if str(row["PARID"]) == self.parcel]
         result = coverage(
             self.provider,
             self.topic,
             "complete",
-            "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+            "User-selected parcel validated against exact address candidates; this is not parcel-boundary verification."
+            if case.parcel_id else "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
         )
         for row in rows:
             values = []
@@ -242,7 +264,7 @@ class Assessments:
                 updated=client.updated,
                 record_date=row.get("ASOFDATE"),
                 attribution=client.attribution,
-                match_method="unique_exact_number_street_zip_no_unit",
+                match_method="user_selected_exact_address_candidate" if case.parcel_id else "unique_exact_number_street_zip_no_unit",
                 flags=[
                     "match_requires_user_review",
                     "assessment_not_appraisal",

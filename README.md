@@ -1,9 +1,66 @@
-# Surreal Estate backend
+# Surreal Estate
 
 Small Python/asyncio property-research backend. Pittsburgh is the initial geography.
 Structured-data runs use a fixed set of public APIs and need no model or API keys.
 With `--web`, local Ollama `nemotron-3-nano:4b` plans typed Channel C calls.
 No agent framework, crawler, autonomous shell tools, or public deployment.
+
+## Local web app
+
+Start the app once, then enter addresses and choose research channels in the browser:
+
+```sh
+.venv/bin/surreal-estate app
+# Open http://127.0.0.1:8765
+```
+
+The address form offers **Public records & places** (no API key) and **Web research**
+(the existing Gemini/Ollama configuration), with separate local-discussion and
+restaurant-review topic selections. Listing/document uploads are marked unavailable.
+Street-only addresses are completed with the city and region from the form before
+geocoding; explicit full addresses are preserved. Selecting web only skips the
+structured-data providers. One run executes at a time;
+progress and errors appear in the browser. The synthetic demo runs offline.
+
+The report follows `SurrealEstate_dashboard_mockup.html`: a blue overview and
+navigation grouped into Neighborhood, Property & records, and Report details.
+The sidebar and content share one order, starting with **Around the block**, then
+street closures, web research, and property records. Longer observation/source
+lists follow the topic sections. A compact coverage bar counts completed, blocked,
+failed, and partial/empty checks, excluding channels that were not selected.
+Sections collapse individually; sidebar links open their target section.
+
+The nearby map is an SVG distance diagram using Census address coordinates,
+OpenStreetMap feature centers, and dotted city permit segments when available.
+It needs no map tiles or map-service key. Map and timeline views appear only when
+returned records contain the necessary data. Original web responses and re-checks
+retain their citations and Google Search Suggestions; no mockup findings become facts.
+
+When multiple county parcels share an address, the report shows the candidates'
+IDs, recorded uses, lot areas, and assessments. **Research this parcel** opens a
+prefilled form for a new structured-data run; the selected ID must match the exact
+address candidates before assessment or permit records are attached. An arbitrary
+ID is rejected. The CLI equivalent is `research --address '...' --parcel-id ID`.
+Candidates are not automatically promoted to selected property evidence.
+
+Public-data connection failures name the actual provider rather than suggesting
+Ollama. A FEMA connection failure leaves flood information unavailable and offers
+a link to the Map Service Center; the app does not infer a flood zone or bypass
+certificate verification. The configured NFHL service and layers 28 (hazard zones)
+and 3 (map panels) match [FEMA’s service documentation](https://hazards.fema.gov/femaportal/wps/portal/NFHLWMS).
+
+Reports remain on the research shelf across server restarts, with no 15-minute
+expiration. `--port 9000` changes the listening port; `--data-dir /path/to/reports`
+changes the default `exports/web-app` directory. Saved reports use the existing
+**development snapshot** format, including web content, alongside local run metadata.
+These local files are separate from policy-filtered SQLite/durable exports. Debug
+request payloads are not saved. A run interrupted by shutdown is marked failed on
+restart and can be started again. Keep one app process per data directory.
+
+The server binds to loopback only; it is a persistent local app, not a public hosting
+or multi-user setup. Its write API requires a same-origin request token, and report
+pages retain provider HTML sandboxing. Ctrl-C stops the server without removing saved
+reports. The original `research`, `demo`, and `view` CLI commands remain available.
 
 ## Run
 

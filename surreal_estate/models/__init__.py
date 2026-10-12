@@ -27,6 +27,7 @@ class PropertyCase(Model):
     id: str = Field(default_factory=identifier)
     address: str = Field(min_length=5, max_length=200)
     geography: str = Field(min_length=3, max_length=120)
+    parcel_id: str | None = Field(default=None, pattern=r"^[A-Za-z0-9-]{1,40}$")
     priorities: list[Topic] = Field(
         default_factory=lambda: ["neighborhood_discussion"], max_length=5
     )
@@ -62,6 +63,15 @@ class Observation(Model):
     flags: list[str] = Field(default_factory=list)
 
 
+class ParcelCandidate(Model):
+    parcel_id: str
+    address: str
+    property_use: str
+    assessed_value: str | None = None
+    lot_area: str | None = None
+    source_url: HttpUrl
+
+
 class Coverage(Model):
     channel: str
     provider: str | None = None
@@ -72,6 +82,7 @@ class Coverage(Model):
     reason: str
     queries_run: int = Field(default=0, ge=0)
     sources_returned: int = Field(default=0, ge=0)
+    parcel_candidates: list[ParcelCandidate] = Field(default_factory=list, max_length=20)
 
 
 class ChannelResult(Model):

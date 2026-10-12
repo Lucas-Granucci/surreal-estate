@@ -47,10 +47,10 @@ async def diagnose_gemini():
         return 0 if present else 1
 
 
-async def execute(args):
+async def execute(args, *, ctx=None):
     # Explicit path avoids searching parent directories for unrelated credentials.
     load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
-    ctx = RunContext()
+    ctx = ctx or RunContext()
     if args.command == "demo":
         outcome = await run(
             fixture_case(),
@@ -65,8 +65,9 @@ async def execute(args):
         case = PropertyCase(
             address=args.address,
             geography=args.geography,
-            priorities=getattr(args, "topic", None)
-            or ["neighborhood_discussion", "restaurant_reviews"],
+            parcel_id=getattr(args, "parcel_id", None),
+            priorities=(getattr(args, "topic", None) if getattr(args, "topic", None) is not None
+                        else ["neighborhood_discussion", "restaurant_reviews"]),
         )
         async with httpx.AsyncClient(follow_redirects=False, trust_env=False) as http:
             search = GroundedSearchClient(http) if args.web else None
@@ -77,6 +78,7 @@ async def execute(args):
                 StructuredDataChannel(http),
                 search=search,
                 fact_checker=FactChecker(NemotronClient(http), search) if search else None,
+                selected_channels=getattr(args, "channels", None),
             )
     if args.db:
         store = Store(args.db)
@@ -96,6 +98,9 @@ async def execute(args):
 def main():
     parser = argparse.ArgumentParser(description="Local evidence-first property research")
     commands = parser.add_subparsers(dest="command", required=True)
+    app = commands.add_parser("app", help="Start the persistent local research web app")
+    app.add_argument("--port", type=int, default=8765)
+    app.add_argument("--data-dir", default="exports/web-app", help="Saved local report directory")
     commands.add_parser(
         "gemini-models", help="Check configured model against Google's model list; no generation"
     )
@@ -112,6 +117,7 @@ def main():
     )
     research.add_argument("--address", required=True)
     research.add_argument("--geography", default="Pittsburgh, Pennsylvania")
+    research.add_argument("--parcel-id", help="Explicit parcel choice, validated against address candidates")
     research.add_argument(
         "--topic",
         action="append",
@@ -155,6 +161,11 @@ def main():
     if hasattr(args, "port") and not 0 <= args.port <= 65535:
         parser.error("--port must be between 0 and 65535")
     try:
+        if args.command == "app":
+            from surreal_estate.webapp.server import serve_app
+
+            serve_app(port=args.port, directory=args.data_dir)
+            return
         if args.command == "gemini-models":
             parser.exit(asyncio.run(diagnose_gemini()))
         outcome = (

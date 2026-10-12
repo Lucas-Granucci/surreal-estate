@@ -19,7 +19,7 @@ surreal-estate = "surreal_estate.cli:main"
 include = ["surreal_estate*"]
 
 [tool.setuptools.package-data]
-surreal_estate = ["policy/*.yaml", "evals/*.json"]
+surreal_estate = ["policy/*.yaml", "evals/*.json", "webapp/static/*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

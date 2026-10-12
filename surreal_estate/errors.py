@@ -7,7 +7,22 @@ class ConfigurationError(ValueError):
     """Messages must be static developer-authored text, safe to show to the user."""
 
 
-def failure_reason(exc: Exception) -> str:
+def failure_reason(exc: Exception, *, provider: str | None = None) -> str:
+    if provider:
+        source = {
+            "fema_nfhl": "FEMA (hazards.fema.gov)",
+            "census": "Census Geocoder",
+            "openstreetmap": "OpenStreetMap / Overpass",
+            "wprdc_assessments": "WPRDC assessments",
+            "wprdc_permits": "WPRDC permits",
+            "wprdc_closures": "WPRDC street closures",
+        }.get(provider, "Public data provider")
+        if isinstance(exc, httpx.ConnectError):
+            return f"Connection to {source} failed before an HTTP response. The provider or network connection is unavailable; retry later. No findings were inferred"
+        if isinstance(exc, httpx.TimeoutException):
+            return f"{source} did not respond within the request deadline; retry later"
+        if isinstance(exc, httpx.HTTPStatusError):
+            return f"{source} returned HTTP {exc.response.status_code}; no findings were inferred"
     if isinstance(exc, httpx.HTTPStatusError):
         status = exc.response.status_code
         if status == 404:

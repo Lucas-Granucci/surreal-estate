@@ -652,20 +652,23 @@ async def test_supporting_place_names_stay_inside_closed_dashboard_details():
         def __init__(self):
             super().__init__()
             self.depth = 0
+            self.hidden_details = []
             self.text = []
             self.supporting_sections = 0
 
         def handle_starttag(self, tag, attrs):
             if tag == "details":
-                self.depth += 1
                 attrs = dict(attrs)
+                hidden = "open" not in attrs
+                self.hidden_details.append(hidden)
+                self.depth += int(hidden)
                 if attrs.get("class") == "amenity-members":
                     self.supporting_sections += 1
                     assert "open" not in attrs
 
         def handle_endtag(self, tag):
             if tag == "details":
-                self.depth -= 1
+                self.depth -= int(self.hidden_details.pop())
 
         def handle_data(self, data):
             if not self.depth:
@@ -681,3 +684,99 @@ async def test_supporting_place_names_stay_inside_closed_dashboard_details():
     assert "Example Pharmacy" in html
     assert "Schools:" in " ".join(visible.text)
     assert "Pharmacies:" in " ".join(visible.text)
+
+
+@pytest.mark.parametrize("address,geography,expected", [
+    ("414 Grant Street", "Pittsburgh, Pennsylvania", "414 Grant Street, Pittsburgh, Pennsylvania"),
+    (" 414 Grant Street ", "Pittsburgh, Pennsylvania", "414 Grant Street, Pittsburgh, Pennsylvania"),
+    ("414 Grant Street, Apt 2", "Pittsburgh, Pennsylvania", "414 Grant Street, Apt 2, Pittsburgh, Pennsylvania"),
+    ("414 Grant Street, Pittsburgh", "Pittsburgh, Pennsylvania", "414 Grant Street, Pittsburgh, Pennsylvania"),
+    ("414 Grant Street Pittsburgh", "Pittsburgh, Pennsylvania", "414 Grant Street Pittsburgh, Pennsylvania"),
+    ("414 Grant Street, Pittsburgh, PA 15219", "Pittsburgh, Pennsylvania", "414 Grant Street, Pittsburgh, PA 15219"),
+    ("414 Grant Street Pittsburgh PA", "Pittsburgh, Pennsylvania", "414 Grant Street Pittsburgh PA"),
+    ("414 Grant Street, Pittsburgh, Pennsylvania", "Pittsburgh, Pennsylvania", "414 Grant Street, Pittsburgh, Pennsylvania"),
+    ("123 Main Street, Albany, NY", "Pittsburgh, Pennsylvania", "123 Main Street, Albany, NY"),
+    ("123 Main Street, Albany", "Pittsburgh, Pennsylvania", "123 Main Street, Albany"),
+    ("123 Main Street 12207-1234", "Pittsburgh, Pennsylvania", "123 Main Street 12207-1234"),
+])
+def test_geocoding_completes_street_input_without_overwriting_locality(address, geography, expected):
+    from surreal_estate.channels.apis.census import geocoding_address
+    from surreal_estate.models import PropertyCase
+    assert geocoding_address(PropertyCase(address=address, geography=geography)) == expected
+
+
+async def test_street_only_address_unlocks_dependent_providers():
+    from surreal_estate.models import PropertyCase
+
+    class RequiresLocality(PublicAPIs):
+        def __call__(self, request):
+            if "geocoder" in request.url.path and request.url.params["address"] != "414 Grant Street, Pittsburgh, Pennsylvania":
+                return httpx.Response(200, json={"result": {"addressMatches": []}})
+            return super().__call__(request)
+
+    apis = RequiresLocality()
+    case = PropertyCase(address="414 Grant Street", geography="Pittsburgh, Pennsylvania")
+    async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
+        result = await StructuredDataChannel(http).run(case, RunContext())
+    assert all(c.status == "complete" for c in result.coverage)
+    assert len(apis.requests) == 10
+    census = next(e for e in result.evidence if e.provider == "census")
+    assert census.details["submitted_address"] == "414 Grant Street, Pittsburgh, Pennsylvania"
+    assert case.address == "414 Grant Street"
+
+
+async def test_no_match_gives_an_actionable_address_error():
+    from surreal_estate.channels.apis.census import CensusGeocoder
+    from surreal_estate.models import PropertyCase
+    async with httpx.AsyncClient(transport=httpx.MockTransport(lambda _: httpx.Response(200, json={"result": {"addressMatches": []}}))) as http:
+        result = await CensusGeocoder(http).fetch(PropertyCase(address="414 Grant Street", geography="Pittsburgh, Pennsylvania"), RunContext())
+    assert result.coverage[0].status == "empty"
+    assert "414 Grant Street, Pittsburgh, Pennsylvania" in result.coverage[0].reason
+    assert "ZIP code" in result.coverage[0].reason
+
+
+async def test_ambiguous_parcels_return_candidates_without_attaching_evidence():
+    apis = PublicAPIs()
+    apis.assessments.append({**apis.assessments[0], "PARID": "SECOND", "USEDESC": "COUNTY GOVERNMENT"})
+    result, _ = await fetch(apis)
+    assessment = next(c for c in result.coverage if c.topic == "property_assessment")
+    assert assessment.status == "blocked"
+    assert {candidate.parcel_id for candidate in assessment.parcel_candidates} == {"0002J00002000000", "SECOND"}
+    assert not any(e.provider == "wprdc_assessments" for e in result.evidence)
+    assert not any(r.url.params.get("id") == "pli-permits" for r in apis.requests)
+    assert all("OWNER" not in c.model_dump_json() for c in assessment.parcel_candidates)
+
+
+@pytest.mark.parametrize("parcel_id,expected", [("0002J00002000000", "complete"), ("UNRELATED", "blocked")])
+async def test_explicit_parcel_choice_is_validated_before_permits(parcel_id, expected):
+    apis = PublicAPIs()
+    apis.assessments.append({**apis.assessments[0], "PARID": "SECOND"})
+    case = fixture_case().model_copy(update={"parcel_id": parcel_id})
+    async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
+        result = await StructuredDataChannel(http).run(case, RunContext())
+    assert next(c for c in result.coverage if c.topic == "property_assessment").status == expected
+    permit_requests = [r for r in apis.requests if r.url.params.get("id") == "pli-permits"]
+    if expected == "complete":
+        assert permit_requests
+        assert next(c for c in result.coverage if c.topic == "building_permits").status == "complete"
+        evidence = next(e for e in result.evidence if e.provider == "wprdc_assessments")
+        assert evidence.record_id == parcel_id and evidence.match_method == "user_selected_exact_address_candidate"
+    else:
+        assert not permit_requests
+        assert not any(e.provider == "wprdc_assessments" for e in result.evidence)
+
+
+async def test_fema_connection_diagnostic_names_fema_not_ollama_or_exception_text():
+    apis = PublicAPIs()
+    def transport(request):
+        if request.url.host == "hazards.fema.gov":
+            raise httpx.ConnectError("SECRET provider response", request=request)
+        return apis(request)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(transport)) as http:
+        result = await StructuredDataChannel(http).run(fixture_case(), RunContext())
+    for item in result.coverage:
+        if item.provider == "fema_nfhl":
+            assert item.status == "error" and "FEMA (hazards.fema.gov)" in item.reason
+            assert "before an HTTP response" in item.reason
+            assert "Ollama" not in item.reason and "SECRET" not in item.reason
+    assert next(c for c in result.coverage if c.topic == "mapped_amenities").status == "complete"

@@ -42,11 +42,18 @@ async def run(
     extractor=None,
     fact_checker=None,
     demo=False,
+    selected_channels: list[str] | None = None,
 ) -> RunOutcome:
+    if selected_channels is not None and (
+        not selected_channels or not set(selected_channels) <= {"apis", "web", "listing"}
+    ):
+        raise ValueError("Select at least one supported channel")
     results, displays = [], []
     plan = None
     # Fixed, policy-gated public adapters are a baseline, independent of model choices.
-    api_ran = getattr(api_channel, "default_enabled", False)
+    api_ran = getattr(api_channel, "default_enabled", False) and (
+        selected_channels is None or "apis" in selected_channels
+    )
     if api_ran:
         ctx.trace.append("channel:apis:started")
         try:
@@ -71,6 +78,11 @@ async def run(
         async with asyncio.timeout(ctx.remaining):
             ctx.trace.append("planner:started")
             plan = await planner.plan(case, ctx)
+            if selected_channels is not None:
+                plan = plan.model_copy(update={
+                    "channels": list(dict.fromkeys(selected_channels)),
+                    "queries": plan.queries if "web" in selected_channels else [],
+                })
             if api_ran:
                 plan = plan.model_copy(
                     update={"channels": ["apis", *(c for c in plan.channels if c != "apis")]}
@@ -163,7 +175,7 @@ async def run(
                             channel=name,
                             topic="research",
                             status="blocked",
-                            reason="Not selected by planner",
+                            reason="Not selected for this run" if selected_channels is not None else "Not selected by planner",
                         )
                     ]
                 )
