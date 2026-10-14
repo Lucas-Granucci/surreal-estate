@@ -15,8 +15,9 @@ Run the existing pipeline (development snapshots are enabled by default):
 The CLI prints both the dashboard URL and
 `http://127.0.0.1:8765/<token>/result.json`. The JSON endpoint shares the dashboard's
 unguessable run token. For SSH, use the existing port-forwarding instructions.
-This is a completed-run transport; the future address-submission API and frontend
-are not implemented yet. No additional LLM calls are needed to build the response.
+This is a completed-run transport. The persistent application uses the same data
+through its [webapp API](webapp-api.md). No additional LLM calls are needed to build
+the display projection.
 
 ## Contract
 

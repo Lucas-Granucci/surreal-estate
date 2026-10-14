@@ -409,7 +409,9 @@ class Closures:
                 continue
             if distance > 1000:
                 continue
-            statement = f"DOMI closure {row.get('closure_id')} on {road}, about {distance:.0f} m from the interpolated address point: {row.get('from_date') or 'start unknown'} to {row.get('to_date') or 'end unknown'}; active field: {row.get('active')}. Permit records do not confirm work is underway."
+            description = ' '.join(str(row.get('work_description') or '').split())
+            work = f" Work described: {description[:180]}." if description else ""
+            statement = f"DOMI closure {row.get('closure_id')} on {road}, about {distance:.0f} m from the interpolated address point: {row.get('from_date') or 'start unknown'} to {row.get('to_date') or 'end unknown'}.{work} Permit records do not confirm work is underway."
             details = client.details(row)
             details.update({"approximate_segment_distance_m": round(distance), "radius_m": 1000})
             add_record(

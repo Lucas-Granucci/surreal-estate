@@ -30,6 +30,7 @@ class RunContext:
     policy: PolicyGate = field(default_factory=PolicyGate)
     trace: list[str] = field(default_factory=list)
     counts: dict[str, int] = field(default_factory=dict)
+    confirmed_geocode: tuple[dict, str] | None = None
     started: float = field(default_factory=time.monotonic)
 
     @property

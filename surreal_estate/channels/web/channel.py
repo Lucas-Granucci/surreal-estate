@@ -37,7 +37,15 @@ class WebChannel:
         observations, evidence, coverage = [], [], []
         for spec in self.queries:
             ctx.policy.query(spec, case)
-            response = await self.search.search(spec, ctx)
+            try:
+                response = await self.search.search(spec, ctx)
+            except (httpx.HTTPError, ValueError, KeyError, TypeError, TimeoutError, BudgetExceeded) as exc:
+                coverage.append(Coverage(
+                    channel=self.name, topic=spec.topic,
+                    status="truncated" if isinstance(exc, (TimeoutError, BudgetExceeded)) else "error",
+                    reason=f"Search stopped ({failure_reason(exc)}); other returned research remains available",
+                ))
+                continue
             if not response.text or not response.chunks or not response.supports:
                 coverage.append(
                     Coverage(

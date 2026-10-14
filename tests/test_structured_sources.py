@@ -321,7 +321,7 @@ async def test_default_data_runs_without_llm_and_despite_web_planning_failure():
         assert len(outcome.report.result.evidence) == 10
         html = render_dashboard(build_frontend_response(outcome))
         assert "OpenStreetMap contributors" in html and "2026-10-09" in html
-        assert "structured records" in html and "Structured fields and provenance" in html
+        assert "recorded observations" in html and "Record details &amp; provenance" in html
         assert not any("11434" in str(r.url) for r in apis.requests)
 
 
@@ -780,3 +780,12 @@ async def test_fema_connection_diagnostic_names_fema_not_ollama_or_exception_tex
             assert "before an HTTP response" in item.reason
             assert "Ollama" not in item.reason and "SECRET" not in item.reason
     assert next(c for c in result.coverage if c.topic == "mapped_amenities").status == "complete"
+
+
+async def test_closure_work_description_reaches_observations():
+    apis = PublicAPIs()
+    apis.closures[0]['work_description'] = 'DLCO DOING HPFF MANHOLE INSPECTIONS MH 3514'
+    async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
+        result = await Closures(http).fetch(fixture_case(), RunContext(), matched_location())
+    assert 'DLCO DOING HPFF MANHOLE INSPECTIONS MH 3514' in result.observations[0].statement
+    assert 'Permit records do not confirm work is underway' in result.observations[0].statement

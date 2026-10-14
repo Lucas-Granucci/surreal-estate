@@ -1,5 +1,6 @@
 import asyncio
 from dataclasses import dataclass, field
+from datetime import timedelta
 
 import httpx
 from pydantic import ValidationError
@@ -7,7 +8,7 @@ from pydantic import ValidationError
 from surreal_estate.channels.listing.channel import ListingChannel
 from surreal_estate.channels.web.channel import LiveDisplay, WebChannel
 from surreal_estate.errors import failure_reason
-from surreal_estate.models import ChannelResult, Coverage, PropertyCase, RunReport
+from surreal_estate.models import ChannelResult, Coverage, PropertyCase, ResearchQuerySpec, RunReport
 from surreal_estate.orchestrator.context import BudgetExceeded, RunContext
 from surreal_estate.orchestrator.debug import DebugEvent
 from surreal_estate.policy.gate import PolicyDenied
@@ -83,6 +84,23 @@ async def run(
                     "channels": list(dict.fromkeys(selected_channels)),
                     "queries": plan.queries if "web" in selected_channels else [],
                 })
+                # Explicit UI topic selections are requests, not planner suggestions.
+                # Complete omitted supported queries before the normal policy gate;
+                # this adds no findings and never expands the call budget.
+                if "web" in selected_channels:
+                    queries = list(plan.queries)
+                    for topic in dict.fromkeys(case.priorities):
+                        if (topic in {"neighborhood_discussion", "restaurant_reviews"}
+                                and topic not in {q.topic for q in queries}
+                                and len(queries) < ctx.budget.max_grounded_calls):
+                            queries.append(ResearchQuerySpec(
+                                topic=topic, geography=case.geography,
+                                address_anchor=case.address, radius_meters=1000,
+                                start_date=case.as_of - timedelta(days=365),
+                                end_date=case.as_of, max_queries=3,
+                                source_types=["reviews" if topic == "restaurant_reviews" else "discussion"],
+                            ))
+                    plan = plan.model_copy(update={"queries": queries})
             if api_ran:
                 plan = plan.model_copy(
                     update={"channels": ["apis", *(c for c in plan.channels if c != "apis")]}

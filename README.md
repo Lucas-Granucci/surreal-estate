@@ -14,53 +14,41 @@ Start the app once, then enter addresses and choose research channels in the bro
 # Open http://127.0.0.1:8765
 ```
 
-The address form offers **Public records & places** (no API key) and **Web research**
-(the existing Gemini/Ollama configuration), with separate local-discussion and
-restaurant-review topic selections. Listing/document uploads are marked unavailable.
-Street-only addresses are completed with the city and region from the form before
-geocoding; explicit full addresses are preserved. Selecting web only skips the
-structured-data providers. One run executes at a time;
-progress and errors appear in the browser. The synthetic demo runs offline.
+The approved Evidence Bench interface starts with an address, a real Census match,
+and three research choices: public records & nearby places, local discussions,
+and dining research. It uses the approved graphite palette, embedded IBM Plex Sans,
+and system-controlled light/dark themes. Desktop evidence appears alongside the
+findings; mobile evidence opens in a full-screen dialog. Findings, unresolved
+research, sources, scope and full JSON export remain one step away.
 
-The report follows `SurrealEstate_dashboard_mockup.html`: a blue overview and
-navigation grouped into Neighborhood, Property & records, and Report details.
-The sidebar and content share one order, starting with **Around the block**, then
-street closures, web research, and property records. Longer observation/source
-lists follow the topic sections. A compact coverage bar counts completed, blocked,
-failed, and partial/empty checks, excluding channels that were not selected.
-Sections collapse individually; sidebar links open their target section.
+Address input and channel choices survive refresh in the browser session.
+Confirmation is checked again after reload, expiration or server restart. The
+pipeline uses the server-held resolved address and coordinates consistently.
+Street-only inputs default to Pittsburgh; include city, state or ZIP for other US
+addresses. Coordinates are street-range estimates, not verified building points.
 
-The nearby map is an SVG distance diagram using Census address coordinates,
-OpenStreetMap feature centers, and dotted city permit segments when available.
-It needs no map tiles or map-service key. Map and timeline views appear only when
-returned records contain the necessary data. Original web responses and re-checks
-retain their citations and Google Search Suggestions; no mockup findings become facts.
+Public sources need no keys. Optional web research uses the existing Gemini/Ollama
+configuration; unavailable choices are disabled. Selected topics control actual
+research. Progress comes from backend execution stages, without estimated
+percentages. Repeated submissions with the same request ID return the same run.
+Failed and partial research retain available results and expose recovery actions.
 
-When multiple county parcels share an address, the report shows the candidates'
-IDs, recorded uses, lot areas, and assessments. **Research this parcel** opens a
-prefilled form for a new structured-data run; the selected ID must match the exact
-address candidates before assessment or permit records are attached. An arbitrary
-ID is rejected. The CLI equivalent is `research --address '...' --parcel-id ID`.
-Candidates are not automatically promoted to selected property evidence.
+Reports are saved locally under `exports/web-app` and survive restart. Existing
+saved reports still open; valid older standalone snapshots are imported additively
+without changing their original files. `--data-dir PATH` changes the directory;
+`--port 9000` changes the port. Keep one app process per directory. The separate
+policy-filtered SQLite/durable export path is unchanged; no SQL migration is needed.
 
-Public-data connection failures name the actual provider rather than suggesting
-Ollama. A FEMA connection failure leaves flood information unavailable and offers
-a link to the Map Service Center; the app does not infer a flood zone or bypass
-certificate verification. The configured NFHL service and layers 28 (hazard zones)
-and 3 (map panels) match [FEMA’s service documentation](https://hazards.fema.gov/femaportal/wps/portal/NFHLWMS).
+Provider records, model text, citations, source slots and Search Suggestions remain
+available. Missing parcel IDs, unavailable flood data and unverified model accounts
+are never replaced with prototype findings. Candidate parcel records, when returned,
+remain visible in evidence; explicit parcel research remains supported by the API
+and CLI (`research --address '...' --parcel-id ID`).
 
-Reports remain on the research shelf across server restarts, with no 15-minute
-expiration. `--port 9000` changes the listening port; `--data-dir /path/to/reports`
-changes the default `exports/web-app` directory. Saved reports use the existing
-**development snapshot** format, including web content, alongside local run metadata.
-These local files are separate from policy-filtered SQLite/durable exports. Debug
-request payloads are not saved. A run interrupted by shutdown is marked failed on
-restart and can be started again. Keep one app process per data directory.
-
-The server binds to loopback only; it is a persistent local app, not a public hosting
-or multi-user setup. Its write API requires a same-origin request token, and report
-pages retain provider HTML sandboxing. Ctrl-C stops the server without removing saved
-reports. The original `research`, `demo`, and `view` CLI commands remain available.
+The server is loopback-only and uses same-origin CSRF protection. The original
+`research`, `demo`, and `view` commands remain available. See the
+[screen implementation map](docs/interface-implementation.md) and
+[API, storage compatibility and configuration contracts](docs/webapp-api.md).
 
 ## Run
 

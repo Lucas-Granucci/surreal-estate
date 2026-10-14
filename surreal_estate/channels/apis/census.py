@@ -40,8 +40,7 @@ class CensusGeocoder:
         self.http = http
         self.location: Location | None = None
 
-    async def fetch(self, case: PropertyCase, ctx: RunContext) -> ChannelResult:
-        self.location = None
+    async def lookup(self, case: PropertyCase, ctx: RunContext):
         query_address = geocoding_address(case)
         payload, response_url = await public_json(
             self.http,
@@ -55,7 +54,15 @@ class CensusGeocoder:
                 "format": "json",
             },
         )
-        matches = payload["result"]["addressMatches"]
+        return payload["result"]["addressMatches"], response_url
+
+    async def fetch(self, case: PropertyCase, ctx: RunContext) -> ChannelResult:
+        self.location = None
+        query_address = geocoding_address(case)
+        if ctx.confirmed_geocode is not None:
+            match, response_url = ctx.confirmed_geocode
+            return self.from_match(case, match, response_url, confirmed=True)
+        matches, response_url = await self.lookup(case, ctx)
         if len(matches) != 1:
             return ChannelResult(
                 coverage=[
@@ -71,7 +78,10 @@ class CensusGeocoder:
                     )
                 ]
             )
-        match = matches[0]
+        return self.from_match(case, matches[0], response_url)
+
+    def from_match(self, case, match, response_url, *, confirmed=False):
+        query_address = geocoding_address(case)
         coordinates = match["coordinates"]
         lat, lon = float(coordinates["y"]), float(coordinates["x"])
         if not (-90 <= lat <= 90 and -180 <= lon <= 180):
@@ -95,7 +105,7 @@ class CensusGeocoder:
             excerpt=statement,
             retention="persistent",
             kind="official_record",
-            match_method="single_census_address_range_match",
+            match_method="user_confirmed_census_address_range_match" if confirmed else "single_census_address_range_match",
             details={
                 "submitted_address": query_address,
                 "latitude": lat,
@@ -118,7 +128,7 @@ class CensusGeocoder:
                     observed_on=case.as_of,
                     qualifier="official_record",
                     confidence=1,
-                    flags=["address_range_interpolation", "match_requires_user_review"],
+                    flags=["address_range_interpolation", "user_confirmed_match" if confirmed else "match_requires_user_review"],
                 )
             ],
             coverage=[
@@ -127,7 +137,7 @@ class CensusGeocoder:
                     provider=self.provider,
                     topic="geocoding",
                     status="complete",
-                    reason="One Census match returned; not independently confirmed",
+                    reason="Address match selected and confirmed by the user" if confirmed else "One Census match returned; not independently confirmed",
                     sources_returned=1,
                     queries_run=1,
                 )

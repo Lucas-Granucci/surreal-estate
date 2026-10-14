@@ -12,7 +12,7 @@ from surreal_estate.evals.fixtures import FixtureAPI, FixturePlanner, FixtureSea
 from surreal_estate.models import ChannelResult, Coverage
 from surreal_estate.orchestrator.context import RunContext
 from surreal_estate.orchestrator.runner import run
-from surreal_estate.webapp.server import App, ResearchRequest, app_handler, research
+from surreal_estate.webapp.server import AddressRequest, App, ResearchRequest, app_handler, research
 from test_frontend import FakeSocket, outcome_fixture
 
 
@@ -38,13 +38,29 @@ def wait_for_job(app, identifier):
     pytest.fail("Research job did not finish")
 
 
+MATCH = {"matchedAddress": "414 GRANT ST, PITTSBURGH, PA, 15219",
+         "coordinates": {"y": 40.438, "x": -79.997},
+         "addressComponents": {"city": "PITTSBURGH", "state": "PA"}}
+
+
+async def fixture_resolver(request):
+    return [MATCH], "https://geocoding.geo.census.gov/result"
+
+
+def confirmed_request(app):
+    app.resolver = fixture_resolver
+    result = app.geocode(AddressRequest(address="414 Grant Street"))
+    return ResearchRequest(address="414 Grant Street", channels=["apis"],
+                           confirmation=result["candidates"][0]["confirmation"])
+
+
 async def fixture_executor(request, ctx):
     return outcome_fixture()
 
 
 def test_start_poll_save_restart_and_open_complete_report(tmp_path):
     app = App(tmp_path, fixture_executor)
-    headers, body = request(app, "/api/runs", method="POST", payload={"address": "414 Grant Street", "channels": ["apis"]})
+    headers, body = request(app, "/api/runs", method="POST", payload=confirmed_request(app).model_dump())
     assert b"202 Accepted" in headers
     identifier = json.loads(body)["id"]
     assert wait_for_job(app, identifier)["status"] == "complete"
@@ -52,15 +68,15 @@ def test_start_poll_save_restart_and_open_complete_report(tmp_path):
     restored = App(tmp_path, fixture_executor)
     headers, body = request(restored, "/api/runs")
     assert json.loads(body)["runs"][0]["id"] == identifier
-    for page, expected in [("dashboard", b"PRIVATE-WEB"), ("result.json", b"PRIVATE-CHECK"), ("debug", b"dashboard")]:
+    for page, expected in [("dashboard", b"app.js"), ("bench.json", b"PRIVATE-WEB"), ("result.json", b"PRIVATE-CHECK"), ("debug", b"dashboard")]:
         headers, body = request(restored, f"/reports/{identifier}/{page}")
         assert b"200 OK" in headers and b"Cache-Control: no-store" in headers
         assert expected in body
         assert b"PRIVATE-DEBUG" not in body
     _, dashboard = request(restored, f"/reports/{identifier}/dashboard")
-    assert b'href="/"' in dashboard and b'href="debug"' in dashboard
+    assert b'data-action="home"' in dashboard and b'href="debug"' not in dashboard
     assert b"expires after" not in dashboard
-    assert b"What we couldn" in dashboard and b"Sources &amp; credits" in dashboard
+    assert b'aria-label="Main"' in dashboard
 
 
 def test_interrupted_job_is_recovered_as_failed(tmp_path):
@@ -77,12 +93,12 @@ def test_provider_error_does_not_leak_secrets_and_can_retry(tmp_path):
     async def failed(*args):
         raise RuntimeError("SECRET_TOKEN=do-not-display")
     app = App(tmp_path, failed)
-    job = app.start(ResearchRequest(address="414 Grant Street", channels=["apis"]))
+    job = app.start(confirmed_request(app))
     assert wait_for_job(app, job["id"])["status"] == "failed"
     _, body = request(app, "/api/runs")
     assert b"SECRET_TOKEN" not in body
     app.executor = fixture_executor
-    retry = app.start(ResearchRequest(address="414 Grant Street", channels=["apis"]))
+    retry = app.start(confirmed_request(app))
     assert wait_for_job(app, retry["id"])["status"] == "complete"
 
 
@@ -92,7 +108,7 @@ def test_only_one_run_at_a_time(tmp_path):
         await asyncio.to_thread(gate.wait, 2)
         return outcome_fixture()
     app = App(tmp_path, slow)
-    job = app.start(ResearchRequest(address="414 Grant Street", channels=["apis"]))
+    job = app.start(confirmed_request(app))
     try:
         headers, _ = request(app, "/api/runs", method="POST", payload={"address": "414 Grant Street", "channels": ["apis"]})
         assert b"409 Conflict" in headers
@@ -240,3 +256,127 @@ async def test_selected_parcel_reaches_research_case(monkeypatch):
     await research(ResearchRequest(address="414 Grant Street", channels=["apis"], parcel_id="0002J00002000000"), RunContext())
     assert calls[0].parcel_id == "0002J00002000000"
     assert calls[0].web is False
+
+
+def test_confirmation_required_and_bound_to_address(tmp_path):
+    app = App(tmp_path, fixture_executor, fixture_resolver)
+    payload = {"address": "414 Grant Street", "channels": ["apis"]}
+    headers, _ = request(app, "/api/runs", method="POST", payload=payload)
+    assert b"409 Conflict" in headers and not app.jobs
+    confirmed = confirmed_request(app)
+    confirmed.address = "416 Grant Street"
+    with pytest.raises(RuntimeError, match="confirm"):
+        app.start(confirmed)
+    confirmed.address = "414 Grant Street"
+    confirmed.geography = "Boston, Massachusetts"
+    with pytest.raises(RuntimeError, match="confirm"):
+        app.start(confirmed)
+    confirmed.geography = "Pittsburgh, Pennsylvania"
+    cached = app.matches[confirmed.confirmation]
+    app.matches[confirmed.confirmation] = (0, *cached[1:])
+    with pytest.raises(RuntimeError, match="confirm"):
+        app.start(confirmed)
+    assert not app.jobs
+
+
+def test_geocode_candidates_and_selected_match_reach_pipeline(tmp_path):
+    second = {**MATCH, "matchedAddress": "414 GRANT AVE, PITTSBURGH, PA, 15219",
+              "coordinates": {"y": 40.45, "x": -80.01}}
+    calls = []
+    async def resolver(req):
+        return [MATCH, second], "https://geocoding.geo.census.gov/result"
+    async def executor(req, ctx):
+        calls.append((req, ctx))
+        return outcome_fixture()
+    app = App(tmp_path, executor, resolver)
+    headers, body = request(app, "/api/geocode", method="POST", payload={"address": "414 Grant Street"})
+    assert b"200 OK" in headers
+    candidates = json.loads(body)["candidates"]
+    assert len(candidates) == 2 and not app.jobs and not calls
+    job = app.start(ResearchRequest(address="414 Grant Street", channels=["web"],
+                    topics=["restaurant_reviews"], confirmation=candidates[1]["confirmation"]))
+    assert wait_for_job(app, job["id"])["status"] == "complete"
+    req, ctx = calls[0]
+    assert req.address == second["matchedAddress"]
+    assert req.geography == "PITTSBURGH, PA"
+    assert ctx.confirmed_geocode[0] == second
+
+
+async def test_confirmed_geocode_is_reused_without_network():
+    from surreal_estate.channels.apis.census import CensusGeocoder
+    ctx = RunContext(confirmed_geocode=(MATCH, "https://geocoding.geo.census.gov/result"))
+    geocoder = CensusGeocoder(None)
+    result = await geocoder.fetch(fixture_case(), ctx)
+    assert geocoder.location.latitude == MATCH["coordinates"]["y"]
+    assert result.evidence[0].details["matched_address"] == MATCH["matchedAddress"]
+    assert "user_confirmed_match" in result.observations[0].flags
+    assert not ctx.counts
+
+
+@pytest.mark.parametrize("mode", ["empty", "error", "invalid"])
+def test_geocode_failures_never_start_research(tmp_path, mode):
+    async def resolver(req):
+        if mode == "error":
+            raise RuntimeError("SECRET_TOKEN")
+        if mode == "invalid":
+            return [{**MATCH, "coordinates": {"x": 999, "y": 0}}], "https://example.org"
+        return [], "https://example.org"
+    app = App(tmp_path, fixture_executor, resolver)
+    headers, body = request(app, "/api/geocode", method="POST", payload={"address": "414 Grant Street"})
+    assert (b"200 OK" if mode == "empty" else b"502 Bad Gateway") in headers
+    assert b"SECRET_TOKEN" not in body and not app.jobs and not app.matches
+    if mode == "empty":
+        assert json.loads(body) == {"candidates": []}
+
+
+@pytest.mark.parametrize("kwargs", [{"token": False}, {"host": "evil.test"}, {"origin": "https://evil.test"}])
+def test_geocode_requires_same_origin_and_csrf(tmp_path, kwargs):
+    app = App(tmp_path, fixture_executor, fixture_resolver)
+    headers, _ = request(app, "/api/geocode", method="POST", payload={"address": "414 Grant Street"}, **kwargs)
+    assert b"403 Forbidden" in headers and not app.matches
+
+
+def test_progress_follows_trace_and_selected_channels():
+    job = dict(status='running', channels=['apis', 'web'])
+    ctx = RunContext()
+    ctx.trace.extend(['channel:apis:started', 'source:census:geocoding:started'])
+    progress = App.progress(job, ctx)
+    assert progress['steps'][0]['state'] == 'active'
+    assert progress['sources_checked'] == 0
+    assert progress['detail'] == 'Checking the address'
+    ctx.trace.extend(['source:census:geocoding:finished', 'channel:apis:finished',
+                      'planner:started', 'planner:validated', 'channel:web:started'])
+    progress = App.progress(job, ctx)
+    assert [s['state'] for s in progress['steps']] == ['done', 'done', 'active', 'waiting']
+    assert progress['sources_checked'] == 1
+    assert 'percentage' not in progress
+    web_only = App.progress(dict(status='running', channels=['web']), RunContext())
+    assert all(s['id'] != 'apis' for s in web_only['steps'])
+
+
+def test_progress_does_not_claim_unstarted_channels_finished():
+    ctx = RunContext()
+    ctx.trace.extend(['planner:started'])
+    job = dict(status='running', channels=['web'], stage='report')
+    progress = App.progress(job, ctx)
+    assert [s['state'] for s in progress['steps']] == ['done', 'skipped', 'active']
+    job.update(status='complete', progress=progress)
+    assert [s['state'] for s in App.progress(job)['steps']] == ['done', 'skipped', 'done']
+
+
+def test_closure_descriptions_are_visible_in_saved_records_without_dates():
+    from surreal_estate.models import Evidence
+    from surreal_estate.synthesis.report_visuals import closure_details
+    item = Evidence(provider='wprdc_closures', uri='https://example.org/permit',
+                    title='Permit', excerpt='Old statement has no work description', retention='persistent',
+                    kind='official_record', details={'record': {'closure_id':'C1', 'primary_street':'GRANT ST',
+                    'from_street':'A STREET', 'to_street':'B STREET',
+                    'work_description':'DLCO DOING HPFF MANHOLE INSPECTIONS MH 3514 <script>',
+                    'to_date':None}})
+    html = closure_details([item])
+    assert 'DLCO DOING HPFF MANHOLE INSPECTIONS MH 3514 &lt;script&gt;' in html
+    assert '<script>' not in html
+    assert 'A STREET to B STREET' in html
+    assert 'End date unknown' in html
+    assert 'https://example.org/permit' in html
+    assert 'do not confirm' in html

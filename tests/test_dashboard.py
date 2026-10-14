@@ -195,7 +195,9 @@ def test_sidebar_and_report_have_identical_order_with_map_first():
     assert sidebar_targets[1:] == main_sections
     assert main_sections[0] == "topic-0"
     first = main.split('<section id="topic-0">', 1)[1].split('</section>', 1)[0]
-    assert "Around the block" in first and 'class="report-section" open' in first
+    assert "Around the block" in first
+    # The first available topic opens; empty map sections do not displace real results.
+    assert 'class="report-section" open' not in first
     assert main.index('coverage-overview') < main.index('<section')
     assert main.index('<section id="findings">') > main.index('<section id="gaps">')
 
@@ -228,3 +230,21 @@ def test_parcel_candidate_links_preserve_address_and_selected_id():
     assert params["address"] == [case.address]
     assert params["parcel_id"] == [candidate.parcel_id]
     assert params["geography"] == [case.geography]
+
+
+def test_findings_preview_preserves_qualifications_sources_and_report_order():
+    from surreal_estate.models import Claim, Evidence
+    outcome = outcome_fixture()
+    evidence = Evidence(provider="fixture", uri="https://example.org/record", title="Source <record>",
+                        excerpt="Fixture", retention="persistent", kind="synthetic")
+    outcome.report.result.evidence.append(evidence)
+    outcome.report.claims = [Claim(statement=f"Finding {index} <qualified>", observation_ids=["fixture"],
+                                   evidence_ids=[evidence.id], qualifier="synthetic",
+                                   flags=["Not a verified property finding"]) for index in range(4)]
+    html = render_dashboard(build_frontend_response(outcome), app_mode=True)
+    preview = html.split('id="report-summary"', 1)[1].split('class="report-stats"', 1)[0]
+    assert 'Finding 0 &lt;qualified&gt;' in preview and 'Finding 2 &lt;qualified&gt;' in preview
+    assert 'Finding 3' not in preview and 'Finding 3 &lt;qualified&gt;' in html
+    assert 'Not a verified property finding' in preview
+    assert 'href="https://example.org/record"' in preview and 'Source &lt;record&gt;' in preview
+    assert 'first 3 of 4' in preview
