@@ -1,7 +1,69 @@
 # SurrealEstate
 
-Local, evidence-first property research. Public records and mapped surroundings are
-combined with Tavily web research, local Nemotron processing, and Gemini brief writing.
+**Know the place behind the address.**
+
+SurrealEstate turns a street address into an explorable research report: property
+records, mapped daily essentials, local discussions, and dining research, with the
+evidence close at hand. Start with the neighborhood at a glance, read a brief,
+then select a paragraph to inspect the passages behind it.
+
+## [Explore the public showcase →](https://lucas-granucci.github.io/surreal-estate/)
+
+Browse real Pittsburgh reports, maps, and cited briefs in your browser.
+**No installation, API keys, or sign-in required.**
+
+[Run locally](#run-locally) · [How it works](#two-research-channels)
+
+[![Open the East Liberty sample report: mapped groceries, nearby places, and source evidence](docs/media/location-overview.png)](https://lucas-granucci.github.io/surreal-estate/#report/east-liberty)
+
+*Select the screenshot to explore the East Liberty report.*
+
+### See the pipeline in action
+
+[Watch or download the recorded walkthrough](docs/media/pipeline-walkthrough.mp4?raw=true)
+— a real run from address entry and Census confirmation through channel selection,
+live generation, local intelligence, source inspection, and coverage. The silent
+recording speeds up the generation wait by 20×. The live map source was unavailable
+in this run, and that coverage gap remains visible.
+
+## What you can explore
+
+- **An address, confirmed.** Review the Census match before starting research.
+- **Mapped daily essentials.** Explore groceries, transit, schools, and pharmacies
+  within a 1 km search, with approximate straight-line distances and source links.
+- **Property and street records.** Read county assessments, parcel-linked building
+  permits, and relevant street-closure permits alongside their qualifications.
+- **Local intelligence.** Choose local discussions, dining reviews, or both.
+  Read thematic briefs drawn from geographically scoped web sources.
+- **Evidence beside the brief.** Select a paragraph to inspect its original source
+  passages, attribution, and links in the evidence inspector.
+- **Visible research limits.** See what completed, returned nothing, was blocked,
+  or failed. Missing data stays visible; completed evidence survives provider failures.
+- **A local research library.** Reopen saved reports, export source JSON, and retain
+  dated snapshots. The reader supports desktop, mobile, and system light/dark themes.
+
+Property and permit coverage focuses on Pittsburgh and Allegheny County. Other
+sources vary by location. Web opinions and AI assessments remain distinct from
+public records; source citations make claims inspectable, not independently verified.
+
+## Two research channels
+
+Choose either channel or combine them in one report. Public records and nearby
+places require no API key or model. Local intelligence adds bounded web research.
+
+![A confirmed address feeds public records and nearby places, plus local intelligence; both contribute to a saved report](docs/diagrams/research-channels.svg)
+
+### Inside local intelligence
+
+![Local intelligence evidence pipeline: retrieval, local processing, optional factual checking, synthesis, and citation validation](docs/diagrams/local-intelligence.svg)
+
+Optional factual checks revisit material uncertainties; they remain AI assessments,
+not independent verification. See [the research pipeline](docs/tavily-research.md)
+for processing rules and limits.
+
+![Local intelligence brief with the original cited passages open in the evidence inspector](docs/media/local-intelligence.png)
+
+*A completed local discussion brief from the recorded run, with its cited passages open.*
 
 ## Run locally
 
@@ -19,7 +81,7 @@ and survive restart; deleting a saved report prevents it from being reimported.
 The interface follows `design/SurrealEstate.html`, with graphite colors, IBM Plex
 Sans, system light/dark themes, a collapsible sidebar and an evidence inspector.
 Findings provides records, mapped places and compact web-topic previews. Full Local
-discussions and Dining reviews briefs live on Web research; preview links open the
+discussions and Dining reviews briefs live on Local intelligence; preview links open the
 corresponding topic. Source excerpts appear beside the brief, or in a mobile dialog.
 
 For an entirely offline synthetic demonstration:
@@ -40,9 +102,6 @@ These sources need no API key or model:
 | WPRDC PLI permits | Records on the selected county parcel |
 | WPRDC DOMI street closures | Bounded same-street segments and recorded work descriptions |
 | OpenStreetMap / Overpass | Education, groceries, transit and pharmacies within a 1 km query |
-
-Flood-map channels have been removed. Existing snapshots retain their original raw
-data, but retired flood entries are excluded from the app.
 
 Assessment values are recorded values, not current appraisals. Parcel selection
 checks county candidates and labels any stable fallback as uncertain. Unit,
@@ -94,9 +153,6 @@ original passages; invalid formats receive one bounded repair attempt. Unknown
 refs, truncated output and unsupported business-hours inferences are rejected.
 Writer failures retain research notes and sources. Opinions and AI assessments
 remain distinct from public records and independent verification.
-
-The former Gemini search client and its grounded re-check agent have been deleted.
-Read-only compatibility remains for historical saved web responses.
 
 ```sh
 .venv/bin/surreal-estate research --address '121 S Highland Ave, Pittsburgh, PA 15206' --web

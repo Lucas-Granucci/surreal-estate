@@ -1,0 +1,63 @@
+{
+  "address": "121 S Highland Ave, Pittsburgh, PA 15206",
+  "recorded_at": "2026-10-15",
+  "run_id": "797aa987-8647-44b8-a000-c3eb4e439c80",
+  "duration_seconds": 46,
+  "successful": true,
+  "edits": {
+    "generation_wait": {
+      "original_start_seconds": 11,
+      "original_end_seconds": 225,
+      "speed_multiplier": 20
+    },
+    "report_reading": "Resumed in a second take from the same completed report."
+  },
+  "source_availability": "Live map unavailable; both web briefs completed. The README map screenshot is a separate reviewed showcase sample.",
+  "chapters": [
+    {
+      "seconds": 0,
+      "title": "Enter an address"
+    },
+    {
+      "seconds": 7,
+      "title": "Confirm the Census address match"
+    },
+    {
+      "seconds": 9,
+      "title": "Select public records and both local intelligence topics"
+    },
+    {
+      "seconds": 11,
+      "title": "Run the live research pipeline"
+    },
+    {
+      "seconds": 21.7,
+      "title": "Report ready"
+    },
+    {
+      "seconds": 25.7,
+      "title": "Explore mapped surroundings"
+    },
+    {
+      "seconds": 27.7,
+      "title": "Map source unavailable; review the report's coverage notice"
+    },
+    {
+      "seconds": 29.7,
+      "title": "Read local discussions and inspect a cited paragraph"
+    },
+    {
+      "seconds": 33.7,
+      "title": "Read dining research"
+    },
+    {
+      "seconds": 37.7,
+      "title": "Inspect source provenance"
+    },
+    {
+      "seconds": 39.7,
+      "title": "Review coverage and limitations"
+    }
+  ],
+  "browser_errors": []
+}
