@@ -1,0 +1,2344 @@
+{
+  "version": "1.0",
+  "case": {
+    "address": "147 39TH ST, PITTSBURGH, PA, 15201",
+    "geography": "Pittsburgh, Pennsylvania",
+    "as_of": "2026-10-15"
+  },
+  "demo": false,
+  "findings": [
+    {
+      "id": "finding-3",
+      "title": "Nearby transit",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "transit",
+      "statements": [
+        "At least 50 mapped features within 1 km. Closest returned point: ~191 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "cb9f56ca-843f-4f63-9cad-f33a67d38d94"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 2,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-2",
+      "title": "Groceries & pharmacies",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "groceries",
+      "statements": [
+        "3 mapped features within 1 km. Closest returned point: ~310 m.",
+        "1 mapped features within 1 km. Closest returned point: ~929 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "b1eebe3e-f2dd-4f52-b1ab-fd1a0c1c0bc0",
+        "c661aa44-9b75-44f0-acc8-29a7a4a0cc77"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 2,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 2,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-7",
+      "title": "Street-closure permits",
+      "topic": "street_closures",
+      "section": "Street permits",
+      "category": null,
+      "statements": [
+        "4 returned street-closure permit segments."
+      ],
+      "qualifier": "Public records · permits do not confirm work is underway",
+      "evidence_ids": [
+        "30f15cb9-f24f-43f9-aa5b-b3e65a6371b7",
+        "cfe52024-be48-484b-b68a-eb0bcb2c54cf",
+        "197f81ba-4142-41d9-b459-ca901308e6cf",
+        "b482e3fa-ac41-4377-844d-0dba8636ab3c"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_closures",
+          "topic": "street_closures",
+          "status": "complete",
+          "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 116 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+          "queries_run": 2,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-0",
+      "title": "Address match",
+      "topic": "geocoding",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "Census address match: 147 39TH ST, PITTSBURGH, PA, 15201; latitude 40.468908, longitude -79.965322. Address-range interpolation, not a parcel or structure assessment."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "4a3936c1-f0f7-4331-9bc8-81350a660714"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "census",
+          "topic": "geocoding",
+          "status": "complete",
+          "reason": "Address match selected and confirmed by the user",
+          "queries_run": 0,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-5",
+      "title": "Assessment & building permits",
+      "topic": "property_assessment",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "County parcel 0049E00132000000: county assessment (USD): 44876700. Assessment records are not current appraisals or proof of condition.",
+        "PLI EP-2023-04890: ELECTRICAL; issued 2023-05-26; status Issued. INSTALLATION OF 4 CHARGING STATIONS IN PARKING GARAGE WITH SEPARATE EXTERIOR SERVICE. A permit does not prove work was completed.",
+        "PLI SP-2022-00822: Sign Permit; issued 2022-07-07; status Completed. INSTALL ILLUMINATED (1) 13.2 SF AND (1) 19.8 SF CANOPY SIGN (BUILDING 1000), (1) 11.9 SF WALL SIGN (BUILDING 5000), AND (1) 35.9 SF WALL SIGN (BUILDING 3000) AT. A permit does not prove work was completed.",
+        "PLI OLP-2022-07249: Occupant Load Placard Permit; issued 2022-05-18; status Completed. No work description. A permit does not prove work was completed.",
+        "PLI EP-2022-01369: ELECTRICAL; issued 2022-04-06; status Completed. CONSTRUCTION OF 5 STORY APARTMENT BUILDING WITH 343 UNITS. A permit does not prove work was completed.",
+        "PLI BP-2021-13370: BUILDING; issued 2022-03-18; status Completed. EXTERIOR ALTERATIONS AND SITE WORK TO CONSTRUCT COURTYARD WITH SWIMMING POOL AT NEW 5 STORY APARTMENT BUILDING. A permit does not prove work was completed.",
+        "PLI OOP-2020-01826: Occupancy Only Permit; issued 2022-03-04; status Completed. No work description. A permit does not prove work was completed.",
+        "PLI EP-2022-00417: ELECTRICAL; issued 2022-02-11; status Completed. GROUNDING AND BONDING FOR EXTERIOR ALTERATIONS AND SITE WORK TO CONSTRUCT COURTYARD WITH SWIMMING POOL AT NEW 5 STORY APARTMENT BUILDING - RELATED TO BP-2021-13. A permit does not prove work was completed.",
+        "PLI OOP-2020-05685: Occupancy Only Permit; issued 2022-01-25; status Completed. No work description. A permit does not prove work was completed.",
+        "PLI OOP-2020-05682: Occupancy Only Permit; issued 2022-01-25; status Completed. No work description. A permit does not prove work was completed.",
+        "PLI MP-2019-11186: MECHANICAL; issued 2022-01-20; status Completed. NEW INTERIOR AND EXTERIOR MECHANICAL EQUIPMENT INCLUDING CONDENSING UNIT, EXHAUST, AND DUCTWORK FOR 6 STORY OPEN PARKING GARAGE- ENERGY INSPECTION REQUIRED - RE. A permit does not prove work was completed.",
+        "PLI BP-2021-06058: BUILDING; issued 2021-10-27; status Issued. EXTERIOR ALTERATIONS INCLUDE MINOR RESTORATION AND REPAIRS. A permit does not prove work was completed.",
+        "PLI EP-2019-07232: ELECTRICAL; issued 2021-09-17; status Completed. NEW UTILITY SERVICE TO INCLUD UNDERGROUND CONDUCTORS - RELATED TO BP-2019-07230 AND EP-2019-07235. A permit does not prove work was completed.",
+        "PLI EP-2019-11187: ELECTRICAL; issued 2021-09-17; status Completed. NEW UTILITY SERVICE, DISTRIBUTION EQUIPMENT, POWER, AND LIGHTING FOR NEW 6 STORY OPEN PARKING GARAGE - ENERGY INSPECTION REQUIRED - RELATED TO BP-2019-11180. A permit does not prove work was completed.",
+        "PLI SSP-2019-11228: Suppression System Permit; issued 2021-07-21; status Completed. INSTALL NEW STANDPIPES AND SPRINKLER SYSTEM FOR PORTION OF GARAGE (TRASH CHUTE, ENCLOSED SPACE) IN 6 STORY OPEN GARAGE - RELATED TO BP-2019-11180. A permit does not prove work was completed.",
+        "PLI SSP-2019-07244: Suppression System Permit; issued 2021-07-08; status Completed. INSTALL UNDERGROUND FIRE MAIN, ABOVE GROUND SPRINKLER SYSTEM, FIRE DEPARTMENT CONNECTIONS, HYDRANT, STANDPIPES, AND RISERS FOR NEW CONSTRUCTION OF 5 STORY APART. A permit does not prove work was completed.",
+        "PLI FAS-2019-07242: Fire Alarm Permit; issued 2021-06-09; status Completed. INSTALL NEW FIRE ALARM SYSTEM THROUGHOUT NEW 5 STORY APARTMENT BUILDING - RELATED TO BP-2019-07202. A permit does not prove work was completed.",
+        "PLI FAS-2019-11230: Fire Alarm Permit; issued 2021-06-01; status Completed. INSTALL NEW FIRE ALARM SYSTEM THROUGHOUT NEW 6 STORY OPEN PARKING GARAGE - RELATED TO BP-2019-11180. A permit does not prove work was completed.",
+        "PLI EP-2019-07235: ELECTRICAL; issued 2021-03-25; status Completed. NEW UTILITY SERVICE, DISTRIBUTION EQUIPMENT, POWER, AND LIGHTING FOR NEW 5 STORY APARTMENT BUILDING. A permit does not prove work was completed.",
+        "PLI BP-2019-11180: BUILDING; issued 2021-03-04; status Completed. CONSTRUCT NEW 6 STORY OPEN PARKING GARAGE. A permit does not prove work was completed.",
+        "PLI MP-2019-07238: MECHANICAL; issued 2020-09-14; status Completed. EXTERIOR EQUIPMENT, INTERIOR EQUIPMENT, DUCTWORK, AND EXHAUST SYSTEM FOR NEW 5 STORY APARTMENT BUILDING - ENERGY INSPECTION REQUIRED - RELATED TO BP-2019-07202. A permit does not prove work was completed.",
+        "PLI EP-2020-10314: ELECTRICAL; issued 2020-09-04; status Completed. CONSTRUCTION OF 5 STORY APARTMENT BUILDING WITH 343 UNITS. A permit does not prove work was completed.",
+        "PLI BP-2019-07202: BUILDING; issued 2020-08-27; status Completed. CONSTRUCTION OF 5 STORY APARTMENT BUILDING WITH 343 UNITS. A permit does not prove work was completed.",
+        "PLI BP-2019-07230: BUILDING; issued 2020-08-25; status Completed. FOUNDATION ONLY FOR NEW 5 STORY RESIDENTIAL APARTMENT BUILDING. A permit does not prove work was completed.",
+        "PLI DP-2019-03215: Demolition Permit; issued 2019-11-08; status Completed. COMPLETE DEMONLITION OF MULTIPLE BUILDINGS ON SITE, GATEHOUSE BUILDING TO REMAIN. A permit does not prove work was completed."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "3e6a312c-f2c8-493c-90c3-42a1559f533b",
+        "625e3c46-b338-4b23-9131-5ce9a0362138",
+        "293c0055-4f4c-44fa-87d4-5b2d52acdf42",
+        "3056119a-b0bd-405a-9638-7b2976ba341c",
+        "d0287c35-0b43-4627-bc83-16f909bb7af9",
+        "6189f530-4d47-423e-be13-e91722c8d4d8",
+        "e255e2dd-e9d8-4288-9f09-cf59afc0e62d",
+        "6cd4f172-e035-4bf3-b758-d3ba956e45a3",
+        "7d66e4ff-999c-4c34-a6d8-fc66cb2c9411",
+        "c18caba8-4996-4dcf-be35-41ea4b03c526",
+        "4f628e77-e2c0-4c7a-aaac-f6dd1bcb368e",
+        "27818bae-b8db-4f80-8714-c4bbf21be091",
+        "d4adf69a-86bc-4bac-a4aa-caa96e449c1f",
+        "7e9c94b3-2dd5-4187-93a4-0fdb9e2e936e",
+        "8641b601-91fa-46c2-922d-31abc25ed2d8",
+        "57943a45-0b2f-4e9e-9ccf-eb45288e9684",
+        "ab47417b-7aff-42d2-9b9a-d0585b18677b",
+        "0f9cbc23-c8cf-46dd-a192-92b0aace3377",
+        "01eaf6ec-05f9-480b-9972-0f61edde5d71",
+        "fdaa8033-1dbc-4ca1-bb51-3809337bbde0",
+        "f36fe239-ed01-4089-af92-79cb64e28d3c",
+        "f3bfe2fc-36c9-4e05-8539-c2816e285f1a",
+        "6bf1b180-81d8-41fa-b25c-443691c0a3fa",
+        "342c9279-3acd-49f5-ac4d-339347f61931",
+        "6fd6cbe4-4f1f-410d-928e-da23390b3ba3"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_assessments",
+          "topic": "property_assessment",
+          "status": "complete",
+          "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+          "queries_run": 2,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "wprdc_permits",
+          "topic": "building_permits",
+          "status": "complete",
+          "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+          "queries_run": 2,
+          "sources_returned": 24,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-8",
+      "title": "Local discussions",
+      "topic": "neighborhood_discussion",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "0 source-linked findings from 5 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "64aa8b0a-651f-4829-89d7-939fcd216a92",
+        "d4484937-591b-435c-a3ba-42ad9cb9f67a",
+        "a958f2e2-5b60-440f-b0c0-b5baaf2da660",
+        "0328e5c0-e072-40aa-a402-962c5b5991ac",
+        "153a3cce-b56d-4ff4-9726-18ab20902096"
+      ],
+      "web_indices": [],
+      "research_topic": "neighborhood_discussion",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "neighborhood_discussion",
+          "status": "truncated",
+          "reason": "Source-cited research brief available. 0 extraction notes from 5 sources. No targeted factual review completed.",
+          "queries_run": 2,
+          "sources_returned": 5,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": true
+    },
+    {
+      "id": "finding-9",
+      "title": "Dining reviews",
+      "topic": "restaurant_reviews",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "2 source-linked findings from 8 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+        "ea6cd974-d75e-4176-ba94-0232813add94",
+        "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+        "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+        "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+        "dfcb5a6d-d713-4d33-9619-9c07d1786ab0",
+        "ccdd0966-1fb0-4a1d-8a42-204721c8c525",
+        "b2b5c0c3-91d6-4018-bf45-542db6cd7d48"
+      ],
+      "web_indices": [],
+      "research_topic": "restaurant_reviews",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "restaurant_reviews",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 2 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+          "queries_run": 3,
+          "sources_returned": 8,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-1",
+      "title": "Mapped education features",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "schools",
+      "statements": [
+        "5 mapped features within 1 km. Closest returned point: ~227 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "f6386d8b-675b-474c-80fb-d2feb4937a0d"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 2,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "4a3936c1-f0f7-4331-9bc8-81350a660714",
+      "provider": "census",
+      "uri": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=147+39th+St%2C+Pittsburgh%2C+PA+15201&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+      "title": "Census Geocoder",
+      "excerpt": "Census address match: 147 39TH ST, PITTSBURGH, PA, 15201; latitude 40.468908, longitude -79.965322. Address-range interpolation, not a parcel or structure assessment.",
+      "retrieved_at": "2026-10-15T12:30:41.221601Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": null,
+      "match_method": "user_confirmed_census_address_range_match",
+      "details": {
+        "latitude": 40.468907692804,
+        "longitude": -79.965322287931,
+        "matched_address": "147 39TH ST, PITTSBURGH, PA, 15201",
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      }
+    },
+    {
+      "id": "f6386d8b-675b-474c-80fb-d2feb4937a0d",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.468907692804/-79.965322287931",
+      "title": "Schools · area summary",
+      "excerpt": "Schools: 5 mapped features in the 1 km search area. Closest returned point/center is about 227 m away in a straight line. Attendance zones and school quality are not established.",
+      "retrieved_at": "2026-10-15T12:31:15.880721Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:schools",
+      "source_updated_at": "2026-10-15T12:28:42Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "schools",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 5,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 227,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 382092887,
+            "uri": "https://www.openstreetmap.org/way/382092887",
+            "name": "Washington Education Center",
+            "center": {
+              "lat": 40.4694121,
+              "lon": -79.962727
+            },
+            "approximate_center_distance_m": 227
+          },
+          {
+            "object_type": "node",
+            "object_id": 12562446332,
+            "uri": "https://www.openstreetmap.org/node/12562446332",
+            "name": "Pittsburgh Arsenal PreK-5",
+            "center": {
+              "lat": 40.467118,
+              "lon": -79.9628889
+            },
+            "approximate_center_distance_m": 286
+          },
+          {
+            "object_type": "node",
+            "object_id": 12562446331,
+            "uri": "https://www.openstreetmap.org/node/12562446331",
+            "name": "Pittsburgh Arsenal 6-8",
+            "center": {
+              "lat": 40.4679852,
+              "lon": -79.9617075
+            },
+            "approximate_center_distance_m": 323
+          },
+          {
+            "object_type": "node",
+            "object_id": 357361462,
+            "uri": "https://www.openstreetmap.org/node/357361462",
+            "name": "Spring Garden Elementary School",
+            "center": {
+              "lat": 40.4642357,
+              "lon": -79.9686636
+            },
+            "approximate_center_distance_m": 591
+          },
+          {
+            "object_type": "way",
+            "object_id": 688779104,
+            "uri": "https://www.openstreetmap.org/way/688779104",
+            "name": "Woolslair PreK-5",
+            "center": {
+              "lat": 40.463289,
+              "lon": -79.957051
+            },
+            "approximate_center_distance_m": 938
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "b1eebe3e-f2dd-4f52-b1ab-fd1a0c1c0bc0",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.468907692804/-79.965322287931",
+      "title": "Grocery stores · area summary",
+      "excerpt": "Grocery stores: 3 mapped features in the 1 km search area. Closest returned point/center is about 310 m away in a straight line. Includes supermarkets, convenience stores and produce shops; hours are not verified.",
+      "retrieved_at": "2026-10-15T12:31:15.880793Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:groceries",
+      "source_updated_at": "2026-10-15T12:28:42Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "groceries",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 3,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 310,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 380458469,
+            "uri": "https://www.openstreetmap.org/way/380458469",
+            "name": "GetGo",
+            "center": {
+              "lat": 40.4687005,
+              "lon": -79.9616631
+            },
+            "approximate_center_distance_m": 310
+          },
+          {
+            "object_type": "node",
+            "object_id": 3865713239,
+            "uri": "https://www.openstreetmap.org/node/3865713239",
+            "name": "Butler Street News & More",
+            "center": {
+              "lat": 40.4710367,
+              "lon": -79.9598074
+            },
+            "approximate_center_distance_m": 523
+          },
+          {
+            "object_type": "way",
+            "object_id": 255588939,
+            "uri": "https://www.openstreetmap.org/way/255588939",
+            "name": "Quick Stop",
+            "center": {
+              "lat": 40.4618607,
+              "lon": -79.9664934
+            },
+            "approximate_center_distance_m": 790
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "cb9f56ca-843f-4f63-9cad-f33a67d38d94",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.468907692804/-79.965322287931",
+      "title": "Public transit · area summary",
+      "excerpt": "Public transit: at least 50 mapped features in the 1 km search area. Closest returned point/center is about 191 m away in a straight line. Stop/platform features may share a station; frequency and routes are not verified.",
+      "retrieved_at": "2026-10-15T12:31:15.880848Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:transit",
+      "source_updated_at": "2026-10-15T12:28:42Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "transit",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 50,
+        "count_is_lower_bound": true,
+        "nearest_returned_center_distance_m": 191,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 12565834033,
+            "uri": "https://www.openstreetmap.org/node/12565834033",
+            "name": "Butler St at 39th St",
+            "center": {
+              "lat": 40.4677471,
+              "lon": -79.9636596
+            },
+            "approximate_center_distance_m": 191
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834034,
+            "uri": "https://www.openstreetmap.org/node/12565834034",
+            "name": "39th St at Butler St",
+            "center": {
+              "lat": 40.4675112,
+              "lon": -79.9635733
+            },
+            "approximate_center_distance_m": 214
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834035,
+            "uri": "https://www.openstreetmap.org/node/12565834035",
+            "name": "Butler St at 39th St",
+            "center": {
+              "lat": 40.467346,
+              "lon": -79.9638302
+            },
+            "approximate_center_distance_m": 215
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834036,
+            "uri": "https://www.openstreetmap.org/node/12565834036",
+            "name": "Butler St at 38th St",
+            "center": {
+              "lat": 40.4669947,
+              "lon": -79.9642729
+            },
+            "approximate_center_distance_m": 230
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834032,
+            "uri": "https://www.openstreetmap.org/node/12565834032",
+            "name": "Butler St at 40th St NS",
+            "center": {
+              "lat": 40.4683961,
+              "lon": -79.9625891
+            },
+            "approximate_center_distance_m": 238
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834037,
+            "uri": "https://www.openstreetmap.org/node/12565834037",
+            "name": "Butler St at 38th St",
+            "center": {
+              "lat": 40.4666869,
+              "lon": -79.9642974
+            },
+            "approximate_center_distance_m": 262
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834031,
+            "uri": "https://www.openstreetmap.org/node/12565834031",
+            "name": "40th St at Butler St",
+            "center": {
+              "lat": 40.4686637,
+              "lon": -79.9621199
+            },
+            "approximate_center_distance_m": 272
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834038,
+            "uri": "https://www.openstreetmap.org/node/12565834038",
+            "name": "Butler St at 37th St",
+            "center": {
+              "lat": 40.4663748,
+              "lon": -79.9647251
+            },
+            "approximate_center_distance_m": 286
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834039,
+            "uri": "https://www.openstreetmap.org/node/12565834039",
+            "name": "Butler St at 37th St",
+            "center": {
+              "lat": 40.4660452,
+              "lon": -79.9647504
+            },
+            "approximate_center_distance_m": 322
+          },
+          {
+            "object_type": "node",
+            "object_id": 12195127007,
+            "uri": "https://www.openstreetmap.org/node/12195127007",
+            "name": "Butler St at 41st Street",
+            "center": {
+              "lat": 40.4695926,
+              "lon": -79.961275
+            },
+            "approximate_center_distance_m": 351
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834041,
+            "uri": "https://www.openstreetmap.org/node/12565834041",
+            "name": "Butler St at 36th St",
+            "center": {
+              "lat": 40.4655048,
+              "lon": -79.9653285
+            },
+            "approximate_center_distance_m": 378
+          },
+          {
+            "object_type": "node",
+            "object_id": 12195297966,
+            "uri": "https://www.openstreetmap.org/node/12195297966",
+            "name": "Butler Street at Main St",
+            "center": {
+              "lat": 40.4696959,
+              "lon": -79.9609384
+            },
+            "approximate_center_distance_m": 381
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834040,
+            "uri": "https://www.openstreetmap.org/node/12565834040",
+            "name": "Butler St at 36th St",
+            "center": {
+              "lat": 40.465456,
+              "lon": -79.9651741
+            },
+            "approximate_center_distance_m": 384
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834029,
+            "uri": "https://www.openstreetmap.org/node/12565834029",
+            "name": "40th St Opp Davidson St",
+            "center": {
+              "lat": 40.4675905,
+              "lon": -79.96103
+            },
+            "approximate_center_distance_m": 392
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834030,
+            "uri": "https://www.openstreetmap.org/node/12565834030",
+            "name": "40th St at Davidson St FS",
+            "center": {
+              "lat": 40.467694,
+              "lon": -79.9609259
+            },
+            "approximate_center_distance_m": 396
+          },
+          {
+            "object_type": "node",
+            "object_id": 3865719357,
+            "uri": "https://www.openstreetmap.org/node/3865719357",
+            "name": "Butler St at 43rd St",
+            "center": {
+              "lat": 40.4705257,
+              "lon": -79.9603346
+            },
+            "approximate_center_distance_m": 459
+          },
+          {
+            "object_type": "node",
+            "object_id": 12195391487,
+            "uri": "https://www.openstreetmap.org/node/12195391487",
+            "name": "Butler St at 43rd St",
+            "center": {
+              "lat": 40.4707982,
+              "lon": -79.9603239
+            },
+            "approximate_center_distance_m": 472
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834042,
+            "uri": "https://www.openstreetmap.org/node/12565834042",
+            "name": "Butler St Opp 35th St",
+            "center": {
+              "lat": 40.4645685,
+              "lon": -79.9659929
+            },
+            "approximate_center_distance_m": 486
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834043,
+            "uri": "https://www.openstreetmap.org/node/12565834043",
+            "name": "Butler St at 35th St",
+            "center": {
+              "lat": 40.4644137,
+              "lon": -79.9659106
+            },
+            "approximate_center_distance_m": 502
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793028,
+            "uri": "https://www.openstreetmap.org/node/12565793028",
+            "name": "Penn Ave at 36th St",
+            "center": {
+              "lat": 40.4642557,
+              "lon": -79.9638484
+            },
+            "approximate_center_distance_m": 532
+          },
+          {
+            "object_type": "node",
+            "object_id": 3865719483,
+            "uri": "https://www.openstreetmap.org/node/3865719483",
+            "name": "Butler St at 44th St",
+            "center": {
+              "lat": 40.4713419,
+              "lon": -79.959788
+            },
+            "approximate_center_distance_m": 541
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793029,
+            "uri": "https://www.openstreetmap.org/node/12565793029",
+            "name": "Penn Ave Opp 36th St",
+            "center": {
+              "lat": 40.4641037,
+              "lon": -79.964031
+            },
+            "approximate_center_distance_m": 545
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834044,
+            "uri": "https://www.openstreetmap.org/node/12565834044",
+            "name": "Butler St at 44th St",
+            "center": {
+              "lat": 40.4716367,
+              "lon": -79.9597637
+            },
+            "approximate_center_distance_m": 560
+          },
+          {
+            "object_type": "node",
+            "object_id": 12510416861,
+            "uri": "https://www.openstreetmap.org/node/12510416861",
+            "name": "Penn Ave at 39th St",
+            "center": {
+              "lat": 40.4648838,
+              "lon": -79.9601685
+            },
+            "approximate_center_distance_m": 625
+          },
+          {
+            "object_type": "node",
+            "object_id": 12510671656,
+            "uri": "https://www.openstreetmap.org/node/12510671656",
+            "name": "Penn Ave at 39th St",
+            "center": {
+              "lat": 40.4647338,
+              "lon": -79.9602756
+            },
+            "approximate_center_distance_m": 631
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793032,
+            "uri": "https://www.openstreetmap.org/node/12565793032",
+            "name": "Butler St at Penn Ave FS",
+            "center": {
+              "lat": 40.463209,
+              "lon": -79.9667649
+            },
+            "approximate_center_distance_m": 645
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793031,
+            "uri": "https://www.openstreetmap.org/node/12565793031",
+            "name": "Butler St at Penn Ave",
+            "center": {
+              "lat": 40.4629436,
+              "lon": -79.9671274
+            },
+            "approximate_center_distance_m": 681
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793030,
+            "uri": "https://www.openstreetmap.org/node/12565793030",
+            "name": "Penn Ave at Butler St",
+            "center": {
+              "lat": 40.4628862,
+              "lon": -79.9669581
+            },
+            "approximate_center_distance_m": 684
+          },
+          {
+            "object_type": "node",
+            "object_id": 12510436666,
+            "uri": "https://www.openstreetmap.org/node/12510436666",
+            "name": "40th St at Penn Ave NS",
+            "center": {
+              "lat": 40.4655714,
+              "lon": -79.9584829
+            },
+            "approximate_center_distance_m": 687
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834045,
+            "uri": "https://www.openstreetmap.org/node/12565834045",
+            "name": "Butler St at 46th St",
+            "center": {
+              "lat": 40.4726832,
+              "lon": -79.9588156
+            },
+            "approximate_center_distance_m": 692
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834046,
+            "uri": "https://www.openstreetmap.org/node/12565834046",
+            "name": "Butler St at 46th St",
+            "center": {
+              "lat": 40.4729407,
+              "lon": -79.958799
+            },
+            "approximate_center_distance_m": 711
+          },
+          {
+            "object_type": "node",
+            "object_id": 4388717493,
+            "uri": "https://www.openstreetmap.org/node/4388717493",
+            "name": "Penn Ave at 34th St NS",
+            "center": {
+              "lat": 40.4625263,
+              "lon": -79.9672767
+            },
+            "approximate_center_distance_m": 729
+          },
+          {
+            "object_type": "node",
+            "object_id": 12509563561,
+            "uri": "https://www.openstreetmap.org/node/12509563561",
+            "name": "Penn Ave at 40th St",
+            "center": {
+              "lat": 40.4650746,
+              "lon": -79.9580974
+            },
+            "approximate_center_distance_m": 745
+          },
+          {
+            "object_type": "node",
+            "object_id": 12492866606,
+            "uri": "https://www.openstreetmap.org/node/12492866606",
+            "name": "Penn Ave at 40th St",
+            "center": {
+              "lat": 40.4652866,
+              "lon": -79.9577153
+            },
+            "approximate_center_distance_m": 759
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793037,
+            "uri": "https://www.openstreetmap.org/node/12565793037",
+            "name": "Liberty Ave at 36th St",
+            "center": {
+              "lat": 40.4619534,
+              "lon": -79.9638341
+            },
+            "approximate_center_distance_m": 783
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793036,
+            "uri": "https://www.openstreetmap.org/node/12565793036",
+            "name": "Liberty Ave at 34th St",
+            "center": {
+              "lat": 40.4617796,
+              "lon": -79.9657548
+            },
+            "approximate_center_distance_m": 793
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793038,
+            "uri": "https://www.openstreetmap.org/node/12565793038",
+            "name": "Liberty Ave at 36th St",
+            "center": {
+              "lat": 40.461797,
+              "lon": -79.9638411
+            },
+            "approximate_center_distance_m": 801
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793040,
+            "uri": "https://www.openstreetmap.org/node/12565793040",
+            "name": "Liberty Ave at 37th St",
+            "center": {
+              "lat": 40.4621485,
+              "lon": -79.9618838
+            },
+            "approximate_center_distance_m": 806
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793035,
+            "uri": "https://www.openstreetmap.org/node/12565793035",
+            "name": "Liberty Ave at Ligonier St (Herron Ave)",
+            "center": {
+              "lat": 40.4616925,
+              "lon": -79.96682
+            },
+            "approximate_center_distance_m": 812
+          },
+          {
+            "object_type": "node",
+            "object_id": 4301448579,
+            "uri": "https://www.openstreetmap.org/node/4301448579",
+            "name": "Liberty Ave Opp 37th St",
+            "center": {
+              "lat": 40.4619588,
+              "lon": -79.9621178
+            },
+            "approximate_center_distance_m": 819
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834047,
+            "uri": "https://www.openstreetmap.org/node/12565834047",
+            "name": "Butler St Opp 47th St",
+            "center": {
+              "lat": 40.4738509,
+              "lon": -79.9579802
+            },
+            "approximate_center_distance_m": 829
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793034,
+            "uri": "https://www.openstreetmap.org/node/12565793034",
+            "name": "Herron Ave at Liberty Ave",
+            "center": {
+              "lat": 40.4613741,
+              "lon": -79.9669164
+            },
+            "approximate_center_distance_m": 848
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565834048,
+            "uri": "https://www.openstreetmap.org/node/12565834048",
+            "name": "Butler St at 47th St",
+            "center": {
+              "lat": 40.4740913,
+              "lon": -79.9579669
+            },
+            "approximate_center_distance_m": 848
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793033,
+            "uri": "https://www.openstreetmap.org/node/12565793033",
+            "name": "Liberty Ave at Herron Ave",
+            "center": {
+              "lat": 40.4614135,
+              "lon": -79.9672299
+            },
+            "approximate_center_distance_m": 849
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793042,
+            "uri": "https://www.openstreetmap.org/node/12565793042",
+            "name": "Liberty Ave at 39th St",
+            "center": {
+              "lat": 40.4625951,
+              "lon": -79.9591731
+            },
+            "approximate_center_distance_m": 874
+          },
+          {
+            "object_type": "node",
+            "object_id": 12565793041,
+            "uri": "https://www.openstreetmap.org/node/12565793041",
+            "name": "Liberty Ave Opp 39th St",
+            "center": {
+              "lat": 40.4624318,
+              "lon": -79.9591883
+            },
+            "approximate_center_distance_m": 888
+          },
+          {
+            "object_type": "node",
+            "object_id": 12194495276,
+            "uri": "https://www.openstreetmap.org/node/12194495276",
+            "name": "Penn Ave at Main St",
+            "center": {
+              "lat": 40.4655302,
+              "lon": -79.95542
+            },
+            "approximate_center_distance_m": 918
+          },
+          {
+            "object_type": "node",
+            "object_id": 6066937659,
+            "uri": "https://www.openstreetmap.org/node/6066937659",
+            "name": "Penn Ave at Main St",
+            "center": {
+              "lat": 40.4657339,
+              "lon": -79.9550346
+            },
+            "approximate_center_distance_m": 939
+          },
+          {
+            "object_type": "node",
+            "object_id": 12510657031,
+            "uri": "https://www.openstreetmap.org/node/12510657031",
+            "name": "Liberty Ave at 40th St",
+            "center": {
+              "lat": 40.4627088,
+              "lon": -79.9574042
+            },
+            "approximate_center_distance_m": 961
+          },
+          {
+            "object_type": "node",
+            "object_id": 12495917049,
+            "uri": "https://www.openstreetmap.org/node/12495917049",
+            "name": "Main St at Penn Ave NS",
+            "center": {
+              "lat": 40.4654973,
+              "lon": -79.9548741
+            },
+            "approximate_center_distance_m": 962
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "c661aa44-9b75-44f0-acc8-29a7a4a0cc77",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.468907692804/-79.965322287931",
+      "title": "Pharmacies · area summary",
+      "excerpt": "Pharmacies: 1 mapped features in the 1 km search area. Closest returned point/center is about 929 m away in a straight line. Opening hours and dispensing services are not verified.",
+      "retrieved_at": "2026-10-15T12:31:15.881386Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:pharmacies",
+      "source_updated_at": "2026-10-15T12:28:42Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "pharmacies",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 1,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 929,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 3628033611,
+            "uri": "https://www.openstreetmap.org/node/3628033611",
+            "name": "Wilson's Pharmacy",
+            "center": {
+              "lat": 40.465754,
+              "lon": -79.9551591
+            },
+            "approximate_center_distance_m": 929
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "3e6a312c-f2c8-493c-90c3-42a1559f533b",
+      "provider": "wprdc_assessments",
+      "uri": "https://data.wprdc.org/dataset/property-assessments/resource/65855e14-549e-4992-b5be-d629afc676fa",
+      "title": "Allegheny County assessment · 0049E00132000000",
+      "excerpt": "County parcel 0049E00132000000: county assessment (USD): 44876700. Assessment records are not current appraisals or proof of condition.",
+      "retrieved_at": "2026-10-15T12:31:20.562629Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "0049E00132000000",
+      "source_updated_at": "2026-10-07T02:46:52.053197",
+      "record_date": "2026-09-30",
+      "attribution": "Allegheny County / Western Pennsylvania Regional Data Center · cc-zero",
+      "match_method": "unique_exact_number_street_zip_no_unit",
+      "details": {}
+    },
+    {
+      "id": "625e3c46-b338-4b23-9131-5ce9a0362138",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2023-04890",
+      "excerpt": "PLI EP-2023-04890: ELECTRICAL; issued 2023-05-26; status Issued. INSTALLATION OF 4 CHARGING STATIONS IN PARKING GARAGE WITH SEPARATE EXTERIOR SERVICE. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476225Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2023-04890",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2023-05-26",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "293c0055-4f4c-44fa-87d4-5b2d52acdf42",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · SP-2022-00822",
+      "excerpt": "PLI SP-2022-00822: Sign Permit; issued 2022-07-07; status Completed. INSTALL ILLUMINATED (1) 13.2 SF AND (1) 19.8 SF CANOPY SIGN (BUILDING 1000), (1) 11.9 SF WALL SIGN (BUILDING 5000), AND (1) 35.9 SF WALL SIGN (BUILDING 3000) AT. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476304Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "SP-2022-00822",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-07-07",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "3056119a-b0bd-405a-9638-7b2976ba341c",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OLP-2022-07249",
+      "excerpt": "PLI OLP-2022-07249: Occupant Load Placard Permit; issued 2022-05-18; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476339Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OLP-2022-07249",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-05-18",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "d0287c35-0b43-4627-bc83-16f909bb7af9",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2022-01369",
+      "excerpt": "PLI EP-2022-01369: ELECTRICAL; issued 2022-04-06; status Completed. CONSTRUCTION OF 5 STORY APARTMENT BUILDING WITH 343 UNITS. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476367Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2022-01369",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-04-06",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "6189f530-4d47-423e-be13-e91722c8d4d8",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2021-13370",
+      "excerpt": "PLI BP-2021-13370: BUILDING; issued 2022-03-18; status Completed. EXTERIOR ALTERATIONS AND SITE WORK TO CONSTRUCT COURTYARD WITH SWIMMING POOL AT NEW 5 STORY APARTMENT BUILDING. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476399Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2021-13370",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-03-18",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "e255e2dd-e9d8-4288-9f09-cf59afc0e62d",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OOP-2020-01826",
+      "excerpt": "PLI OOP-2020-01826: Occupancy Only Permit; issued 2022-03-04; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476425Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OOP-2020-01826",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-03-04",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "6cd4f172-e035-4bf3-b758-d3ba956e45a3",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2022-00417",
+      "excerpt": "PLI EP-2022-00417: ELECTRICAL; issued 2022-02-11; status Completed. GROUNDING AND BONDING FOR EXTERIOR ALTERATIONS AND SITE WORK TO CONSTRUCT COURTYARD WITH SWIMMING POOL AT NEW 5 STORY APARTMENT BUILDING - RELATED TO BP-2021-13. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476452Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2022-00417",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-02-11",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "7d66e4ff-999c-4c34-a6d8-fc66cb2c9411",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OOP-2020-05685",
+      "excerpt": "PLI OOP-2020-05685: Occupancy Only Permit; issued 2022-01-25; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476476Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OOP-2020-05685",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-01-25",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "c18caba8-4996-4dcf-be35-41ea4b03c526",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OOP-2020-05682",
+      "excerpt": "PLI OOP-2020-05682: Occupancy Only Permit; issued 2022-01-25; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476500Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OOP-2020-05682",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-01-25",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "4f628e77-e2c0-4c7a-aaac-f6dd1bcb368e",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · MP-2019-11186",
+      "excerpt": "PLI MP-2019-11186: MECHANICAL; issued 2022-01-20; status Completed. NEW INTERIOR AND EXTERIOR MECHANICAL EQUIPMENT INCLUDING CONDENSING UNIT, EXHAUST, AND DUCTWORK FOR 6 STORY OPEN PARKING GARAGE- ENERGY INSPECTION REQUIRED - RE. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476525Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "MP-2019-11186",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-01-20",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "27818bae-b8db-4f80-8714-c4bbf21be091",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2021-06058",
+      "excerpt": "PLI BP-2021-06058: BUILDING; issued 2021-10-27; status Issued. EXTERIOR ALTERATIONS INCLUDE MINOR RESTORATION AND REPAIRS. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476558Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2021-06058",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-10-27",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "d4adf69a-86bc-4bac-a4aa-caa96e449c1f",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2019-07232",
+      "excerpt": "PLI EP-2019-07232: ELECTRICAL; issued 2021-09-17; status Completed. NEW UTILITY SERVICE TO INCLUD UNDERGROUND CONDUCTORS - RELATED TO BP-2019-07230 AND EP-2019-07235. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476585Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2019-07232",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-09-17",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "7e9c94b3-2dd5-4187-93a4-0fdb9e2e936e",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2019-11187",
+      "excerpt": "PLI EP-2019-11187: ELECTRICAL; issued 2021-09-17; status Completed. NEW UTILITY SERVICE, DISTRIBUTION EQUIPMENT, POWER, AND LIGHTING FOR NEW 6 STORY OPEN PARKING GARAGE - ENERGY INSPECTION REQUIRED - RELATED TO BP-2019-11180. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476614Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2019-11187",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-09-17",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "8641b601-91fa-46c2-922d-31abc25ed2d8",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · SSP-2019-11228",
+      "excerpt": "PLI SSP-2019-11228: Suppression System Permit; issued 2021-07-21; status Completed. INSTALL NEW STANDPIPES AND SPRINKLER SYSTEM FOR PORTION OF GARAGE (TRASH CHUTE, ENCLOSED SPACE) IN 6 STORY OPEN GARAGE - RELATED TO BP-2019-11180. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476638Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "SSP-2019-11228",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-07-21",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "57943a45-0b2f-4e9e-9ccf-eb45288e9684",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · SSP-2019-07244",
+      "excerpt": "PLI SSP-2019-07244: Suppression System Permit; issued 2021-07-08; status Completed. INSTALL UNDERGROUND FIRE MAIN, ABOVE GROUND SPRINKLER SYSTEM, FIRE DEPARTMENT CONNECTIONS, HYDRANT, STANDPIPES, AND RISERS FOR NEW CONSTRUCTION OF 5 STORY APART. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476667Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "SSP-2019-07244",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-07-08",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "ab47417b-7aff-42d2-9b9a-d0585b18677b",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · FAS-2019-07242",
+      "excerpt": "PLI FAS-2019-07242: Fire Alarm Permit; issued 2021-06-09; status Completed. INSTALL NEW FIRE ALARM SYSTEM THROUGHOUT NEW 5 STORY APARTMENT BUILDING - RELATED TO BP-2019-07202. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476694Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "FAS-2019-07242",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-06-09",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "0f9cbc23-c8cf-46dd-a192-92b0aace3377",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · FAS-2019-11230",
+      "excerpt": "PLI FAS-2019-11230: Fire Alarm Permit; issued 2021-06-01; status Completed. INSTALL NEW FIRE ALARM SYSTEM THROUGHOUT NEW 6 STORY OPEN PARKING GARAGE - RELATED TO BP-2019-11180. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476717Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "FAS-2019-11230",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-06-01",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "01eaf6ec-05f9-480b-9972-0f61edde5d71",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2019-07235",
+      "excerpt": "PLI EP-2019-07235: ELECTRICAL; issued 2021-03-25; status Completed. NEW UTILITY SERVICE, DISTRIBUTION EQUIPMENT, POWER, AND LIGHTING FOR NEW 5 STORY APARTMENT BUILDING. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476742Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2019-07235",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-03-25",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "fdaa8033-1dbc-4ca1-bb51-3809337bbde0",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2019-11180",
+      "excerpt": "PLI BP-2019-11180: BUILDING; issued 2021-03-04; status Completed. CONSTRUCT NEW 6 STORY OPEN PARKING GARAGE. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476774Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2019-11180",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-03-04",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "f36fe239-ed01-4089-af92-79cb64e28d3c",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · MP-2019-07238",
+      "excerpt": "PLI MP-2019-07238: MECHANICAL; issued 2020-09-14; status Completed. EXTERIOR EQUIPMENT, INTERIOR EQUIPMENT, DUCTWORK, AND EXHAUST SYSTEM FOR NEW 5 STORY APARTMENT BUILDING - ENERGY INSPECTION REQUIRED - RELATED TO BP-2019-07202. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476799Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "MP-2019-07238",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-09-14",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "f3bfe2fc-36c9-4e05-8539-c2816e285f1a",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2020-10314",
+      "excerpt": "PLI EP-2020-10314: ELECTRICAL; issued 2020-09-04; status Completed. CONSTRUCTION OF 5 STORY APARTMENT BUILDING WITH 343 UNITS. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476824Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2020-10314",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-09-04",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "6bf1b180-81d8-41fa-b25c-443691c0a3fa",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2019-07202",
+      "excerpt": "PLI BP-2019-07202: BUILDING; issued 2020-08-27; status Completed. CONSTRUCTION OF 5 STORY APARTMENT BUILDING WITH 343 UNITS. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476848Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2019-07202",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-08-27",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "342c9279-3acd-49f5-ac4d-339347f61931",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2019-07230",
+      "excerpt": "PLI BP-2019-07230: BUILDING; issued 2020-08-25; status Completed. FOUNDATION ONLY FOR NEW 5 STORY RESIDENTIAL APARTMENT BUILDING. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476874Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2019-07230",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-08-25",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "6fd6cbe4-4f1f-410d-928e-da23390b3ba3",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · DP-2019-03215",
+      "excerpt": "PLI DP-2019-03215: Demolition Permit; issued 2019-11-08; status Completed. COMPLETE DEMONLITION OF MULTIPLE BUILDINGS ON SITE, GATEHOUSE BUILDING TO REMAIN. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:31:24.476900Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DP-2019-03215",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2019-11-08",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "30f15cb9-f24f-43f9-aa5b-b3e65a6371b7",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-CS-2026-12210-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-CS-2026-12210-1 on 39TH ST, about 26 m from the interpolated address point: 2026-10-18 to 2026-11-01. Work described: ROOF AND SIDING REPLACEMENT. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:31:28.851813Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-CS-2026-12210-1:7980",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-18",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 26,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "ROOF AND SIDING REPLACEMENT",
+          "from_date": "2026-10-18",
+          "to_date": "2026-11-01",
+          "primary_street": "39TH ST",
+          "from_street": "FOSTER ST",
+          "to_street": "MINERAL WAY"
+        }
+      }
+    },
+    {
+      "id": "cfe52024-be48-484b-b68a-eb0bcb2c54cf",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-OP-2026-11081-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-OP-2026-11081-1 on 39TH ST, about 317 m from the interpolated address point: 2026-09-14 to 2026-11-08. Work described: LOCATE/REPAIR/REPLACE CURB BOXJOB WILL BE COMPLETED UPON DOMI APPROVAL. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:31:28.851939Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-OP-2026-11081-1:9193",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-09-14",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 317,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "LOCATE/REPAIR/REPLACE CURB BOXJOB WILL BE COMPLETED UPON DOMI APPROVAL",
+          "from_date": "2026-09-14",
+          "to_date": "2026-11-08",
+          "primary_street": "39TH ST",
+          "from_street": "OBREGON ST",
+          "to_street": "JOHNSTONS WAY"
+        }
+      }
+    },
+    {
+      "id": "197f81ba-4142-41d9-b459-ca901308e6cf",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-CS-2026-08367-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-CS-2026-08367-1 on 39TH ST, about 681 m from the interpolated address point: 2026-08-19 to 2026-10-30. Work described: EXTERIOR PAINTING DE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:31:28.851998Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-CS-2026-08367-1:19423",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-08-19",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 681,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "EXTERIOR PAINTING DE",
+          "from_date": "2026-08-19",
+          "to_date": "2026-10-30",
+          "primary_street": "39TH ST",
+          "from_street": "WOOLSLAYER WAY",
+          "to_street": "MINTWOOD ST"
+        }
+      }
+    },
+    {
+      "id": "b482e3fa-ac41-4377-844d-0dba8636ab3c",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-CS-2025-09863-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-CS-2025-09863-1 on 39TH ST, about 6 m from the interpolated address point: 2025-09-23 to 2027-01-27. Work described: SIDEWALK & PARKING LANES WILL BE UNAVAILABLE DUE TO CONSTRUCTION SECURITY FENCING.. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:31:28.852096Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-CS-2025-09863-1:15597",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2025-09-23",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 6,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "SIDEWALK & PARKING LANES WILL BE UNAVAILABLE DUE TO CONSTRUCTION SECURITY FENCING.",
+          "from_date": "2025-09-23",
+          "to_date": "2027-01-27",
+          "primary_street": "39TH ST",
+          "from_street": "DEAD END",
+          "to_street": "FOSTER ST"
+        }
+      }
+    },
+    {
+      "id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+      "provider": "tavily_search",
+      "uri": "https://lvpgh.com/wp-content/uploads/2025/11/lolareportfinallulu-compressed.pdf",
+      "title": "[PDF] The LoLa Plan - Lawrenceville Corporation",
+      "excerpt": "Lower Lawrenceville, a microcosm of the neighbor-hood’s greatest assets and challenges, is being revital-ized through the efforts of visionary developers, build-ing owners, entrepreneurs and residents. The Butler Street corridor has seen a particularly dramatic transfor-mation from being a mostly-vacant area to becoming a unique retail and dining destination. While significant efforts have been made to improve the neighborhood’s public image – new signage, banners and tree-plantings – this plan [...] Develop new public open space in Lower Lawrenceville. LoLa Park, in the • central retail district, is a prioritized recommendation (see the LoLa Park Fo-cus Area part of this document). In the future, an expanded riverfront trail and park between 39th and 40th Streets could become a regional amenity.\nDevelop a landscape design and maintenance strategy for the new planter • areas that will be built by PennDOT at the Doughboy Square intersection. [...] the existing AVVR railroad tracks River",
+      "retrieved_at": "2026-10-15T12:31:56.981519Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "lvpgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "d4484937-591b-435c-a3ba-42ad9cb9f67a",
+      "provider": "tavily_search",
+      "uri": "https://www.homes.com/local-guide/pittsburgh-pa/lower-lawrenceville-neighborhood",
+      "title": "Lower Lawrenceville Neighborhood Guide",
+      "excerpt": "Situated on the northeast side of Pittsburgh, Lower Lawrenceville is a neighborhood full of a diverse mix of restaurants, shops, galleries and more to enjoy.",
+      "retrieved_at": "2026-10-15T12:31:56.981617Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Wed, 14 Oct 2026 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.homes.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "a958f2e2-5b60-440f-b0c0-b5baaf2da660",
+      "provider": "tavily_search",
+      "uri": "https://www.publicsource.org/lawrenceville-apartment-pittsburgh-planning-commission-affordable-housing",
+      "title": "Lower Lawrenceville may get over 300 more apartment units",
+      "excerpt": "Dalian Development submitted plans to the Pittsburgh Planning Commission to build 334 apartment units in Lawrenceville by 2027 if approved.",
+      "retrieved_at": "2026-10-15T12:31:56.981671Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Wed, 12 Jun 2024 00:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.publicsource.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "0328e5c0-e072-40aa-a402-962c5b5991ac",
+      "provider": "tavily_search",
+      "uri": "https://www.dalianllc.com/portfolio/32-39th-st",
+      "title": "32 39th St",
+      "excerpt": "32 39th St is currently in under construction. The property is located one block off of Butler St in the heart of the Lawrenceville neighborhood.",
+      "retrieved_at": "2026-10-15T12:31:56.981716Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.dalianllc.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "153a3cce-b56d-4ff4-9726-18ab20902096",
+      "provider": "tavily_search",
+      "uri": "https://www.homes.com/pittsburgh-pa/lower-lawrenceville-neighborhood",
+      "title": "Lower Lawrenceville Homes for Sale - Pittsburgh",
+      "excerpt": "Search 20 homes for sale in the Lower Lawrenceville neighborhood of Pittsburgh. Get real time updates. Connect directly with listing agents.",
+      "retrieved_at": "2026-10-15T12:31:56.981758Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.homes.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+      "provider": "tavily_search",
+      "uri": "https://www.discovertheburgh.com/best-restaurants-in-pittsburgh",
+      "title": "A Local's Guide to the Best Restaurants in Pittsburgh",
+      "excerpt": "Pusadee’s Garden – Lawrenceveille – Thai – $$$\n The Parlor Dim Sum – Lawrenceville – Cantonese – $$ to $$$\n Pocha by Kye-Won – Saxonburg – Korean – $$\n Umami – Lawrenceville – Japanese – $$$\n Noodlehead – Shadyside – Thai – $ to $$\n Teppanyaki Kyoto – Highland Park – Japanese – $$\n Golden Pig – Cecil, PA – Korean – $$\n Senyai Thai Kitchen – Shadyside – Thai – $$\n Ineffable Ca Phe – Lawrenceville – Vietnamese – $$\n Hong BBQ & Hot Pot – North Hills – Chinese and Korean – $$$ [...] Taqueria el Pastorcito – New Kensington – $$\n Duo’s Taqueria – East Liberty – $$\n Totopo – Mt Lebanon – $$\n Tocayo – Shadyside – $$\n tako – Downtown – $$$\n La Bodega Taqueria – South Side – $$\n Las Velas – Downtown – $ to $$\n Bea Taco Town – Downtown – $ to $$\n La Palapa – South Side – $ to $$\n Los Mayas – Harmony – $$\n Alquisiras Paleteria – Beechview – $\n Esquina Cantina – Lawrenceville – $$\n Brassero Grill – Braddock – $$\n Camino – Bloomfield – $$\n Mad Mex – Multiple Locations – $ to $$ [...] JJ Poke Bowl – ",
+      "retrieved_at": "2026-10-15T12:32:26.128390Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Thu, 05 Nov 2015 13:14:48 GMT",
+      "record_date": null,
+      "attribution": "www.discovertheburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "ea6cd974-d75e-4176-ba94-0232813add94",
+      "provider": "tavily_search",
+      "uri": "https://www.yelp.com/biz/arsenal-201-pittsburgh",
+      "title": "ARSENAL 201 - Updated October 2026 - 13 Reviews",
+      "excerpt": "147 39th St, Pittsburgh, PA 15201, Really bad bang for your buck and management team. Nice unit, fairly nice landlord, but definitely too much noise from",
+      "retrieved_at": "2026-10-15T12:32:29.444993Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.yelp.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+      "provider": "tavily_search",
+      "uri": "https://www.ubereats.com/find-near-me/pittsburgh-pa/food",
+      "title": "Best Restaurants Near Me in Pittsburgh - Order Food Near Me | Uber Eats",
+      "excerpt": "### ShadoBeni\n\n### Maietta Restaurant\n\n### The Speckled Egg SSW\n\n### Opa Fe\n\n### Smashed Waffles\n\n### Tropical Smoothie Cafe (3614 Forbes Ave)\n\n### El Jefe's Taqueria (Pittsburgh)\n\n### Panera (3800 Forbes Avenue )\n\n### The Sector 17 (S. Bouquet St)\n\n### Burghers Brewing Lawrenceville\n\n### Eat'n Park (1250 Banksville Rd)\n\n### Hungry Cowgirl\n\n### The Nook ( 3811 Butler Street)\n\n### GG's Cafe Express\n\n### Colombino Coffee n Cacao | Lawrenceville\n\n### EatUnique\n\n### Happenstance Cafe [...] ### Tako - Downtown\n\n### Moonlit Burgers | Uptown\n\n### Medi's on Market (Pittsburgh)\n\n### Mad Chicken Pittsburgh (Liberty Ave)\n\n### Get Loaded (Market Sq)\n\n### Butcher and the Rye - Richard DeShantz Restaurant Group\n\n### Wing Nut (Market Square)\n\n### Art and Soul Cafe\n\n### Tuscan Cafe\n\n### Yovi's\n\n### The Yard Gastropub (Market Square)\n\n### Caribbean Fine Cuisine\n\n### Betos Tacos\n\n### India Palace Cuisine\n\n### The Berg Chicken & Pizza (PPG Place)\n\n### Five Guys (3 PPG Pl.) PA - 1665 [...] ### Iron Born P",
+      "retrieved_at": "2026-10-15T12:32:26.128497Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.ubereats.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+      "provider": "tavily_search",
+      "uri": "https://lolaseatery.com/",
+      "title": "Lola's Eatery - Must-Try Cafe in Lower Lawrenceville",
+      "excerpt": "## Spooky Bite Club!\n\n### October 25th- Two Shows!!\n\nA drag and variety brunch you do not want to miss. We will have costume contest prizes!\n\nTix here!\n\n# map marker pin3337 Penn Avenue, Pittsburgh, PA 15201\n\n# Welcome To\n\n## LOLA'S EATERY\n\nThank you so much for stumbling onto this page.\n\n- Lola's owners Max & Zoë Blume [...] Draft beer\n\nAlchoholic Slushie top view\n\nAvocado toast close up\n\ngallery photo number 18\n\nFrench toast close up\n\nAdobo Fried Rice close up\n\ngallery photo number 21\n\n# Reviews\n\n## review by - Yelp\n\n### Katie M:\n\n> I had the most fantastic breakfast. Every bite was delicious!!!! I ordered the MR. BATE DACON. It had smashed avocado, glazed bacon & Medjool date, Goat Rodeo fresh chevre, herbed oil, micro-cilantro. All on deliciois honey wheat bread. Yum!!!\n\n## review by - Yelp\n\n### Dana D: [...] ### Jacqueline T:\n\n> One of the best brunch spots in Pittsburgh! The rosemary bagel was delicious. Note it's the kind of place where you order at the counter first and then th",
+      "retrieved_at": "2026-10-15T12:32:26.128571Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "lolaseatery.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+      "provider": "tavily_search",
+      "uri": "https://www.sentirestaurant.com/",
+      "title": "Senti Restaurant & Wine Bar - Pittsburgh, PA | Lawrenceville | Butler Street",
+      "excerpt": "Duck Breast with Crispy Baby Yukon Potato and Red Cabbage Confit\n\nFettuccine with Sausage\n\nSenti Restaurant and Wine Bar, Authentic Italian Cuisine, 3473 Butler St, Pittsburgh, PA 15201\n\nBeet And Butternut Squash Salad\n\nSenti Restaurant Dining Room and Bar\n\nSangria Rose Brandy Seasonal Fruit Grand Marnier\n\nDuck Breast with Crispy Baby Yukon Potato and Red Cabbage Confit\n\nFettuccine with Sausage\n\nSenti Restaurant and Wine Bar, Authentic Italian Cuisine, 3473 Butler St, Pittsburgh, PA 15201 [...] Skip to content\n\n(412) 586-4347\n\nSenti Restaurant\n\nBook a Table\n\nHours & Location\n\nSenti Restaurant\n\nBook A Table\n\nHours & Location\n\n(412) 586-4347\n\n(412) 586-4347\n\nSenti Restaurant and Wine Bar, Authentic Italian Cuisine, 3473 Butler St, Pittsburgh, PA 15201\n\nBook a Table\n\nOrder Online\n\nHours & Location\n\nHomeASG2026-10-01T17:34:12-05:00\n\nBeet And Butternut Squash Salad\n\nSenti Restaurant Dining Room and Bar\n\nSangria Rose Brandy Seasonal Fruit Grand Marnier [...] Subscribe\n\nHome  |  Book a Table ",
+      "retrieved_at": "2026-10-15T12:32:26.128652Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Thu, 01 Oct 2026 00:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.sentirestaurant.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "dfcb5a6d-d713-4d33-9619-9c07d1786ab0",
+      "provider": "tavily_search",
+      "uri": "https://anaeatspgh.net/",
+      "title": "Home",
+      "excerpt": "## Look no further for the best restaurant and small business recommendations in the Burgh.\n\n## Hi, I'm Ana! Born and raised in the South Hills, I'm a lifelong Pittsburgher and crab rangoon conoisseur, with a passion for connecting with small business owners and my local community. My goal from the start has always been uplifting these incredible small businesses, and of course recommending you the city's best spots to eat and drink.\n\n### Coughlin's Law Kitchen and Ale House\n\n### Lola's Eatery [...] ### Coughlin's Law Kitchen and Ale House\n\n### curbside on the run\n\n### lola's eatery\n\n### lola's eatery\n\n### Coughlin's Law Kitchen and Ale House\n\n### lola's eatery\n\n### lola's eatery\n\n### iron born pizza\n\n## If you need to get in touch, please fill out this form, and I will get back to you shortly.\n\nTHANK YOU! YOU'LL RECEIVE AN EMAIL RESPONSE SOON\n\n# CONTACT ME\n\n### photography by Rachel Rowland | website by Studio Franko\n\n### Ana Eats, LLC. | Pittsburgh-based food influencer [...] ### THE",
+      "retrieved_at": "2026-10-15T12:32:26.128717Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "anaeatspgh.net",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "ccdd0966-1fb0-4a1d-8a42-204721c8c525",
+      "provider": "tavily_search",
+      "uri": "https://www.redfin.com/PA/Pittsburgh/Arsenal-201/apartment/185562343",
+      "title": "Arsenal 201 | 147 39th St, Pittsburgh, PA 15201",
+      "excerpt": "Arsenal 201 is a mixed use living space of retail and apartment homes in the Lawrenceville area of Pittsburgh. Once the site of the largest arsenal in the Union",
+      "retrieved_at": "2026-10-15T12:32:45.622642Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.redfin.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "b2b5c0c3-91d6-4018-bf45-542db6cd7d48",
+      "provider": "tavily_search",
+      "uri": "https://www.realtor.com/rentals/details/147-39th-St_Pittsburgh_PA_15201_M94956-49150",
+      "title": "Arsenal 201 - 147 39th St, Pittsburgh, PA 15201",
+      "excerpt": "Arsenal 201 is a mixed use living space of retail and apartment homes in the Lawrenceville area of Pittsburgh. Once the site of the largest arsenal in the",
+      "retrieved_at": "2026-10-15T12:32:45.622700Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.realtor.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "channel": "apis",
+      "provider": "census",
+      "topic": "geocoding",
+      "status": "complete",
+      "reason": "Address match selected and confirmed by the user",
+      "queries_run": 0,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "openstreetmap",
+      "topic": "mapped_amenities",
+      "status": "complete",
+      "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+      "queries_run": 2,
+      "sources_returned": 4,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_assessments",
+      "topic": "property_assessment",
+      "status": "complete",
+      "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+      "queries_run": 2,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_permits",
+      "topic": "building_permits",
+      "status": "complete",
+      "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+      "queries_run": 2,
+      "sources_returned": 24,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_closures",
+      "topic": "street_closures",
+      "status": "complete",
+      "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 116 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+      "queries_run": 2,
+      "sources_returned": 4,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "neighborhood_discussion",
+      "status": "truncated",
+      "reason": "Source-cited research brief available. 0 extraction notes from 5 sources. No targeted factual review completed.",
+      "queries_run": 2,
+      "sources_returned": 5,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "restaurant_reviews",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 2 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+      "queries_run": 3,
+      "sources_returned": 8,
+      "parcel_candidates": []
+    }
+  ],
+  "web": [],
+  "research": [
+    {
+      "topic": "neighborhood_discussion",
+      "summary": "The supplied material provides high-level development context for Lower Lawrenceville and the 39th Street corridor, highlighting ongoing neighborhood planning, multi-unit residential construction, and retail revitalization along Butler Street. However, the evidence contains significant coverage limitations: there are no resident discussions, community forum posts, or direct peer perspectives regarding daily living conditions, noise, services, or transit. Available details are restricted to institutional planning documentation, real estate promotional snippets, and a brief news excerpt.",
+      "findings": [],
+      "limitations": [
+        "Unrelated search results were excluded from the address-area brief.",
+        "Sources were found, but no supported findings could be produced.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Lower Lawrenceville Pittsburgh, Pennsylvania living resident experiences site:reddit.com/r/pittsburgh",
+        "Lower Lawrenceville 39TH ST Pittsburgh, Pennsylvania neighborhood news development local discussion"
+      ],
+      "evidence_ids": [
+        "64aa8b0a-651f-4829-89d7-939fcd216a92",
+        "d4484937-591b-435c-a3ba-42ad9cb9f67a",
+        "a958f2e2-5b60-440f-b0c0-b5baaf2da660",
+        "0328e5c0-e072-40aa-a402-962c5b5991ac",
+        "153a3cce-b56d-4ff4-9726-18ab20902096"
+      ],
+      "search_calls": 2,
+      "usage_credits": 2.0,
+      "review_completed": false,
+      "brief": {
+        "overview": {
+          "text": "The supplied material provides high-level development context for Lower Lawrenceville and the 39th Street corridor, highlighting ongoing neighborhood planning, multi-unit residential construction, and retail revitalization along Butler Street. However, the evidence contains significant coverage limitations: there are no resident discussions, community forum posts, or direct peer perspectives regarding daily living conditions, noise, services, or transit. Available details are restricted to institutional planning documentation, real estate promotional snippets, and a brief news excerpt.",
+          "citations": [
+            {
+              "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+              "excerpt": "Lower Lawrenceville, a microcosm of the neighbor-hood’s greatest assets and challenges, is being revital-ized through the efforts of visionary developers, build-ing owners, entrepreneurs and residents. The Butler Street corridor has seen a particularly dramatic transfor-mation from being a mostly-vacant area to becoming a unique retail and dining destination. While significant efforts have been made to improve the neighborhood’s public image – new signage, banners and tree-plantings – this plan [...] Develop new public open space in Lower Lawrenceville. LoLa Park, in the • central retail district, is a prioritized recommendation (see the LoLa Park Fo-cus Area part of this document). In the future, an expanded riverfront trail and park between 39th and 40th Streets could become a regional amenity."
+            },
+            {
+              "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+              "excerpt": "Background Community Planning Process Community Input Lower Lawrenceville Study Area Lawrenceville Long Range Planning Goals Project Goals Vision Statement Planning Framework Existing Conditions Development Public Safety Greening Marketing and Identity Parking Movement Overall Planning Framework Focus Areas Butler Street Corridor Doughboy Square LoLa Park Arsenal Terminal Riverfront Neighborhood Phasing and Implementation Next Steps: Prioritized Plan Elements Phase 1 Phase 2 Phase 3 References 4 6 7 8 10 12 14 16 17 19 20 22 24 26 28 30 32 34 37 38 46 50 52 54 61 62 64 68 72 76 Lower Lawrenceville Urban Design and Merchant Strategy 4 A Vision for the Butler Street Business District from Doughboy Square to 40th Street The vision presented in this document draws its inspiration from the energy, initiative and creative spirit of Lower Lawrenceville’s Butler Street business district. In the last ten years LoLa has experienced an influx of"
+            },
+            {
+              "evidence_id": "d4484937-591b-435c-a3ba-42ad9cb9f67a",
+              "excerpt": "Situated on the northeast side of Pittsburgh, Lower Lawrenceville is a neighborhood full of a diverse mix of restaurants, shops, galleries and more to enjoy."
+            },
+            {
+              "evidence_id": "a958f2e2-5b60-440f-b0c0-b5baaf2da660",
+              "excerpt": "Dalian Development submitted plans to the Pittsburgh Planning Commission to build 334 apartment units in Lawrenceville by 2027 if approved."
+            },
+            {
+              "evidence_id": "0328e5c0-e072-40aa-a402-962c5b5991ac",
+              "excerpt": "32 39th St is currently in under construction. The property is located one block off of Butler St in the heart of the Lawrenceville neighborhood."
+            }
+          ],
+          "ui_id": "brief-neighborhood_discussion-0"
+        },
+        "sections": [
+          {
+            "heading": "Urban Planning and Riverfront Vision",
+            "paragraphs": [
+              {
+                "text": "The LoLa Plan—an urban design and merchant strategy created for Lower Lawrenceville stakeholders—outlines long-range framework goals focused on the Butler Street business district running from Doughboy Square to 40th Street. The document notes that Lower Lawrenceville experienced an influx of businesses and residents along Butler Street, transforming it from a mostly vacant strip into a dining and retail area, while continuing to face challenges with underutilized riverfront property and vacant storefronts. Proposed focus areas and prioritized recommendations include open-space concepts such as LoLa Park, streetscape enhancements, and potential riverfront park and trail extensions between 39th and 40th Streets.",
+                "citations": [
+                  {
+                    "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+                    "excerpt": "Lower Lawrenceville, a microcosm of the neighbor-hood’s greatest assets and challenges, is being revital-ized through the efforts of visionary developers, build-ing owners, entrepreneurs and residents. The Butler Street corridor has seen a particularly dramatic transfor-mation from being a mostly-vacant area to becoming a unique retail and dining destination. While significant efforts have been made to improve the neighborhood’s public image – new signage, banners and tree-plantings – this plan [...] Develop new public open space in Lower Lawrenceville. LoLa Park, in the • central retail district, is a prioritized recommendation (see the LoLa Park Fo-cus Area part of this document). In the future, an expanded riverfront trail and park between 39th and 40th Streets could become a regional amenity."
+                  },
+                  {
+                    "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+                    "excerpt": "Develop a landscape design and maintenance strategy for the new planter • areas that will be built by PennDOT at the Doughboy Square intersection. [...] the existing AVVR railroad tracks Riverfront Neighborhood Extended Smallman Street 36th Street 37th Street 38th Street 39th Street 40th Street Bridge Extended Willow Street Lower Lawrenceville Urban Design and Merchant Strategy 58 Riverfront Neighborhood New Streets and Alleys New Mixed-Use Development The existing neighborhood below Butler Street Renovated Buildings New and Expanded Park New Public Parking Lot 59 Studio for Spatial Practice | URA Infrastructure improvements should be"
+                  },
+                  {
+                    "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+                    "excerpt": "Background Community Planning Process Community Input Lower Lawrenceville Study Area Lawrenceville Long Range Planning Goals Project Goals Vision Statement Planning Framework Existing Conditions Development Public Safety Greening Marketing and Identity Parking Movement Overall Planning Framework Focus Areas Butler Street Corridor Doughboy Square LoLa Park Arsenal Terminal Riverfront Neighborhood Phasing and Implementation Next Steps: Prioritized Plan Elements Phase 1 Phase 2 Phase 3 References 4 6 7 8 10 12 14 16 17 19 20 22 24 26 28 30 32 34 37 38 46 50 52 54 61 62 64 68 72 76 Lower Lawrenceville Urban Design and Merchant Strategy 4 A Vision for the Butler Street Business District from Doughboy Square to 40th Street The vision presented in this document draws its inspiration from the energy, initiative and creative spirit of Lower Lawrenceville’s Butler Street business district. In the last ten years LoLa has experienced an influx of"
+                  },
+                  {
+                    "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+                    "excerpt": "new residents and businesses along the Butler Street corridor. However, the district still con-tains numerous vacant buildings and storefronts and large tracts of underutilized riverfront property. This plan"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-1"
+              }
+            ]
+          },
+          {
+            "heading": "Residential and Corridor Development",
+            "paragraphs": [
+              {
+                "text": "Development proposals and ongoing construction near 39th Street reflect multi-family expansion in Lower Lawrenceville. In mid-2024, Dalian Development submitted plans to the Pittsburgh Planning Commission proposing 334 apartment units in Lawrenceville with a projected completion target of 2027 if approved. In developer portfolio listings, Dalian Development notes active construction at 32 39th Street, situated one block off Butler Street.",
+                "citations": [
+                  {
+                    "evidence_id": "a958f2e2-5b60-440f-b0c0-b5baaf2da660",
+                    "excerpt": "Dalian Development submitted plans to the Pittsburgh Planning Commission to build 334 apartment units in Lawrenceville by 2027 if approved."
+                  },
+                  {
+                    "evidence_id": "0328e5c0-e072-40aa-a402-962c5b5991ac",
+                    "excerpt": "32 39th St is currently in under construction. The property is located one block off of Butler St in the heart of the Lawrenceville neighborhood."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-2"
+              },
+              {
+                "text": "Real estate and regional overviews characterize Lower Lawrenceville on Pittsburgh's northeast side as an active commercial and residential pocket featuring a mix of shops, galleries, and dining venues along the primary commercial thoroughfares.",
+                "citations": [
+                  {
+                    "evidence_id": "64aa8b0a-651f-4829-89d7-939fcd216a92",
+                    "excerpt": "Lower Lawrenceville, a microcosm of the neighbor-hood’s greatest assets and challenges, is being revital-ized through the efforts of visionary developers, build-ing owners, entrepreneurs and residents. The Butler Street corridor has seen a particularly dramatic transfor-mation from being a mostly-vacant area to becoming a unique retail and dining destination. While significant efforts have been made to improve the neighborhood’s public image – new signage, banners and tree-plantings – this plan [...] Develop new public open space in Lower Lawrenceville. LoLa Park, in the • central retail district, is a prioritized recommendation (see the LoLa Park Fo-cus Area part of this document). In the future, an expanded riverfront trail and park between 39th and 40th Streets could become a regional amenity."
+                  },
+                  {
+                    "evidence_id": "d4484937-591b-435c-a3ba-42ad9cb9f67a",
+                    "excerpt": "Situated on the northeast side of Pittsburgh, Lower Lawrenceville is a neighborhood full of a diverse mix of restaurants, shops, galleries and more to enjoy."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-3"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "No neighborhood resident discussions, community forums, or personal living experiences were provided in the sources.",
+          "The LoLa Plan source lacks a formal publication date, leaving the exact timeline of its recommendations unconfirmed.",
+          "Coverage regarding 39th Street specifically is limited to real estate developer project listings and historical planning concepts.",
+          "Search passages from several sources omit broader article or directory context."
+        ],
+        "follow_up_questions": [
+          "What is the final approval status and construction timeline for the 334-unit Dalian Development project in Lower Lawrenceville?",
+          "What specific community feedback or concerns have residents raised regarding development density and parking along 39th Street?",
+          "Which public open-space elements proposed in the LoLa Plan have been completed along the riverfront near 39th and 40th Streets?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:32:14.421191Z"
+      },
+      "synthesis_status": "complete"
+    },
+    {
+      "topic": "restaurant_reviews",
+      "summary": "The anchor address at 147 39th Street is the site of Arsenal 201, a mixed-use retail and apartment complex in the Lawrenceville area of Pittsburgh. While the property itself hosts residential and retail components, specific restaurant reviews directly tied to individual dining establishments within the immediate walking vicinity are limited in the provided records. The available dining material primarily consists of marketing websites, delivery service directories, and local curated guides identifying dining concepts situated along major corridors in Lawrenceville—such as Butler Street and Penn Avenue—alongside broader citywide culinary listings.",
+      "findings": [
+        {
+          "id": "eba7bb48-0838-4c0b-b32b-579bf0eb61e0",
+          "title": "Negative review at anchor address",
+          "statement": "147 39th St, Pittsburgh, PA 15201 is described as a noisy, low‑value unit.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Exact match to address anchor",
+          "citations": [
+            {
+              "evidence_id": "ea6cd974-d75e-4176-ba94-0232813add94",
+              "excerpt": "147 39th St, Pittsburgh, PA 15201, Really bad bang for your buck and management team. Nice unit, fairly nice landlord, but definitely too much noise from"
+            }
+          ],
+          "ui_id": "web-eba7bb48-0838-4c0b-b32b-579bf0eb61e0"
+        },
+        {
+          "id": "c40a8dea-9166-402a-87af-4393b04da0dd",
+          "title": "Thai restaurant in Lawrenceville",
+          "statement": "Pusadee’s Garden is a Thai restaurant in Lawrenceville, rated $$$.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Within 1000 m of anchor",
+          "citations": [
+            {
+              "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+              "excerpt": "Pusadee’s Garden – Lawrenceveille – Thai – $$$"
+            }
+          ],
+          "ui_id": "web-c40a8dea-9166-402a-87af-4393b04da0dd"
+        }
+      ],
+      "limitations": [
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Pittsburgh, Pennsylvania restaurants near 147 39TH ST, PITTSBURGH, PA, 15201 Lower Lawrenceville reviews menus",
+        "Lower Lawrenceville 39TH ST Pittsburgh, Pennsylvania Pittsburgh Pennsylvania restaurant reviews 147 39th St",
+        "Pittsburgh, Pennsylvania What is the business type at 147 39th St, Pittsburgh, PA 15201?"
+      ],
+      "evidence_ids": [
+        "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+        "ea6cd974-d75e-4176-ba94-0232813add94",
+        "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+        "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+        "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+        "dfcb5a6d-d713-4d33-9619-9c07d1786ab0",
+        "ccdd0966-1fb0-4a1d-8a42-204721c8c525",
+        "b2b5c0c3-91d6-4018-bf45-542db6cd7d48"
+      ],
+      "search_calls": 3,
+      "usage_credits": 3.0,
+      "review_completed": true,
+      "brief": {
+        "overview": {
+          "text": "The anchor address at 147 39th Street is the site of Arsenal 201, a mixed-use retail and apartment complex in the Lawrenceville area of Pittsburgh. While the property itself hosts residential and retail components, specific restaurant reviews directly tied to individual dining establishments within the immediate walking vicinity are limited in the provided records. The available dining material primarily consists of marketing websites, delivery service directories, and local curated guides identifying dining concepts situated along major corridors in Lawrenceville—such as Butler Street and Penn Avenue—alongside broader citywide culinary listings.",
+          "citations": [
+            {
+              "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+              "excerpt": "Pusadee’s Garden – Lawrenceveille – Thai – $$$"
+            },
+            {
+              "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+              "excerpt": "# map marker pin3337 Penn Avenue, Pittsburgh, PA 15201"
+            },
+            {
+              "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+              "excerpt": "“LOLA” stands for Lower Lawrenceville, a community that has played a big role in Zoë’s life, “LOLA” also translates to “Grandmother” in the Filipino language. Max’s Filipino and Mexican background brings a unique inspiration to their dishes while the baked delights are fashioned from Zoë’s imagination and nonpareil pastry skill."
+            },
+            {
+              "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+              "excerpt": "Senti Restaurant and Wine Bar, Authentic Italian Cuisine, 3473 Butler St, Pittsburgh, PA 15201"
+            },
+            {
+              "evidence_id": "ccdd0966-1fb0-4a1d-8a42-204721c8c525",
+              "excerpt": "Arsenal 201 is a mixed use living space of retail and apartment homes in the Lawrenceville area of Pittsburgh. Once the site of the largest arsenal in the Union"
+            },
+            {
+              "evidence_id": "b2b5c0c3-91d6-4018-bf45-542db6cd7d48",
+              "excerpt": "Arsenal 201 is a mixed use living space of retail and apartment homes in the Lawrenceville area of Pittsburgh. Once the site of the largest arsenal in the"
+            }
+          ],
+          "ui_id": "brief-restaurant_reviews-0"
+        },
+        "sections": [
+          {
+            "heading": "Lola's Eatery (Penn Avenue)",
+            "paragraphs": [
+              {
+                "text": "Located at 3337 Penn Avenue in Lower Lawrenceville, Lola's Eatery is a brunch spot and cafe founded in December 2019 by owners Max and Zoë Blume. The concept blends Filipino and Mexican culinary influences with house-baked goods such as bagels, donuts, and customized cakes. The name 'LOLA' references both Lower Lawrenceville and the Filipino translation for grandmother.",
+                "citations": [
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "# map marker pin3337 Penn Avenue, Pittsburgh, PA 15201"
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "- Lola's owners Max & Zoë Blume"
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "“LOLA” stands for Lower Lawrenceville, a community that has played a big role in Zoë’s life, “LOLA” also translates to “Grandmother” in the Filipino language. Max’s Filipino and Mexican background brings a unique inspiration to their dishes while the baked delights are fashioned from Zoë’s imagination and nonpareil pastry skill."
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "In December of 2019, Max and Zoë Blume opened Lola's intending to offer Lawerencevile a brunch spot that offered dishes that not only included Filipino/Mexican influenced dishes but also fresh-baked bagels, customized cakes, delicious donuts, and so many more. Having opened only two months before the pandemic (Covid-19) hit, the married duo had to pivot their plans and make necessary changes to survive the Lockdown."
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "At Lola's Eatery, our menu is comprised of food that is approachable, creative, and fresh. We take extra care in providing a quality eating experience: making our food with real ingredients, house-made seasonings, sauces + spreads, donuts and bagels fresh daily, made-to-order sandwiches, and partnerships with local vendors."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-1"
+              },
+              {
+                "text": "The venue operates a counter-service format where guests place orders before food is delivered to tables. Featured menu items include fresh-baked donuts, ube cinnamon rolls, rosemary bagels, French toast, and savory entrees like adobo fried rice and the 'MR. BATE DACON' (honey wheat bread topped with smashed avocado, glazed bacon, Medjool date, Goat Rodeo goat cheese, herbed oil, and micro-cilantro). Highlighted customer reviews praise its breakfast quality and rate it among the notable brunch spots in Pittsburgh.",
+                "citations": [
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "Avocado toast close up"
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "French toast close up"
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "Adobo Fried Rice close up"
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "> I had the most fantastic breakfast. Every bite was delicious!!!! I ordered the MR. BATE DACON. It had smashed avocado, glazed bacon & Medjool date, Goat Rodeo fresh chevre, herbed oil, micro-cilantro. All on deliciois honey wheat bread. Yum!!!"
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "> One of the best brunch spots in Pittsburgh! The rosemary bagel was delicious. Note it's the kind of place where you order at the counter first and then they bring out your order to your table..."
+                  },
+                  {
+                    "evidence_id": "eb116dcd-1f7f-486f-8771-ce96bd4c45e3",
+                    "excerpt": "[![Ube Cinnamon Roll, closeup](https://static.spotapps.co/web/placeholder.png)](//static.spotapps.co/spots/74/cf01465f4047dbafc7df966ac3069b/full)"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-2"
+              }
+            ]
+          },
+          {
+            "heading": "Senti Restaurant & Wine Bar (Butler Street)",
+            "paragraphs": [
+              {
+                "text": "Senti Restaurant and Wine Bar operates at 3473 Butler Street in the Lawrenceville neighborhood, offering authentic Italian cuisine alongside a full bar and wine program. Its menu features dishes such as pan-seared duck breast served with crispy baby Yukon potatoes and red cabbage confit, fettuccine with sausage, and a beet and butternut squash salad, accompanied by beverages like seasonal sangria.",
+                "citations": [
+                  {
+                    "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+                    "excerpt": "Duck Breast with Crispy Baby Yukon Potato and Red Cabbage Confit"
+                  },
+                  {
+                    "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+                    "excerpt": "Fettuccine with Sausage"
+                  },
+                  {
+                    "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+                    "excerpt": "Senti Restaurant and Wine Bar, Authentic Italian Cuisine, 3473 Butler St, Pittsburgh, PA 15201"
+                  },
+                  {
+                    "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+                    "excerpt": "Beet And Butternut Squash Salad"
+                  },
+                  {
+                    "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+                    "excerpt": "Sangria Rose Brandy Seasonal Fruit Grand Marnier"
+                  },
+                  {
+                    "evidence_id": "83f3b94a-2f22-420e-b08f-3a63372f4f96",
+                    "excerpt": "Senti Restaurant and Wine Bar, Authentic Italian Cuisine, 3473 Butler St, Pittsburgh, PA 15201"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-3"
+              }
+            ]
+          },
+          {
+            "heading": "Lawrenceville Dining Guides and Curated Listings",
+            "paragraphs": [
+              {
+                "text": "Regional dining compilations and food blogs frequently highlight Lawrenceville establishments across various price ranges and cuisines. The curated guide 'Discover the Burgh' catalogues local neighborhood destinations including Thai restaurant Pusadee's Garden ($$$), Cantonese venue The Parlor Dim Sum ($$ to $$$), Japanese dining at Umami ($$$), Vietnamese cafe Ineffable Ca Phe ($$), Mexican establishment Esquina Cantina ($$), and Japanese/Korean eatery Oishii Donburi ($ to $$).",
+                "citations": [
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "Pusadee’s Garden – Lawrenceveille – Thai – $$$"
+                  },
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "The Parlor Dim Sum – Lawrenceville – Cantonese – $$ to $$$"
+                  },
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "Umami – Lawrenceville – Japanese – $$$"
+                  },
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "Ineffable Ca Phe – Lawrenceville – Vietnamese – $$"
+                  },
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "Esquina Cantina – Lawrenceville – $$"
+                  },
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "Oishii Donburi – Lawrenceville – Japanese/Korean – $ to $$"
+                  },
+                  {
+                    "evidence_id": "8fcdfff9-a583-4613-a796-aa2de6d2b26d",
+                    "excerpt": "One of our quests on *Discover the Burgh* is to share these great restaurants and help you plan your next meal out. To help with that, this restaurant guide (linking to every single review published on this site) was born!"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-4"
+              },
+              {
+                "text": "Additional area directory listings from Uber Eats note food and beverage providers within Lawrenceville and nearby corridors, including The Nook (3811 Butler Street), Burghers Brewing Lawrenceville, Colombino Coffee n Cacao, and Brooklyn Bagel At Arsenal. Local food influencer guides also feature nearby neighborhood concepts such as Iron Born Pizza and Lola's Eatery among their Pittsburgh recommendations.",
+                "citations": [
+                  {
+                    "evidence_id": "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+                    "excerpt": "### Burghers Brewing Lawrenceville"
+                  },
+                  {
+                    "evidence_id": "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+                    "excerpt": "### The Nook ( 3811 Butler Street)"
+                  },
+                  {
+                    "evidence_id": "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+                    "excerpt": "### Colombino Coffee n Cacao | Lawrenceville"
+                  },
+                  {
+                    "evidence_id": "bb49fc00-a41d-4d35-9a0d-9a86b9d1d2fb",
+                    "excerpt": "### Brooklyn Bagel At Arsenal"
+                  },
+                  {
+                    "evidence_id": "dfcb5a6d-d713-4d33-9619-9c07d1786ab0",
+                    "excerpt": "## Hi, I'm Ana! Born and raised in the South Hills, I'm a lifelong Pittsburgher and crab rangoon conoisseur, with a passion for connecting with small business owners and my local community. My goal from the start has always been uplifting these incredible small businesses, and of course recommending you the city's best spots to eat and drink."
+                  },
+                  {
+                    "evidence_id": "dfcb5a6d-d713-4d33-9619-9c07d1786ab0",
+                    "excerpt": "### Lola's Eatery [...] ### Coughlin's Law Kitchen and Ale House"
+                  },
+                  {
+                    "evidence_id": "dfcb5a6d-d713-4d33-9619-9c07d1786ab0",
+                    "excerpt": "### iron born pizza"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-5"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "Most provided sources are promotional directory listings, platform menus, or marketing websites rather than dated, independent customer reviews from the October 2025 to October 2026 window.",
+          "Exact walking distances, travel times, or precise radial proximities to 147 39th Street are not established in the source text for most Lawrenceville venues.",
+          "Customer feedback snippets for venues like Lola's Eatery are undated promotional quotes published on the restaurant's website, lacking full review context."
+        ],
+        "follow_up_questions": [
+          "What specific retail or restaurant tenants currently operate directly on-site at the Arsenal 201 mixed-use complex?",
+          "What do independent review platforms (such as Google Reviews or Yelp) report regarding customer sentiment and service quality for eateries located within two blocks of 39th Street and Butler Street between late 2025 and late 2026?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:34:25.773901Z"
+      },
+      "synthesis_status": "complete"
+    }
+  ]
+}

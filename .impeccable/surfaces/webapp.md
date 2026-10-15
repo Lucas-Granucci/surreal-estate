@@ -79,3 +79,19 @@ Research scope is a concise address/date/research summary with export and rerun 
 coverage detail lives in Report coverage. Public-facing section labels normalize saved
 Web research to Local intelligence. Property & street records has a matching in-page
 heading. Local intelligence uses a compass icon, distinct from Findings and Sources.
+
+## Public showcase and landing preview
+
+The public static build shares the incumbent Evidence Bench visual system and
+reader. Landing mode is Persuade; the gallery and report remain Operate/Read.
+Both landing variants feature the actual saved Location overview map, category
+counts and attribution, with controls leading into that report. No illustrative
+places or fabricated report data. The public variant offers dated samples,
+source inspection and an email contact instead of generation, deletion or export.
+Its contact and GitHub links sit below the product explanation. Private setup
+and report management remain available only in the local application.
+
+The public top bar keeps Get in touch and a GitHub icon link at the right; the
+sample gallery is reached through the landing action and report navigation. The
+contact section appears only on the public landing page. The showcase note has
+14px separation from its action row.

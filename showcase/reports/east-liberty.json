@@ -1,0 +1,2124 @@
+{
+  "version": "1.0",
+  "case": {
+    "address": "121 S HIGHLAND AVE, PITTSBURGH, PA, 15206",
+    "geography": "PITTSBURGH, PA",
+    "as_of": "2026-10-15"
+  },
+  "demo": false,
+  "findings": [
+    {
+      "id": "finding-3",
+      "title": "Nearby transit",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "transit",
+      "statements": [
+        "At least 50 mapped features within 1 km. Closest returned point: ~52 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "d4b5b5be-7a67-4cc5-a0b2-b9d8a0fef3cc"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers. Using saved map response retrieved at 2026-10-15T07:53:05.150167+00:00.",
+          "queries_run": 0,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-2",
+      "title": "Groceries & pharmacies",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "groceries",
+      "statements": [
+        "12 mapped features within 1 km. Closest returned point: ~298 m.",
+        "0 mapped features within 1 km."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "1afdbbbe-40a1-4707-bc17-ad7550afc4aa",
+        "a9aee9a4-2b2b-4b91-8799-34093a5e244c"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers. Using saved map response retrieved at 2026-10-15T07:53:05.150167+00:00.",
+          "queries_run": 0,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers. Using saved map response retrieved at 2026-10-15T07:53:05.150167+00:00.",
+          "queries_run": 0,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-7",
+      "title": "Street-closure permits",
+      "topic": "street_closures",
+      "section": "Street permits",
+      "category": null,
+      "statements": [
+        "1 returned street-closure permit segments."
+      ],
+      "qualifier": "Public records · permits do not confirm work is underway",
+      "evidence_ids": [
+        "6074725b-c1d2-4b1a-b8d1-e712b93c4400"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_closures",
+          "topic": "street_closures",
+          "status": "truncated",
+          "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 205 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+          "queries_run": 2,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": true
+    },
+    {
+      "id": "finding-0",
+      "title": "Address match",
+      "topic": "geocoding",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "Census address match: 121 S HIGHLAND AVE, PITTSBURGH, PA, 15206; latitude 40.460803, longitude -79.924850. Address-range interpolation, not a parcel or structure assessment."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "12528d48-887f-4f6b-b68b-481e368dca03"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "census",
+          "topic": "geocoding",
+          "status": "complete",
+          "reason": "Address match selected and confirmed by the user",
+          "queries_run": 0,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-5",
+      "title": "Assessment & building permits",
+      "topic": "property_assessment",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "County parcel 0084B00068000000: county assessment (USD): 10583900. Assessment records are not current appraisals or proof of condition.",
+        "PLI EP-2020-12291: ELECTRICAL; issued 2021-03-05; status Completed. INSTALLATION OF NEW ANTENNAS AND EQUIPMENT ON EXISTING PLATFORM AND ANTENNA MOUNT. A permit does not prove work was completed.",
+        "PLI BP-2020-04817: BUILDING; issued 2020-06-25; status Expired. No work description. A permit does not prove work was completed."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "e111ecf5-86a2-4c14-897f-3ad4b99a0db7",
+        "b9b2d43a-fc24-4376-a3e0-7d45c3c338f1",
+        "47401a40-38a0-45d1-a3f6-94604489337f"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_assessments",
+          "topic": "property_assessment",
+          "status": "complete",
+          "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+          "queries_run": 3,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "wprdc_permits",
+          "topic": "building_permits",
+          "status": "complete",
+          "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+          "queries_run": 2,
+          "sources_returned": 2,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-8",
+      "title": "Local discussions",
+      "topic": "neighborhood_discussion",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "3 source-linked findings from 6 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "2c9e4374-471b-4d1f-97a5-cc646d6f43e9",
+        "5da16c42-5bd2-4b46-b2c9-f8cd55c82833",
+        "fb86dd00-0baf-4d19-bf3b-a93fd9498b7a",
+        "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+        "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+        "1fdb38fb-8f5f-438e-913d-aa9cdcd6016b"
+      ],
+      "web_indices": [],
+      "research_topic": "neighborhood_discussion",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "neighborhood_discussion",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 3 extraction notes from 6 sources. No targeted factual review completed.",
+          "queries_run": 2,
+          "sources_returned": 6,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-9",
+      "title": "Dining reviews",
+      "topic": "restaurant_reviews",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "6 source-linked findings from 6 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+        "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+        "13814fcf-9235-45bd-bb07-a425ea6605a9",
+        "0d760f10-5c77-4821-979b-104dceae8aa0",
+        "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+        "c2afdf66-44e0-43c5-9518-0f7a3138ed09"
+      ],
+      "web_indices": [],
+      "research_topic": "restaurant_reviews",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "restaurant_reviews",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 6 extraction notes from 6 sources. No targeted factual review completed.",
+          "queries_run": 2,
+          "sources_returned": 6,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-1",
+      "title": "Mapped education features",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "schools",
+      "statements": [
+        "7 mapped features within 1 km. Closest returned point: ~578 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "afd87952-f086-4bf5-8d4d-b52825318f73"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers. Using saved map response retrieved at 2026-10-15T07:53:05.150167+00:00.",
+          "queries_run": 0,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "12528d48-887f-4f6b-b68b-481e368dca03",
+      "provider": "census",
+      "uri": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=121+South+Highland+Avenue%2C+Pittsburgh%2C+Pennsylvania&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+      "title": "Census Geocoder",
+      "excerpt": "Census address match: 121 S HIGHLAND AVE, PITTSBURGH, PA, 15206; latitude 40.460803, longitude -79.924850. Address-range interpolation, not a parcel or structure assessment.",
+      "retrieved_at": "2026-10-15T10:42:51.203075Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": null,
+      "match_method": "user_confirmed_census_address_range_match",
+      "details": {
+        "latitude": 40.460803089259,
+        "longitude": -79.924850178977,
+        "matched_address": "121 S HIGHLAND AVE, PITTSBURGH, PA, 15206",
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      }
+    },
+    {
+      "id": "afd87952-f086-4bf5-8d4d-b52825318f73",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.460803089259/-79.924850178977",
+      "title": "Schools · area summary",
+      "excerpt": "Schools: 7 mapped features in the 1 km search area. Closest returned point/center is about 578 m away in a straight line. Attendance zones and school quality are not established.",
+      "retrieved_at": "2026-10-15T07:53:05.150167Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:schools",
+      "source_updated_at": "2026-10-15T07:51:05Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": "2026-10-15T07:53:05.150167+00:00",
+        "cache_stale": false,
+        "category": "schools",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 7,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 578,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 247909438,
+            "uri": "https://www.openstreetmap.org/way/247909438",
+            "name": "Sacred Heart Elementary School",
+            "center": {
+              "lat": 40.4556864,
+              "lon": -79.9236672
+            },
+            "approximate_center_distance_m": 578
+          },
+          {
+            "object_type": "way",
+            "object_id": 167704094,
+            "uri": "https://www.openstreetmap.org/way/167704094",
+            "name": "Friendship Academy",
+            "center": {
+              "lat": 40.4612501,
+              "lon": -79.9317193
+            },
+            "approximate_center_distance_m": 583
+          },
+          {
+            "object_type": "way",
+            "object_id": 373005689,
+            "uri": "https://www.openstreetmap.org/way/373005689",
+            "name": "Pittsburgh Obama Academy of International Studies",
+            "center": {
+              "lat": 40.4673722,
+              "lon": -79.9229217
+            },
+            "approximate_center_distance_m": 748
+          },
+          {
+            "object_type": "way",
+            "object_id": 1396606009,
+            "uri": "https://www.openstreetmap.org/way/1396606009",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4544587,
+              "lon": -79.917992
+            },
+            "approximate_center_distance_m": 913
+          },
+          {
+            "object_type": "way",
+            "object_id": 38341224,
+            "uri": "https://www.openstreetmap.org/way/38341224",
+            "name": "Pittsburgh Montessori PreK-5",
+            "center": {
+              "lat": 40.4623037,
+              "lon": -79.9354872
+            },
+            "approximate_center_distance_m": 915
+          },
+          {
+            "object_type": "node",
+            "object_id": 357284503,
+            "uri": "https://www.openstreetmap.org/node/357284503",
+            "name": "Ellis School",
+            "center": {
+              "lat": 40.4542356,
+              "lon": -79.917551
+            },
+            "approximate_center_distance_m": 956
+          },
+          {
+            "object_type": "way",
+            "object_id": 552915105,
+            "uri": "https://www.openstreetmap.org/way/552915105",
+            "name": "Dilworth School",
+            "center": {
+              "lat": 40.4682506,
+              "lon": -79.9173322
+            },
+            "approximate_center_distance_m": 1044
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "1afdbbbe-40a1-4707-bc17-ad7550afc4aa",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.460803089259/-79.924850178977",
+      "title": "Grocery stores · area summary",
+      "excerpt": "Grocery stores: 12 mapped features in the 1 km search area. Closest returned point/center is about 298 m away in a straight line. Includes supermarkets, convenience stores and produce shops; hours are not verified.",
+      "retrieved_at": "2026-10-15T07:53:05.150167Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:groceries",
+      "source_updated_at": "2026-10-15T07:51:05Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": "2026-10-15T07:53:05.150167+00:00",
+        "cache_stale": false,
+        "category": "groceries",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 12,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 298,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 125708085,
+            "uri": "https://www.openstreetmap.org/way/125708085",
+            "name": "Target",
+            "center": {
+              "lat": 40.4608951,
+              "lon": -79.921332
+            },
+            "approximate_center_distance_m": 298
+          },
+          {
+            "object_type": "node",
+            "object_id": 10114377662,
+            "uri": "https://www.openstreetmap.org/node/10114377662",
+            "name": "Whole Foods Market",
+            "center": {
+              "lat": 40.462527,
+              "lon": -79.9287132
+            },
+            "approximate_center_distance_m": 379
+          },
+          {
+            "object_type": "node",
+            "object_id": 1371543228,
+            "uri": "https://www.openstreetmap.org/node/1371543228",
+            "name": "R Market",
+            "center": {
+              "lat": 40.457295,
+              "lon": -79.9253272
+            },
+            "approximate_center_distance_m": 392
+          },
+          {
+            "object_type": "node",
+            "object_id": 13455345779,
+            "uri": "https://www.openstreetmap.org/node/13455345779",
+            "name": "Market District",
+            "center": {
+              "lat": 40.4591365,
+              "lon": -79.9204083
+            },
+            "approximate_center_distance_m": 419
+          },
+          {
+            "object_type": "way",
+            "object_id": 126268566,
+            "uri": "https://www.openstreetmap.org/way/126268566",
+            "name": "Trader Joe's",
+            "center": {
+              "lat": 40.4592061,
+              "lon": -79.9192545
+            },
+            "approximate_center_distance_m": 506
+          },
+          {
+            "object_type": "way",
+            "object_id": 167278405,
+            "uri": "https://www.openstreetmap.org/way/167278405",
+            "name": "Tokyo Japanese Food Store",
+            "center": {
+              "lat": 40.4576037,
+              "lon": -79.9293304
+            },
+            "approximate_center_distance_m": 520
+          },
+          {
+            "object_type": "node",
+            "object_id": 12670650835,
+            "uri": "https://www.openstreetmap.org/node/12670650835",
+            "name": "Farm Fresh Halal market",
+            "center": {
+              "lat": 40.4653567,
+              "lon": -79.9292043
+            },
+            "approximate_center_distance_m": 626
+          },
+          {
+            "object_type": "way",
+            "object_id": 167864516,
+            "uri": "https://www.openstreetmap.org/way/167864516",
+            "name": "Grocery Kart",
+            "center": {
+              "lat": 40.463995,
+              "lon": -79.9326761
+            },
+            "approximate_center_distance_m": 751
+          },
+          {
+            "object_type": "way",
+            "object_id": 303489282,
+            "uri": "https://www.openstreetmap.org/way/303489282",
+            "name": "Fuel On Convenience Store",
+            "center": {
+              "lat": 40.4552379,
+              "lon": -79.9314218
+            },
+            "approximate_center_distance_m": 832
+          },
+          {
+            "object_type": "node",
+            "object_id": 3315468806,
+            "uri": "https://www.openstreetmap.org/node/3315468806",
+            "name": "Aldi",
+            "center": {
+              "lat": 40.4582008,
+              "lon": -79.9348865
+            },
+            "approximate_center_distance_m": 897
+          },
+          {
+            "object_type": "way",
+            "object_id": 467565418,
+            "uri": "https://www.openstreetmap.org/way/467565418",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4607962,
+              "lon": -79.9139459
+            },
+            "approximate_center_distance_m": 923
+          },
+          {
+            "object_type": "node",
+            "object_id": 356889610,
+            "uri": "https://www.openstreetmap.org/node/356889610",
+            "name": "Giant Eagle",
+            "center": {
+              "lat": 40.4567199,
+              "lon": -79.9345217
+            },
+            "approximate_center_distance_m": 936
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "d4b5b5be-7a67-4cc5-a0b2-b9d8a0fef3cc",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.460803089259/-79.924850178977",
+      "title": "Public transit · area summary",
+      "excerpt": "Public transit: at least 50 mapped features in the 1 km search area. Closest returned point/center is about 52 m away in a straight line. Stop/platform features may share a station; frequency and routes are not verified.",
+      "retrieved_at": "2026-10-15T07:53:05.150167Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:transit",
+      "source_updated_at": "2026-10-15T07:51:05Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": "2026-10-15T07:53:05.150167+00:00",
+        "cache_stale": false,
+        "category": "transit",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 50,
+        "count_is_lower_bound": true,
+        "nearest_returned_center_distance_m": 52,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 11882364267,
+            "uri": "https://www.openstreetmap.org/node/11882364267",
+            "name": "Highland Avenue opp Baum Boulevard",
+            "center": {
+              "lat": 40.4603355,
+              "lon": -79.9249049
+            },
+            "approximate_center_distance_m": 52
+          },
+          {
+            "object_type": "node",
+            "object_id": 11200874653,
+            "uri": "https://www.openstreetmap.org/node/11200874653",
+            "name": "Penn Avenue at Highland Avenue",
+            "center": {
+              "lat": 40.4614223,
+              "lon": -79.925027
+            },
+            "approximate_center_distance_m": 70
+          },
+          {
+            "object_type": "node",
+            "object_id": 2676344771,
+            "uri": "https://www.openstreetmap.org/node/2676344771",
+            "name": "Penn Avenue at Highland Avenue",
+            "center": {
+              "lat": 40.4614227,
+              "lon": -79.9246134
+            },
+            "approximate_center_distance_m": 72
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102252,
+            "uri": "https://www.openstreetmap.org/node/1784102252",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4605975,
+              "lon": -79.9265217
+            },
+            "approximate_center_distance_m": 143
+          },
+          {
+            "object_type": "node",
+            "object_id": 4378180394,
+            "uri": "https://www.openstreetmap.org/node/4378180394",
+            "name": "Highland Avenue at Broad Street",
+            "center": {
+              "lat": 40.4625875,
+              "lon": -79.9243899
+            },
+            "approximate_center_distance_m": 202
+          },
+          {
+            "object_type": "node",
+            "object_id": 8681073698,
+            "uri": "https://www.openstreetmap.org/node/8681073698",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4594418,
+              "lon": -79.9232328
+            },
+            "approximate_center_distance_m": 204
+          },
+          {
+            "object_type": "node",
+            "object_id": 8681073697,
+            "uri": "https://www.openstreetmap.org/node/8681073697",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4593207,
+              "lon": -79.9231349
+            },
+            "approximate_center_distance_m": 220
+          },
+          {
+            "object_type": "node",
+            "object_id": 8681073699,
+            "uri": "https://www.openstreetmap.org/node/8681073699",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4595973,
+              "lon": -79.9225686
+            },
+            "approximate_center_distance_m": 235
+          },
+          {
+            "object_type": "node",
+            "object_id": 8681073696,
+            "uri": "https://www.openstreetmap.org/node/8681073696",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4594662,
+              "lon": -79.9225267
+            },
+            "approximate_center_distance_m": 246
+          },
+          {
+            "object_type": "node",
+            "object_id": 5173461631,
+            "uri": "https://www.openstreetmap.org/node/5173461631",
+            "name": "Penn Ave at East Busway",
+            "center": {
+              "lat": 40.4601384,
+              "lon": -79.9215581
+            },
+            "approximate_center_distance_m": 288
+          },
+          {
+            "object_type": "node",
+            "object_id": 11952208951,
+            "uri": "https://www.openstreetmap.org/node/11952208951",
+            "name": "Highland Avenue at Station Street",
+            "center": {
+              "lat": 40.4636044,
+              "lon": -79.9237638
+            },
+            "approximate_center_distance_m": 325
+          },
+          {
+            "object_type": "node",
+            "object_id": 12442320178,
+            "uri": "https://www.openstreetmap.org/node/12442320178",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4583771,
+              "lon": -79.9274092
+            },
+            "approximate_center_distance_m": 346
+          },
+          {
+            "object_type": "node",
+            "object_id": 11882390671,
+            "uri": "https://www.openstreetmap.org/node/11882390671",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.45894,
+              "lon": -79.9281336
+            },
+            "approximate_center_distance_m": 347
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102250,
+            "uri": "https://www.openstreetmap.org/node/1784102250",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4597773,
+              "lon": -79.9292283
+            },
+            "approximate_center_distance_m": 388
+          },
+          {
+            "object_type": "node",
+            "object_id": 12540538181,
+            "uri": "https://www.openstreetmap.org/node/12540538181",
+            "name": "Penn Avenue opp Shady Avenue",
+            "center": {
+              "lat": 40.4597174,
+              "lon": -79.9204839
+            },
+            "approximate_center_distance_m": 389
+          },
+          {
+            "object_type": "node",
+            "object_id": 394971287,
+            "uri": "https://www.openstreetmap.org/node/394971287",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4589083,
+              "lon": -79.9287879
+            },
+            "approximate_center_distance_m": 394
+          },
+          {
+            "object_type": "node",
+            "object_id": 4487904817,
+            "uri": "https://www.openstreetmap.org/node/4487904817",
+            "name": "Shady Avenue",
+            "center": {
+              "lat": 40.4592311,
+              "lon": -79.920128
+            },
+            "approximate_center_distance_m": 436
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102249,
+            "uri": "https://www.openstreetmap.org/node/1784102249",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4594027,
+              "lon": -79.9304753
+            },
+            "approximate_center_distance_m": 501
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102248,
+            "uri": "https://www.openstreetmap.org/node/1784102248",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.459205,
+              "lon": -79.9307033
+            },
+            "approximate_center_distance_m": 526
+          },
+          {
+            "object_type": "node",
+            "object_id": 12556825501,
+            "uri": "https://www.openstreetmap.org/node/12556825501",
+            "name": "Penn Ave at Negley Ave",
+            "center": {
+              "lat": 40.4634281,
+              "lon": -79.9301797
+            },
+            "approximate_center_distance_m": 537
+          },
+          {
+            "object_type": "node",
+            "object_id": 12556823900,
+            "uri": "https://www.openstreetmap.org/node/12556823900",
+            "name": "Negley Ave at Penn Ave",
+            "center": {
+              "lat": 40.4631446,
+              "lon": -79.9307546
+            },
+            "approximate_center_distance_m": 563
+          },
+          {
+            "object_type": "node",
+            "object_id": 2553700812,
+            "uri": "https://www.openstreetmap.org/node/2553700812",
+            "name": "Negley Ave Opp Coral St",
+            "center": {
+              "lat": 40.4619633,
+              "lon": -79.9315264
+            },
+            "approximate_center_distance_m": 579
+          },
+          {
+            "object_type": "node",
+            "object_id": 12556823899,
+            "uri": "https://www.openstreetmap.org/node/12556823899",
+            "name": "Negley Ave at Penn Ave FS",
+            "center": {
+              "lat": 40.4631813,
+              "lon": -79.9310016
+            },
+            "approximate_center_distance_m": 584
+          },
+          {
+            "object_type": "node",
+            "object_id": 12556823898,
+            "uri": "https://www.openstreetmap.org/node/12556823898",
+            "name": "Penn Ave at Negley Ave",
+            "center": {
+              "lat": 40.4634779,
+              "lon": -79.9309267
+            },
+            "approximate_center_distance_m": 594
+          },
+          {
+            "object_type": "node",
+            "object_id": 1779808746,
+            "uri": "https://www.openstreetmap.org/node/1779808746",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4590281,
+              "lon": -79.931736
+            },
+            "approximate_center_distance_m": 615
+          },
+          {
+            "object_type": "node",
+            "object_id": 11200874652,
+            "uri": "https://www.openstreetmap.org/node/11200874652",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4582096,
+              "lon": -79.9183546
+            },
+            "approximate_center_distance_m": 621
+          },
+          {
+            "object_type": "node",
+            "object_id": 12563196912,
+            "uri": "https://www.openstreetmap.org/node/12563196912",
+            "name": "Friendship Ave at Stratford Ave",
+            "center": {
+              "lat": 40.4610024,
+              "lon": -79.9331387
+            },
+            "approximate_center_distance_m": 702
+          },
+          {
+            "object_type": "node",
+            "object_id": 12556823897,
+            "uri": "https://www.openstreetmap.org/node/12556823897",
+            "name": "Penn Ave at Fairmount St",
+            "center": {
+              "lat": 40.4641503,
+              "lon": -79.9323028
+            },
+            "approximate_center_distance_m": 732
+          },
+          {
+            "object_type": "node",
+            "object_id": 12556823896,
+            "uri": "https://www.openstreetmap.org/node/12556823896",
+            "name": "Penn Ave at Fairmount St",
+            "center": {
+              "lat": 40.4640895,
+              "lon": -79.9326393
+            },
+            "approximate_center_distance_m": 754
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199609,
+            "uri": "https://www.openstreetmap.org/node/8688199609",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4567651,
+              "lon": -79.9322343
+            },
+            "approximate_center_distance_m": 769
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199612,
+            "uri": "https://www.openstreetmap.org/node/8688199612",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4567149,
+              "lon": -79.9326107
+            },
+            "approximate_center_distance_m": 799
+          },
+          {
+            "object_type": "node",
+            "object_id": 12563196911,
+            "uri": "https://www.openstreetmap.org/node/12563196911",
+            "name": "Friendship Ave at Fairmount St",
+            "center": {
+              "lat": 40.4613068,
+              "lon": -79.9343147
+            },
+            "approximate_center_distance_m": 803
+          },
+          {
+            "object_type": "node",
+            "object_id": 392940481,
+            "uri": "https://www.openstreetmap.org/node/392940481",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4582603,
+              "lon": -79.9337724
+            },
+            "approximate_center_distance_m": 806
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199610,
+            "uri": "https://www.openstreetmap.org/node/8688199610",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.456518,
+              "lon": -79.9326628
+            },
+            "approximate_center_distance_m": 815
+          },
+          {
+            "object_type": "node",
+            "object_id": 12563196910,
+            "uri": "https://www.openstreetmap.org/node/12563196910",
+            "name": "Friendship Ave at Fairmount St FS",
+            "center": {
+              "lat": 40.4614968,
+              "lon": -79.9345515
+            },
+            "approximate_center_distance_m": 824
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199611,
+            "uri": "https://www.openstreetmap.org/node/8688199611",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4565787,
+              "lon": -79.9328917
+            },
+            "approximate_center_distance_m": 827
+          },
+          {
+            "object_type": "node",
+            "object_id": 393000891,
+            "uri": "https://www.openstreetmap.org/node/393000891",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4573953,
+              "lon": -79.9339088
+            },
+            "approximate_center_distance_m": 855
+          },
+          {
+            "object_type": "node",
+            "object_id": 392940505,
+            "uri": "https://www.openstreetmap.org/node/392940505",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4574766,
+              "lon": -79.9342874
+            },
+            "approximate_center_distance_m": 880
+          },
+          {
+            "object_type": "node",
+            "object_id": 1783546397,
+            "uri": "https://www.openstreetmap.org/node/1783546397",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4566659,
+              "lon": -79.9337714
+            },
+            "approximate_center_distance_m": 884
+          },
+          {
+            "object_type": "node",
+            "object_id": 1778609170,
+            "uri": "https://www.openstreetmap.org/node/1778609170",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4561049,
+              "lon": -79.9332942
+            },
+            "approximate_center_distance_m": 885
+          },
+          {
+            "object_type": "node",
+            "object_id": 1831061809,
+            "uri": "https://www.openstreetmap.org/node/1831061809",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4548725,
+              "lon": -79.9324021
+            },
+            "approximate_center_distance_m": 918
+          },
+          {
+            "object_type": "node",
+            "object_id": 392939671,
+            "uri": "https://www.openstreetmap.org/node/392939671",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4569802,
+              "lon": -79.9346479
+            },
+            "approximate_center_distance_m": 932
+          },
+          {
+            "object_type": "node",
+            "object_id": 1831061808,
+            "uri": "https://www.openstreetmap.org/node/1831061808",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4546324,
+              "lon": -79.9324208
+            },
+            "approximate_center_distance_m": 939
+          },
+          {
+            "object_type": "node",
+            "object_id": 1780450943,
+            "uri": "https://www.openstreetmap.org/node/1780450943",
+            "name": "Fifth Ave at Shady Ave",
+            "center": {
+              "lat": 40.4529856,
+              "lon": -79.9206243
+            },
+            "approximate_center_distance_m": 940
+          },
+          {
+            "object_type": "node",
+            "object_id": 12540927899,
+            "uri": "https://www.openstreetmap.org/node/12540927899",
+            "name": "Highland Ave at Fifth Ave FS",
+            "center": {
+              "lat": 40.4523107,
+              "lon": -79.9241412
+            },
+            "approximate_center_distance_m": 946
+          },
+          {
+            "object_type": "node",
+            "object_id": 1780450942,
+            "uri": "https://www.openstreetmap.org/node/1780450942",
+            "name": "Fifth Ave at Shady Ave",
+            "center": {
+              "lat": 40.452804,
+              "lon": -79.9208145
+            },
+            "approximate_center_distance_m": 953
+          },
+          {
+            "object_type": "node",
+            "object_id": 12563196909,
+            "uri": "https://www.openstreetmap.org/node/12563196909",
+            "name": "Friendship Ave at Graham St",
+            "center": {
+              "lat": 40.4618065,
+              "lon": -79.9361431
+            },
+            "approximate_center_distance_m": 962
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973551,
+            "uri": "https://www.openstreetmap.org/node/8234973551",
+            "name": "Fifth Ave at South Highland Ave",
+            "center": {
+              "lat": 40.4520537,
+              "lon": -79.9238838
+            },
+            "approximate_center_distance_m": 976
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973552,
+            "uri": "https://www.openstreetmap.org/node/8234973552",
+            "name": "Fifth Ave at South Highland Ave",
+            "center": {
+              "lat": 40.4520395,
+              "lon": -79.9241547
+            },
+            "approximate_center_distance_m": 976
+          },
+          {
+            "object_type": "node",
+            "object_id": 8756943865,
+            "uri": "https://www.openstreetmap.org/node/8756943865",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4560082,
+              "lon": -79.9151093
+            },
+            "approximate_center_distance_m": 982
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "a9aee9a4-2b2b-4b91-8799-34093a5e244c",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.460803089259/-79.924850178977",
+      "title": "Pharmacies · area summary",
+      "excerpt": "Pharmacies: no mapped features returned in the 1 km search area. This does not establish that none exist.",
+      "retrieved_at": "2026-10-15T07:53:05.150167Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:pharmacies",
+      "source_updated_at": "2026-10-15T07:51:05Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": "2026-10-15T07:53:05.150167+00:00",
+        "cache_stale": false,
+        "category": "pharmacies",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 0,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": null,
+        "members": [],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "e111ecf5-86a2-4c14-897f-3ad4b99a0db7",
+      "provider": "wprdc_assessments",
+      "uri": "https://data.wprdc.org/dataset/property-assessments/resource/65855e14-549e-4992-b5be-d629afc676fa",
+      "title": "Allegheny County assessment · 0084B00068000000",
+      "excerpt": "County parcel 0084B00068000000: county assessment (USD): 10583900. Assessment records are not current appraisals or proof of condition.",
+      "retrieved_at": "2026-10-15T10:42:58.709682Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "0084B00068000000",
+      "source_updated_at": "2026-10-07T02:46:52.053197",
+      "record_date": "2026-09-30",
+      "attribution": "Allegheny County / Western Pennsylvania Regional Data Center · cc-zero",
+      "match_method": "unique_exact_number_street_zip_no_unit",
+      "details": {}
+    },
+    {
+      "id": "b9b2d43a-fc24-4376-a3e0-7d45c3c338f1",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · EP-2020-12291",
+      "excerpt": "PLI EP-2020-12291: ELECTRICAL; issued 2021-03-05; status Completed. INSTALLATION OF NEW ANTENNAS AND EQUIPMENT ON EXISTING PLATFORM AND ANTENNA MOUNT. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T10:43:02.702874Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "EP-2020-12291",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-03-05",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "47401a40-38a0-45d1-a3f6-94604489337f",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2020-04817",
+      "excerpt": "PLI BP-2020-04817: BUILDING; issued 2020-06-25; status Expired. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T10:43:02.702958Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2020-04817",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-06-25",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "6074725b-c1d2-4b1a-b8d1-e712b93c4400",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-PL-2026-03836-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-PL-2026-03836-1 on S HIGHLAND AVE, about 410 m from the interpolated address point: 2026-04-09 to 2027-04-08. Work described: DLCO TO REPLACE POLE FOR NESC CLEARANCE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T10:43:07.982438Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-PL-2026-03836-1:1136",
+      "source_updated_at": "2026-10-15T06:34:33.263215",
+      "record_date": "2026-04-09",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 410,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "DLCO TO REPLACE POLE FOR NESC CLEARANCE",
+          "from_date": "2026-04-09",
+          "to_date": "2027-04-08",
+          "primary_street": "S HIGHLAND AVE",
+          "from_street": "ALDER ST",
+          "to_street": "ELWOOD ST"
+        }
+      }
+    },
+    {
+      "id": "2c9e4374-471b-4d1f-97a5-cc646d6f43e9",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/1pecwcm/live_downtown_or_east_liberty",
+      "title": "live downtown or east liberty? : r/pittsburgh",
+      "excerpt": "Unless you'll be working downtown, it's not the most ideal place to live. East Liberty is a very well equipped and located neighborhood, though",
+      "retrieved_at": "2026-10-15T10:43:30.252714Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Fri, 19 Dec 2025 10:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "5da16c42-5bd2-4b46-b2c9-f8cd55c82833",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/1i6waeo/has_east_liberty_peaked",
+      "title": "Has East Liberty peaked? : r/pittsburgh",
+      "excerpt": "For about five or six years it was the hottest neighborhood in the city, but it seems as if all of East Liberty’s momentum has shifted to the Strip district.",
+      "retrieved_at": "2026-10-15T10:43:30.252817Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Wed, 15 Oct 2025 10:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "fb86dd00-0baf-4d19-bf3b-a93fd9498b7a",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/rk1khr/east_liberty_safety",
+      "title": "East Liberty Safety? : r/pittsburgh",
+      "excerpt": "Hey r/pittsburgh , I'll be moving to Pittsburgh for the summer, and I was wondering how safe East Liberty is. There were some mixed results online, so I",
+      "retrieved_at": "2026-10-15T10:43:30.252855Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Sun, 16 Oct 2022 10:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+      "provider": "tavily_search",
+      "uri": "https://www.eastliberty.org/",
+      "title": "East Liberty Development, Inc. | Supporting East Liberty, Pittsburgh, PA",
+      "excerpt": "Learn More\n\n## Rich with cultural history. Brimming with modern life. Discover East Liberty, a vibrant Pittsburgh community.\n\n### News & Events\n\n## [Spotlight] Reclaiming Vacant Properties Conference recap + facade improvements at Park Hill Drive\n\nOctober 7, 2026\n\n## [News] ELDI Executive Director recognized as a 2026 Standout Non-Profit Leader\n\nSeptember 25, 2026\n\n## [Spotlight] 26 homes, 26 homeowners: Closing out our NMTC Homeownership Project\n\nSeptember 4, 2026 [...] September 4, 2026\n\n## [Spotlight] From pipe dream to keys in hand: Deborah’s affordable homeownership journey\n\nSeptember 2, 2026\n\nSee More\n\n## SUPPORT OUR WORK\n\nDonate to ELDI\n\n## #CaptureEastLiberty\n\n## Photos of the neighborhood by the neighborhood\n\nVivekchander Photography\n\nPhoto: Ryan Neeven\n\nPhoto: Christopher Cullen\n\nPhoto: Adam Bates\n\nPhoto: East Liberty Chamber of Commerce\n\n## STAY CURRENT\n\nSubscribe to our newsletter\n\n Best Wordpress Popup Plugin [...] Discover the amazing journey of East Liberty—from blight a",
+      "retrieved_at": "2026-10-15T10:43:30.662238Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.eastliberty.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+      "provider": "tavily_search",
+      "uri": "https://storymaps.arcgis.com/stories/3ae8deb3201645349282d81694fff483",
+      "title": "East Liberty",
+      "excerpt": "Lord, Rich. “‘Sliberty Slope: A redevelopment push has East Liberty residents worried that their place in the changing neighborhood is slipping away.” Pittsburgh City Paper, November 27, 2003. \n\nMcNulty, Timothy. “Home Depot outcry teaches city a lesson”. Pittsburgh Post-Gazette, March 12, 1998.\n\nMorrow, Christian. “Demolition draws paint and criticism.” New Pittsburgh Courier, August 3, 2005. [...] East Liberty is in Pittsburgh’s East End, and is bordered by the following neighborhoods: Highland Park and Morningside to the north, Stanton Heights to the northwest, Garfield and Friendship to the west, Shadyside to the south, and Larimer to the east. This area is diverse—Garfield, East Liberty, and Larimer have historically been poorer Black neighborhoods, while Friendship, Shadyside, and Highland Park have been wealthier, White neighborhoods.\n\nExpand [...] Nelson Jones, Diana. “Ousted high-rise residents funding new homes”. Pittsburgh Post-Gazette, December 18, 2007.\n\nOve, Torsten. “Pen",
+      "retrieved_at": "2026-10-15T10:43:30.662427Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Wed, 16 Nov 2022 14:51:42 GMT",
+      "record_date": null,
+      "attribution": "storymaps.arcgis.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "1fdb38fb-8f5f-438e-913d-aa9cdcd6016b",
+      "provider": "tavily_search",
+      "uri": "https://www.theellisschool.org/list-detail?pk=29101",
+      "title": "THE EFFECTS OF PUBLIC HOUSING ON PITTSBURGH'S EAST LIBERTY",
+      "excerpt": "East Liberty’s Urban Renewal was triggered by a cascade of local redevelopment efforts beginning in the Hill District, yet another blighted Pittsburgh neighborhood, in the 1950s.11 The Hill District had steadily deteriorated in the early decades of the 20th Century, and by midcentury, the neighborhood was primarily comprised of low-income families.12 According to City Councilman George E. Evans, by 1943, “90 per cent of the buildings in the area [were] sub-standard and [had] long outlived their [...] of the projects. Furthermore, The Community Builders has developed more homes, in addition to apartments, in the neighborhood that, in 2001, was composed of approximately 84 percent renters.134 According to Kevin Anderson, the owner of Bat’s Barber Shop on 5911 Penn Avenue, “People need to be able to buy their homes because it gives them some independence. There’s a pride in ownership.”135 This “pride” has already begun and will continue to stabilize East Liberty as a community, adding a d",
+      "retrieved_at": "2026-10-15T10:43:30.662580Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.theellisschool.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+      "provider": "tavily_search",
+      "uri": "https://www.gayot.com/restaurants/east-liberty/pittsburgh-pa_46pi.html",
+      "title": "Reviews for Restaurants in East Liberty in Pittsburgh with Gayot",
+      "excerpt": "| Restaurant | Rating |\n --- |\n| BRGR 5997 Penn Circle S. Pittsburgh, PA 15206 | Burgers Map | 13/20 |\n| Paris 66 Bistro 6018 Penn Circle S. Pittsburgh, PA 15206 | Menu | French/ Bistro/ Crêpes Map | 13/20 OpenTable |\n| Plum Pan Asian Kitchen EastSide 5996 Penn Circle S. Pittsburgh, PA 15206 | Menu | Chinese/ Sushi/ Thai Map | 13/20 |\n| Whitfield Ace Hotel Pittsburgh 120 S. Whitfield St. Pittsburgh, PA 15206 | American Map | 13/20 OpenTable | [...] RESTAURANTS: Check out the Best Pizza Restaurants Near You. See the lists.\n\nVIDEO: We have dissected the Big Arch™ video by McDonald's CEO Chris Kempczinski frame by frame. Read the article.\n\nTHE COLORS OF LIFE\n\nTHE COLORS OF LIFE\n\nThank you to French artist Thierry Lefort for revealing life in colors. Read the article.\n\nBURGER WITH A VIEW\n\nBURGER WITH A VIEW\n\nEnjoy a burger where the backdrop cannot be more specular: the 18th floor of the Huntley Hotel Santa Monica Beach. Read the article. [...] Gayot - The Guide to the Good Life\n\n## Search",
+      "retrieved_at": "2026-10-15T10:44:08.225059Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.gayot.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+      "provider": "tavily_search",
+      "uri": "https://www.eastlibertychamber.org/Dine",
+      "title": "Dine - Pittsburgh",
+      "excerpt": "### Honeygrow\n\n105 S Highland Avenue Pittsburgh, PA 15206(412) 450-8524honeygrow.com\n\n### Kahuna Poke & Juice Bar\n\n132 S Highland Avenue Pittsburgh, PA 15206(412) 450-8510kahunapgh.com\n\n### Kelly's Bar & Lounge\n\n6012 Centre Avenue Pittsburgh, PA 15206(412) 363-6012places.singleplatform.com/kellys-bar--lounge/menu?ref=google\n\n### Lorelei\n\n124 S Highland Avenue Pittsburgh, PA 15206loreleipgh.com\n\n### Mad Mex\n\n220 South Highland Avenue Pittsburgh, PA 15206(412) 345-0185madmex.com\n\n### Mola [...] 6012 Centre Avenue Pittsburgh, PA 15206(412) 363-6012places.singleplatform.com/kellys-bar--lounge/menu?ref=google\n\n### Lorelei\n\n124 S Highland Avenue Pittsburgh, PA 15206loreleipgh.com\n\n### Mad Mex\n\n220 South Highland Avenue Pittsburgh, PA 15206(412) 345-0185madmex.com\n\n### Patron Mexican Grill\n\n135 South Highland Avenue Pittsburgh, PA 15206(412) 441-2111patronmexicangrills.com\n\n### Social @ Bakery Square\n\n6425 Penn Avenue Pittsburgh, PA 15206(412) 362-1234bakerysocial.com [...] ### Square Cafe\n\n1",
+      "retrieved_at": "2026-10-15T10:44:08.225205Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.eastlibertychamber.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+      "provider": "tavily_search",
+      "uri": "https://www.discovertheburgh.com/east-liberty-neighborhood-guide",
+      "title": "East Liberty Neighborhood Guide - Attractions and Dining",
+      "excerpt": "Reva Modern Indian Review – Delicious Indian in East Liberty\n Hey Babe Offers a Mix of Cocktails and Food in East Liberty\n Kyuramen Review – Popular Asian Chain Comes to Pittsburgh\n Duo’s Taqueria Review – Learn Spanish, Eat Tacos\n Commerce Bar Review – A Proper Speakeasy in East Liberty\n\nHave a spot we should visit in East Liberty, or want to talk about the neighborhood in general? Comment below to share! [...] honeygrow – A national chain focused on healthy dishes using local ingredients.\n The Milkshake Factory – A Pittsburgh milkshake chain that is growing rapidly with many unique creations.\n Kelly’s Bar and Lounge – An East End original that has evolved to fit into the current scene.\n Slice – A local pizza chain serving up NY style slices (read: large portions).\n Mola – A sushi focused restaurant with additional items like bao and rice bowls. [...] Hey Babe – A cocktail lounge and restaurant inside the Maverick Hotel.\n Commerce Bar – A speakeasy with a stellar cocktail menu. Just s",
+      "retrieved_at": "2026-10-15T10:44:08.225322Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Tue, 16 Apr 2019 13:40:22 GMT",
+      "record_date": null,
+      "attribution": "www.discovertheburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "0d760f10-5c77-4821-979b-104dceae8aa0",
+      "provider": "tavily_search",
+      "uri": "https://www.ubereats.com/neighborhood/east-liberty-pittsburgh-pa",
+      "title": "East Liberty Food Delivery & Takeout - Order Online from THE BEST Restaurants Near You | Uber Eats",
+      "excerpt": "### Pizza Parma (Shadyside)\n\nCAVA (6320 Shakespeare Street)\n\n### CAVA (6320 Shakespeare Street)\n\nThe Urban Tap (Shadyside)\n\n### The Urban Tap (Shadyside)\n\nShake Shack (East Liberty)\n\n### Shake Shack (East Liberty)\n\nGenji Sushi (Pittsburgh)\n\n### Genji Sushi (Pittsburgh)\n\nNoodlehead - 242 South Highland\n\n### Noodlehead - 242 South Highland\n\nSt. Clair Social\n\n### St. Clair Social\n\nFish Nor Fowl\n\n### Fish Nor Fowl\n\nSenyai Thai Kitchen\n\n### Senyai Thai Kitchen\n\nGet Loaded (Penn Ave /Garfield) [...] Yashoku Japanese Hibachi\n\n### Yashoku Japanese Hibachi\n\nTOUS les JOURS (East Liberty, PA)\n\n### TOUS les JOURS (East Liberty, PA)\n\nCinnaholic (East Liberty)\n\n### Cinnaholic (East Liberty)\n\nDaves Cosmic Subs ( Spirit Street)\n\n### Daves Cosmic Subs ( Spirit Street)\n\nSoFresh (Shadyside)\n\n### SoFresh (Shadyside)\n\nTropical Smoothie Cafe (5996 Centre Ave D203)\n\n### Tropical Smoothie Cafe (5996 Centre Ave D203)\n\nRed Dragon Chinese Restaurant\n\n### Red Dragon Chinese Restaurant\n\nPizza Parma (Shadyside) [..",
+      "retrieved_at": "2026-10-15T10:44:08.225408Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.ubereats.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+      "provider": "tavily_search",
+      "uri": "https://square-cafe.com/",
+      "title": "Best Brunch in East Liberty | Square Cafe - East Liberty",
+      "excerpt": "> We were very pleased that we chose to try the Square Cafe for brunch while visiting Pittsburgh! The smoked salmon scramble was perfect as was the coffee and buttermilk pancakes! Our waiter was perfect in all aspects of serving our table. A great experience!\n\n## REVIEW BY - YELP\n\n### five star review by Annei B: [...] > GREAT food! The Square Cafe offers a variety of unique meals on their menu. Not only are there some unique items that I don't see on other menus, everything they serve is delicious! I'm obsessed with their Brussels sprout hash.\n\n## REVIEW BY - YELP\n\n### five star review by Steve O: [...] # Visit us at 134 S HIGHLAND AVE, Pittsburgh, PA 15206map marker pin\n\n# About us\n\n## Fresh And Innovative Cafe\n\nWelcome to Square Cafe! Our innovative cafe serves the best seasonal menu items with fresh local products in the heart of Pittsburgh’s East End neighborhood of East Liberty. Square Cafe is a fantastic meeting place for friends and family! We’re a cheerful cafe that welcomes a",
+      "retrieved_at": "2026-10-15T10:44:08.225482Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "square-cafe.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "c2afdf66-44e0-43c5-9518-0f7a3138ed09",
+      "provider": "tavily_search",
+      "uri": "https://www.opentable.com/features/restaurants-that-are-worth-the-drive-east-liberty-pa",
+      "title": "30 Best Restaurants that are Worth The Drive in East Liberty | OpenTable",
+      "excerpt": "Absolutely delicious!!! Beautiful restaurant & exceptional service!!! Matty our Server is outstanding!!! Manager Anthony & Host Jared are terrific!!!\n\nA photo of Balvanera- Pittsburgh restaurant\n\n###### 4. Balvanera- Pittsburgh\n\n4.8\n\nExceptional(422)\n\n$$$$\n\n• Argentinean • Downtown\n\nBooked 34 times today\n\nGreat restaurant. Great food. If you go get the empanadas. The sweet potato and any of the steaks. All so good. Also great cocktails.\n\nA photo of Titusz restaurant\n\n###### 5. Titusz\n\nnew\n\n4.9 [...] Dined 7 days ago\n\n  Wonderful experience! Food was amazing as well as service!! 10 out of a 10!\n\n  More info\n\n  Coast and Main Seafood and Chophouse$$$$• Steakhouse• Monroeville\n\n  •\n  4.5\n R\n\n  Robert\n\n  Pittsburgh / Western PA •2 reviews\n\n  5.0\n\n  Dined on Oct 2, 2026\n\n  Unexpectedly excellent service and food. First-rate.\n\n  More info\n\n  F&F Pizzeria - Mt. Lebo$$$$• Italian• Mt. Lebanon\n\n  •\n  4.6\n\n## Explore OpenTable\n\n East Liberty [...] A photo of Vallozzi's Pittsburgh restaurant\n\n###",
+      "retrieved_at": "2026-10-15T10:44:08.342466Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.opentable.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "channel": "apis",
+      "provider": "census",
+      "topic": "geocoding",
+      "status": "complete",
+      "reason": "Address match selected and confirmed by the user",
+      "queries_run": 0,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "openstreetmap",
+      "topic": "mapped_amenities",
+      "status": "complete",
+      "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers. Using saved map response retrieved at 2026-10-15T07:53:05.150167+00:00.",
+      "queries_run": 0,
+      "sources_returned": 4,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_assessments",
+      "topic": "property_assessment",
+      "status": "complete",
+      "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+      "queries_run": 3,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_permits",
+      "topic": "building_permits",
+      "status": "complete",
+      "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+      "queries_run": 2,
+      "sources_returned": 2,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_closures",
+      "topic": "street_closures",
+      "status": "truncated",
+      "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 205 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+      "queries_run": 2,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "neighborhood_discussion",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 3 extraction notes from 6 sources. No targeted factual review completed.",
+      "queries_run": 2,
+      "sources_returned": 6,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "restaurant_reviews",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 6 extraction notes from 6 sources. No targeted factual review completed.",
+      "queries_run": 2,
+      "sources_returned": 6,
+      "parcel_candidates": []
+    }
+  ],
+  "web": [],
+  "research": [
+    {
+      "topic": "neighborhood_discussion",
+      "summary": "East Liberty is characterized in forum discussions and local organization updates as a well-equipped East End neighborhood that has experienced substantial redevelopment, though some online observers perceive that commercial momentum has recently shifted toward areas like the Strip District. The available material also documents recent community development initiatives, including homeownership projects and facade improvements organized by East Liberty Development, Inc. Coverage limitations are significant: discussion excerpts do not directly address conditions or daily life at 121 S Highland Ave, and several historical accounts focus on past public housing policies and midcentury urban renewal rather than recent resident experiences.",
+      "findings": [
+        {
+          "id": "ca053e96-692b-4b27-8779-9aaad09dcac5",
+          "title": "Local redevelopment and facade improvements",
+          "statement": "Reclaiming Vacant Properties Conference recap and facade improvements at Park Hill Drive.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "The conference took place on October 7, 2026, and the facade improvements were completed by September 25, 2026, as part of the NMTC Homeownership Project closing on September 25, 2026.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+              "excerpt": "## [Spotlight] Reclaiming Vacant Properties Conference recap + facade improvements at Park Hill Drive"
+            },
+            {
+              "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+              "excerpt": "October 7, 2026"
+            },
+            {
+              "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+              "excerpt": "September 25, 2026"
+            },
+            {
+              "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+              "excerpt": "## [Spotlight] 26 homes, 26 homeowners: Closing out our NMTC Homeownership Project"
+            }
+          ],
+          "ui_id": "web-ca053e96-692b-4b27-8779-9aaad09dcac5"
+        },
+        {
+          "id": "fd976e05-2f82-4ae5-ac84-067223d7d881",
+          "title": "Community concern about neighborhood transformation",
+          "statement": "East Liberty is a very well equipped and located neighborhood, though.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "The speaker expresses a positive view of the neighborhood's quality but implies a sense of change or uncertainty.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "2c9e4374-471b-4d1f-97a5-cc646d6f43e9",
+              "excerpt": "Unless you'll be working downtown, it's not the most ideal place to live. East Liberty is a very well equipped and located neighborhood, though"
+            }
+          ],
+          "ui_id": "web-fd976e05-2f82-4ae5-ac84-067223d7d881"
+        },
+        {
+          "id": "60a4331a-0c1d-4c4f-b84e-8ffbaf54c85e",
+          "title": "Perceived shift in neighborhood momentum",
+          "statement": "For about five or six years it was the hottest neighborhood in the city, but it seems as if all of East Liberty’s momentum has shifted to the Strip district.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "The speaker notes a change in which neighborhoods are considered the hottest, indicating a perceived loss of momentum for East Liberty.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "5da16c42-5bd2-4b46-b2c9-f8cd55c82833",
+              "excerpt": "For about five or six years it was the hottest neighborhood in the city, but it seems as if all of East Liberty’s momentum has shifted to the Strip district."
+            }
+          ],
+          "ui_id": "web-60a4331a-0c1d-4c4f-b84e-8ffbaf54c85e"
+        }
+      ],
+      "limitations": [
+        "Unrelated search results were excluded from the address-area brief.",
+        "1 unsupported or out-of-scope model findings omitted.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "East Liberty PITTSBURGH, PA living resident experiences site:reddit.com/r/pittsburgh",
+        "East Liberty S HIGHLAND AVE PITTSBURGH, PA neighborhood news development local discussion"
+      ],
+      "evidence_ids": [
+        "2c9e4374-471b-4d1f-97a5-cc646d6f43e9",
+        "5da16c42-5bd2-4b46-b2c9-f8cd55c82833",
+        "fb86dd00-0baf-4d19-bf3b-a93fd9498b7a",
+        "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+        "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+        "1fdb38fb-8f5f-438e-913d-aa9cdcd6016b"
+      ],
+      "search_calls": 2,
+      "usage_credits": 2.0,
+      "review_completed": false,
+      "brief": {
+        "overview": {
+          "text": "East Liberty is characterized in forum discussions and local organization updates as a well-equipped East End neighborhood that has experienced substantial redevelopment, though some online observers perceive that commercial momentum has recently shifted toward areas like the Strip District. The available material also documents recent community development initiatives, including homeownership projects and facade improvements organized by East Liberty Development, Inc. Coverage limitations are significant: discussion excerpts do not directly address conditions or daily life at 121 S Highland Ave, and several historical accounts focus on past public housing policies and midcentury urban renewal rather than recent resident experiences.",
+          "citations": [
+            {
+              "evidence_id": "2c9e4374-471b-4d1f-97a5-cc646d6f43e9",
+              "excerpt": "Unless you'll be working downtown, it's not the most ideal place to live. East Liberty is a very well equipped and located neighborhood, though"
+            },
+            {
+              "evidence_id": "5da16c42-5bd2-4b46-b2c9-f8cd55c82833",
+              "excerpt": "For about five or six years it was the hottest neighborhood in the city, but it seems as if all of East Liberty’s momentum has shifted to the Strip district."
+            },
+            {
+              "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+              "excerpt": "## [Spotlight] Reclaiming Vacant Properties Conference recap + facade improvements at Park Hill Drive"
+            },
+            {
+              "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+              "excerpt": "## [Spotlight] 26 homes, 26 homeowners: Closing out our NMTC Homeownership Project"
+            },
+            {
+              "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+              "excerpt": "This is an examination of East Liberty, a neighborhood in Pittsburgh, Pennsylvania, as a case study of how decades of shifting urban and housing policy have manifested in an urban neighborhood over time."
+            },
+            {
+              "evidence_id": "1fdb38fb-8f5f-438e-913d-aa9cdcd6016b",
+              "excerpt": "East Liberty’s Urban Renewal was triggered by a cascade of local redevelopment efforts beginning in the Hill District, yet another blighted Pittsburgh neighborhood, in the 1950s.11 The Hill District had steadily deteriorated in the early decades of the 20th Century, and by midcentury, the neighborhood was primarily comprised of low-income families.12 According to City Councilman George E. Evans, by 1943, “90 per cent of the buildings in the area [were] sub-standard and [had] long outlived their [...] of the projects. Furthermore, The Community Builders has developed more homes, in addition to apartments, in the neighborhood that, in 2001, was composed of approximately 84 percent renters.134 According to Kevin Anderson, the owner of Bat’s Barber Shop on 5911 Penn Avenue, “People need to be able to buy their homes because it gives them some independence. There’s a pride in ownership.”135 This “pride” has already begun and will continue"
+            }
+          ],
+          "ui_id": "brief-neighborhood_discussion-0"
+        },
+        "sections": [
+          {
+            "heading": "Community Perceptions and Neighborhood Momentum",
+            "paragraphs": [
+              {
+                "text": "Online discussions regarding East Liberty present mixed impressions of the area's current standing. In one discussion, a commenter noted that East Liberty is a well-equipped and well-located neighborhood to live in, especially for those not working downtown. In another thread discussing the area's trajectory, a participant reflected that while East Liberty had been considered the city's hottest neighborhood for five or six years, that momentum appeared to have shifted toward the Strip District.",
+                "citations": [
+                  {
+                    "evidence_id": "2c9e4374-471b-4d1f-97a5-cc646d6f43e9",
+                    "excerpt": "Unless you'll be working downtown, it's not the most ideal place to live. East Liberty is a very well equipped and located neighborhood, though"
+                  },
+                  {
+                    "evidence_id": "5da16c42-5bd2-4b46-b2c9-f8cd55c82833",
+                    "excerpt": "For about five or six years it was the hottest neighborhood in the city, but it seems as if all of East Liberty’s momentum has shifted to the Strip district."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-1"
+              }
+            ]
+          },
+          {
+            "heading": "Recent Housing and Community Development Initiatives",
+            "paragraphs": [
+              {
+                "text": "Community updates from East Liberty Development, Inc. (ELDI) highlight ongoing housing and revitalization efforts across the neighborhood. In September 2026, ELDI reported closing out its NMTC Homeownership Project, celebrating 26 homes and 26 homeowners, alongside features on individual affordable homeownership experiences. Additional organizational updates in October 2026 recapped attendance at the Reclaiming Vacant Properties Conference and pointed to completed facade improvements at Park Hill Drive.",
+                "citations": [
+                  {
+                    "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+                    "excerpt": "## [Spotlight] Reclaiming Vacant Properties Conference recap + facade improvements at Park Hill Drive"
+                  },
+                  {
+                    "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+                    "excerpt": "October 7, 2026"
+                  },
+                  {
+                    "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+                    "excerpt": "## [Spotlight] 26 homes, 26 homeowners: Closing out our NMTC Homeownership Project"
+                  },
+                  {
+                    "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+                    "excerpt": "## [Spotlight] From pipe dream to keys in hand: Deborah’s affordable homeownership journey"
+                  },
+                  {
+                    "evidence_id": "4ed92734-c1d7-4d04-8828-f8d303a54a95",
+                    "excerpt": "September 2, 2026"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-2"
+              }
+            ]
+          },
+          {
+            "heading": "Historical Context and Urban Planning Background",
+            "paragraphs": [
+              {
+                "text": "Historical examinations document East Liberty's transformation over several decades, noting its position bordered by Highland Park, Morningside, Stanton Heights, Garfield, Friendship, Shadyside, and Larimer. After serving as a major commercial center in the 1950s, midcentury urban renewal efforts led to disinvestment and population loss by 1980, followed by redevelopment pushes in the 2000s aimed at fostering mixed-income housing and commercial revival.",
+                "citations": [
+                  {
+                    "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+                    "excerpt": "Morrow, Christian. “Demolition draws paint and criticism.” New Pittsburgh Courier, August 3, 2005. [...] East Liberty is in Pittsburgh’s East End, and is bordered by the following neighborhoods: Highland Park and Morningside to the north, Stanton Heights to the northwest, Garfield and Friendship to the west, Shadyside to the south, and Larimer to the east. This area is diverse—Garfield, East Liberty, and Larimer have historically been poorer Black neighborhoods, while Friendship, Shadyside, and Highland Park have been wealthier, White neighborhoods."
+                  },
+                  {
+                    "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+                    "excerpt": "East Liberty is in Pittsburgh’s East End, and is bordered by the following neighborhoods: Highland Park and Morningside to the north, Stanton Heights to the northwest, Garfield and Friendship to the west, Shadyside to the south, and Larimer to the east. This area is diverse—Garfield, East Liberty, and Larimer have historically been poorer Black neighborhoods, while Friendship, Shadyside, and Highland Park have been wealthier, White neighborhoods."
+                  },
+                  {
+                    "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+                    "excerpt": "At its peak in the 1950s (Figure 3, right), it boasted more than 500 businesses and was the third-largest commercial district in the state of Pennsylvania, behind Center City Philadelphia and Downtown Pittsburgh (Dept. of City Planning 2012)."
+                  },
+                  {
+                    "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+                    "excerpt": "After a failed midcentury attempt to revitalize the neighborhood through urban renewal (Figure 4, right), East Liberty entered a state of decline, becoming known for drugs and crime rather than a thriving commercial center."
+                  },
+                  {
+                    "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+                    "excerpt": "By 1980, the neighborhood lost half its population (Dept. of City Planning 2012)."
+                  },
+                  {
+                    "evidence_id": "fa4f573b-9082-44f8-a652-ce4148bba0fe",
+                    "excerpt": "In the 2000s, the neighborhood's fortunes began to turn around, and what was once a disinvested urban center plagued by poverty has become the trendy spot to be. Between the 2009-2013 and 2014-2018 ACS 5-year estimates, the white population increased by nearly 57%, w"
+                  },
+                  {
+                    "evidence_id": "1fdb38fb-8f5f-438e-913d-aa9cdcd6016b",
+                    "excerpt": "East Liberty’s Urban Renewal was triggered by a cascade of local redevelopment efforts beginning in the Hill District, yet another blighted Pittsburgh neighborhood, in the 1950s.11 The Hill District had steadily deteriorated in the early decades of the 20th Century, and by midcentury, the neighborhood was primarily comprised of low-income families.12 According to City Councilman George E. Evans, by 1943, “90 per cent of the buildings in the area [were] sub-standard and [had] long outlived their [...] of the projects. Furthermore, The Community Builders has developed more homes, in addition to apartments, in the neighborhood that, in 2001, was composed of approximately 84 percent renters.134 According to Kevin Anderson, the owner of Bat’s Barber Shop on 5911 Penn Avenue, “People need to be able to buy their homes because it gives them some independence. There’s a pride in ownership.”135 This “pride” has already begun and will continue"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-3"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "No discussion sources directly reference 121 S Highland Ave or immediate corridor conditions.",
+          "Community commentary is derived from limited online forum snippets rather than broad consensus surveys.",
+          "Several sources represent retrospective historical papers rather than current resident feedback.",
+          "Organizational materials from East Liberty Development, Inc. reflect promotional and program-specific updates."
+        ],
+        "follow_up_questions": [
+          "What specific commercial and retail businesses currently operate along the S Highland Ave corridor near the property?",
+          "How do current residents rate daily transit access, streetscape safety, and noise levels specifically at 121 S Highland Ave?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T10:44:00.490615Z"
+      },
+      "synthesis_status": "complete"
+    },
+    {
+      "topic": "restaurant_reviews",
+      "summary": "The dining scene around South Highland Avenue and the broader East Liberty area spans upscale sit-down eateries, casual cafes, and international cuisines. However, available review details are sparse: while numerous venues are cataloged across business directories and guides, extensive customer reviews in the supplied records are limited to a small selection of establishments, and many listings do not establish specific proximity or travel times to 121 S Highland Ave.",
+      "findings": [
+        {
+          "id": "e2923108-6a88-4395-9c2e-4a091bda0b4e",
+          "title": "BRGR 5997 Penn Circle S.",
+          "statement": "BRGR 5997 Penn Circle S. Pittsburgh, PA 15206 has rating 13/20.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+              "excerpt": "| BRGR 5997 Penn Circle S. Pittsburgh, PA 15206 | Burgers Map | 13/20 |"
+            }
+          ],
+          "ui_id": "web-e2923108-6a88-4395-9c2e-4a091bda0b4e"
+        },
+        {
+          "id": "e5bf2b5b-0e6f-417d-8a1c-16fd4eafde09",
+          "title": "Paris 66 Bistro 6018 Penn Circle S.",
+          "statement": "Paris 66 Bistro 6018 Penn Circle S. Pittsburgh, PA 15206 has rating 13/20.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+              "excerpt": "| Paris 66 Bistro 6018 Penn Circle S. Pittsburgh, PA 15206 | Menu | French/ Bistro/ Crêpes Map | 13/20 OpenTable |"
+            }
+          ],
+          "ui_id": "web-e5bf2b5b-0e6f-417d-8a1c-16fd4eafde09"
+        },
+        {
+          "id": "34f8d4d5-39e1-49a2-99ca-73cd6cbf6fca",
+          "title": "Plum Pan Asian Kitchen EastSide 5996 Penn Circle S.",
+          "statement": "Plum Pan Asian Kitchen EastSide 5996 Penn Circle S. Pittsburgh, PA 15206 has rating 13/20.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+              "excerpt": "| Plum Pan Asian Kitchen EastSide 5996 Penn Circle S. Pittsburgh, PA 15206 | Menu | Chinese/ Sushi/ Thai Map | 13/20 |"
+            }
+          ],
+          "ui_id": "web-34f8d4d5-39e1-49a2-99ca-73cd6cbf6fca"
+        },
+        {
+          "id": "f3d43f84-6497-4dee-b4eb-37ac1be30fe1",
+          "title": "Honeygrow",
+          "statement": "Honeygrow at 105 S Highland Avenue Pittsburgh, PA 15206 is a national chain focused on healthy dishes using local ingredients.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+              "excerpt": "105 S Highland Avenue Pittsburgh, PA 15206(412) 450-8524honeygrow.com"
+            }
+          ],
+          "ui_id": "web-f3d43f84-6497-4dee-b4eb-37ac1be30fe1"
+        },
+        {
+          "id": "504966c5-99aa-4af1-8b9f-21c7ebdcde3f",
+          "title": "Kahuna Poke & Juice Bar",
+          "statement": "Kahuna Poke & Juice Bar at 132 S Highland Avenue Pittsburgh, PA 15206.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+              "excerpt": "132 S Highland Avenue Pittsburgh, PA 15206(412) 450-8510kahunapgh.com"
+            }
+          ],
+          "ui_id": "web-504966c5-99aa-4af1-8b9f-21c7ebdcde3f"
+        },
+        {
+          "id": "5f4ef83f-bb27-48fc-911e-3ea2a98b125f",
+          "title": "Kelly's Bar & Lounge",
+          "statement": "Kelly's Bar & Lounge at 6012 Centre Avenue Pittsburgh, PA 15206.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+              "excerpt": "6012 Centre Avenue Pittsburgh, PA 15206(412) 363-6012places.singleplatform.com/kellys-bar--lounge/menu?ref=google"
+            }
+          ],
+          "ui_id": "web-5f4ef83f-bb27-48fc-911e-3ea2a98b125f"
+        }
+      ],
+      "limitations": [
+        "2 unsupported or out-of-scope model findings omitted.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "restaurants near 121 S HIGHLAND AVE, PITTSBURGH, PA, 15206 East Liberty reviews menus",
+        "East Liberty S HIGHLAND AVE PITTSBURGH, PA East Liberty Pittsburgh restaurant reviews Reddit"
+      ],
+      "evidence_ids": [
+        "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+        "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+        "13814fcf-9235-45bd-bb07-a425ea6605a9",
+        "0d760f10-5c77-4821-979b-104dceae8aa0",
+        "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+        "c2afdf66-44e0-43c5-9518-0f7a3138ed09"
+      ],
+      "search_calls": 2,
+      "usage_credits": 2.0,
+      "review_completed": false,
+      "brief": {
+        "overview": {
+          "text": "The dining scene around South Highland Avenue and the broader East Liberty area spans upscale sit-down eateries, casual cafes, and international cuisines. However, available review details are sparse: while numerous venues are cataloged across business directories and guides, extensive customer reviews in the supplied records are limited to a small selection of establishments, and many listings do not establish specific proximity or travel times to 121 S Highland Ave.",
+          "citations": [
+            {
+              "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+              "excerpt": "| Paris 66 Bistro 6018 Penn Circle S. Pittsburgh, PA 15206 | Menu | French/ Bistro/ Crêpes Map | 13/20 OpenTable |"
+            },
+            {
+              "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+              "excerpt": "134 South Highland Avenue Pittsburgh, PA 15206(412) 855-4415square-cafe.com"
+            },
+            {
+              "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+              "excerpt": "Have a spot we should visit in East Liberty, or want to talk about the neighborhood in general? Comment below to share! [...] honeygrow – A national chain focused on healthy dishes using local ingredients."
+            },
+            {
+              "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+              "excerpt": "> We were very pleased that we chose to try the Square Cafe for brunch while visiting Pittsburgh! The smoked salmon scramble was perfect as was the coffee and buttermilk pancakes! Our waiter was perfect in all aspects of serving our table. A great experience!"
+            },
+            {
+              "evidence_id": "c2afdf66-44e0-43c5-9518-0f7a3138ed09",
+              "excerpt": "###### 1. Paris 66"
+            }
+          ],
+          "ui_id": "brief-restaurant_reviews-0"
+        },
+        "sections": [
+          {
+            "heading": "Square Cafe",
+            "paragraphs": [
+              {
+                "text": "Located at 134 S Highland Ave, Square Cafe markets itself as an innovative, cheerful cafe serving seasonal items crafted with fresh local products in East Liberty. It offers walk-in seating on weekends and reservations during the week, as well as catering services.",
+                "citations": [
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "134 South Highland Avenue Pittsburgh, PA 15206(412) 855-4415square-cafe.com"
+                  },
+                  {
+                    "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+                    "excerpt": "### five star review by Steve O: [...] # Visit us at 134 S HIGHLAND AVE, Pittsburgh, PA 15206map marker pin"
+                  },
+                  {
+                    "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+                    "excerpt": "Welcome to Square Cafe! Our innovative cafe serves the best seasonal menu items with fresh local products in the heart of Pittsburgh’s East End neighborhood of East Liberty. Square Cafe is a fantastic meeting place for friends and family! We’re a cheerful cafe that welcomes all guests with open arms and a warm heart."
+                  },
+                  {
+                    "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+                    "excerpt": "Make a reservation All Day Monday through Friday! Please note, Saturday and Sunday Square Café operates on a \"walk in\" basis ONLY, no reservations are accepted. We are excited to welcome you for your next visit!"
+                  },
+                  {
+                    "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+                    "excerpt": "Let us help you make your party or event perfect. Our catering offers fast, healthy, and delicious options for gatherings of all sizes."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-1"
+              },
+              {
+                "text": "Customer reviews quoted on the cafe's website praise its brunch offerings and attentive service. Patrons highlight dishes such as the smoked salmon scramble, coffee, buttermilk pancakes, and Brussels sprout hash, noting the variety and uniqueness of the menu.",
+                "citations": [
+                  {
+                    "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+                    "excerpt": "> We were very pleased that we chose to try the Square Cafe for brunch while visiting Pittsburgh! The smoked salmon scramble was perfect as was the coffee and buttermilk pancakes! Our waiter was perfect in all aspects of serving our table. A great experience!"
+                  },
+                  {
+                    "evidence_id": "0a49b5a1-3372-4fa8-93e3-129162fa472f",
+                    "excerpt": "### five star review by Annei B: [...] > GREAT food! The Square Cafe offers a variety of unique meals on their menu. Not only are there some unique items that I don't see on other menus, everything they serve is delicious! I'm obsessed with their Brussels sprout hash."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-2"
+              }
+            ]
+          },
+          {
+            "heading": "Paris 66 Bistro",
+            "paragraphs": [
+              {
+                "text": "Paris 66 Bistro is identified in directories at 6018 Centre Avenue (also referenced historically as Penn Circle S.) offering French bistro fare and crêpes. A guide rated the bistro 13/20.",
+                "citations": [
+                  {
+                    "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+                    "excerpt": "| Paris 66 Bistro 6018 Penn Circle S. Pittsburgh, PA 15206 | Menu | French/ Bistro/ Crêpes Map | 13/20 OpenTable |"
+                  },
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "6018 Centre Avenue Pittsburgh, PA 15206(412) 404-8166[paris66bistro.com](http://paris66bistro.com)"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-3"
+              },
+              {
+                "text": "On OpenTable, the French eatery holds an average rating of 4.4 out of 5 across 2,315 reviews. A customer review commended the fast and efficient service despite a busy dining room, describing the food as delicious, well prepared, and beautifully plated.",
+                "citations": [
+                  {
+                    "evidence_id": "c2afdf66-44e0-43c5-9518-0f7a3138ed09",
+                    "excerpt": "4.4"
+                  },
+                  {
+                    "evidence_id": "c2afdf66-44e0-43c5-9518-0f7a3138ed09",
+                    "excerpt": "Awesome[(2315)](#reviews)"
+                  },
+                  {
+                    "evidence_id": "c2afdf66-44e0-43c5-9518-0f7a3138ed09",
+                    "excerpt": "• French • Shadyside"
+                  },
+                  {
+                    "evidence_id": "c2afdf66-44e0-43c5-9518-0f7a3138ed09",
+                    "excerpt": "I took my family there for my daughter's birthday. There were 5 of us, and we were served quickly and efficiently. Our waiter took time to listen to our questions and make suggestions even though the restaurant was very busy. The food was delicious, well prepared, and beautifully plated."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-4"
+              }
+            ]
+          },
+          {
+            "heading": "South Highland Avenue Establishments",
+            "paragraphs": [
+              {
+                "text": "Several dining spots operate directly along South Highland Avenue near the 121 address corridor. These include the healthy fast-casual bowl chain Honeygrow at 105 S Highland Ave, Kahuna Poke & Juice Bar at 132 S Highland Ave, and the bar and lounge Lorelei at 124 S Highland Ave.",
+                "citations": [
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "105 S Highland Avenue Pittsburgh, PA 15206(412) 450-8524honeygrow.com"
+                  },
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "132 S Highland Avenue Pittsburgh, PA 15206(412) 450-8510kahunapgh.com"
+                  },
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "124 S Highland Avenue Pittsburgh, PA 15206loreleipgh.com"
+                  },
+                  {
+                    "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+                    "excerpt": "Have a spot we should visit in East Liberty, or want to talk about the neighborhood in general? Comment below to share! [...] honeygrow – A national chain focused on healthy dishes using local ingredients."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-5"
+              },
+              {
+                "text": "Further along the avenue are Patron Mexican Grill at 135 S Highland Ave, Mad Mex at 220 S Highland Ave, Casbah at 229 S Highland Ave, and Noodlehead at 242 S Highland Ave. However, the supplied records do not contain detailed review write-ups for these locations.",
+                "citations": [
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "220 South Highland Avenue Pittsburgh, PA 15206(412) 345-0185madmex.com"
+                  },
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "135 South Highland Avenue Pittsburgh, PA 15206(412) 441-2111patronmexicangrills.com"
+                  },
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "229 South Highland Avenue Pittsburgh, PA 15206(412) 661-5656bbrg.site/project/casbah"
+                  },
+                  {
+                    "evidence_id": "0d760f10-5c77-4821-979b-104dceae8aa0",
+                    "excerpt": "Noodlehead - 242 South Highland"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-6"
+              }
+            ]
+          },
+          {
+            "heading": "Broader East Liberty Dining Selections",
+            "paragraphs": [
+              {
+                "text": "The wider East Liberty neighborhood features diverse international restaurants and casual dining concepts. These include Ethiopian platters at Tana, sushi and rice bowls at Mola, Indian dining at Reva Modern Indian, and speakeasy cocktails at Commerce Bar, along with long-standing East End spots like Kelly's Bar and Lounge.",
+                "citations": [
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "6012 Centre Avenue Pittsburgh, PA 15206(412) 363-6012places.singleplatform.com/kellys-bar--lounge/menu?ref=google"
+                  },
+                  {
+                    "evidence_id": "badb58a3-4ccf-4279-8abe-9be63fd0a3d6",
+                    "excerpt": "5929 Baum Boulevard Pittsburgh, PA 15206(412) 665-2770[tanaethiopiancuisine.com](http://tanaethiopiancuisine.com)"
+                  },
+                  {
+                    "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+                    "excerpt": "Kelly’s Bar and Lounge – An East End original that has evolved to fit into the current scene."
+                  },
+                  {
+                    "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+                    "excerpt": "Mola – A sushi focused restaurant with additional items like bao and rice bowls. [...] Hey Babe – A cocktail lounge and restaurant inside the Maverick Hotel."
+                  },
+                  {
+                    "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+                    "excerpt": "Commerce Bar – A speakeasy with a stellar cocktail menu. Just see if you can find it first!"
+                  },
+                  {
+                    "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+                    "excerpt": "Reva Modern Indian – An Indian restaurant with massive menu and bar program."
+                  },
+                  {
+                    "evidence_id": "13814fcf-9235-45bd-bb07-a425ea6605a9",
+                    "excerpt": "Tana – An Ethiopian restaurant with great platters made for sharing."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-7"
+              },
+              {
+                "text": "Additional regional directory listings have included Plum Pan Asian Kitchen and burger concept BRGR on Penn Circle S., each receiving a 13/20 rating in a local dining guide, though detailed modern review narratives for them are absent from the provided texts.",
+                "citations": [
+                  {
+                    "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+                    "excerpt": "| BRGR 5997 Penn Circle S. Pittsburgh, PA 15206 | Burgers Map | 13/20 |"
+                  },
+                  {
+                    "evidence_id": "b97a3c62-de5f-42c2-9e84-d10b0b68d5ee",
+                    "excerpt": "| Plum Pan Asian Kitchen EastSide 5996 Penn Circle S. Pittsburgh, PA 15206 | Menu | Chinese/ Sushi/ Thai Map | 13/20 |"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-8"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "Most directory and delivery entries lack qualitative reviews or rating breakdowns.",
+          "Publication dates are missing from several directory sources, leaving current operational status uncertain.",
+          "OpenTable lists feature restaurants in separate neighborhoods (such as Lawrenceville, Downtown, or Mt. Lebanon) that do not reflect immediate East Liberty dining."
+        ],
+        "follow_up_questions": [
+          "What are recent customer review consensus ratings for restaurants located within immediate walking distance, such as Lorelei and Kahuna Poke?",
+          "Are Penn Circle S. venues like BRGR and Plum Pan Asian Kitchen currently operating under active management?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T10:45:10.191466Z"
+      },
+      "synthesis_status": "complete"
+    }
+  ]
+}

@@ -1,0 +1,1533 @@
+{
+  "version": "1.0",
+  "case": {
+    "address": "2984 SIDNEY ST, PITTSBURGH, PA, 15203",
+    "geography": "Pittsburgh, Pennsylvania",
+    "as_of": "2026-10-15"
+  },
+  "demo": false,
+  "findings": [
+    {
+      "id": "finding-3",
+      "title": "Nearby transit",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "transit",
+      "statements": [
+        "9 mapped features within 1 km. Closest returned point: ~526 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "8fdef2b4-4abe-4522-b971-dd4ebd8edc14"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-2",
+      "title": "Groceries & pharmacies",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "groceries",
+      "statements": [
+        "3 mapped features within 1 km. Closest returned point: ~264 m.",
+        "0 mapped features within 1 km."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "0cecfbee-011b-4329-942a-778933863886",
+        "25133a50-137b-4c0d-b26a-5e8840a2dcca"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-7",
+      "title": "Street-closure permits",
+      "topic": "street_closures",
+      "section": "Street permits",
+      "category": null,
+      "statements": [
+        "1 returned street-closure permit segments."
+      ],
+      "qualifier": "Public records · permits do not confirm work is underway",
+      "evidence_ids": [
+        "55a14a12-8204-4d6f-bd9a-03cc05bf8b81"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_closures",
+          "topic": "street_closures",
+          "status": "complete",
+          "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 112 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+          "queries_run": 2,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-0",
+      "title": "Address match",
+      "topic": "geocoding",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "Census address match: 2984 SIDNEY ST, PITTSBURGH, PA, 15203; latitude 40.425195, longitude -79.961746. Address-range interpolation, not a parcel or structure assessment."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "7f6bda1a-5ef2-4271-8ed6-971fa8c5812f"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "census",
+          "topic": "geocoding",
+          "status": "complete",
+          "reason": "Address match selected and confirmed by the user",
+          "queries_run": 0,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-5",
+      "title": "Assessment & building permits",
+      "topic": "property_assessment",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "County parcel 0029N00316000000: county assessment (USD): 41000000. Assessment records are not current appraisals or proof of condition.",
+        "PLI BP-2022-10318: BUILDING; issued 2022-07-07; status Issued. No work description. A permit does not prove work was completed.",
+        "PLI OOP-2022-04376: Occupancy Only Permit; issued 2022-04-25; status Completed. No work description. A permit does not prove work was completed.",
+        "PLI SP-2022-04429: Sign Permit; issued 2022-04-08; status Completed. 18 SQ FT, 6' TALL DOUBLE FACED GROUND SIGN AT EXISTING SIX STORY MULTI-UNIT RESIDENCE. A permit does not prove work was completed.",
+        "PLI OOP-2022-01065: Occupancy Only Permit; issued 2022-02-23; status Completed. No work description. A permit does not prove work was completed.",
+        "PLI SP-2021-08126: Sign Permit; issued 2021-06-24; status Completed. INSTALLATION OF TWO SELF ILLUMINATED WALL SIGNS AND TWO NON-ILLUMINATED WALL SIGNS ON SIX STORY BUILDING.. A permit does not prove work was completed.",
+        "PLI BP-2021-00981: BUILDING; issued 2021-05-13; status Completed. CONSTRUCT POOL ALONG SIDNEY STREET FRONTAGE OF FIRST FLOOR ROOF OF SIX-STORY MULTI-UNIT DWELLING. A permit does not prove work was completed.",
+        "PLI MP-2020-02433: MECHANICAL; issued 2020-07-23; status Completed. EXTERIOR EQUIPMENT, INTERIOR EQUIPMENT, DUCTWORK, EXHAUST EQUIPMENT AT A 6 STORY STRUCTURE - RELATED TO 19-B-00446. A permit does not prove work was completed.",
+        "PLI FAS-2020-03364: Fire Alarm Permit; issued 2020-06-08; status Completed. NEW FIRE ALARM SYSTEM THROUGHOUT...RELATED 19-B-00446. A permit does not prove work was completed.",
+        "PLI SSP-2019-11215: Suppression System Permit; issued 2020-05-07; status Completed. NEW SYSTEM - SPRINKLER HEADS, SPRINKLER PIPING, STANDPIPE SYSTEM, SPRINKLER RISER AND FIRE DEPARTMENT CONNECTION AT A 6 STORY STRUCTURE - RELATED TO 19-B-00446.. A permit does not prove work was completed.",
+        "PLI OLP-2019-00404: Occupant Load Placard Permit; issued 2019-08-14; status Completed. No work description. A permit does not prove work was completed."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "3635b4b0-3fbb-4344-a9d1-070bbe41b6cf",
+        "4068a18d-d214-4584-a7f5-fbe46f782950",
+        "a9606a6c-4192-42d5-a647-36c309142765",
+        "396355cf-151b-4e53-a565-344d446054e8",
+        "5a4ff8f2-1c9e-46ce-ba3a-c2912f690318",
+        "ab077816-59b2-4e9a-9973-cf37b140bf99",
+        "0c1b56c4-6c8c-492d-9cf7-3f1df1b929e1",
+        "c830f3eb-4588-49e1-b055-0b729f93e6b1",
+        "cd44f6f5-ed4c-4cc5-a6db-347b938ac21b",
+        "09ffa8ff-829e-44d2-b748-aca7db6d1d1c",
+        "985dd851-20cb-4e93-b40d-29935c4c1bd7"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_assessments",
+          "topic": "property_assessment",
+          "status": "complete",
+          "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+          "queries_run": 2,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "wprdc_permits",
+          "topic": "building_permits",
+          "status": "complete",
+          "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+          "queries_run": 2,
+          "sources_returned": 10,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-8",
+      "title": "Local discussions",
+      "topic": "neighborhood_discussion",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "3 source-linked findings from 5 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "2b401504-d67a-4f8a-a599-0f994789b103",
+        "8a1f36fe-2d87-4899-bfb8-782dec2f2164",
+        "75b9f13c-f290-4c0a-b54c-12d65bc5b840",
+        "20f7c756-4509-4174-a7a6-cbdd255511c4",
+        "75a423ff-30fa-4e4a-97d9-6955b06be531"
+      ],
+      "web_indices": [],
+      "research_topic": "neighborhood_discussion",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "neighborhood_discussion",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 3 extraction notes from 5 sources. No targeted factual review completed.",
+          "queries_run": 2,
+          "sources_returned": 5,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-9",
+      "title": "Dining reviews",
+      "topic": "restaurant_reviews",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "3 source-linked findings from 8 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "e67874d5-21fa-4890-b78e-b8925f334e59",
+        "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+        "e48c0c6e-62a3-422f-a19a-0053c87cb5aa",
+        "17f859c3-9987-4764-9fa2-cfed3363df08",
+        "83482da1-0827-48b7-ae35-ec0ad529ec53",
+        "8f8fc989-c801-4334-a5f7-f0ef06af9c14",
+        "be769c22-d72b-4da1-98ab-4ba4ae5a56b3",
+        "25f76c7f-ab5c-45e7-9fd0-a9df282d297d"
+      ],
+      "web_indices": [],
+      "research_topic": "restaurant_reviews",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "restaurant_reviews",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 3 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+          "queries_run": 3,
+          "sources_returned": 8,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-1",
+      "title": "Mapped education features",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "schools",
+      "statements": [
+        "2 mapped features within 1 km. Closest returned point: ~615 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "cb922ef0-1950-4b01-8028-198934881211"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "7f6bda1a-5ef2-4271-8ed6-971fa8c5812f",
+      "provider": "census",
+      "uri": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=2984+Sidney+St%2C+Pittsburgh%2C+PA+15203&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+      "title": "Census Geocoder",
+      "excerpt": "Census address match: 2984 SIDNEY ST, PITTSBURGH, PA, 15203; latitude 40.425195, longitude -79.961746. Address-range interpolation, not a parcel or structure assessment.",
+      "retrieved_at": "2026-10-15T12:27:14.500043Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": null,
+      "match_method": "user_confirmed_census_address_range_match",
+      "details": {
+        "latitude": 40.425195005144,
+        "longitude": -79.96174602873,
+        "matched_address": "2984 SIDNEY ST, PITTSBURGH, PA, 15203",
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      }
+    },
+    {
+      "id": "cb922ef0-1950-4b01-8028-198934881211",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.425195005144/-79.96174602873",
+      "title": "Schools · area summary",
+      "excerpt": "Schools: 2 mapped features in the 1 km search area. Closest returned point/center is about 615 m away in a straight line. Attendance zones and school quality are not established.",
+      "retrieved_at": "2026-10-15T12:27:46.927342Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:schools",
+      "source_updated_at": "2026-10-15T12:25:36Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "schools",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 2,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 615,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 367960658,
+            "uri": "https://www.openstreetmap.org/node/367960658",
+            "name": "Goodwill Employment Training Center",
+            "center": {
+              "lat": 40.4258065,
+              "lon": -79.968964
+            },
+            "approximate_center_distance_m": 615
+          },
+          {
+            "object_type": "way",
+            "object_id": 535398209,
+            "uri": "https://www.openstreetmap.org/way/535398209",
+            "name": "Saint Regis School",
+            "center": {
+              "lat": 40.4310071,
+              "lon": -79.9526768
+            },
+            "approximate_center_distance_m": 1003
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "0cecfbee-011b-4329-942a-778933863886",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.425195005144/-79.96174602873",
+      "title": "Grocery stores · area summary",
+      "excerpt": "Grocery stores: 3 mapped features in the 1 km search area. Closest returned point/center is about 264 m away in a straight line. Includes supermarkets, convenience stores and produce shops; hours are not verified.",
+      "retrieved_at": "2026-10-15T12:27:46.927435Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:groceries",
+      "source_updated_at": "2026-10-15T12:25:36Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "groceries",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 3,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 264,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 1106968353,
+            "uri": "https://www.openstreetmap.org/way/1106968353",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4232337,
+              "lon": -79.9599965
+            },
+            "approximate_center_distance_m": 264
+          },
+          {
+            "object_type": "way",
+            "object_id": 1158757677,
+            "uri": "https://www.openstreetmap.org/way/1158757677",
+            "name": "Aldi",
+            "center": {
+              "lat": 40.4269203,
+              "lon": -79.9675214
+            },
+            "approximate_center_distance_m": 525
+          },
+          {
+            "object_type": "way",
+            "object_id": 204106947,
+            "uri": "https://www.openstreetmap.org/way/204106947",
+            "name": "Coen Markets Inc",
+            "center": {
+              "lat": 40.42851,
+              "lon": -79.9708042
+            },
+            "approximate_center_distance_m": 851
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "8fdef2b4-4abe-4522-b971-dd4ebd8edc14",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.425195005144/-79.96174602873",
+      "title": "Public transit · area summary",
+      "excerpt": "Public transit: 9 mapped features in the 1 km search area. Closest returned point/center is about 526 m away in a straight line. Stop/platform features may share a station; frequency and routes are not verified.",
+      "retrieved_at": "2026-10-15T12:27:46.927496Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:transit",
+      "source_updated_at": "2026-10-15T12:25:36Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "transit",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 9,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 526,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 12580533554,
+            "uri": "https://www.openstreetmap.org/node/12580533554",
+            "name": "Blair Street opp Street A",
+            "center": {
+              "lat": 40.4264957,
+              "lon": -79.9557755
+            },
+            "approximate_center_distance_m": 526
+          },
+          {
+            "object_type": "node",
+            "object_id": 12580533555,
+            "uri": "https://www.openstreetmap.org/node/12580533555",
+            "name": "Blair Street at Second Avenue",
+            "center": {
+              "lat": 40.4271459,
+              "lon": -79.9557216
+            },
+            "approximate_center_distance_m": 554
+          },
+          {
+            "object_type": "node",
+            "object_id": 3652076305,
+            "uri": "https://www.openstreetmap.org/node/3652076305",
+            "name": "Second Avenue opp Bates Street FS",
+            "center": {
+              "lat": 40.4309279,
+              "lon": -79.9590798
+            },
+            "approximate_center_distance_m": 676
+          },
+          {
+            "object_type": "node",
+            "object_id": 12569472320,
+            "uri": "https://www.openstreetmap.org/node/12569472320",
+            "name": "Second Avenue at Bates Street FS",
+            "center": {
+              "lat": 40.4314341,
+              "lon": -79.9594517
+            },
+            "approximate_center_distance_m": 720
+          },
+          {
+            "object_type": "node",
+            "object_id": 3369561303,
+            "uri": "https://www.openstreetmap.org/node/3369561303",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4250149,
+              "lon": -79.9525462
+            },
+            "approximate_center_distance_m": 779
+          },
+          {
+            "object_type": "node",
+            "object_id": 12209125549,
+            "uri": "https://www.openstreetmap.org/node/12209125549",
+            "name": "Greenfield Avenue at Irvine Street",
+            "center": {
+              "lat": 40.4247883,
+              "lon": -79.9523632
+            },
+            "approximate_center_distance_m": 796
+          },
+          {
+            "object_type": "node",
+            "object_id": 12569472321,
+            "uri": "https://www.openstreetmap.org/node/12569472321",
+            "name": "Second Avenue at PGH Tech Center",
+            "center": {
+              "lat": 40.4327205,
+              "lon": -79.9624698
+            },
+            "approximate_center_distance_m": 839
+          },
+          {
+            "object_type": "node",
+            "object_id": 12569472322,
+            "uri": "https://www.openstreetmap.org/node/12569472322",
+            "name": "Second Avenue opp PGH Tech Center",
+            "center": {
+              "lat": 40.4328031,
+              "lon": -79.9620791
+            },
+            "approximate_center_distance_m": 846
+          },
+          {
+            "object_type": "node",
+            "object_id": 1585004422,
+            "uri": "https://www.openstreetmap.org/node/1585004422",
+            "name": "Carson Street at 24th",
+            "center": {
+              "lat": 40.4282786,
+              "lon": -79.9710269
+            },
+            "approximate_center_distance_m": 857
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "25133a50-137b-4c0d-b26a-5e8840a2dcca",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.425195005144/-79.96174602873",
+      "title": "Pharmacies · area summary",
+      "excerpt": "Pharmacies: no mapped features returned in the 1 km search area. This does not establish that none exist.",
+      "retrieved_at": "2026-10-15T12:27:46.927589Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:pharmacies",
+      "source_updated_at": "2026-10-15T12:25:36Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "pharmacies",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 0,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": null,
+        "members": [],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "3635b4b0-3fbb-4344-a9d1-070bbe41b6cf",
+      "provider": "wprdc_assessments",
+      "uri": "https://data.wprdc.org/dataset/property-assessments/resource/65855e14-549e-4992-b5be-d629afc676fa",
+      "title": "Allegheny County assessment · 0029N00316000000",
+      "excerpt": "County parcel 0029N00316000000: county assessment (USD): 41000000. Assessment records are not current appraisals or proof of condition.",
+      "retrieved_at": "2026-10-15T12:27:51.879123Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "0029N00316000000",
+      "source_updated_at": "2026-10-07T02:46:52.053197",
+      "record_date": "2026-09-30",
+      "attribution": "Allegheny County / Western Pennsylvania Regional Data Center · cc-zero",
+      "match_method": "unique_exact_number_street_zip_no_unit",
+      "details": {}
+    },
+    {
+      "id": "4068a18d-d214-4584-a7f5-fbe46f782950",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2022-10318",
+      "excerpt": "PLI BP-2022-10318: BUILDING; issued 2022-07-07; status Issued. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441463Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2022-10318",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-07-07",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "a9606a6c-4192-42d5-a647-36c309142765",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OOP-2022-04376",
+      "excerpt": "PLI OOP-2022-04376: Occupancy Only Permit; issued 2022-04-25; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441546Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OOP-2022-04376",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-04-25",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "396355cf-151b-4e53-a565-344d446054e8",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · SP-2022-04429",
+      "excerpt": "PLI SP-2022-04429: Sign Permit; issued 2022-04-08; status Completed. 18 SQ FT, 6' TALL DOUBLE FACED GROUND SIGN AT EXISTING SIX STORY MULTI-UNIT RESIDENCE. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441579Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "SP-2022-04429",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-04-08",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "5a4ff8f2-1c9e-46ce-ba3a-c2912f690318",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OOP-2022-01065",
+      "excerpt": "PLI OOP-2022-01065: Occupancy Only Permit; issued 2022-02-23; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441607Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OOP-2022-01065",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2022-02-23",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "ab077816-59b2-4e9a-9973-cf37b140bf99",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · SP-2021-08126",
+      "excerpt": "PLI SP-2021-08126: Sign Permit; issued 2021-06-24; status Completed. INSTALLATION OF TWO SELF ILLUMINATED WALL SIGNS AND TWO NON-ILLUMINATED WALL SIGNS ON SIX STORY BUILDING.. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441634Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "SP-2021-08126",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-06-24",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "0c1b56c4-6c8c-492d-9cf7-3f1df1b929e1",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · BP-2021-00981",
+      "excerpt": "PLI BP-2021-00981: BUILDING; issued 2021-05-13; status Completed. CONSTRUCT POOL ALONG SIDNEY STREET FRONTAGE OF FIRST FLOOR ROOF OF SIX-STORY MULTI-UNIT DWELLING. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441659Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "BP-2021-00981",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2021-05-13",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "c830f3eb-4588-49e1-b055-0b729f93e6b1",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · MP-2020-02433",
+      "excerpt": "PLI MP-2020-02433: MECHANICAL; issued 2020-07-23; status Completed. EXTERIOR EQUIPMENT, INTERIOR EQUIPMENT, DUCTWORK, EXHAUST EQUIPMENT AT A 6 STORY STRUCTURE - RELATED TO 19-B-00446. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441686Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "MP-2020-02433",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-07-23",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "cd44f6f5-ed4c-4cc5-a6db-347b938ac21b",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · FAS-2020-03364",
+      "excerpt": "PLI FAS-2020-03364: Fire Alarm Permit; issued 2020-06-08; status Completed. NEW FIRE ALARM SYSTEM THROUGHOUT...RELATED 19-B-00446. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441713Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "FAS-2020-03364",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-06-08",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "09ffa8ff-829e-44d2-b748-aca7db6d1d1c",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · SSP-2019-11215",
+      "excerpt": "PLI SSP-2019-11215: Suppression System Permit; issued 2020-05-07; status Completed. NEW SYSTEM - SPRINKLER HEADS, SPRINKLER PIPING, STANDPIPE SYSTEM, SPRINKLER RISER AND FIRE DEPARTMENT CONNECTION AT A 6 STORY STRUCTURE - RELATED TO 19-B-00446.. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441742Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "SSP-2019-11215",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2020-05-07",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "985dd851-20cb-4e93-b40d-29935c4c1bd7",
+      "provider": "wprdc_permits",
+      "uri": "https://data.wprdc.org/dataset/pli-permits/resource/f4d1177a-f597-4c32-8cbf-7885f56253f6",
+      "title": "Pittsburgh PLI permit · OLP-2019-00404",
+      "excerpt": "PLI OLP-2019-00404: Occupant Load Placard Permit; issued 2019-08-14; status Completed. No work description. A permit does not prove work was completed.",
+      "retrieved_at": "2026-10-15T12:27:55.441768Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "OLP-2019-00404",
+      "source_updated_at": "2026-10-14T03:33:43.050991",
+      "record_date": "2019-08-14",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "exact_county_parcel_id",
+      "details": {}
+    },
+    {
+      "id": "55a14a12-8204-4d6f-bd9a-03cc05bf8b81",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-OP-2026-09907-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-OP-2026-09907-1 on SIDNEY ST, about 480 m from the interpolated address point: 2026-10-01 to 2026-10-31. Work described: DOMI-OP-2024-17664: NEED TO REPAIR A LEAKING WATERLINE LOCATED IN THE SIDEWALK THAT IS LOCATED 2681 SIDNEY STREET. THE LEAK IS CURRENTLY BEING BLOCK OFF BY BARRICADES BUT CAN AND W. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:28:00.125499Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-OP-2026-09907-1:328",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-01",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 480,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "DOMI-OP-2024-17664: NEED TO REPAIR A LEAKING WATERLINE LOCATED IN THE SIDEWALK   THAT IS LOCATED 2681 SIDNEY STREET. THE LEAK IS CURRENTLY BEING BLOCK OFF BY BARRICADES BUT CAN AND WILL BECOME AN ISSUE AS THE WEATHER GETS COLDER. I WOULD LABEL THIS PROJECT A HIGH PRIORITY.",
+          "from_date": "2026-10-01",
+          "to_date": "2026-10-31",
+          "primary_street": "SIDNEY ST",
+          "from_street": "S 26TH ST",
+          "to_street": "S 27TH ST"
+        }
+      }
+    },
+    {
+      "id": "2b401504-d67a-4f8a-a599-0f994789b103",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/1jich24/thoughts_on_south_side_flats",
+      "title": "Thoughts on South Side Flats?",
+      "excerpt": "The only thing I would like to know is if it’ll be safe walking to the bus stop early in the morning, 5:30 am, to get to clinical for school. For context, I would be living around 20th street. Live on 22nd St off of Carson and it was on Jane Street where I frequently walk. Walk some of the alleys and side streets too. - If you're around 20th the 54 to oakland is the best bet, but you'd also be able to walk a few blocks down to take the 75 which comes off the Birmingham bridge and goes east down carson to the Works. Even heading into the southern suburbs or the Airport, the SS is highly convenient compared to the East End. If walking is your thing, the SS is extremely pedestrian/bike friendly. - When I tell a fellow yinzers that I live in the south side, they always assume I’m a drunk or crazy/stupid to live there. (I live near 12st, and even the rowdiness of the summer weekends isn’t as bad as the city i used to live). - I loved my time living on the flats. - I have lived nowhere but t",
+      "retrieved_at": "2026-10-15T12:28:32.286728Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "8a1f36fe-2d87-4899-bfb8-782dec2f2164",
+      "provider": "tavily_search",
+      "uri": "https://en.wikipedia.org/wiki/South_Side_Flats",
+      "title": "South Side Flats - Wikipedia",
+      "excerpt": "The South Side Flats is a neighborhood in Pittsburgh, Pennsylvania's South Side \"South Side (Pittsburgh)\") area. It is located just south of the Monongahela River. The neighborhood has one of the City of Pittsburgh's largest concentrations of 19th-century homes, which has prompted outsiders to call the neighborhood the city's Georgetown. It includes many bars and restaurants as well as residences. The main throughway in the South Side Flats is East Carson Street. The street is home to a [...] posed a safety hazard, although the J&L sign is mothballed beneath the Panhandle Bridge for future use. Riverboat gambling was considered for the site and in 1993, and the City of Pittsburgh Urban and Redevelopment Authority (URA) purchased the site with money loaned by a potential developer for $9.3 million. The URA eventually redeveloped the site to be the Southside Works complex. The project has brought national retailers to the eastern end of the neighborhood. [...] | Neighborhood of Pittsburg",
+      "retrieved_at": "2026-10-15T12:28:34.001706Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "en.wikipedia.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "75b9f13c-f290-4c0a-b54c-12d65bc5b840",
+      "provider": "tavily_search",
+      "uri": "https://www.homes.com/local-guide/pittsburgh-pa/southside-flats-neighborhood",
+      "title": "Southside Flats Neighborhood Guide",
+      "excerpt": "South Side Flats is a riverfront nightlife hot spot. Just across the Monongahela River from Downtown Pittsburgh, South Side Flats combines historic",
+      "retrieved_at": "2026-10-15T12:28:34.001763Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Wed, 14 Oct 2026 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.homes.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+      "provider": "tavily_search",
+      "uri": "https://nextpittsburgh.com/city-design/south-sides-tarnished-reputation-may-be-contributing-to-its-gentrification",
+      "title": "South Side’s bad reputation may be contributing to its gentrification",
+      "excerpt": "In July, Pittsburgh Magazine touted the neighborhood’s desirability evident in new loft conversions. Doors Open Pittsburgh hosted a South Side neighborhood event in September and there are plans by Walnut Capital to demolish the former South Side Hospital (later, UPMC) for new upscale housing. [...] SouthSideCAN is following in the footsteps of the South Side Local Development Corporation. (which shut down in 2012) and other local groups that have sought to repair the South Side’s image problems.\n\n“The story that typically hits the news is the negative one about the terrible thing that happened,” says SouthSideCAN member Cassandra Dixon. She has lived in the Flats for 14 years. Dixon was late to an August interview because she bumped into a TV news crew on East Carson. [...] Pittsburgh Community Reinvestment Group Executive Director Ernie Hogan sees what’s happening in the South Side, especially the Flats, as a clear sign that gentrification is happening. And, he adds, it’s not somethi",
+      "retrieved_at": "2026-10-15T12:28:34.001833Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Mon, 02 Oct 2023 11:00:00 GMT",
+      "record_date": null,
+      "attribution": "nextpittsburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "75a423ff-30fa-4e4a-97d9-6955b06be531",
+      "provider": "tavily_search",
+      "uri": "https://www.redfin.com/neighborhood/156634/PA/Pittsburgh/South-Side-Flats/housing-market",
+      "title": "South Side Flats, PA Housing Market - Pittsburgh",
+      "excerpt": "Over the three months ending August 2026, South Side Flats home prices were up 18.5% compared to the same period last year, selling for a median price of $330K.",
+      "retrieved_at": "2026-10-15T12:28:34.001862Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.redfin.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+      "provider": "tavily_search",
+      "uri": "https://www.discovertheburgh.com/best-restaurants-in-pittsburgh",
+      "title": "A Local's Guide to the Best Restaurants in Pittsburgh",
+      "excerpt": "Taqueria el Pastorcito – New Kensington – $$\n Duo’s Taqueria – East Liberty – $$\n Totopo – Mt Lebanon – $$\n Tocayo – Shadyside – $$\n tako – Downtown – $$$\n La Bodega Taqueria – South Side – $$\n Las Velas – Downtown – $ to $$\n Bea Taco Town – Downtown – $ to $$\n La Palapa – South Side – $ to $$\n Los Mayas – Harmony – $$\n Alquisiras Paleteria – Beechview – $\n Esquina Cantina – Lawrenceville – $$\n Brassero Grill – Braddock – $$\n Camino – Bloomfield – $$\n Mad Mex – Multiple Locations – $ to $$ [...] Dish Osteria – South Side – $$ to $$$\n DiAnoia’s – Strip District – $$ to $$$\n Della Terra – Zelienople – $$$\n Girasole – Shadyside – $$ to $$$\n Ruby’s Wine House – Coraopolis – $$ to $$$\n Alta Via – Fox Chapel / Downtown – $$$-$$$$\n La Tavola – Mount Washington – $$$\n Pizzaiolo Primo – Downtown – $$$ to $$$$\n Alla Famiglia – Allentown – $$$$\n LeoGreta – Carnegie – $$\n Piccolo Forno – Lawrenceville – $$ to $$$\n Casa Narcisi Winery – Gibsonia – $$ to $$$ [...] Soju – Garfield – Korean – $$ to $$",
+      "retrieved_at": "2026-10-15T12:29:11.271754Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Thu, 05 Nov 2015 13:14:48 GMT",
+      "record_date": null,
+      "attribution": "www.discovertheburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+      "provider": "tavily_search",
+      "uri": "https://www.opentable.com/landmark/restaurants-near-south-side-slopes",
+      "title": "Restaurants Near South Side Slopes | OpenTable",
+      "excerpt": "More info\n\n  The Capital Grille - Pittsburgh$$$$• Steakhouse• Downtown\n\n  •\n  4.8\n J\n\n  JeanineGold\n\n  Pittsburgh / Western PA •3 reviews\n\n  5.0\n\n  Dined 7 days ago\n\n  Another amazing dinner for hubby’s birthday. The restaurant was busy but food was still delivered promptly and expertly prepared. Despite our full bellies, we still devoured the sugar coated delicious dessert you can only find here. Well done, Del Frisco’s, well done.\n\n  More info [...] More info\n\n  Del Frisco's Double Eagle Steakhouse - Pittsburgh$$$$• Steakhouse• Downtown\n\n  •\n  4.8\n\n### Discover best restaurants near South Side Slopes [...] A photo of The Capital Grille - Pittsburgh restaurant\n\n###### 5. The Capital Grille - Pittsburgh\n\n4.8\n\nExceptional(4711)\n\n$$$$\n\n• Steakhouse • Downtown\n\nBooked 76 times today",
+      "retrieved_at": "2026-10-15T12:29:11.271984Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.opentable.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "e48c0c6e-62a3-422f-a19a-0053c87cb5aa",
+      "provider": "tavily_search",
+      "uri": "https://en.wikipedia.org/wiki/South_Side_Flats",
+      "title": "South Side Flats - Wikipedia",
+      "excerpt": "The South Side Flats is a neighborhood in Pittsburgh, Pennsylvania's South Side \"South Side (Pittsburgh)\") area. It is located just south of the Monongahela River. The neighborhood has one of the City of Pittsburgh's largest concentrations of 19th-century homes, which has prompted outsiders to call the neighborhood the city's Georgetown. It includes many bars and restaurants as well as residences. The main throughway in the South Side Flats is East Carson Street. The street is home to a [...] | South Side Flats is located in Pittsburgh South Side Flats  Location within Pittsburgh Show map of Pittsburgh  South Side Flats is located in Pennsylvania South Side Flats  Location within Pennsylvania Show map of Pennsylvania  South Side Flats is located in the United States South Side Flats  Location within the United States Show map of the United States |\n| Location | Roughly E. Carson St. from 9th to 24th St., Pittsburgh, Pennsylvania | [...] South Side Branch of the Carnegie Library of Pitt",
+      "retrieved_at": "2026-10-15T12:29:14.062477Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "en.wikipedia.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "17f859c3-9987-4764-9fa2-cfed3363df08",
+      "provider": "tavily_search",
+      "uri": "https://www.ubereats.com/find-near-me/pittsburgh-pa/food",
+      "title": "Best Restaurants Near Me in Pittsburgh - Order Food Near Me | Uber Eats",
+      "excerpt": "### Pho van PA\n\n### La Bodega\n\n### South Side BBQ Company\n\n### Gino's Pizza\n\n### Pittsburgh Poke\n\n### Sylvia’s Market and Deli\n\n### Macaroni Man (1717 East Carson Street)\n\n### D.P. Dough (1717 East Carson Street)\n\n### American Burrito (1733 EAST CARSON ST)\n\n### Sunrise Tacos (1733 EAST CARSON ST)\n\n### High Burgers (1733 EAST CARSON ST)\n\n### Yallah Taco (E Carson St.)\n\n### Big Chomp Cheesesteaks (1733 E Carson St)\n\n### Rocky's Cheesesteaks (1733 EAST CARSON ST) [...] ### Iron Born Pizza (STRIP)\n\n### Primo Hoagies (Pittsburgh, PA -Smallman St)\n\n### Subba Asian Restaurant\n\n### MIJO - Mexican Cuisine\n\n### Triple S Cafe\n\n### Fat Cat\n\n### Micro Diner\n\n### Little Bangkok In The Strip\n\n### Bella Notte\n\n### Bedford House PGH\n\n### Coughlin's Law Kitchen and Ale House\n\n### Novo Asian Food Hall\n\n### Kassab’s Restaurant inc\n\n### Teachana\n\n### The Urban Tap (Southside)\n\n### Tan Lac Vien 2 (Novo Asian Food Hall)\n\n### MOLA 2 (Novo Asian Food Hall) [...] ### Tako - Downtown\n\n### Moonlit Burgers | Uptow",
+      "retrieved_at": "2026-10-15T12:29:11.271562Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.ubereats.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "83482da1-0827-48b7-ae35-ec0ad529ec53",
+      "provider": "tavily_search",
+      "uri": "https://www.visitpittsburgh.com/restaurants-culinary",
+      "title": "Pittsburgh Restaurants | Listings, Nightlife & Farmers Markets | Visit Pittsburgh",
+      "excerpt": "Details\n\n                                                                                                            A strip of fried fish with a side of pasta served during Fish Fry in Pittsburgh, PA\n\n                                                                                                            Pittsburgh’s Fish Fry-Days | 2026 Fish Fry Guide [...] Details\n\n                                                                                                            Pasta dish from Pittsburgh Italian restaurant, Alla Famiglia\n\n                                                                                                            30 Best Italian Restaurants in Pittsburgh [...] ​Spending the day watching baseball at PNC Park is a real treat.\n\n                                                                                                            Details\n\n                                                                                                            Enjoy liv",
+      "retrieved_at": "2026-10-15T12:29:11.271890Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.visitpittsburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "8f8fc989-c801-4334-a5f7-f0ef06af9c14",
+      "provider": "tavily_search",
+      "uri": "https://connectionatsouthside.com/",
+      "title": "Pittsburgh apartments for rent | Connection at Southside",
+      "excerpt": "It’s time to live centered.\n\nFind Your Home   Book a Tour\n\nLocation\n\n2984 Sidney Street  \nPittsburgh, PA 15203\n\nCall us at (412) 838-4574 [...] ×\n\nPet Policy\n\nMax 2 Allowed | Max weight 80 lb each | One time Fee $250  \n Rent $35\n\nConnection at Southside Logo\n\n Virtual Tours\n Book a Tour\n\nFind Your Home\n\nCall us at (412) 838-4574\n\n Amenities\n Floorplans\n Affordable Apartments\n Match Day\n Gallery\n Neighborhood\n Residents\n FAQs\n Contact\n\nFind Your Home\n\nBook a Tour   Virtual Tours\n\n2984 Sidney Street  \nPittsburgh, PA 15203\n\nConnection at Southside\n\n Get Directions\n\n2984 Sidney Street, Pittsburgh, PA 15203  (412) 838-4574 [...] a room with a table, a TV and chairs   a bedroom with a bed and a dresser   a living room with a large rug   window seating in the lounge area   resident lounge with large couches and nearness to other amenity areas   a pool in a courtyard between buildings\n\n## Follow Us on Instagram\n\n / connectionatsouthside\n\nLate-night cravings?   Are you ready for the holidays?  ",
+      "retrieved_at": "2026-10-15T12:29:11.272096Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "connectionatsouthside.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "be769c22-d72b-4da1-98ab-4ba4ae5a56b3",
+      "provider": "tavily_search",
+      "uri": "https://www.labodegapgh.com/",
+      "title": "La Bodega Taqueria",
+      "excerpt": "Contact Us Phone : 412-586-4596 Email : info@labodega.com. Address 1502 Carson St. Pittsburgh PA 15203",
+      "retrieved_at": "2026-10-15T12:29:38.128667Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.labodegapgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "25f76c7f-ab5c-45e7-9fd0-a9df282d297d",
+      "provider": "tavily_search",
+      "uri": "https://www.facebook.com/stufftodoinpittsburgh/videos/this-south-side-spot-is-a-must-try-la-bodega-is-cooking-up-some-of-the-best-taco/1670444130886255",
+      "title": "La Bodega Southside Pittsburgh Tacos & Quesabirria Pizza ...",
+      "excerpt": "La Bodega, a Mexican restaurant located at 1502 Carson Street in the Southside neighborhood of Pittsburgh.",
+      "retrieved_at": "2026-10-15T12:29:38.128753Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Fri, 17 Jul 2026 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.facebook.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "channel": "apis",
+      "provider": "census",
+      "topic": "geocoding",
+      "status": "complete",
+      "reason": "Address match selected and confirmed by the user",
+      "queries_run": 0,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "openstreetmap",
+      "topic": "mapped_amenities",
+      "status": "complete",
+      "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+      "queries_run": 1,
+      "sources_returned": 4,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_assessments",
+      "topic": "property_assessment",
+      "status": "complete",
+      "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+      "queries_run": 2,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_permits",
+      "topic": "building_permits",
+      "status": "complete",
+      "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+      "queries_run": 2,
+      "sources_returned": 10,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_closures",
+      "topic": "street_closures",
+      "status": "complete",
+      "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 112 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+      "queries_run": 2,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "neighborhood_discussion",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 3 extraction notes from 5 sources. No targeted factual review completed.",
+      "queries_run": 2,
+      "sources_returned": 5,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "restaurant_reviews",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 3 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+      "queries_run": 3,
+      "sources_returned": 8,
+      "parcel_candidates": []
+    }
+  ],
+  "web": [],
+  "research": [
+    {
+      "topic": "neighborhood_discussion",
+      "summary": "Community discussion regarding the South Side Flats centers on neighborhood walkability, local transit access, community gatherings, and ongoing debates surrounding media coverage, public safety perceptions, and gentrification. Coverage limitations are significant: available sources primarily address broader East Carson Street and neighborhood-level dynamics rather than specific conditions on Sidney Street, and several discussion threads lack original publication dates.",
+      "findings": [
+        {
+          "id": "8b9236fa-e2b1-4875-bc59-5f47179831f0",
+          "title": "Local social event",
+          "statement": "Spring social at Velum, packed with people from all generations.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "South Side Flats, near 2984 SIDNEY ST.",
+          "citations": [
+            {
+              "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+              "excerpt": ". - When I tell a fellow yinzers that I live in the south side, they always assume I’m a drunk or crazy/stupid to live there. (I live near 12st, and even the rowdiness of the summer weekends isn’t as bad as the city i used to live). - I loved my time living on the flats. - I have lived nowhere but the South Side since I moved here. Different streets over time, starting on 12th and basically going the entire length of Carson. South Side is different now than it was then, but I still think it's the most walkable neighborhood in the city. The neighborhood just had a spring social at Velum last night right by where you are going to live, and it was packed with people from all generations of Sout"
+            }
+          ],
+          "ui_id": "web-8b9236fa-e2b1-4875-bc59-5f47179831f0"
+        },
+        {
+          "id": "40c6be86-f966-4e14-a002-3fb3f9fbfac0",
+          "title": "Gentrification concerns",
+          "statement": "Resident describes the neighborhood’s tarnished reputation and worries about gentrification.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "South Side Flats, South Side.",
+          "citations": [
+            {
+              "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+              "excerpt": "In July, Pittsburgh Magazine touted the neighborhood’s desirability evident in new loft conversions. Doors Open Pittsburgh hosted a South Side neighborhood event in September and there are plans by Walnut Capital to demolish the former South Side Hospital (later, UPMC) for new upscale housing. [...] SouthSideCAN is following in the footsteps of the South Side Local Development Corporation. (which shut down in 2012) and other local groups that have sought to repair the South Side’s image problems."
+            },
+            {
+              "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+              "excerpt": "“The story that typically hits the news is the negative one about the terrible thing that happened,” says SouthSideCAN member Cassandra Dixon. She has lived in the Flats for 14 years. Dixon was late to an August interview because she bumped into a TV news crew on East Carson. [...] Pittsburgh Community Reinvestment Group Executive Director Ernie Hogan sees what’s happening in the South Side, especially the Flats, as a clear sign that gentrification is happening. And, he adds, it’s not something new there."
+            }
+          ],
+          "ui_id": "web-40c6be86-f966-4e14-a002-3fb3f9fbfac0"
+        },
+        {
+          "id": "3ccd77b1-bce4-46af-962c-302975cc8173",
+          "title": "Local development project – hospital demolition",
+          "statement": "Walnut Capital plans to demolish the former South Side Hospital for upscale housing.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "South Side Flats, East Carson.",
+          "citations": [
+            {
+              "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+              "excerpt": "In July, Pittsburgh Magazine touted the neighborhood’s desirability evident in new loft conversions. Doors Open Pittsburgh hosted a South Side neighborhood event in September and there are plans by Walnut Capital to demolish the former South Side Hospital (later, UPMC) for new upscale housing. [...] SouthSideCAN is following in the footsteps of the South Side Local Development Corporation. (which shut down in 2012) and other local groups that have sought to repair the South Side’s image problems."
+            }
+          ],
+          "ui_id": "web-3ccd77b1-bce4-46af-962c-302975cc8173"
+        }
+      ],
+      "limitations": [
+        "Unrelated search results were excluded from the address-area brief.",
+        "3 unsupported or out-of-scope model findings omitted.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "South Side Flats Pittsburgh, Pennsylvania living resident experiences site:reddit.com/r/pittsburgh",
+        "South Side Flats SIDNEY ST Pittsburgh, Pennsylvania neighborhood news development local discussion"
+      ],
+      "evidence_ids": [
+        "2b401504-d67a-4f8a-a599-0f994789b103",
+        "8a1f36fe-2d87-4899-bfb8-782dec2f2164",
+        "75b9f13c-f290-4c0a-b54c-12d65bc5b840",
+        "20f7c756-4509-4174-a7a6-cbdd255511c4",
+        "75a423ff-30fa-4e4a-97d9-6955b06be531"
+      ],
+      "search_calls": 2,
+      "usage_credits": 2.0,
+      "review_completed": false,
+      "brief": {
+        "overview": {
+          "text": "Community discussion regarding the South Side Flats centers on neighborhood walkability, local transit access, community gatherings, and ongoing debates surrounding media coverage, public safety perceptions, and gentrification. Coverage limitations are significant: available sources primarily address broader East Carson Street and neighborhood-level dynamics rather than specific conditions on Sidney Street, and several discussion threads lack original publication dates.",
+          "citations": [
+            {
+              "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+              "excerpt": "The only thing I would like to know is if it’ll be safe walking to the bus stop early in the morning, 5:30 am, to get to clinical for school. For context, I would be living around 20th street. Live on 22nd St off of Carson and it was on Jane Street where I frequently walk. Walk some of the alleys and side streets too. - If you're around 20th the 54 to oakland is the best bet, but you'd also be able to walk a few blocks down to take the 75 which comes off the Birmingham bridge and goes east down carson to the Works. Even heading into the southern suburbs or the Airport, the SS is highly convenient compared to the East End. If walking is your thing, the SS is extremely pedestrian/bike friendly. - When I tell a fellow yinzers that I live in the south side, they always assume I’m a drunk or crazy/stupid to live there. (I live near 12st, and even the rowdiness of the summer weekends isn’t as bad as the city i used to live). - I loved my"
+            },
+            {
+              "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+              "excerpt": "time living on the flats. - I have lived nowhere but the South Side since I moved here. Different streets over time, starting on 12th and basically going the entire length of Carson. South Side is different now than it was then, but I still think it's the most walkable neighborhood in the city. The neighborhood just had a spring social at Velum last night right by where you are going to live, and it was packed with people from all generations of South Side, down to small kids. There are a lot of people getting up and leaving for work at your time. I walk the dog while she gets ready and other people are doing the same. We live further down now, but I lived on 17th St for over a decade and was center cut with everything. Beyond 23rd, where I am now, is super quiet and they really built up the Works to be a nice little area to live."
+            },
+            {
+              "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+              "excerpt": "In July, Pittsburgh Magazine touted the neighborhood’s desirability evident in new loft conversions. Doors Open Pittsburgh hosted a South Side neighborhood event in September and there are plans by Walnut Capital to demolish the former South Side Hospital (later, UPMC) for new upscale housing. [...] SouthSideCAN is following in the footsteps of the South Side Local Development Corporation. (which shut down in 2012) and other local groups that have sought to repair the South Side’s image problems."
+            },
+            {
+              "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+              "excerpt": "“The story that typically hits the news is the negative one about the terrible thing that happened,” says SouthSideCAN member Cassandra Dixon. She has lived in the Flats for 14 years. Dixon was late to an August interview because she bumped into a TV news crew on East Carson. [...] Pittsburgh Community Reinvestment Group Executive Director Ernie Hogan sees what’s happening in the South Side, especially the Flats, as a clear sign that gentrification is happening. And, he adds, it’s not something new there."
+            },
+            {
+              "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+              "excerpt": "Over the past two years, violence on East Carson Street has kept the community in the media spotlight. Responses have been swift: new policing initiatives and the formation of the [South Side Community Action Network](https://www.facebook.com/SouthSideCANpgh) (SouthSideCAN). Yet, the South Side continues to attract residents moving into rehabbed historic homes and lofts carved out of spacious old schools and churches."
+            }
+          ],
+          "ui_id": "brief-neighborhood_discussion-0"
+        },
+        "sections": [
+          {
+            "heading": "Neighborhood Atmosphere, Walkability, and Transit",
+            "paragraphs": [
+              {
+                "text": "Residents discussing the South Side Flats frequently highlight the neighborhood's pedestrian friendliness and transit connectivity. Online discussion notes that the South Side offers convenient walking and biking options, with bus routes such as the 54 to Oakland and the 75 toward SouthSide Works serving the area. Commenters also observe variations in activity across the neighborhood, noting that while central corridors around 12th to 17th Streets experience weekend rowdiness, areas beyond 23rd Street toward SouthSide Works are comparatively quiet.",
+                "citations": [
+                  {
+                    "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+                    "excerpt": "The only thing I would like to know is if it’ll be safe walking to the bus stop early in the morning, 5:30 am, to get to clinical for school. For context, I would be living around 20th street. Live on 22nd St off of Carson and it was on Jane Street where I frequently walk. Walk some of the alleys and side streets too. - If you're around 20th the 54 to oakland is the best bet, but you'd also be able to walk a few blocks down to take the 75 which comes off the Birmingham bridge and goes east down carson to the Works. Even heading into the southern suburbs or the Airport, the SS is highly convenient compared to the East End. If walking is your thing, the SS is extremely pedestrian/bike friendly. - When I tell a fellow yinzers that I live in the south side, they always assume I’m a drunk or crazy/stupid to live there. (I live near 12st, and even the rowdiness of the summer weekends isn’t as bad as the city i used to live). - I loved my"
+                  },
+                  {
+                    "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+                    "excerpt": "time living on the flats. - I have lived nowhere but the South Side since I moved here. Different streets over time, starting on 12th and basically going the entire length of Carson. South Side is different now than it was then, but I still think it's the most walkable neighborhood in the city. The neighborhood just had a spring social at Velum last night right by where you are going to live, and it was packed with people from all generations of South Side, down to small kids. There are a lot of people getting up and leaving for work at your time. I walk the dog while she gets ready and other people are doing the same. We live further down now, but I lived on 17th St for over a decade and was center cut with everything. Beyond 23rd, where I am now, is super quiet and they really built up the Works to be a nice little area to live."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-1"
+              },
+              {
+                "text": "Local community life also features regular social gatherings across different age groups. One resident noted a well-attended spring social hosted at Velum that brought together multiple generations of neighborhood residents, contrasting everyday community routines—such as morning commutes and dog walks—with outside assumptions about living in the area.",
+                "citations": [
+                  {
+                    "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+                    "excerpt": "The only thing I would like to know is if it’ll be safe walking to the bus stop early in the morning, 5:30 am, to get to clinical for school. For context, I would be living around 20th street. Live on 22nd St off of Carson and it was on Jane Street where I frequently walk. Walk some of the alleys and side streets too. - If you're around 20th the 54 to oakland is the best bet, but you'd also be able to walk a few blocks down to take the 75 which comes off the Birmingham bridge and goes east down carson to the Works. Even heading into the southern suburbs or the Airport, the SS is highly convenient compared to the East End. If walking is your thing, the SS is extremely pedestrian/bike friendly. - When I tell a fellow yinzers that I live in the south side, they always assume I’m a drunk or crazy/stupid to live there. (I live near 12st, and even the rowdiness of the summer weekends isn’t as bad as the city i used to live). - I loved my"
+                  },
+                  {
+                    "evidence_id": "2b401504-d67a-4f8a-a599-0f994789b103",
+                    "excerpt": "time living on the flats. - I have lived nowhere but the South Side since I moved here. Different streets over time, starting on 12th and basically going the entire length of Carson. South Side is different now than it was then, but I still think it's the most walkable neighborhood in the city. The neighborhood just had a spring social at Velum last night right by where you are going to live, and it was packed with people from all generations of South Side, down to small kids. There are a lot of people getting up and leaving for work at your time. I walk the dog while she gets ready and other people are doing the same. We live further down now, but I lived on 17th St for over a decade and was center cut with everything. Beyond 23rd, where I am now, is super quiet and they really built up the Works to be a nice little area to live."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-2"
+              }
+            ]
+          },
+          {
+            "heading": "Public Reputation, Safety Concerns, and Gentrification",
+            "paragraphs": [
+              {
+                "text": "Reporting and resident advocacy highlight a persistent tension between community perception and media narratives. Local community leaders, including members of SouthSideCAN, argue that news reports disproportionately emphasize violent incidents and nightlife disruptions along East Carson Street, such as a July shooting at the Carson City Saloon that prompted increased police enforcement. Grassroots efforts continue to address the area's reputation while seeking to represent everyday neighborhood life.",
+                "citations": [
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "In July, Pittsburgh Magazine touted the neighborhood’s desirability evident in new loft conversions. Doors Open Pittsburgh hosted a South Side neighborhood event in September and there are plans by Walnut Capital to demolish the former South Side Hospital (later, UPMC) for new upscale housing. [...] SouthSideCAN is following in the footsteps of the South Side Local Development Corporation. (which shut down in 2012) and other local groups that have sought to repair the South Side’s image problems."
+                  },
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "“The story that typically hits the news is the negative one about the terrible thing that happened,” says SouthSideCAN member Cassandra Dixon. She has lived in the Flats for 14 years. Dixon was late to an August interview because she bumped into a TV news crew on East Carson. [...] Pittsburgh Community Reinvestment Group Executive Director Ernie Hogan sees what’s happening in the South Side, especially the Flats, as a clear sign that gentrification is happening. And, he adds, it’s not something new there."
+                  },
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "Over the past two years, violence on East Carson Street has kept the community in the media spotlight. Responses have been swift: new policing initiatives and the formation of the [South Side Community Action Network](https://www.facebook.com/SouthSideCANpgh) (SouthSideCAN). Yet, the South Side continues to attract residents moving into rehabbed historic homes and lofts carved out of spacious old schools and churches."
+                  },
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "A shooting at the Carson City Saloon in July led to increased police patrols and enforcement along East Carson Street. The bar closed for the remainder of the summer and posted this notice on its door. Photo by David S. Rotenstein."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-3"
+              },
+              {
+                "text": "At the same time, community advocates and housing analysts view shifting neighborhood investments as evidence of ongoing gentrification. Alongside demand for rehabbed historic homes and church or school loft conversions, redevelopment plans include a proposal by Walnut Capital to demolish the former South Side Hospital facility to construct upscale housing.",
+                "citations": [
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "In July, Pittsburgh Magazine touted the neighborhood’s desirability evident in new loft conversions. Doors Open Pittsburgh hosted a South Side neighborhood event in September and there are plans by Walnut Capital to demolish the former South Side Hospital (later, UPMC) for new upscale housing. [...] SouthSideCAN is following in the footsteps of the South Side Local Development Corporation. (which shut down in 2012) and other local groups that have sought to repair the South Side’s image problems."
+                  },
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "“The story that typically hits the news is the negative one about the terrible thing that happened,” says SouthSideCAN member Cassandra Dixon. She has lived in the Flats for 14 years. Dixon was late to an August interview because she bumped into a TV news crew on East Carson. [...] Pittsburgh Community Reinvestment Group Executive Director Ernie Hogan sees what’s happening in the South Side, especially the Flats, as a clear sign that gentrification is happening. And, he adds, it’s not something new there."
+                  },
+                  {
+                    "evidence_id": "20f7c756-4509-4174-a7a6-cbdd255511c4",
+                    "excerpt": "Over the past two years, violence on East Carson Street has kept the community in the media spotlight. Responses have been swift: new policing initiatives and the formation of the [South Side Community Action Network](https://www.facebook.com/SouthSideCANpgh) (SouthSideCAN). Yet, the South Side continues to attract residents moving into rehabbed historic homes and lofts carved out of spacious old schools and churches."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-4"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "Discussion sources lack specific commentary addressing the 2900 block of Sidney Street directly.",
+          "Several online forum sources lack publication dates, making the exact timeframe of certain resident comments uncertain.",
+          "Available discussions focus heavily on nightlife along East Carson Street rather than daytime residential side streets."
+        ],
+        "follow_up_questions": [
+          "What specific community zoning or development reviews exist for upcoming housing projects near Sidney Street and SouthSide Works?",
+          "How do weekend parking and traffic patterns impact the residential blocks immediately surrounding 2984 Sidney Street?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:29:01.421633Z"
+      },
+      "synthesis_status": "complete"
+    },
+    {
+      "topic": "restaurant_reviews",
+      "summary": "The subject address at 2984 Sidney Street is associated with the Connection at Southside apartment residential community in Pittsburgh's South Side area. While citywide dining directories and delivery listings identify various restaurants located within the South Side Flats and along East Carson Street—including La Bodega Taqueria, Dish Osteria, and La Palapa—the available sources contain no substantive food reviews or experiential evaluations within the target specification period.",
+      "findings": [
+        {
+          "id": "8541be78-a935-402e-a9c6-5906d381d197",
+          "title": "La Bodega Taqueria is a restaurant located in South Side Flats, Pittsburgh, PA, with a rating of $$.",
+          "statement": "La Bodega Taqueria is a restaurant located in South Side Flats, Pittsburgh, PA, with a rating of $$.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "confirmed within South Side Flats",
+          "citations": [
+            {
+              "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+              "excerpt": "Duo’s Taqueria – East Liberty – $$"
+            },
+            {
+              "evidence_id": "be769c22-d72b-4da1-98ab-4ba4ae5a56b3",
+              "excerpt": "Contact Us Phone : 412-586-4596 Email : info@labodega.com. Address 1502 Carson St. Pittsburgh PA 15203"
+            },
+            {
+              "evidence_id": "25f76c7f-ab5c-45e7-9fd0-a9df282d297d",
+              "excerpt": "La Bodega, a Mexican restaurant located at 1502 Carson Street in the Southside neighborhood of Pittsburgh."
+            }
+          ],
+          "ui_id": "web-8541be78-a935-402e-a9c6-5906d381d197"
+        },
+        {
+          "id": "8377fe97-b35d-4381-89d0-ecd014d72c95",
+          "title": "South Side Flats is a neighborhood in Pittsburgh, PA, located just south of the Monongahela River.",
+          "statement": "South Side Flats is a neighborhood in Pittsburgh, PA, located just south of the Monongahela River.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "confirmed",
+          "citations": [
+            {
+              "evidence_id": "e48c0c6e-62a3-422f-a19a-0053c87cb5aa",
+              "excerpt": "The South Side Flats is a neighborhood in Pittsburgh, Pennsylvania's South Side \"South Side (Pittsburgh)\") area. It is located just south of the Monongahela River. The neighborhood has one of the City of Pittsburgh's largest concentrations of 19th-century homes, which has prompted outsiders to call the neighborhood the city's Georgetown. It includes many bars and restaurants as well as residences. The main throughway in the South Side Flats is East Carson Street. The street is home to a [...] | South Side Flats is located in Pittsburgh South Side Flats  Location within Pittsburgh Show map of Pittsburgh  South Side Flats is located in Pennsylvania South Side Flats  Location within Pennsylvani"
+            }
+          ],
+          "ui_id": "web-8377fe97-b35d-4381-89d0-ecd014d72c95"
+        },
+        {
+          "id": "e4e7f5b2-d493-4fa4-a42b-d9861daf441b",
+          "title": "The Capital Grille is a steakhouse located in downtown Pittsburgh, PA, with a rating of $$$$.",
+          "statement": "The Capital Grille is a steakhouse located in downtown Pittsburgh, PA, with a rating of $$$$.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "downtown, not near South Side Flats",
+          "citations": [
+            {
+              "evidence_id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+              "excerpt": "4.8"
+            }
+          ],
+          "ui_id": "web-e4e7f5b2-d493-4fa4-a42b-d9861daf441b"
+        }
+      ],
+      "limitations": [
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Pittsburgh, Pennsylvania restaurants near 2984 SIDNEY ST, PITTSBURGH, PA, 15203 South Side Flats reviews menus",
+        "South Side Flats SIDNEY ST Pittsburgh, Pennsylvania South Side Flats Pittsburgh Pennsylvania restaurant reviews local news",
+        "Pittsburgh, Pennsylvania Confirm exact address of La Bodega Taqueria near 2984 Sidney St, South Side Flats."
+      ],
+      "evidence_ids": [
+        "e67874d5-21fa-4890-b78e-b8925f334e59",
+        "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+        "e48c0c6e-62a3-422f-a19a-0053c87cb5aa",
+        "17f859c3-9987-4764-9fa2-cfed3363df08",
+        "83482da1-0827-48b7-ae35-ec0ad529ec53",
+        "8f8fc989-c801-4334-a5f7-f0ef06af9c14",
+        "be769c22-d72b-4da1-98ab-4ba4ae5a56b3",
+        "25f76c7f-ab5c-45e7-9fd0-a9df282d297d"
+      ],
+      "search_calls": 3,
+      "usage_credits": 3.0,
+      "review_completed": true,
+      "brief": {
+        "overview": {
+          "text": "The subject address at 2984 Sidney Street is associated with the Connection at Southside apartment residential community in Pittsburgh's South Side area. While citywide dining directories and delivery listings identify various restaurants located within the South Side Flats and along East Carson Street—including La Bodega Taqueria, Dish Osteria, and La Palapa—the available sources contain no substantive food reviews or experiential evaluations within the target specification period.",
+          "citations": [
+            {
+              "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+              "excerpt": "La Bodega Taqueria – South Side – $$"
+            },
+            {
+              "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+              "excerpt": "La Palapa – South Side – $ to $$"
+            },
+            {
+              "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+              "excerpt": "Mad Mex – Multiple Locations – $ to $$ [...] Dish Osteria – South Side – $$ to $$$"
+            },
+            {
+              "evidence_id": "e48c0c6e-62a3-422f-a19a-0053c87cb5aa",
+              "excerpt": "The South Side Flats is a neighborhood in Pittsburgh, Pennsylvania's South Side \"South Side (Pittsburgh)\") area. It is located just south of the Monongahela River. The neighborhood has one of the City of Pittsburgh's largest concentrations of 19th-century homes, which has prompted outsiders to call the neighborhood the city's Georgetown. It includes many bars and restaurants as well as residences. The main throughway in the South Side Flats is East Carson Street. The street is home to a [...] | South Side Flats is located in Pittsburgh South Side Flats  Location within Pittsburgh Show map of Pittsburgh  South Side Flats is located in Pennsylvania South Side Flats  Location within Pennsylvania Show map of Pennsylvania  South Side Flats is located in the United States South Side Flats  Location within the United States Show map of the United States |"
+            },
+            {
+              "evidence_id": "8f8fc989-c801-4334-a5f7-f0ef06af9c14",
+              "excerpt": "2984 Sidney Street"
+            },
+            {
+              "evidence_id": "8f8fc989-c801-4334-a5f7-f0ef06af9c14",
+              "excerpt": "Pittsburgh, PA 15203"
+            },
+            {
+              "evidence_id": "be769c22-d72b-4da1-98ab-4ba4ae5a56b3",
+              "excerpt": "Contact Us Phone : 412-586-4596 Email : info@labodega.com. Address 1502 Carson St. Pittsburgh PA 15203"
+            }
+          ],
+          "ui_id": "brief-restaurant_reviews-0"
+        },
+        "sections": [
+          {
+            "heading": "Neighborhood Dining Establishments",
+            "paragraphs": [
+              {
+                "text": "The South Side Flats neighborhood, located south of the Monongahela River along its primary corridor of East Carson Street, features numerous dining establishments. Regional listings indicate multiple dining concepts operating in the South Side area, such as La Bodega Taqueria (noted at 1502 Carson Street), Dish Osteria, La Palapa, and Nan Xiang Soup Dumplings. Delivery platforms additionally list local spots on East Carson Street, including Macaroni Man, D.P. Dough, and Yallah Taco.",
+                "citations": [
+                  {
+                    "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+                    "excerpt": "La Bodega Taqueria – South Side – $$"
+                  },
+                  {
+                    "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+                    "excerpt": "La Palapa – South Side – $ to $$"
+                  },
+                  {
+                    "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+                    "excerpt": "Mad Mex – Multiple Locations – $ to $$ [...] Dish Osteria – South Side – $$ to $$$"
+                  },
+                  {
+                    "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+                    "excerpt": "Nan Xiang Soup Dumplings – South Side – Chinese – $$ to $$$"
+                  },
+                  {
+                    "evidence_id": "e48c0c6e-62a3-422f-a19a-0053c87cb5aa",
+                    "excerpt": "The South Side Flats is a neighborhood in Pittsburgh, Pennsylvania's South Side \"South Side (Pittsburgh)\") area. It is located just south of the Monongahela River. The neighborhood has one of the City of Pittsburgh's largest concentrations of 19th-century homes, which has prompted outsiders to call the neighborhood the city's Georgetown. It includes many bars and restaurants as well as residences. The main throughway in the South Side Flats is East Carson Street. The street is home to a [...] | South Side Flats is located in Pittsburgh South Side Flats  Location within Pittsburgh Show map of Pittsburgh  South Side Flats is located in Pennsylvania South Side Flats  Location within Pennsylvania Show map of Pennsylvania  South Side Flats is located in the United States South Side Flats  Location within the United States Show map of the United States |"
+                  },
+                  {
+                    "evidence_id": "17f859c3-9987-4764-9fa2-cfed3363df08",
+                    "excerpt": "### Macaroni Man (1717 East Carson Street)"
+                  },
+                  {
+                    "evidence_id": "17f859c3-9987-4764-9fa2-cfed3363df08",
+                    "excerpt": "### D.P. Dough (1717 East Carson Street)"
+                  },
+                  {
+                    "evidence_id": "17f859c3-9987-4764-9fa2-cfed3363df08",
+                    "excerpt": "### Yallah Taco (E Carson St.)"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-1"
+              },
+              {
+                "text": "La Bodega is specifically documented as a Mexican restaurant offering tacos and quesabirria pizza at 1502 Carson Street in Pittsburgh's Southside. Regional restaurant directories classify La Bodega Taqueria in the moderate ($$) price bracket.",
+                "citations": [
+                  {
+                    "evidence_id": "e67874d5-21fa-4890-b78e-b8925f334e59",
+                    "excerpt": "La Bodega Taqueria – South Side – $$"
+                  },
+                  {
+                    "evidence_id": "be769c22-d72b-4da1-98ab-4ba4ae5a56b3",
+                    "excerpt": "Contact Us Phone : 412-586-4596 Email : info@labodega.com. Address 1502 Carson St. Pittsburgh PA 15203"
+                  },
+                  {
+                    "evidence_id": "25f76c7f-ab5c-45e7-9fd0-a9df282d297d",
+                    "excerpt": "La Bodega, a Mexican restaurant located at 1502 Carson Street in the Southside neighborhood of Pittsburgh."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-2"
+              }
+            ]
+          },
+          {
+            "heading": "Coverage Limitations and Excluded Areas",
+            "paragraphs": [
+              {
+                "text": "Detailed experiential customer reviews in the available dataset pertain to downtown venues outside the South Side Flats, such as Del Frisco's Double Eagle Steakhouse and The Capital Grille in Downtown Pittsburgh, rather than establishments immediately adjacent to 2984 Sidney Street.",
+                "citations": [
+                  {
+                    "evidence_id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+                    "excerpt": "The Capital Grille - Pittsburgh$$$$• Steakhouse• Downtown"
+                  },
+                  {
+                    "evidence_id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+                    "excerpt": "Another amazing dinner for hubby’s birthday. The restaurant was busy but food was still delivered promptly and expertly prepared. Despite our full bellies, we still devoured the sugar coated delicious dessert you can only find here. Well done, Del Frisco’s, well done."
+                  },
+                  {
+                    "evidence_id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+                    "excerpt": "Del Frisco's Double Eagle Steakhouse - Pittsburgh$$$$• Steakhouse• Downtown"
+                  },
+                  {
+                    "evidence_id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+                    "excerpt": "• Steakhouse • Downtown"
+                  },
+                  {
+                    "evidence_id": "88f4b5f5-306a-4709-9fcd-a78200cf773b",
+                    "excerpt": "Inside the restored Union Trust Building in Downtown Pittsburgh, Del Frisco’s Double Eagle Steakhouse brings chef-driven cuisine and classic steakhouse polish to one of the city’s most iconic addresses. Near Mellon Square and within easy reach of the Cultural District, this two-story restaurant is well suited for business dinners, pre-show dining, and celebratory nights downtown. Award-winning wines, handcrafted cocktails, live music, and superior hospitality all contribute to an experience that feels elevated while rema"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-3"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "No customer food reviews or dining critique passages were supplied for restaurants immediately adjacent to 2984 Sidney Street.",
+          "Available review text is confined to Downtown Pittsburgh steakhouses rather than South Side Flats eateries.",
+          "Many directory and delivery entries consist solely of business names or addresses without evaluative review content.",
+          "Publication dates are missing from several search and directory records, leaving current operational status unverified."
+        ],
+        "follow_up_questions": [
+          "What are the verified patron reviews and ratings for restaurants located within walking distance of 2984 Sidney Street?",
+          "Are there specific dining reviews published between October 2025 and October 2026 for establishments located along East Carson Street?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:30:12.305591Z"
+      },
+      "synthesis_status": "complete"
+    }
+  ]
+}

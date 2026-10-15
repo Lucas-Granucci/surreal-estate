@@ -1,0 +1,58 @@
+[
+  {
+    "id": "east-liberty",
+    "label": "East Liberty",
+    "address": "121 S Highland Ave, Pittsburgh, PA 15206",
+    "description": "South Highland Avenue: mapped daily essentials, neighborhood discussions and dining.",
+    "source": "https://www.walnutcapital.com/properties/walnut-on-highland",
+    "snapshot": "exports/web-app/report-e8812cd1-4e05-494f-b092-2f3953f60042.json",
+    "showcase_status": "recommended"
+  },
+  {
+    "id": "shadyside",
+    "label": "Shadyside",
+    "address": "810 S Negley Ave, Pittsburgh, PA 15232",
+    "description": "A residential address close to the Walnut Street commercial corridor.",
+    "source": "https://www.walnutcapital.com/properties/south-negley-avenue",
+    "showcase_status": "qualified",
+    "review_note": "Some discussion sources are older or business-authored; the brief makes those limits explicit."
+  },
+  {
+    "id": "squirrel-hill",
+    "label": "Squirrel Hill",
+    "address": "5703 Forbes Ave, Pittsburgh, PA 15217",
+    "description": "Forbes Terrace: neighborhood context around a historic townhouse community.",
+    "source": "https://www.walnutcapital.com/properties/forbes-terrace",
+    "snapshot": "exports/showcase/squirrel-hill-repaired.json",
+    "showcase_status": "qualified",
+    "review_note": "A coverage example: the parcel lookup returned no match, and discussion material is sparse."
+  },
+  {
+    "id": "lawrenceville",
+    "label": "Lawrenceville",
+    "address": "147 39th St, Pittsburgh, PA 15201",
+    "description": "Arsenal 201: a residential address in Lawrenceville near the Butler Street corridor.",
+    "source": "https://arsenal201.com/",
+    "showcase_status": "qualified",
+    "snapshot": "exports/showcase/lawrenceville-refined.json",
+    "review_note": "Useful planning and development context; no resident discussion was found in the retained sources."
+  },
+  {
+    "id": "downtown",
+    "label": "Downtown",
+    "address": "915 Penn Ave, Pittsburgh, PA 15222",
+    "description": "Penn Garrison Lofts: a city-center contrast to the East End examples.",
+    "source": "https://www.pmcpropertygroup.com/node/179",
+    "showcase_status": "hold",
+    "snapshot": "exports/showcase/downtown.json"
+  },
+  {
+    "id": "south-side",
+    "label": "South Side Flats",
+    "address": "2984 Sidney St, Pittsburgh, PA 15203",
+    "description": "Connection at Southside: a residential address near SouthSide Works.",
+    "source": "https://connectionatsouthside.com/",
+    "showcase_status": "qualified",
+    "review_note": "Strong public records and mapped context; dining sources are mainly directories rather than detailed reviews."
+  }
+]

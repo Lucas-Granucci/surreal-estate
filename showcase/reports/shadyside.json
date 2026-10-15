@@ -1,0 +1,2247 @@
+{
+  "version": "1.0",
+  "case": {
+    "address": "810 S NEGLEY AVE, PITTSBURGH, PA, 15232",
+    "geography": "Pittsburgh, Pennsylvania",
+    "as_of": "2026-10-15"
+  },
+  "demo": false,
+  "findings": [
+    {
+      "id": "finding-3",
+      "title": "Nearby transit",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "transit",
+      "statements": [
+        "At least 50 mapped features within 1 km. Closest returned point: ~171 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "af7c17a9-1f38-4224-8a27-8a6060f756ec"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-2",
+      "title": "Groceries & pharmacies",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "groceries",
+      "statements": [
+        "5 mapped features within 1 km. Closest returned point: ~372 m.",
+        "2 mapped features within 1 km. Closest returned point: ~391 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "745339ec-9481-4933-bd69-d9d088dd92d0",
+        "3ae8e264-cb65-4181-b2cb-815310b3f0eb"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-6",
+      "title": "Street-closure permits",
+      "topic": "street_closures",
+      "section": "Street permits",
+      "category": null,
+      "statements": [
+        "8 returned street-closure permit segments."
+      ],
+      "qualifier": "Public records · permits do not confirm work is underway",
+      "evidence_ids": [
+        "4702779d-eeb6-4fbc-857d-4502e76945fa",
+        "7868ec8e-41c7-47ae-849e-d5d590baa33b",
+        "b7eb9066-1ff0-4216-ba0f-8102d29a668a",
+        "45679e8a-c135-40f6-8dcf-4c3ea13f86b8",
+        "116053ef-a763-4d7d-9d8e-6210007c2510",
+        "f677fa7d-0462-431c-8bc0-336ed313483a",
+        "1efbb23d-b1c9-49e7-ba7d-e25d28841e7f",
+        "6a34afdc-64b4-4c0c-a4f6-ea03ba477492"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_closures",
+          "topic": "street_closures",
+          "status": "complete",
+          "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 188 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+          "queries_run": 2,
+          "sources_returned": 8,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-0",
+      "title": "Address match",
+      "topic": "geocoding",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "Census address match: 810 S NEGLEY AVE, PITTSBURGH, PA, 15232; latitude 40.451909, longitude -79.930971. Address-range interpolation, not a parcel or structure assessment."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "c613f122-1e7d-4a4a-9c1c-7fbb963f9ea9"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "census",
+          "topic": "geocoding",
+          "status": "complete",
+          "reason": "Address match selected and confirmed by the user",
+          "queries_run": 0,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-5",
+      "title": "Assessment & building permits",
+      "topic": "property_assessment",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "County parcel 0085A00141000000: recorded year built: 1894; living area (sq ft): 3022; bedrooms: 3; full baths: 3; county assessment (USD): 182500. Assessment records are not current appraisals or proof of condition.",
+        "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "44fcf44a-c900-4bef-8d2f-68b8bafe72a0"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_assessments",
+          "topic": "property_assessment",
+          "status": "complete",
+          "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+          "queries_run": 2,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "wprdc_permits",
+          "topic": "building_permits",
+          "status": "empty",
+          "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+          "queries_run": 2,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-8",
+      "title": "Local discussions",
+      "topic": "neighborhood_discussion",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "6 source-linked findings from 6 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "20c9a69f-2ba4-4117-9103-2b6cca60c97a",
+        "af87a305-aded-470c-ae88-f7925b5a2199",
+        "85c7fd34-f955-42ba-8327-b04521797a47",
+        "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+        "b98762ae-edff-46c5-9de7-cf4fef29e486",
+        "cb26bde4-578d-426e-8c2a-4fd821ebf891"
+      ],
+      "web_indices": [],
+      "research_topic": "neighborhood_discussion",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "neighborhood_discussion",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 6 extraction notes from 6 sources. No targeted factual review completed.",
+          "queries_run": 2,
+          "sources_returned": 6,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-9",
+      "title": "Dining reviews",
+      "topic": "restaurant_reviews",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "2 source-linked findings from 8 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+        "3a40f24d-cb9d-4c83-890e-6602b0ee8be8",
+        "b3bae52b-c493-4481-98d7-462613116e8b",
+        "c450f326-bfea-43ca-b54b-560413189f01",
+        "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+        "8de41c2a-0239-4bf6-80cf-7af7a9ea8c55",
+        "df83edc3-26eb-4f27-8063-6a7f218b5d38",
+        "55fab11c-bb16-415f-a95e-99912c650021"
+      ],
+      "web_indices": [],
+      "research_topic": "restaurant_reviews",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "restaurant_reviews",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 2 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+          "queries_run": 3,
+          "sources_returned": 8,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-1",
+      "title": "Mapped education features",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "schools",
+      "statements": [
+        "8 mapped features within 1 km. Closest returned point: ~80 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "36bfecbb-a05e-4663-899e-a6e08f3a7821"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 1,
+          "sources_returned": 4,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "c613f122-1e7d-4a4a-9c1c-7fbb963f9ea9",
+      "provider": "census",
+      "uri": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=810+S+Negley+Ave%2C+Pittsburgh%2C+PA+15232&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+      "title": "Census Geocoder",
+      "excerpt": "Census address match: 810 S NEGLEY AVE, PITTSBURGH, PA, 15232; latitude 40.451909, longitude -79.930971. Address-range interpolation, not a parcel or structure assessment.",
+      "retrieved_at": "2026-10-15T12:18:37.558510Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": null,
+      "match_method": "user_confirmed_census_address_range_match",
+      "details": {
+        "latitude": 40.451908558743,
+        "longitude": -79.930970733832,
+        "matched_address": "810 S NEGLEY AVE, PITTSBURGH, PA, 15232",
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      }
+    },
+    {
+      "id": "36bfecbb-a05e-4663-899e-a6e08f3a7821",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.451908558743/-79.930970733832",
+      "title": "Schools · area summary",
+      "excerpt": "Schools: 8 mapped features in the 1 km search area. Closest returned point/center is about 80 m away in a straight line. Attendance zones and school quality are not established.",
+      "retrieved_at": "2026-10-15T12:19:08.164319Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:schools",
+      "source_updated_at": "2026-10-15T12:17:17Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "schools",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 8,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 80,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 357377920,
+            "uri": "https://www.openstreetmap.org/node/357377920",
+            "name": "The University School",
+            "center": {
+              "lat": 40.4514127,
+              "lon": -79.93029
+            },
+            "approximate_center_distance_m": 80
+          },
+          {
+            "object_type": "node",
+            "object_id": 357379366,
+            "uri": "https://www.openstreetmap.org/node/357379366",
+            "name": "Kentucky Avenue School",
+            "center": {
+              "lat": 40.4505867,
+              "lon": -79.9293365
+            },
+            "approximate_center_distance_m": 202
+          },
+          {
+            "object_type": "node",
+            "object_id": 1698030643,
+            "uri": "https://www.openstreetmap.org/node/1698030643",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4535393,
+              "lon": -79.9326295
+            },
+            "approximate_center_distance_m": 229
+          },
+          {
+            "object_type": "way",
+            "object_id": 38341165,
+            "uri": "https://www.openstreetmap.org/way/38341165",
+            "name": "Liberty Elementary School",
+            "center": {
+              "lat": 40.4534991,
+              "lon": -79.9336005
+            },
+            "approximate_center_distance_m": 284
+          },
+          {
+            "object_type": "way",
+            "object_id": 247909438,
+            "uri": "https://www.openstreetmap.org/way/247909438",
+            "name": "Sacred Heart Elementary School",
+            "center": {
+              "lat": 40.4556864,
+              "lon": -79.9236672
+            },
+            "approximate_center_distance_m": 747
+          },
+          {
+            "object_type": "relation",
+            "object_id": 2119853,
+            "uri": "https://www.openstreetmap.org/relation/2119853",
+            "name": "Winchester Thurston School",
+            "center": {
+              "lat": 40.4518723,
+              "lon": -79.9423216
+            },
+            "approximate_center_distance_m": 960
+          },
+          {
+            "object_type": "way",
+            "object_id": 167704094,
+            "uri": "https://www.openstreetmap.org/way/167704094",
+            "name": "Friendship Academy",
+            "center": {
+              "lat": 40.4612501,
+              "lon": -79.9317193
+            },
+            "approximate_center_distance_m": 1041
+          },
+          {
+            "object_type": "way",
+            "object_id": 1396606009,
+            "uri": "https://www.openstreetmap.org/way/1396606009",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4544587,
+              "lon": -79.917992
+            },
+            "approximate_center_distance_m": 1134
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "745339ec-9481-4933-bd69-d9d088dd92d0",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.451908558743/-79.930970733832",
+      "title": "Grocery stores · area summary",
+      "excerpt": "Grocery stores: 5 mapped features in the 1 km search area. Closest returned point/center is about 372 m away in a straight line. Includes supermarkets, convenience stores and produce shops; hours are not verified.",
+      "retrieved_at": "2026-10-15T12:19:08.164452Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:groceries",
+      "source_updated_at": "2026-10-15T12:17:17Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "groceries",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 5,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 372,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 303489282,
+            "uri": "https://www.openstreetmap.org/way/303489282",
+            "name": "Fuel On Convenience Store",
+            "center": {
+              "lat": 40.4552379,
+              "lon": -79.9314218
+            },
+            "approximate_center_distance_m": 372
+          },
+          {
+            "object_type": "node",
+            "object_id": 356889610,
+            "uri": "https://www.openstreetmap.org/node/356889610",
+            "name": "Giant Eagle",
+            "center": {
+              "lat": 40.4567199,
+              "lon": -79.9345217
+            },
+            "approximate_center_distance_m": 614
+          },
+          {
+            "object_type": "way",
+            "object_id": 167278405,
+            "uri": "https://www.openstreetmap.org/way/167278405",
+            "name": "Tokyo Japanese Food Store",
+            "center": {
+              "lat": 40.4576037,
+              "lon": -79.9293304
+            },
+            "approximate_center_distance_m": 648
+          },
+          {
+            "object_type": "node",
+            "object_id": 1371543228,
+            "uri": "https://www.openstreetmap.org/node/1371543228",
+            "name": "R Market",
+            "center": {
+              "lat": 40.457295,
+              "lon": -79.9253272
+            },
+            "approximate_center_distance_m": 766
+          },
+          {
+            "object_type": "node",
+            "object_id": 3315468806,
+            "uri": "https://www.openstreetmap.org/node/3315468806",
+            "name": "Aldi",
+            "center": {
+              "lat": 40.4582008,
+              "lon": -79.9348865
+            },
+            "approximate_center_distance_m": 774
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "af7c17a9-1f38-4224-8a27-8a6060f756ec",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.451908558743/-79.930970733832",
+      "title": "Public transit · area summary",
+      "excerpt": "Public transit: at least 50 mapped features in the 1 km search area. Closest returned point/center is about 171 m away in a straight line. Stop/platform features may share a station; frequency and routes are not verified.",
+      "retrieved_at": "2026-10-15T12:19:08.164545Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:transit",
+      "source_updated_at": "2026-10-15T12:17:17Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "transit",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 50,
+        "count_is_lower_bound": true,
+        "nearest_returned_center_distance_m": 171,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 1831061807,
+            "uri": "https://www.openstreetmap.org/node/1831061807",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4533532,
+              "lon": -79.9316723
+            },
+            "approximate_center_distance_m": 171
+          },
+          {
+            "object_type": "node",
+            "object_id": 1779808739,
+            "uri": "https://www.openstreetmap.org/node/1779808739",
+            "name": "Negley Ave at Kentucky Ave NS",
+            "center": {
+              "lat": 40.4502352,
+              "lon": -79.9298185
+            },
+            "approximate_center_distance_m": 210
+          },
+          {
+            "object_type": "node",
+            "object_id": 1783546393,
+            "uri": "https://www.openstreetmap.org/node/1783546393",
+            "name": "Fifth Avenue at Negley Avenue",
+            "center": {
+              "lat": 40.4499204,
+              "lon": -79.9295676
+            },
+            "approximate_center_distance_m": 251
+          },
+          {
+            "object_type": "node",
+            "object_id": 5394752829,
+            "uri": "https://www.openstreetmap.org/node/5394752829",
+            "name": "Fifth Ave at Negley Ave",
+            "center": {
+              "lat": 40.4497375,
+              "lon": -79.9297195
+            },
+            "approximate_center_distance_m": 264
+          },
+          {
+            "object_type": "node",
+            "object_id": 1831061808,
+            "uri": "https://www.openstreetmap.org/node/1831061808",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4546324,
+              "lon": -79.9324208
+            },
+            "approximate_center_distance_m": 327
+          },
+          {
+            "object_type": "node",
+            "object_id": 1783546395,
+            "uri": "https://www.openstreetmap.org/node/1783546395",
+            "name": "Fifth Ave at Maryland Ave",
+            "center": {
+              "lat": 40.4506002,
+              "lon": -79.9274154
+            },
+            "approximate_center_distance_m": 334
+          },
+          {
+            "object_type": "node",
+            "object_id": 5394752830,
+            "uri": "https://www.openstreetmap.org/node/5394752830",
+            "name": "Fifth Ave opp Maryland Ave",
+            "center": {
+              "lat": 40.4504254,
+              "lon": -79.9275056
+            },
+            "approximate_center_distance_m": 336
+          },
+          {
+            "object_type": "node",
+            "object_id": 5394752828,
+            "uri": "https://www.openstreetmap.org/node/5394752828",
+            "name": "Fifth Ave Opp Bellefonte St",
+            "center": {
+              "lat": 40.4489788,
+              "lon": -79.9322156
+            },
+            "approximate_center_distance_m": 342
+          },
+          {
+            "object_type": "node",
+            "object_id": 1783546388,
+            "uri": "https://www.openstreetmap.org/node/1783546388",
+            "name": "Fifth Avenue at Bellefonte Street",
+            "center": {
+              "lat": 40.4490158,
+              "lon": -79.9325018
+            },
+            "approximate_center_distance_m": 347
+          },
+          {
+            "object_type": "node",
+            "object_id": 1831061809,
+            "uri": "https://www.openstreetmap.org/node/1831061809",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4548725,
+              "lon": -79.9324021
+            },
+            "approximate_center_distance_m": 351
+          },
+          {
+            "object_type": "node",
+            "object_id": 1785427187,
+            "uri": "https://www.openstreetmap.org/node/1785427187",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4538179,
+              "lon": -79.9343682
+            },
+            "approximate_center_distance_m": 357
+          },
+          {
+            "object_type": "node",
+            "object_id": 1785427186,
+            "uri": "https://www.openstreetmap.org/node/1785427186",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.453746,
+              "lon": -79.9347629
+            },
+            "approximate_center_distance_m": 380
+          },
+          {
+            "object_type": "node",
+            "object_id": 1829751659,
+            "uri": "https://www.openstreetmap.org/node/1829751659",
+            "name": "Fifth Avenue opposite College Street",
+            "center": {
+              "lat": 40.45107,
+              "lon": -79.925888
+            },
+            "approximate_center_distance_m": 440
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973554,
+            "uri": "https://www.openstreetmap.org/node/8234973554",
+            "name": "Fifth Avenue at College Street",
+            "center": {
+              "lat": 40.4513009,
+              "lon": -79.9257278
+            },
+            "approximate_center_distance_m": 449
+          },
+          {
+            "object_type": "node",
+            "object_id": 1376901907,
+            "uri": "https://www.openstreetmap.org/node/1376901907",
+            "name": "Fifth Avenue at Aiken Avenue",
+            "center": {
+              "lat": 40.4484925,
+              "lon": -79.9341266
+            },
+            "approximate_center_distance_m": 464
+          },
+          {
+            "object_type": "node",
+            "object_id": 584657205,
+            "uri": "https://www.openstreetmap.org/node/584657205",
+            "name": "Fifth Ave opposite Aiken Ave",
+            "center": {
+              "lat": 40.4483568,
+              "lon": -79.9341104
+            },
+            "approximate_center_distance_m": 476
+          },
+          {
+            "object_type": "node",
+            "object_id": 1785427185,
+            "uri": "https://www.openstreetmap.org/node/1785427185",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4528659,
+              "lon": -79.9366019
+            },
+            "approximate_center_distance_m": 488
+          },
+          {
+            "object_type": "node",
+            "object_id": 1835929661,
+            "uri": "https://www.openstreetmap.org/node/1835929661",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4526336,
+              "lon": -79.9368092
+            },
+            "approximate_center_distance_m": 501
+          },
+          {
+            "object_type": "node",
+            "object_id": 1778609170,
+            "uri": "https://www.openstreetmap.org/node/1778609170",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4561049,
+              "lon": -79.9332942
+            },
+            "approximate_center_distance_m": 506
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199610,
+            "uri": "https://www.openstreetmap.org/node/8688199610",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.456518,
+              "lon": -79.9326628
+            },
+            "approximate_center_distance_m": 532
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199611,
+            "uri": "https://www.openstreetmap.org/node/8688199611",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4565787,
+              "lon": -79.9328917
+            },
+            "approximate_center_distance_m": 544
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199609,
+            "uri": "https://www.openstreetmap.org/node/8688199609",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4567651,
+              "lon": -79.9322343
+            },
+            "approximate_center_distance_m": 551
+          },
+          {
+            "object_type": "node",
+            "object_id": 8688199612,
+            "uri": "https://www.openstreetmap.org/node/8688199612",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4567149,
+              "lon": -79.9326107
+            },
+            "approximate_center_distance_m": 552
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973552,
+            "uri": "https://www.openstreetmap.org/node/8234973552",
+            "name": "Fifth Ave at South Highland Ave",
+            "center": {
+              "lat": 40.4520395,
+              "lon": -79.9241547
+            },
+            "approximate_center_distance_m": 577
+          },
+          {
+            "object_type": "node",
+            "object_id": 1783546397,
+            "uri": "https://www.openstreetmap.org/node/1783546397",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4566659,
+              "lon": -79.9337714
+            },
+            "approximate_center_distance_m": 580
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973553,
+            "uri": "https://www.openstreetmap.org/node/8234973553",
+            "name": "Fifth Ave opposite South Highland Ave",
+            "center": {
+              "lat": 40.4518047,
+              "lon": -79.9240531
+            },
+            "approximate_center_distance_m": 585
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973551,
+            "uri": "https://www.openstreetmap.org/node/8234973551",
+            "name": "Fifth Ave at South Highland Ave",
+            "center": {
+              "lat": 40.4520537,
+              "lon": -79.9238838
+            },
+            "approximate_center_distance_m": 600
+          },
+          {
+            "object_type": "node",
+            "object_id": 392939671,
+            "uri": "https://www.openstreetmap.org/node/392939671",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4569802,
+              "lon": -79.9346479
+            },
+            "approximate_center_distance_m": 644
+          },
+          {
+            "object_type": "node",
+            "object_id": 393000891,
+            "uri": "https://www.openstreetmap.org/node/393000891",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4573953,
+              "lon": -79.9339088
+            },
+            "approximate_center_distance_m": 659
+          },
+          {
+            "object_type": "node",
+            "object_id": 1785427183,
+            "uri": "https://www.openstreetmap.org/node/1785427183",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4519542,
+              "lon": -79.9388482
+            },
+            "approximate_center_distance_m": 667
+          },
+          {
+            "object_type": "node",
+            "object_id": 392940505,
+            "uri": "https://www.openstreetmap.org/node/392940505",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4574766,
+              "lon": -79.9342874
+            },
+            "approximate_center_distance_m": 680
+          },
+          {
+            "object_type": "node",
+            "object_id": 5394752827,
+            "uri": "https://www.openstreetmap.org/node/5394752827",
+            "name": "Fifth Ave at Wilkins Ave FS",
+            "center": {
+              "lat": 40.4477666,
+              "lon": -79.9368862
+            },
+            "approximate_center_distance_m": 680
+          },
+          {
+            "object_type": "node",
+            "object_id": 392940481,
+            "uri": "https://www.openstreetmap.org/node/392940481",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4582603,
+              "lon": -79.9337724
+            },
+            "approximate_center_distance_m": 745
+          },
+          {
+            "object_type": "node",
+            "object_id": 1838673345,
+            "uri": "https://www.openstreetmap.org/node/1838673345",
+            "name": "Centre Ave at Aiken Ave",
+            "center": {
+              "lat": 40.4561004,
+              "lon": -79.9381861
+            },
+            "approximate_center_distance_m": 768
+          },
+          {
+            "object_type": "node",
+            "object_id": 1781108739,
+            "uri": "https://www.openstreetmap.org/node/1781108739",
+            "name": "Centre Ave at Aiken Ave",
+            "center": {
+              "lat": 40.4558058,
+              "lon": -79.9386827
+            },
+            "approximate_center_distance_m": 783
+          },
+          {
+            "object_type": "node",
+            "object_id": 1779808746,
+            "uri": "https://www.openstreetmap.org/node/1779808746",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4590281,
+              "lon": -79.931736
+            },
+            "approximate_center_distance_m": 794
+          },
+          {
+            "object_type": "node",
+            "object_id": 394971287,
+            "uri": "https://www.openstreetmap.org/node/394971287",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4589083,
+              "lon": -79.9287879
+            },
+            "approximate_center_distance_m": 800
+          },
+          {
+            "object_type": "node",
+            "object_id": 8234973555,
+            "uri": "https://www.openstreetmap.org/node/8234973555",
+            "name": "Fifth Avenue at Amberson Avenue",
+            "center": {
+              "lat": 40.4477816,
+              "lon": -79.9387514
+            },
+            "approximate_center_distance_m": 803
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102248,
+            "uri": "https://www.openstreetmap.org/node/1784102248",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.459205,
+              "lon": -79.9307033
+            },
+            "approximate_center_distance_m": 812
+          },
+          {
+            "object_type": "node",
+            "object_id": 1832109159,
+            "uri": "https://www.openstreetmap.org/node/1832109159",
+            "name": "Fifth Avenue opposite Amberson Avenue",
+            "center": {
+              "lat": 40.447619,
+              "lon": -79.9388496
+            },
+            "approximate_center_distance_m": 820
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102249,
+            "uri": "https://www.openstreetmap.org/node/1784102249",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4594027,
+              "lon": -79.9304753
+            },
+            "approximate_center_distance_m": 834
+          },
+          {
+            "object_type": "node",
+            "object_id": 3237448164,
+            "uri": "https://www.openstreetmap.org/node/3237448164",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.455535,
+              "lon": -79.9396203
+            },
+            "approximate_center_distance_m": 836
+          },
+          {
+            "object_type": "node",
+            "object_id": 1785427182,
+            "uri": "https://www.openstreetmap.org/node/1785427182",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4513925,
+              "lon": -79.940869
+            },
+            "approximate_center_distance_m": 839
+          },
+          {
+            "object_type": "node",
+            "object_id": 1835929650,
+            "uri": "https://www.openstreetmap.org/node/1835929650",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4512237,
+              "lon": -79.9410404
+            },
+            "approximate_center_distance_m": 855
+          },
+          {
+            "object_type": "node",
+            "object_id": 1780450942,
+            "uri": "https://www.openstreetmap.org/node/1780450942",
+            "name": "Fifth Ave at Shady Ave",
+            "center": {
+              "lat": 40.452804,
+              "lon": -79.9208145
+            },
+            "approximate_center_distance_m": 865
+          },
+          {
+            "object_type": "node",
+            "object_id": 1780450943,
+            "uri": "https://www.openstreetmap.org/node/1780450943",
+            "name": "Fifth Ave at Shady Ave",
+            "center": {
+              "lat": 40.4529856,
+              "lon": -79.9206243
+            },
+            "approximate_center_distance_m": 884
+          },
+          {
+            "object_type": "node",
+            "object_id": 1784102250,
+            "uri": "https://www.openstreetmap.org/node/1784102250",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4597773,
+              "lon": -79.9292283
+            },
+            "approximate_center_distance_m": 887
+          },
+          {
+            "object_type": "node",
+            "object_id": 1838801468,
+            "uri": "https://www.openstreetmap.org/node/1838801468",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4554247,
+              "lon": -79.9404586
+            },
+            "approximate_center_distance_m": 893
+          },
+          {
+            "object_type": "node",
+            "object_id": 1838801467,
+            "uri": "https://www.openstreetmap.org/node/1838801467",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4551302,
+              "lon": -79.9413825
+            },
+            "approximate_center_distance_m": 951
+          },
+          {
+            "object_type": "node",
+            "object_id": 1781108738,
+            "uri": "https://www.openstreetmap.org/node/1781108738",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4549364,
+              "lon": -79.9415015
+            },
+            "approximate_center_distance_m": 953
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "3ae8e264-cb65-4181-b2cb-815310b3f0eb",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.451908558743/-79.930970733832",
+      "title": "Pharmacies · area summary",
+      "excerpt": "Pharmacies: 2 mapped features in the 1 km search area. Closest returned point/center is about 391 m away in a straight line. Opening hours and dispensing services are not verified.",
+      "retrieved_at": "2026-10-15T12:19:08.164784Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:pharmacies",
+      "source_updated_at": "2026-10-15T12:17:17Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "pharmacies",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 2,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 391,
+        "members": [
+          {
+            "object_type": "way",
+            "object_id": 183007767,
+            "uri": "https://www.openstreetmap.org/way/183007767",
+            "name": "Schiller's Pharmacy",
+            "center": {
+              "lat": 40.450596,
+              "lon": -79.9352568
+            },
+            "approximate_center_distance_m": 391
+          },
+          {
+            "object_type": "node",
+            "object_id": 1371572673,
+            "uri": "https://www.openstreetmap.org/node/1371572673",
+            "name": "CVS Pharmacy",
+            "center": {
+              "lat": 40.4438382,
+              "lon": -79.9276155
+            },
+            "approximate_center_distance_m": 941
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "44fcf44a-c900-4bef-8d2f-68b8bafe72a0",
+      "provider": "wprdc_assessments",
+      "uri": "https://data.wprdc.org/dataset/property-assessments/resource/65855e14-549e-4992-b5be-d629afc676fa",
+      "title": "Allegheny County assessment · 0085A00141000000",
+      "excerpt": "County parcel 0085A00141000000: recorded year built: 1894; living area (sq ft): 3022; bedrooms: 3; full baths: 3; county assessment (USD): 182500. Assessment records are not current appraisals or proof of condition.",
+      "retrieved_at": "2026-10-15T12:19:14.694470Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "0085A00141000000",
+      "source_updated_at": "2026-10-07T02:46:52.053197",
+      "record_date": "2026-09-30",
+      "attribution": "Allegheny County / Western Pennsylvania Regional Data Center · cc-zero",
+      "match_method": "unique_exact_number_street_zip_no_unit",
+      "details": {}
+    },
+    {
+      "id": "4702779d-eeb6-4fbc-857d-4502e76945fa",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-MV-2026-12150-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-MV-2026-12150-1 on S NEGLEY AVE, about 18 m from the interpolated address point: 2026-11-13 to 2026-11-14. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.688570Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-MV-2026-12150-1:6214",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-11-13",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 18,
+        "radius_m": 1000,
+        "record": {
+          "work_description": null,
+          "from_date": "2026-11-13",
+          "to_date": "2026-11-14",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "ELWOOD ST",
+          "to_street": "WALNUT ST"
+        }
+      }
+    },
+    {
+      "id": "7868ec8e-41c7-47ae-849e-d5d590baa33b",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-MV-2026-11893-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-MV-2026-11893-1 on S NEGLEY AVE, about 345 m from the interpolated address point: 2026-10-15 to 2026-10-16. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.688766Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-MV-2026-11893-1:13442",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-15",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 345,
+        "radius_m": 1000,
+        "record": {
+          "work_description": null,
+          "from_date": "2026-10-15",
+          "to_date": "2026-10-16",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "CENTRE AVE",
+          "to_street": "ELLSWORTH AVE"
+        }
+      }
+    },
+    {
+      "id": "b7eb9066-1ff0-4216-ba0f-8102d29a668a",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-10685-13 · segment 13",
+      "excerpt": "DOMI closure DOMI-UOP-2026-10685-13 on S NEGLEY AVE, about 257 m from the interpolated address point: 2026-10-12 to 2026-11-08. Work described: WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.688888Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-10685-13:6715",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-12",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 257,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEERING AND THEIR ASSIGNED CONTRACTORS TO COMPLETE THE WORK OUTLINED IN THE TRAFFIC OBSTRUCTION GRID BELOW ASSOCIATED WITH DOMI-UP-2026-09695.",
+          "from_date": "2026-10-12",
+          "to_date": "2026-11-08",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "FIFTH AVE",
+          "to_street": "N DUNMOYLE PL"
+        }
+      }
+    },
+    {
+      "id": "45679e8a-c135-40f6-8dcf-4c3ea13f86b8",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-10685-17 · segment 17",
+      "excerpt": "DOMI closure DOMI-UOP-2026-10685-17 on S NEGLEY AVE, about 722 m from the interpolated address point: 2026-10-05 to 2026-11-01. Work described: WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.688962Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-10685-17:17650",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-05",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 722,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEERING AND THEIR ASSIGNED CONTRACTORS TO COMPLETE THE WORK OUTLINED IN THE TRAFFIC OBSTRUCTION GRID BELOW ASSOCIATED WITH DOMI-UP-2026-09695.",
+          "from_date": "2026-10-05",
+          "to_date": "2026-11-01",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "FAIR OAKS ST",
+          "to_street": "UNNAMED85P WAY"
+        }
+      }
+    },
+    {
+      "id": "116053ef-a763-4d7d-9d8e-6210007c2510",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-10685-14 · segment 14",
+      "excerpt": "DOMI closure DOMI-UOP-2026-10685-14 on S NEGLEY AVE, about 480 m from the interpolated address point: 2026-10-05 to 2026-11-01. Work described: WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.689012Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-10685-14:18931",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-05",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 480,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEERING AND THEIR ASSIGNED CONTRACTORS TO COMPLETE THE WORK OUTLINED IN THE TRAFFIC OBSTRUCTION GRID BELOW ASSOCIATED WITH DOMI-UP-2026-09695.",
+          "from_date": "2026-10-05",
+          "to_date": "2026-11-01",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "N DUNMOYLE PL",
+          "to_street": "DUNMOYLE PL"
+        }
+      }
+    },
+    {
+      "id": "f677fa7d-0462-431c-8bc0-336ed313483a",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-10685-16 · segment 16",
+      "excerpt": "DOMI closure DOMI-UOP-2026-10685-16 on S NEGLEY AVE, about 635 m from the interpolated address point: 2026-10-05 to 2026-11-01. Work described: WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.689055Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-10685-16:16593",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-05",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 635,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEERING AND THEIR ASSIGNED CONTRACTORS TO COMPLETE THE WORK OUTLINED IN THE TRAFFIC OBSTRUCTION GRID BELOW ASSOCIATED WITH DOMI-UP-2026-09695.",
+          "from_date": "2026-10-05",
+          "to_date": "2026-11-01",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "LYNNE HAVEN RD",
+          "to_street": "FAIR OAKS ST"
+        }
+      }
+    },
+    {
+      "id": "1efbb23d-b1c9-49e7-ba7d-e25d28841e7f",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-10685-18 · segment 18",
+      "excerpt": "DOMI closure DOMI-UOP-2026-10685-18 on S NEGLEY AVE, about 920 m from the interpolated address point: 2026-10-05 to 2026-11-01. Work described: WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.689096Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-10685-18:8849",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-05",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 920,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEERING AND THEIR ASSIGNED CONTRACTORS TO COMPLETE THE WORK OUTLINED IN THE TRAFFIC OBSTRUCTION GRID BELOW ASSOCIATED WITH DOMI-UP-2026-09695.",
+          "from_date": "2026-10-05",
+          "to_date": "2026-11-01",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "UNNAMED85P WAY",
+          "to_street": "WILKINS AVE"
+        }
+      }
+    },
+    {
+      "id": "6a34afdc-64b4-4c0c-a4f6-ea03ba477492",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-10685-15 · segment 15",
+      "excerpt": "DOMI closure DOMI-UOP-2026-10685-15 on S NEGLEY AVE, about 564 m from the interpolated address point: 2026-10-05 to 2026-11-01. Work described: WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEE. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:19:25.689136Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-10685-15:11146",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-05",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 564,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "WATER SERVICE LINE VERIFICATIONS AND LEAD SERVICE LINE REPLACEMENTS ON PUBLIC SIDE AND PRIVATE SIDE THROUGHOUT SQUIRREL HILL NORTH.THIS PERMIT AUTHORIZES PITTSBURGH WATER - ENGINEERING AND THEIR ASSIGNED CONTRACTORS TO COMPLETE THE WORK OUTLINED IN THE TRAFFIC OBSTRUCTION GRID BELOW ASSOCIATED WITH DOMI-UP-2026-09695.",
+          "from_date": "2026-10-05",
+          "to_date": "2026-11-01",
+          "primary_street": "S NEGLEY AVE",
+          "from_street": "DUNMOYLE PL",
+          "to_street": "LYNNE HAVEN RD"
+        }
+      }
+    },
+    {
+      "id": "20c9a69f-2ba4-4117-9103-2b6cca60c97a",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/4hqbu0/how_safe_is_shadyside",
+      "title": "How safe is Shadyside? : r/pittsburgh",
+      "excerpt": "Lived in Shadyside. Had car broken into. The officer told me the sense of security the neighborhood gives often encourages people to leave",
+      "retrieved_at": "2026-10-15T12:19:50.773351Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Mon, 17 Oct 2016 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "af87a305-aded-470c-ae88-f7925b5a2199",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/lh1l7b/question_about_squirrel_hill_shadyside_area",
+      "title": "Question about Squirrel Hill / Shadyside area... - Pittsburgh",
+      "excerpt": "Shadyside is fairly flat. They are both gorgeous, green neighborhoods and the streets around Chatham in Squirrel Hill are especially verdant.",
+      "retrieved_at": "2026-10-15T12:19:50.773433Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Sat, 16 Oct 2021 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "85c7fd34-f955-42ba-8327-b04521797a47",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/zg5y29/nimbyism_in_shadyside",
+      "title": "NIMBYism in Shadyside! : r/pittsburgh",
+      "excerpt": "There is a dire housing crisis afflicting our city, and I believe that the addition of 117 rental units in one of the most desirable",
+      "retrieved_at": "2026-10-15T12:19:50.773468Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Mon, 16 Oct 2023 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+      "provider": "tavily_search",
+      "uri": "https://shadysidepittsburghneighborhood.org/",
+      "title": "Shadyside Neighborhood Pittsburgh PA – Shadyside, Pittsburgh Neighborhood",
+      "excerpt": "Shadyside offers excellent accessibility with around 20 bus lines serving the area, making public transit a practical choice for many residents. The neighborhood supports eco-friendly travel modes, including convenient cycling infrastructure. Daily needs are easily met with grocery stores, restaurants, and cafes located nearby. Educational opportunities are broad, featuring both public and private elementary and high schools close to most residences. Numerous parks are within reach, providing [...] reach, providing inviting outdoor spaces. The neighborhood presents a quiet environment overall with some vibrant spots such as Walnut Street, which features several bars and a lively atmosphere for nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't a lot of street noise or city clamor, although the",
+      "retrieved_at": "2026-10-15T12:19:51.885094Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "shadysidepittsburghneighborhood.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "b98762ae-edff-46c5-9de7-cf4fef29e486",
+      "provider": "tavily_search",
+      "uri": "https://www.eastliberty.org/meeting-new-burgh-real-estate-negley-ave-development-zoning-change-request",
+      "title": "[Meeting] June 11: New Burgh Real Estate Negley Ave ...",
+      "excerpt": "On Tuesday, June 11th, learn about New Burgh Real Estate's mixed-income development on Negley Ave and zoning change request.",
+      "retrieved_at": "2026-10-15T12:19:51.885211Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Tue, 04 Jun 2024 00:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.eastliberty.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "cb26bde4-578d-426e-8c2a-4fd821ebf891",
+      "provider": "tavily_search",
+      "uri": "https://shadysidehome.com/811-s-negley-avenue",
+      "title": "811 S. Negley Avenue",
+      "excerpt": "An amazing one bedroom apartment near Carnegie Mellon University, Chatham University, UPMC Shadyside, UPMC Presbyterian, and Walnut Street. Learn more.",
+      "retrieved_at": "2026-10-15T12:19:51.885273Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "shadysidehome.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+      "provider": "tavily_search",
+      "uri": "https://www.discovertheburgh.com/shadyside-neighborhood-guide",
+      "title": "Shadyside Neighborhood Guide - Attractions and Dining",
+      "excerpt": "Fujiya Ramen – A Japanese restaurant focusing on ramen and rice bowls.\n Girasole – A critically acclaimed Italian restaurant often considered one of the best in the city.\n Pamela’s P&G Diner – A popular local breakfast chain known for their delicious hotcakes.\n The Yard – A gastropub with a strong focus on grilled cheese sandwiches.\n Mercurio’s – Traditional wood-fired Italian pizza and homemade gelato. A taste of Italy.\n Cafe Moulin – French cafe serving crepes and other quick eats. [...] Senyai Thai Kitchen – Classic Thai dining in an unassuming house.\n Lilith – A cozy restaurant tucked away from the business district in Shadyside with unique flavors.\n Nak Won Garden – A popular Korean restaurant right in the heart of Shadyside.\n Tocayo – A delightful Mexican restaurant with some stellar tacos and a strong mezcal menu.\n Soba – An Asian fusion restaurant by the Big Burrito restaurant group.\n Palm Palm – An international fusion tapas restaurant with coastal vibes. [...] Umi – A high-en",
+      "retrieved_at": "2026-10-15T12:20:22.905581Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Thu, 01 Apr 2021 10:19:50 GMT",
+      "record_date": null,
+      "attribution": "www.discovertheburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "3a40f24d-cb9d-4c83-890e-6602b0ee8be8",
+      "provider": "tavily_search",
+      "uri": "https://www.yelp.com/search?cflt=restaurants&find_loc=Walnut+St%2C+Pittsburgh%2C+PA+15232",
+      "title": "THE BEST 10 RESTAURANTS NEAR WALNUT ST, ...",
+      "excerpt": "The Best 10 Restaurants near Walnut St, Pittsburgh, PA 15232 · 1. Lilith · 2. Girasole Restaurant · 3. Tocayo Taqueria & Tequila · 4. Noodlehead · 5. Garbarinos · 6.",
+      "retrieved_at": "2026-10-15T12:20:22.905643Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.yelp.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "b3bae52b-c493-4481-98d7-462613116e8b",
+      "provider": "tavily_search",
+      "uri": "https://www.tripadvisor.com/Restaurants-g53449-Pittsburgh_Pennsylvania.html",
+      "title": "THE 10 BEST Restaurants in Pittsburgh (Updated October ...",
+      "excerpt": "1. Pamela's Diner · (1,033 reviews). American, Diner ; 2. Proper Brick Oven and Tap Room · (731 reviews). Italian, American ; 3. Church Brew Works · (1,977 reviews).",
+      "retrieved_at": "2026-10-15T12:20:22.905673Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.tripadvisor.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "c450f326-bfea-43ca-b54b-560413189f01",
+      "provider": "tavily_search",
+      "uri": "https://carmodysgrille.com/",
+      "title": "Carmody's Grille: Best American Restaurant in Pittsburgh",
+      "excerpt": "Thief diverse menus makes it so easy to find something delicious. Good food and service. selection and great food. Staff is beyond friendly and accommodating.",
+      "retrieved_at": "2026-10-15T12:20:22.905699Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "carmodysgrille.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+      "provider": "tavily_search",
+      "uri": "https://lilithpgh.com/",
+      "title": "Best American Restaurant in Pittsburgh, PA | Lilith",
+      "excerpt": "## Where Flavor Meets Vibe.\n\n# .\n\nWe want you to feel comfortable here. When you dine at Lilith, you become a part of our little family for the night. We're a colorful crew who knows how to make amazing food. Our team is led by founders and head chefs Jamilka and Dianne--two industry veterans with a wealth of experience--and they use their knowledge and skills to make this restaurant stand out and leave a lasting memory. Come join us for a night you won't forget.\n\nour menu [...] our menu\n\n# the heart of lilith\n\nEmerging from years of culinary dedication and a shared vision cultivated in Pittsburgh's finest kitchens, Lilith represents the realization of our dream to craft a unique dining experience together. Our menu is a testament to our commitment to excellence.\n\nmore about us\n\n# party at lilith\n\n## Celebrate in Style with Great Food, Drinks, and Vibes [...] Looking for the perfect spot to throw a party? Lilith is the place to be! Whether it's a birthday, anniversary, or just a night ",
+      "retrieved_at": "2026-10-15T12:20:22.905759Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "lilithpgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "8de41c2a-0239-4bf6-80cf-7af7a9ea8c55",
+      "provider": "tavily_search",
+      "uri": "https://www.visitpittsburgh.com/blog/discovering-shadyside",
+      "title": "Discovering Shadyside: Your Ultimate Guide to The Perfect Day | Visit Pittsburgh",
+      "excerpt": "The most popular shopping and dining district in the Shadyside neighborhood belongs to Walnut Street. The three blocks at the southwest end of the street is the heart of all the action. You have a good mix of Pittsburgh classics like Pamela’s Diner, local gems like Kards Unlimited, as well as big retail chains like Lululemon and Apple. No matter where you end up on this street, you will [...] feel like a close-knit community. Today, there are three business districts within Shadyside: Walnut St., S. Highland Ave, and Ellsworth Ave. Since all are within close walking distance of one another, it is beloved by many for its convenience and the variety of restaurants and retail that it offers. [...] 📍Nak Won Garden – If you love Korean food, this is going to be your new go-to. Everything is served family style, and the indoor seating has a homey atmosphere, making it feel like you are visiting grandma's house for dinner. The menu can be overwhelming if you’ve never been, so here are my reco",
+      "retrieved_at": "2026-10-15T12:20:24.194345Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.visitpittsburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "df83edc3-26eb-4f27-8063-6a7f218b5d38",
+      "provider": "tavily_search",
+      "uri": "https://www.instagram.com/p/C5RcnJdpYAK?hl=en",
+      "title": "Girasole Restaurant on Instagram: \"It's hard to believe it's ...",
+      "excerpt": "Girasole restaurant opened its doors. on October 01, 2026. 🍝 @girasole_pgh is a family-owned restaurant that's been open for over 25 years!",
+      "retrieved_at": "2026-10-15T12:21:01.789415Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Tue, 15 Oct 2024 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.instagram.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "55fab11c-bb16-415f-a95e-99912c650021",
+      "provider": "tavily_search",
+      "uri": "https://www.girasolepgh.com/",
+      "title": "Authentic Italian Restaurant | Girasole Pittsburgh, PA",
+      "excerpt": "Monday - Closed  \nTuesday – Thursday 11:30 AM – 9:30 PM  \nFriday & Saturday 11:30 AM – 10:00 PM  \n Sunday 4:00 PM – 9:00 PM  \n  \nCall 412-682-2130 to place your order for take-out.  \n  \nWe are not accepting reservations at this time.\n\nOur Pasta Gift sets are once again available  \n Click here for more info  \n  \nAuthentic Italian Food, Girasole Pittsburgh PA\n\nGirasole, Pittsburgh's Finest Italian Restaurant [...] # An authentic Pittsburgh Italian restaurant tradition. Dine Italian-style surrounded by rustic stone walls as if you were in the wine cellar of a villa. Complete wine list and bar available, and check for live music nights. Fine dining with a traditional yet fun atmosphere, that's Girasole!\n\nCheck out our new Fall Menu - available for dine-in or take-out.\n\nNOW OPEN FOR DINE-IN OR TAKEOUT [...] Pittsburgh Tribune Review Readers' Choice Gold Award Winner\n\nGirasole Italian Restaurant Pittsburgh\n\nGirasole is located in the Shadyside section of Pittsburgh, PA. 733 Copeland St.\n\nOrd",
+      "retrieved_at": "2026-10-15T12:21:01.789492Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.girasolepgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "channel": "apis",
+      "provider": "census",
+      "topic": "geocoding",
+      "status": "complete",
+      "reason": "Address match selected and confirmed by the user",
+      "queries_run": 0,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "openstreetmap",
+      "topic": "mapped_amenities",
+      "status": "complete",
+      "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+      "queries_run": 1,
+      "sources_returned": 4,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_assessments",
+      "topic": "property_assessment",
+      "status": "complete",
+      "reason": "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+      "queries_run": 2,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_permits",
+      "topic": "building_permits",
+      "status": "empty",
+      "reason": "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
+      "queries_run": 2,
+      "sources_returned": 0,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_closures",
+      "topic": "street_closures",
+      "status": "complete",
+      "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 188 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+      "queries_run": 2,
+      "sources_returned": 8,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "neighborhood_discussion",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 6 extraction notes from 6 sources. No targeted factual review completed.",
+      "queries_run": 2,
+      "sources_returned": 6,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "restaurant_reviews",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 2 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+      "queries_run": 3,
+      "sources_returned": 8,
+      "parcel_candidates": []
+    }
+  ],
+  "web": [],
+  "research": [
+    {
+      "topic": "neighborhood_discussion",
+      "summary": "Available source material characterizes Shadyside as a fairly flat, green neighborhood offering diverse housing options, accessible green spaces such as Mellon Park, and public transit connectivity served by approximately 20 bus lines. However, the available data is severely constrained: local discussions specific to the target address at 810 S Negley Avenue are largely absent, several online community passages lack context or completeness, and none of the sources fall within the requested date window of October 2025 to October 2026.",
+      "findings": [
+        {
+          "id": "ac54cd55-ba2f-41bc-8914-a8a4d40e4bc2",
+          "title": "Housing crisis",
+          "statement": "There is a dire housing crisis afflicting our city, and I believe that the addition of 117 rental units in one of the most desirable",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "Resident frames housing shortage as a city‑wide issue, not a local consensus.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "85c7fd34-f955-42ba-8327-b04521797a47",
+              "excerpt": "There is a dire housing crisis afflicting our city, and I believe that the addition of 117 rental units in one of the most desirable"
+            }
+          ],
+          "ui_id": "web-ac54cd55-ba2f-41bc-8914-a8a4d40e4bc2"
+        },
+        {
+          "id": "fd04aa57-7fff-4775-95fe-e6139f68512b",
+          "title": "Public transit",
+          "statement": "Shadyside offers excellent accessibility with around 20 bus lines serving the area, making public transit a practical choice for many residents.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "Resident highlights transit as a practical daily option.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "Shadyside offers excellent accessibility with around 20 bus lines serving the area, making public transit a practical choice for many residents. The neighborhood supports eco-friendly travel modes, including convenient cycling infrastructure. Daily needs are easily met with grocery stores, restaurants, and cafes located nearby. Educational opportunities are broad, featuring both public and private elementary and high schools close to most residences. Numerous parks are within reach, providing [...] reach, providing inviting outdoor spaces. The neighborhood presents a quiet environment overall with some vibrant spots such as Walnut Street, which features several bars and a lively atmosphere f"
+            }
+          ],
+          "ui_id": "web-fd04aa57-7fff-4775-95fe-e6139f68512b"
+        },
+        {
+          "id": "da458c98-7c6a-4246-9ab2-aba4fc76f926",
+          "title": "Noise",
+          "statement": "Shadyside is reasonably quiet, as there isn't a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "Resident notes quieter streets but acknowledges louder zones near the railway.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "or nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line. There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them. Lastly, finding lively areas is very easy in this area. Even though there is a limited"
+            }
+          ],
+          "ui_id": "web-da458c98-7c6a-4246-9ab2-aba4fc76f926"
+        },
+        {
+          "id": "e50cfbe0-9041-4e11-b462-27040752621b",
+          "title": "Public green spaces",
+          "statement": "There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "Resident mentions accessible parks as a local amenity.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "or nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line. There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them. Lastly, finding lively areas is very easy in this area. Even though there is a limited"
+            }
+          ],
+          "ui_id": "web-e50cfbe0-9041-4e11-b462-27040752621b"
+        },
+        {
+          "id": "a4858bc3-f87a-455b-8b4e-f71885a4324b",
+          "title": "Residential variety",
+          "statement": "Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "Resident describes housing mix as diverse.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "or nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line. There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them. Lastly, finding lively areas is very easy in this area. Even though there is a limited"
+            }
+          ],
+          "ui_id": "web-a4858bc3-f87a-455b-8b4e-f71885a4324b"
+        },
+        {
+          "id": "4c720694-dafe-4b63-9b46-2bb3b3de0669",
+          "title": "Lively areas",
+          "statement": "Finding lively areas is very easy in this area. Even though there is a limited",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "Resident notes easy access to lively spots despite limited description.",
+          "location_relevance": "Specific relevance to this address was not established.",
+          "citations": [
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "or nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line. There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them. Lastly, finding lively areas is very easy in this area. Even though there is a limited"
+            }
+          ],
+          "ui_id": "web-4c720694-dafe-4b63-9b46-2bb3b3de0669"
+        }
+      ],
+      "limitations": [
+        "Unrelated search results were excluded from the address-area brief.",
+        "1 unsupported or out-of-scope model findings omitted.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Shadyside Pittsburgh, Pennsylvania living resident experiences site:reddit.com/r/pittsburgh",
+        "Shadyside S NEGLEY AVE Pittsburgh, Pennsylvania neighborhood news development local discussion"
+      ],
+      "evidence_ids": [
+        "20c9a69f-2ba4-4117-9103-2b6cca60c97a",
+        "af87a305-aded-470c-ae88-f7925b5a2199",
+        "85c7fd34-f955-42ba-8327-b04521797a47",
+        "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+        "b98762ae-edff-46c5-9de7-cf4fef29e486",
+        "cb26bde4-578d-426e-8c2a-4fd821ebf891"
+      ],
+      "search_calls": 2,
+      "usage_credits": 2.0,
+      "review_completed": false,
+      "brief": {
+        "overview": {
+          "text": "Available source material characterizes Shadyside as a fairly flat, green neighborhood offering diverse housing options, accessible green spaces such as Mellon Park, and public transit connectivity served by approximately 20 bus lines. However, the available data is severely constrained: local discussions specific to the target address at 810 S Negley Avenue are largely absent, several online community passages lack context or completeness, and none of the sources fall within the requested date window of October 2025 to October 2026.",
+          "citations": [
+            {
+              "evidence_id": "af87a305-aded-470c-ae88-f7925b5a2199",
+              "excerpt": "Shadyside is fairly flat. They are both gorgeous, green neighborhoods and the streets around Chatham in Squirrel Hill are especially verdant."
+            },
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "Shadyside offers excellent accessibility with around 20 bus lines serving the area, making public transit a practical choice for many residents. The neighborhood supports eco-friendly travel modes, including convenient cycling infrastructure. Daily needs are easily met with grocery stores, restaurants, and cafes located nearby. Educational opportunities are broad, featuring both public and private elementary and high schools close to most residences. Numerous parks are within reach, providing [...] reach, providing inviting outdoor spaces. The neighborhood presents a quiet environment overall with some vibrant spots such as Walnut Street, which features several bars and a lively atmosphere for nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't"
+            },
+            {
+              "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+              "excerpt": "a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line. There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them. Lastly, finding lively areas is very easy in this area. Even though there is a limited"
+            }
+          ],
+          "ui_id": "brief-neighborhood_discussion-0"
+        },
+        "sections": [
+          {
+            "heading": "Neighborhood Profile and Transit",
+            "paragraphs": [
+              {
+                "text": "Shadyside is described as a relatively flat, green neighborhood. Public transit access is supported by around 20 bus lines, alongside cycling infrastructure. Daily amenities including grocery stores, cafes, and restaurants are situated throughout the area, alongside both public and private schools. Residential options include townhouses and apartments, commonly featuring one- or two-bedroom configurations.",
+                "citations": [
+                  {
+                    "evidence_id": "af87a305-aded-470c-ae88-f7925b5a2199",
+                    "excerpt": "Shadyside is fairly flat. They are both gorgeous, green neighborhoods and the streets around Chatham in Squirrel Hill are especially verdant."
+                  },
+                  {
+                    "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+                    "excerpt": "Shadyside offers excellent accessibility with around 20 bus lines serving the area, making public transit a practical choice for many residents. The neighborhood supports eco-friendly travel modes, including convenient cycling infrastructure. Daily needs are easily met with grocery stores, restaurants, and cafes located nearby. Educational opportunities are broad, featuring both public and private elementary and high schools close to most residences. Numerous parks are within reach, providing [...] reach, providing inviting outdoor spaces. The neighborhood presents a quiet environment overall with some vibrant spots such as Walnut Street, which features several bars and a lively atmosphere for nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-1"
+              },
+              {
+                "text": "The neighborhood is generally characterized as quiet with little city clamor or street noise, though increased noise levels are noted near the railway line. Residents have access to well-distributed outdoor spaces such as Mellon Park, while commercial corridors like Walnut Street offer bars and evening activities.",
+                "citations": [
+                  {
+                    "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+                    "excerpt": "Shadyside offers excellent accessibility with around 20 bus lines serving the area, making public transit a practical choice for many residents. The neighborhood supports eco-friendly travel modes, including convenient cycling infrastructure. Daily needs are easily met with grocery stores, restaurants, and cafes located nearby. Educational opportunities are broad, featuring both public and private elementary and high schools close to most residences. Numerous parks are within reach, providing [...] reach, providing inviting outdoor spaces. The neighborhood presents a quiet environment overall with some vibrant spots such as Walnut Street, which features several bars and a lively atmosphere for nighttime options. Housing includes a variety of apartments and townhouses, often featuring one- or two-bedroom units. [...] Shadyside has a character that appeals to a fairly diverse group of people. Shadyside is reasonably quiet, as there isn't"
+                  },
+                  {
+                    "evidence_id": "6c3a365c-0f01-4159-9fcb-8f9367a96857",
+                    "excerpt": "a lot of street noise or city clamor, although there are still several noisier areas, especially near the railway line. There are a few public green spaces nearby for residents to check out, such as Mellon Park, and they are especially well-distributed, making it easy to access them. Lastly, finding lively areas is very easy in this area. Even though there is a limited"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-2"
+              }
+            ]
+          },
+          {
+            "heading": "Local Housing and Development Discussions",
+            "paragraphs": [
+              {
+                "text": "Housing discussions in online community forums touch upon citywide supply challenges, including a debate regarding a proposal to add 117 rental units within Shadyside. In addition, meeting notices from June 2024 reference a proposed mixed-income development and zoning change request by New Burgh Real Estate along Negley Avenue.",
+                "citations": [
+                  {
+                    "evidence_id": "85c7fd34-f955-42ba-8327-b04521797a47",
+                    "excerpt": "There is a dire housing crisis afflicting our city, and I believe that the addition of 117 rental units in one of the most desirable"
+                  },
+                  {
+                    "evidence_id": "b98762ae-edff-46c5-9de7-cf4fef29e486",
+                    "excerpt": "On Tuesday, June 11th, learn about New Burgh Real Estate's mixed-income development on Negley Ave and zoning change request."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-3"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "No discussions or records were published within the requested window of October 15, 2025, to October 15, 2026.",
+          "Direct community discussion regarding the specific parcel at 810 S Negley Ave is not present in the sources.",
+          "Multiple sources consist of truncated search snippets or promotional neighborhood portal pages lacking detailed resident deliberation.",
+          "Publication dates are missing for multiple sources, leaving temporal relevance unconfirmed."
+        ],
+        "follow_up_questions": [
+          "What was the outcome of the June 2024 zoning change request and proposed mixed-income development on Negley Avenue?",
+          "What specific community feedback or zoning actions directly affect 810 S Negley Ave between late 2025 and late 2026?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:20:14.639014Z"
+      },
+      "synthesis_status": "complete"
+    },
+    {
+      "topic": "restaurant_reviews",
+      "summary": "The supplied source material highlights several established dining spots across the Shadyside neighborhood of Pittsburgh, notably Girasole, Lilith, Nak Won Garden, and Pamela's Diner. The material consists primarily of local neighborhood guides, promotional business websites, and search directory rankings rather than comprehensive independent customer reviews. Furthermore, while the target inquiry centers on 810 S Negley Ave, the available records place specific businesses on other nearby corridors, such as Copeland Street and Walnut Street, without providing direct reviews or confirmation of dining venues operating specifically at the 810 S Negley Ave address.",
+      "findings": [
+        {
+          "id": "4231d4fe-cc4c-43f0-b0af-7c366b463f1c",
+          "title": "Current status",
+          "statement": "Monday is closed; the restaurant is not open on other days yet.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Shadyside, Pittsburgh, PA",
+          "citations": [
+            {
+              "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+              "excerpt": "Monday - Closed"
+            }
+          ],
+          "ui_id": "web-4231d4fe-cc4c-43f0-b0af-7c366b463f1c"
+        },
+        {
+          "id": "e172f60a-7d01-4411-9356-6e3717fcc92a",
+          "title": "Hours (when it will open)",
+          "statement": "Tuesday–Thursday 11:30 AM – 9:30 PM; Friday & Saturday 11:30 AM – 10:00 PM; Sunday 4:00 PM – 9:00 PM.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Shadyside, Pittsburgh, PA",
+          "citations": [
+            {
+              "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+              "excerpt": "Tuesday – Thursday 11:30 AM – 9:30 PM"
+            },
+            {
+              "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+              "excerpt": "Friday & Saturday 11:30 AM – 10:00 PM"
+            },
+            {
+              "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+              "excerpt": "Sunday 4:00 PM – 9:00 PM"
+            }
+          ],
+          "ui_id": "web-e172f60a-7d01-4411-9356-6e3717fcc92a"
+        }
+      ],
+      "limitations": [
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Pittsburgh, Pennsylvania restaurants near 810 S NEGLEY AVE, PITTSBURGH, PA, 15232 Shadyside reviews menus",
+        "Shadyside S NEGLEY AVE Pittsburgh, Pennsylvania Pittsburgh Shadyside restaurant reviews local news",
+        "Pittsburgh, Pennsylvania Is Girasole Restaurant still open at 810 S Negley Ave, Pittsburgh, PA 15232?"
+      ],
+      "evidence_ids": [
+        "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+        "3a40f24d-cb9d-4c83-890e-6602b0ee8be8",
+        "b3bae52b-c493-4481-98d7-462613116e8b",
+        "c450f326-bfea-43ca-b54b-560413189f01",
+        "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+        "8de41c2a-0239-4bf6-80cf-7af7a9ea8c55",
+        "df83edc3-26eb-4f27-8063-6a7f218b5d38",
+        "55fab11c-bb16-415f-a95e-99912c650021"
+      ],
+      "search_calls": 3,
+      "usage_credits": 3.0,
+      "review_completed": true,
+      "brief": {
+        "overview": {
+          "text": "The supplied source material highlights several established dining spots across the Shadyside neighborhood of Pittsburgh, notably Girasole, Lilith, Nak Won Garden, and Pamela's Diner. The material consists primarily of local neighborhood guides, promotional business websites, and search directory rankings rather than comprehensive independent customer reviews. Furthermore, while the target inquiry centers on 810 S Negley Ave, the available records place specific businesses on other nearby corridors, such as Copeland Street and Walnut Street, without providing direct reviews or confirmation of dining venues operating specifically at the 810 S Negley Ave address.",
+          "citations": [
+            {
+              "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+              "excerpt": "Girasole – A critically acclaimed Italian restaurant often considered one of the best in the city."
+            },
+            {
+              "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+              "excerpt": "Pamela’s P&G Diner – A popular local breakfast chain known for their delicious hotcakes."
+            },
+            {
+              "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+              "excerpt": "Lilith – A cozy restaurant tucked away from the business district in Shadyside with unique flavors."
+            },
+            {
+              "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+              "excerpt": "Nak Won Garden – A popular Korean restaurant right in the heart of Shadyside."
+            },
+            {
+              "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+              "excerpt": "Today, Shadyside is primarily residential with three distinct business districts- one on Walnut Street, one on S. Highland Avenue, and one on Ellsworth Avenue. While distinctly separate, they are all in close proximity for a short drive or a brief walk."
+            },
+            {
+              "evidence_id": "3a40f24d-cb9d-4c83-890e-6602b0ee8be8",
+              "excerpt": "The Best 10 Restaurants near Walnut St, Pittsburgh, PA 15232 · 1. Lilith · 2. Girasole Restaurant · 3. Tocayo Taqueria & Tequila · 4. Noodlehead · 5. Garbarinos · 6."
+            },
+            {
+              "evidence_id": "8de41c2a-0239-4bf6-80cf-7af7a9ea8c55",
+              "excerpt": "The most popular shopping and dining district in the Shadyside neighborhood belongs to Walnut Street. The three blocks at the southwest end of the street is the heart of all the action. You have a good mix of Pittsburgh classics like Pamela’s Diner, local gems like Kards Unlimited, as well as big retail chains like Lululemon and Apple. No matter where you end up on this street, you will [...] feel like a close-knit community. Today, there are three business districts within Shadyside: Walnut St., S. Highland Ave, and Ellsworth Ave. Since all are within close walking distance of one another, it is beloved by many for its convenience and the variety of restaurants and retail that it offers. [...] 📍Nak Won Garden – If you love Korean food, this is going to be your new go-to. Everything is served family style, and the indoor seating has a homey atmosphere, making it feel like you are visiting grandma's house for dinner. The menu can be"
+            },
+            {
+              "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+              "excerpt": "Girasole is located in the Shadyside section of Pittsburgh, PA. 733 Copeland St."
+            }
+          ],
+          "ui_id": "brief-restaurant_reviews-0"
+        },
+        "sections": [
+          {
+            "heading": "Girasole",
+            "paragraphs": [
+              {
+                "text": "Girasole is recognized in local guides as a critically acclaimed, family-owned Italian restaurant that has operated for over 25 years in Shadyside. It ranks among popular recommendations for Italian cuisine in the area and has won a Readers' Choice Gold Award from the Pittsburgh Tribune-Review. The restaurant promotes a dining atmosphere framed by rustic stone walls reminiscent of a villa's wine cellar, accompanied by a full wine list, a bar, and occasional live music nights.",
+                "citations": [
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Girasole – A critically acclaimed Italian restaurant often considered one of the best in the city."
+                  },
+                  {
+                    "evidence_id": "3a40f24d-cb9d-4c83-890e-6602b0ee8be8",
+                    "excerpt": "The Best 10 Restaurants near Walnut St, Pittsburgh, PA 15232 · 1. Lilith · 2. Girasole Restaurant · 3. Tocayo Taqueria & Tequila · 4. Noodlehead · 5. Garbarinos · 6."
+                  },
+                  {
+                    "evidence_id": "df83edc3-26eb-4f27-8063-6a7f218b5d38",
+                    "excerpt": "Girasole restaurant opened its doors. on October 01, 2026. 🍝 @girasole_pgh is a family-owned restaurant that's been open for over 25 years!"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Girasole, Pittsburgh's Finest Italian Restaurant [...] # An authentic Pittsburgh Italian restaurant tradition. Dine Italian-style surrounded by rustic stone walls as if you were in the wine cellar of a villa. Complete wine list and bar available, and check for live music nights. Fine dining with a traditional yet fun atmosphere, that's Girasole!"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "NOW OPEN FOR DINE-IN OR TAKEOUT [...] Pittsburgh Tribune Review Readers' Choice Gold Award Winner"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Girasole is located in the Shadyside section of Pittsburgh, PA. 733 Copeland St."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-1"
+              },
+              {
+                "text": "According to its published business details, Girasole is situated at 733 Copeland St in Shadyside. The establishment operates for dine-in and takeout, though it does not take reservations. Its regular schedule lists the business as closed on Mondays, open Tuesday through Thursday from 11:30 AM to 9:30 PM, Friday and Saturday from 11:30 AM to 10:00 PM, and Sunday from 4:00 PM to 9:00 PM.",
+                "citations": [
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Monday - Closed"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Tuesday – Thursday 11:30 AM – 9:30 PM"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Friday & Saturday 11:30 AM – 10:00 PM"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Sunday 4:00 PM – 9:00 PM"
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "We are not accepting reservations at this time."
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "Girasole is located in the Shadyside section of Pittsburgh, PA. 733 Copeland St."
+                  },
+                  {
+                    "evidence_id": "55fab11c-bb16-415f-a95e-99912c650021",
+                    "excerpt": "NOW OPEN FOR DINE-IN OR TAKEOUT"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-2"
+              }
+            ]
+          },
+          {
+            "heading": "Lilith",
+            "paragraphs": [
+              {
+                "text": "Lilith is described in regional guide listings as a cozy Shadyside venue located away from the primary business district that features distinct flavor profiles. It appears as a top-ranked restaurant choice in directory searches around Walnut Street. Promotional descriptions from the restaurant note that its culinary direction is helmed by founders and head chefs Jamilka and Dianne, presenting an upscale dining experience supported by Sicilian and Puerto Rican culinary influences.",
+                "citations": [
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Lilith – A cozy restaurant tucked away from the business district in Shadyside with unique flavors."
+                  },
+                  {
+                    "evidence_id": "3a40f24d-cb9d-4c83-890e-6602b0ee8be8",
+                    "excerpt": "The Best 10 Restaurants near Walnut St, Pittsburgh, PA 15232 · 1. Lilith · 2. Girasole Restaurant · 3. Tocayo Taqueria & Tequila · 4. Noodlehead · 5. Garbarinos · 6."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "We want you to feel comfortable here. When you dine at Lilith, you become a part of our little family for the night. We're a colorful crew who knows how to make amazing food. Our team is led by founders and head chefs Jamilka and Dianne--two industry veterans with a wealth of experience--and they use their knowledge and skills to make this restaurant stand out and leave a lasting memory. Come join us for a night you won't forget."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Emerging from years of culinary dedication and a shared vision cultivated in Pittsburgh's finest kitchens, Lilith represents the realization of our dream to craft a unique dining experience together. Our menu is a testament to our commitment to excellence."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Freshly plated gluten free option with a touch of Sicilian and Puerto Rican influence."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-3"
+              },
+              {
+                "text": "Lilith's menu offerings include dishes such as steak served with red wine, soup, yuca pierogis, gluten-free preparations, creative drink pairings, and desserts served with coffee. The venue provides reservation bookings for evening dinners alongside private event and party hosting.",
+                "citations": [
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "## Celebrate in Style with Great Food, Drinks, and Vibes [...] Looking for the perfect spot to throw a party? Lilith is the place to be! Whether it's a birthday, anniversary, or just a night out with friends, we've got everything you need to make it unforgettable."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Steak dish accompanied with red wine."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Freshly plated gluten free option with a touch of Sicilian and Puerto Rican influence."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Yuca Pierogi plate accompanied with red wine."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Soup bowl."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Desserts served with coffee."
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "Booking is easy—just a few clicks, and you'll be set for a night of delicious food, creative drinks, and unforgettable memories. Don't miss out—your table at Lilith is waiting!"
+                  },
+                  {
+                    "evidence_id": "c8bc9d64-2501-4096-ad64-62fd99a5afcd",
+                    "excerpt": "[Reservations](https://www.exploretock.com/lilith-pittsburgh/)"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-4"
+              }
+            ]
+          },
+          {
+            "heading": "Other Shadyside Dining Options",
+            "paragraphs": [
+              {
+                "text": "Shadyside contains three concentrated commercial corridors on Walnut Street, South Highland Avenue, and Ellsworth Avenue, offering diverse neighborhood dining within short walking or driving distances. Walnut Street is noted as a central hub featuring long-standing staples such as Pamela's Diner, a local chain celebrated for breakfast hotcakes. Another prominent local establishment is Nak Won Garden, a Korean dining spot serving family-style dishes in a casual setting, highlighting specialties such as beef bibimbap, galbi ribs, and pork bulgogi.",
+                "citations": [
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Pamela’s P&G Diner – A popular local breakfast chain known for their delicious hotcakes."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Nak Won Garden – A popular Korean restaurant right in the heart of Shadyside."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Today, Shadyside is primarily residential with three distinct business districts- one on Walnut Street, one on S. Highland Avenue, and one on Ellsworth Avenue. While distinctly separate, they are all in close proximity for a short drive or a brief walk."
+                  },
+                  {
+                    "evidence_id": "8de41c2a-0239-4bf6-80cf-7af7a9ea8c55",
+                    "excerpt": "The most popular shopping and dining district in the Shadyside neighborhood belongs to Walnut Street. The three blocks at the southwest end of the street is the heart of all the action. You have a good mix of Pittsburgh classics like Pamela’s Diner, local gems like Kards Unlimited, as well as big retail chains like Lululemon and Apple. No matter where you end up on this street, you will [...] feel like a close-knit community. Today, there are three business districts within Shadyside: Walnut St., S. Highland Ave, and Ellsworth Ave. Since all are within close walking distance of one another, it is beloved by many for its convenience and the variety of restaurants and retail that it offers. [...] 📍Nak Won Garden – If you love Korean food, this is going to be your new go-to. Everything is served family style, and the indoor seating has a homey atmosphere, making it feel like you are visiting grandma's house for dinner. The menu can be"
+                  },
+                  {
+                    "evidence_id": "8de41c2a-0239-4bf6-80cf-7af7a9ea8c55",
+                    "excerpt": "overwhelming if you’ve never been, so here are my recommendations: the Beef Bibimbap and the Galbi Ribs are fantastic, the Pork Bulgogi and the"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-5"
+              },
+              {
+                "text": "A variety of other cuisines populate the broader Shadyside neighborhood. Guides highlight establishments such as Tocayo for Mexican fare and mezcal, Mercurio's for wood-fired pizza and gelato, Fujiya Ramen for ramen bowls, Cafe Moulin for French crepes, and Senyai Thai Kitchen. Additionally, Big Burrito restaurant group operates Casbah for Mediterranean dining, Soba for Asian fusion, and Mad Mex for Tex-Mex, with high-end sushi bar Umi operating above Soba.",
+                "citations": [
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Fujiya Ramen – A Japanese restaurant focusing on ramen and rice bowls."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Mercurio’s – Traditional wood-fired Italian pizza and homemade gelato. A taste of Italy."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Cafe Moulin – French cafe serving crepes and other quick eats. [...] Senyai Thai Kitchen – Classic Thai dining in an unassuming house."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Tocayo – A delightful Mexican restaurant with some stellar tacos and a strong mezcal menu."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Soba – An Asian fusion restaurant by the Big Burrito restaurant group."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Palm Palm – An international fusion tapas restaurant with coastal vibes. [...] Umi – A high-end sushi and sashimi bar serving up 7 and 11 course omakase meals. Located above Soba."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Mad Mex – Tex Mex fare with a twist from this chain from the Big Burrito restaurant group."
+                  },
+                  {
+                    "evidence_id": "d3a33e53-583f-445c-973d-2afdfa32bb3f",
+                    "excerpt": "Casbah – A third restaurant from Big Burrito, all about higher-end Mediterranean fare."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-6"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "No dining reviews or restaurant records directly identify an establishment operating at 810 S Negley Ave.",
+          "Most provided sources are promotional websites or neighborhood travel overviews rather than detailed consumer reviews.",
+          "Several directory sources consist solely of brief search snippets without full text or ratings context.",
+          "Publication dates for multiple online sources are missing or undated, making long-term operational status difficult to track."
+        ],
+        "follow_up_questions": [
+          "Are there any past or current commercial restaurant tenants located directly at the parcel 810 S Negley Ave?",
+          "What specific customer review sentiments or critical ratings exist for dining spots immediately adjacent to the intersection of S Negley Ave?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:21:35.313961Z"
+      },
+      "synthesis_status": "complete"
+    }
+  ]
+}

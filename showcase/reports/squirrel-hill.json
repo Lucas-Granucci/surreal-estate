@@ -1,0 +1,2168 @@
+{
+  "version": "1.0",
+  "case": {
+    "address": "5703 FORBES AVE, PITTSBURGH, PA, 15217",
+    "geography": "Pittsburgh, Pennsylvania",
+    "as_of": "2026-10-15"
+  },
+  "demo": false,
+  "findings": [
+    {
+      "id": "finding-4",
+      "title": "Nearby transit",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "transit",
+      "statements": [
+        "At least 50 mapped features within 1 km. Closest returned point: ~154 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "5c08b577-d467-4298-9f56-d46340fa661e"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 0,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-3",
+      "title": "Groceries & pharmacies",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "groceries",
+      "statements": [
+        "8 mapped features within 1 km. Closest returned point: ~297 m.",
+        "2 mapped features within 1 km. Closest returned point: ~376 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "8c377c2c-9e74-4377-b236-a078471021f6",
+        "aff0990c-7acf-4dcc-80a0-f298105485e4"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 0,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 0,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-1",
+      "title": "Street-closure permits",
+      "topic": "street_closures",
+      "section": "Street permits",
+      "category": null,
+      "statements": [
+        "2 returned street-closure permit segments."
+      ],
+      "qualifier": "Public records · permits do not confirm work is underway",
+      "evidence_ids": [
+        "b82b4666-fc3b-4602-b5bc-821d8413aecf",
+        "4861c448-7d8b-418b-963b-e432492d99d5"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_closures",
+          "topic": "street_closures",
+          "status": "truncated",
+          "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 1080 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+          "queries_run": 2,
+          "sources_returned": 2,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": true
+    },
+    {
+      "id": "finding-0",
+      "title": "Address match",
+      "topic": "geocoding",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "Census address match: 5703 FORBES AVE, PITTSBURGH, PA, 15217; latitude 40.438129, longitude -79.925737. Address-range interpolation, not a parcel or structure assessment."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [
+        "5130c50c-f1a4-442a-9d94-73417a5056c4"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "census",
+          "topic": "geocoding",
+          "status": "complete",
+          "reason": "Address match selected and confirmed by the user",
+          "queries_run": 0,
+          "sources_returned": 1,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-6",
+      "title": "Assessment & building permits",
+      "topic": "property_assessment",
+      "section": "Records",
+      "category": null,
+      "statements": [
+        "No matching county parcel returned. This does not establish that the property is absent from county records.",
+        "A unique parcel match is needed before these records can be researched."
+      ],
+      "qualifier": "Public records",
+      "evidence_ids": [],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "wprdc_assessments",
+          "topic": "property_assessment",
+          "status": "empty",
+          "reason": "No matching county parcel returned. This does not establish that the property is absent from county records.",
+          "queries_run": 2,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        },
+        {
+          "channel": "apis",
+          "provider": "wprdc_permits",
+          "topic": "building_permits",
+          "status": "blocked",
+          "reason": "No county parcel could be selected for this address.",
+          "queries_run": 0,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": true
+    },
+    {
+      "id": "finding-8",
+      "title": "Local discussions",
+      "topic": "neighborhood_discussion",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "7 source-linked findings from 5 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "0b10c4b7-3816-41e9-96f6-a7234413b3d3",
+        "2dddac19-c85e-4f0d-a371-6c9170379efe",
+        "6fbcdcf0-44d1-4292-a3cd-702d0a1ae834",
+        "7f9f4dfa-93cd-453b-9043-3e0e8af568d5",
+        "bc42e266-882e-443b-94a7-b6be66096ab3"
+      ],
+      "web_indices": [],
+      "research_topic": "neighborhood_discussion",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "neighborhood_discussion",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 7 extraction notes from 5 sources. No targeted factual review completed.",
+          "queries_run": 2,
+          "sources_returned": 5,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-9",
+      "title": "Dining reviews",
+      "topic": "restaurant_reviews",
+      "section": "Web research",
+      "category": null,
+      "statements": [
+        "7 source-linked findings from 8 sources."
+      ],
+      "qualifier": "Local intelligence · AI synthesis with source excerpts",
+      "evidence_ids": [
+        "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+        "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+        "46b7ded0-1ea8-4d03-a9a1-47b8755e7226",
+        "df9b7d3d-f5e4-44a4-9701-2c468c11ed50",
+        "216af6f2-557b-4398-96f4-5955cc8acb67",
+        "6e99f756-8b4c-44f9-ad22-5737ddf8a7c5",
+        "15fc40fa-7348-48e4-a0a0-4565a51a2e43",
+        "3f3065c5-f6cc-41fe-a9a8-9ec02062826b"
+      ],
+      "web_indices": [],
+      "research_topic": "restaurant_reviews",
+      "coverage": [
+        {
+          "channel": "web",
+          "provider": "tavily_search",
+          "topic": "restaurant_reviews",
+          "status": "complete",
+          "reason": "Source-cited research brief available. 7 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+          "queries_run": 3,
+          "sources_returned": 8,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "finding-2",
+      "title": "Mapped education features",
+      "topic": "mapped_amenities",
+      "section": "Surroundings",
+      "category": "schools",
+      "statements": [
+        "9 mapped features within 1 km. Closest returned point: ~117 m."
+      ],
+      "qualifier": "Community-mapped · straight-line distances, not travel distances",
+      "evidence_ids": [
+        "d25ed1cb-8494-4bf0-a982-f0d8b2b20314"
+      ],
+      "web_indices": [],
+      "research_topic": null,
+      "coverage": [
+        {
+          "channel": "apis",
+          "provider": "openstreetmap",
+          "topic": "mapped_amenities",
+          "status": "complete",
+          "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+          "queries_run": 0,
+          "sources_returned": 0,
+          "parcel_candidates": []
+        }
+      ],
+      "unresolved": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "5130c50c-f1a4-442a-9d94-73417a5056c4",
+      "provider": "census",
+      "uri": "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress?address=5703+Forbes+Ave%2C+Pittsburgh%2C+PA+15217&benchmark=Public_AR_Current&vintage=Current_Current&format=json",
+      "title": "Census Geocoder",
+      "excerpt": "Census address match: 5703 FORBES AVE, PITTSBURGH, PA, 15217; latitude 40.438129, longitude -79.925737. Address-range interpolation, not a parcel or structure assessment.",
+      "retrieved_at": "2026-10-15T12:21:36.143061Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": null,
+      "match_method": "user_confirmed_census_address_range_match",
+      "details": {
+        "latitude": 40.438129033177,
+        "longitude": -79.925736762631,
+        "matched_address": "5703 FORBES AVE, PITTSBURGH, PA, 15217",
+        "benchmark": "Public_AR_Current",
+        "vintage": "Current_Current"
+      }
+    },
+    {
+      "id": "b82b4666-fc3b-4602-b5bc-821d8413aecf",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-UOP-2026-11841-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-UOP-2026-11841-1 on FORBES AVE, about 233 m from the interpolated address point: 2026-10-08 to 2026-10-22. Work described: LOCATE/REPAIR/REPLACESIDEWALK 5X5. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:21:49.169582Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-UOP-2026-11841-1:9010",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-10-08",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 233,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "LOCATE/REPAIR/REPLACESIDEWALK 5X5",
+          "from_date": "2026-10-08",
+          "to_date": "2026-10-22",
+          "primary_street": "FORBES AVE",
+          "from_street": "MURRAY AVE",
+          "to_street": "SHADY AVE"
+        }
+      }
+    },
+    {
+      "id": "4861c448-7d8b-418b-963b-e432492d99d5",
+      "provider": "wprdc_closures",
+      "uri": "https://data.wprdc.org/dataset/street-closures/resource/a9a1d93a-9d3b-4c18-bd80-82ed6f86404a",
+      "title": "DOMI street closure · DOMI-OP-2026-11722-1 · segment 1",
+      "excerpt": "DOMI closure DOMI-OP-2026-11722-1 on FORBES AVE, about 715 m from the interpolated address point: 2026-09-29 to 2026-11-09. Work described: REPAIR GAS LEAK. Permit records do not confirm work is underway.",
+      "retrieved_at": "2026-10-15T12:21:49.169727Z",
+      "retention": "persistent",
+      "kind": "official_record",
+      "record_id": "DOMI-OP-2026-11722-1:3359",
+      "source_updated_at": "2026-10-15T07:33:56.240461",
+      "record_date": "2026-09-29",
+      "attribution": "City of Pittsburgh / Western Pennsylvania Regional Data Center · cc-by",
+      "match_method": "same_street_and_segment_within_1000m_of_interpolated_point",
+      "details": {
+        "approximate_segment_distance_m": 715,
+        "radius_m": 1000,
+        "record": {
+          "work_description": "REPAIR GAS LEAK",
+          "from_date": "2026-09-29",
+          "to_date": "2026-11-09",
+          "primary_street": "FORBES AVE",
+          "from_street": "ALBEMARLE AVE",
+          "to_street": "NORTHUMBERLAND ST"
+        }
+      }
+    },
+    {
+      "id": "0b10c4b7-3816-41e9-96f6-a7234413b3d3",
+      "provider": "tavily_search",
+      "uri": "https://www.reddit.com/r/pittsburgh/comments/lh1l7b/question_about_squirrel_hill_shadyside_area",
+      "title": "Question about Squirrel Hill / Shadyside area... - Pittsburgh",
+      "excerpt": "Squirrel Hill is fairly quiet outside of the main business district surrounding Murray and Forbes and has a lot of nice shops and restaurants as",
+      "retrieved_at": "2026-10-15T12:22:10.959822Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Sat, 16 Oct 2021 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.reddit.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+      "provider": "tavily_search",
+      "uri": "https://squirrelhillnorthpittsburghneighborhood.org/",
+      "title": "Squirrel Hill North Neighborhood Pittsburgh PA – Squirrel Hill North, Pittsburgh Neighborhood",
+      "excerpt": "A vibrant open-air street festival featuring local artists, live music, food trucks, and neighborhood favorites—an ideal way for residents to celebrate community creativity and enjoy a local evening out.\n\nSunday, September 26, 2026\n\n### Creative Kaleidoscope: Sacred Stitches\n\nSquirrel Hill Library, Large Meeting Room (5801 Forbes Ave) • 2:00 PM–4:30 PM [...] September 19–26, 2026\n\n### Penn Brewery Oktoberfest\n\nPenn Brewery, Northside\n\nA festive fall celebration with German food, live oompah music, and beer—an enjoyable regional outing for families and friends from Squirrel Hill seeking seasonal fun.\n\n## From the Neighborhood\n\nStories, updates, and things to know in Squirrel Hill North\n\nSquirrel Hill North neighborhood\n\n### Squirrel Hill North’s Culinary Delights: A Food Lover’s Guide to the Best Eats in Pittsburgh’s Iconic Neighborhood [...] A convenient weekly opportunity for local residents to buy fresh, seasonal produce and specialty goods just minutes from home, supporting neighbor",
+      "retrieved_at": "2026-10-15T12:22:13.192741Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "squirrelhillnorthpittsburghneighborhood.org",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "6fbcdcf0-44d1-4292-a3cd-702d0a1ae834",
+      "provider": "tavily_search",
+      "uri": "https://johnmarzulloteam.com/squirrel-hill-pittsburgh-real-estate",
+      "title": "Squirrel Hill Pittsburgh Real Estate: 2026 Guide",
+      "excerpt": "Tucked between Forbes Avenue, the Parkway East, and Frick Park, Squirrel Hill is the largest residential neighborhood in the City of Pittsburgh",
+      "retrieved_at": "2026-10-15T12:22:13.192837Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Mon, 27 Apr 2026 00:00:00 GMT",
+      "record_date": null,
+      "attribution": "johnmarzulloteam.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "7f9f4dfa-93cd-453b-9043-3e0e8af568d5",
+      "provider": "tavily_search",
+      "uri": "https://www.homes.com/local-guide/pittsburgh-pa/squirrel-hill-north-neighborhood/video/esbl19m6410xm",
+      "title": "Living in the Squirrel Hill North Neighborhood of Pittsburgh, PA",
+      "excerpt": "Squirrel Hill North in Pittsburgh has Tudor Revival and Queen Anne homes near a walkable business district on Forbes Avenue. Highly rated schools serve the",
+      "retrieved_at": "2026-10-15T12:22:13.192892Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.homes.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+      "provider": "tavily_search",
+      "uri": "https://www.walnutcapital.com/blog/a-locals-guide-to-living-in-pittsburghs-squirrel-hill",
+      "title": "Guide to Squirrel Hill | Walnut Capital Blog",
+      "excerpt": "Located in Pittsburgh's East End, Squirrel Hill has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services. [...] ## Spotlight: Hobart Court\n\nLocated near Forbes Avenue, Hobart Court provides convenient access to neighborhood restaurants, coffee shops, local businesses, and public transportation. Residents can enjoy walkable access to everyday conveniences while remaining connected to major Pittsburgh destinations.  \n   \n Its location makes it easy to experience the local character, accessibility, and neighborhood charm that continue to define Squirrel Hill. [...] A Local's Guide to Living in Pittsburgh's Squirrel Hill\n\nBack to Blog\n\n# A Local's Guide to Living in Pittsburgh's Squirrel Hill\n\nApartment Living\n\nJune 26, 2026\n\nBy: Mia Natoli\n\nShare:\n\n## Why Squi",
+      "retrieved_at": "2026-10-15T12:22:13.193006Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Fri, 26 Jun 2026 12:00:00 GMT",
+      "record_date": null,
+      "attribution": "www.walnutcapital.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "neighborhood_discussion"
+      }
+    },
+    {
+      "id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+      "provider": "tavily_search",
+      "uri": "https://www.discovertheburgh.com/squirrel-hill-neighborhood-guide",
+      "title": "Squirrel Hill Neighborhood Guide - Attractions and Dining",
+      "excerpt": "Jian’s Kitchen – Chinese restaurant with a large menu and a strong focus on Northeastern China.\n Pigeon Bagels – A former pop-up bagel company that now calls Squirrel Hill home. Some of Pittsburgh’s best!\n Squirrel Hill Market – A market in Squirrel Hill known for massive pastrami sandwiches.\n Commonplace Coffee – One of Pittsburgh’s newest coffee chains, and one of our personal favorites. [...] Pittsburgh Honey – A local honey store right in the heart of Squirrel Hill.\n Prantl’s Bakery – Squirrel Hill location of the popular Pittsburgh bakery known for the burtn almond torte.\n The Chocolate Moose – Squirrel Hill’s resident chocolate and candy store.\n Vendor Bender – An international themed vending machine store at the bottom of Murray Ave.\n Gaby et Jules – A French pastry shop focusing on macarons. [...] Allegro Hearth Bakery – A corner Pittsburgh bakery known for their incredible bread selection.\n Five Points Artisan Bakeshop – A bakery at the edge of Squirrel Hill serving up breads ",
+      "retrieved_at": "2026-10-15T12:23:05.713476Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Wed, 15 Feb 2017 12:34:51 GMT",
+      "record_date": null,
+      "attribution": "www.discovertheburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+      "provider": "tavily_search",
+      "uri": "https://www.discovertheburgh.com/best-restaurants-in-pittsburgh",
+      "title": "A Local's Guide to the Best Restaurants in Pittsburgh",
+      "excerpt": "Colangelo’s – Strip District – $ to $$\n V3 Pizza – Downtown – $\n Slice on Broadway – Beechview – $ to $$$\n Shelly Pie – Turtle Creek – $$ to $$$\n Fiori’s Pizzaria – Brookline – $$\n Caliente Pizza and Draft House – Bloomfield – $$ to $$$\n Joe & Pie – Edgewood – $$\n Pizza House (Police Station Pizza) – Ambridge – $\n Pizzeria Davide – Strip District – $ to $$$\n Aiello’s – Squirrel Hill – $ to $$\n Beto’s Pizza – Beechview – $ to $$\n Mandy’s Pizza – West View – $$\n Spak Brothers – Garfield – $$ [...] D&G Pizza – Beaver Falls – $ to $$\n Pizza Parma – Downtown – $$\n Giovanni’s Pizza – Dormont – $$\n Doughboy’s Pizza – McKee’s Rocks – $$\n Mineo’s – Squirrel Hill – $$\n Pizza Fiesta – Multiple Locations – $$ [...] Otaru – Mount Washington – Japanese – $$$$$\n Kiin Lao & Thai Eatery – Squirrel Hill – Laotian and Thai – $ to $$\n Royal Myanmar – West View – Burmese – $ to $$\n Taiwanese Bistro Cafe 33 – Squirrel Hill – Taiwanese – $$\n Tram’s Kitchen – Bloomfield – Vietnamese – $ to $$\n Took Took 98 – ",
+      "retrieved_at": "2026-10-15T12:23:05.713607Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": "Thu, 05 Nov 2015 13:14:48 GMT",
+      "record_date": null,
+      "attribution": "www.discovertheburgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "46b7ded0-1ea8-4d03-a9a1-47b8755e7226",
+      "provider": "tavily_search",
+      "uri": "https://forbestavernpgh.com/",
+      "title": "Best American Restaurant in Pittsburgh | Forbes Tavern",
+      "excerpt": "Turkey club sandwich with a side of Caesar salad on a plate.\n\nFried goat cheese balls.\n\nTurkey Club sandwich with bacon and cranberry relish, served with salad.\n\nMargherita flatbread.\n\nFried Pickles with spicy aioli.\n\n# Reviews\n\n## Review by - Google\n\n### five star review by Rodger S: [...] Creative menus, exceptional service. Our catering services are designed to make your event unforgettable.\n\ncatering\n\n# groups and parties\n\n## Moments Of Joy And Celebration\n\nWhether it's a birthday, holiday, or casual event, connect with others, and create lasting memories with laughter, music, food, and drinks.\n\nparties\n\n# Enjoy our Delicious Food\n\nBlueberry Mule.\n\nOld Fashioned cocktail.\n\nPittsburgher flatbread with chicken, bacon, fries, cheese, and BBQ sauce. [...] > In town for business and stumbled into this gem... the smoked wings and the Tavern Dip (ribeye dip sandwich) was on point. And as an added bonus 90's hits on the tunes.\n\n## Review by - Google\n\n### five star review by chris f:\n\n> Ser",
+      "retrieved_at": "2026-10-15T12:23:05.713675Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "forbestavernpgh.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "df9b7d3d-f5e4-44a4-9701-2c468c11ed50",
+      "provider": "tavily_search",
+      "uri": "https://anaeatspgh.net/",
+      "title": "Home",
+      "excerpt": "### Coughlin's Law Kitchen and Ale House\n\n### curbside on the run\n\n### lola's eatery\n\n### lola's eatery\n\n### Coughlin's Law Kitchen and Ale House\n\n### lola's eatery\n\n### lola's eatery\n\n### iron born pizza\n\n## If you need to get in touch, please fill out this form, and I will get back to you shortly.\n\nTHANK YOU! YOU'LL RECEIVE AN EMAIL RESPONSE SOON\n\n# CONTACT ME\n\n### photography by Rachel Rowland | website by Studio Franko\n\n### Ana Eats, LLC. | Pittsburgh-based food influencer [...] ## Look no further for the best restaurant and small business recommendations in the Burgh.\n\n## Hi, I'm Ana! Born and raised in the South Hills, I'm a lifelong Pittsburgher and crab rangoon conoisseur, with a passion for connecting with small business owners and my local community. My goal from the start has always been uplifting these incredible small businesses, and of course recommending you the city's best spots to eat and drink.\n\n### Coughlin's Law Kitchen and Ale House\n\n### Lola's Eatery [...] ### THE",
+      "retrieved_at": "2026-10-15T12:23:05.713754Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "anaeatspgh.net",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "216af6f2-557b-4398-96f4-5955cc8acb67",
+      "provider": "tavily_search",
+      "uri": "https://tupelohoneycafe.com/restaurant/pittsburgh",
+      "title": "Tupelo Honey Pittsburgh, PA | Southern Restaurant & Bar | Serving Brunch, Lunch & Dinner",
+      "excerpt": "Tupelo Honey Southern Kitchen & Bar is located in the Station Square Shopping Mall in Pittsburgh, Pennsylvania.\n\nOur restaurant serves scratch-made & responsibly sourced Southern food for brunch, lunch, and dinner. Our bar offers an extensive list of hand-crafted cocktails, wines, and local craft beers. Join us during Happy Hour every Monday through Friday for drink and food specials. [...] We are known for our superior Southern hospitality and welcoming atmosphere. Our menu has something for everyone, making us the perfect choice for a family dinner, date night, business lunch, special event, and more.\n\nVIEW MENU\n\n# Thank You Kindly!\n\nThe latest press & awards for Tupelo Honey in Pittsburgh.\n\n #### 15 Southern Restaurants At The Top Of Our Readers' Bucket Lists\n\n  Southern Living\n #### 6 Restaurant Chains That Serve the Best Shrimp and Grits [...] We use cookies to improve your experience on this website. Manage your cookie preferences for this site.\n\nView All Locations\n\n### Welcome t",
+      "retrieved_at": "2026-10-15T12:23:05.713806Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "tupelohoneycafe.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "mixed",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "6e99f756-8b4c-44f9-ad22-5737ddf8a7c5",
+      "provider": "tavily_search",
+      "uri": "https://www.yelp.com/search?find_desc=Restaurants+Squirrel+Hill&find_loc=Pittsburgh%2C+PA",
+      "title": "Restaurants Squirrel Hill Pittsburgh, PA",
+      "excerpt": "Squirrel Hill Cafe 4.0 (130 reviews) 0.4 mi 5802 Forbes Ave, Pittsburgh, PA 15217 … rrel Hill Cafe was a pleasant surprise of a bar. The beer selection is",
+      "retrieved_at": "2026-10-15T12:23:07.986695Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.yelp.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "15fc40fa-7348-48e4-a0a0-4565a51a2e43",
+      "provider": "tavily_search",
+      "uri": "https://www.eatatcoughlinslaw.com/",
+      "title": "Home - Coughlin's Law Kitchen and Ale House - American ...",
+      "excerpt": "Coughlin's Law Kitchen and Ale House in Pittsburgh, PA. Laid-back brewpub offering appetizers, salads & burgers alongside beers & craft cocktails.",
+      "retrieved_at": "2026-10-15T12:23:48.425152Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.eatatcoughlinslaw.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "3f3065c5-f6cc-41fe-a9a8-9ec02062826b",
+      "provider": "tavily_search",
+      "uri": "https://www.yelp.com/biz/coughlins-law-kitchen-and-ale-house-pittsburgh-3",
+      "title": "Coughlin's Law Kitchen and Ale House - Restaurant Reviews",
+      "excerpt": "We are STILL OPEN for Pick up and Delivery. Call now to… read",
+      "retrieved_at": "2026-10-15T12:23:48.425259Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": null,
+      "source_updated_at": null,
+      "record_date": null,
+      "attribution": "www.yelp.com",
+      "match_method": null,
+      "details": {
+        "content_kind": "search_passage",
+        "topic": "restaurant_reviews"
+      }
+    },
+    {
+      "id": "d25ed1cb-8494-4bf0-a982-f0d8b2b20314",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.438129033177/-79.925736762631",
+      "title": "Schools · area summary",
+      "excerpt": "Schools: 9 mapped features in the 1 km search area. Closest returned point/center is about 117 m away in a straight line. Attendance zones and school quality are not established.",
+      "retrieved_at": "2026-10-15T12:26:22.036139Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:schools",
+      "source_updated_at": "2026-05-31T22:37:44Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "schools",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 9,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 117,
+        "members": [
+          {
+            "object_type": "relation",
+            "object_id": 7384725,
+            "uri": "https://www.openstreetmap.org/relation/7384725",
+            "name": "Saint Edmunds Academy",
+            "center": {
+              "lat": 40.4374827,
+              "lon": -79.9246409
+            },
+            "approximate_center_distance_m": 117
+          },
+          {
+            "object_type": "node",
+            "object_id": 357379348,
+            "uri": "https://www.openstreetmap.org/node/357379348",
+            "name": "Jewish Community Center Nursery and Kindergarten",
+            "center": {
+              "lat": 40.4376551,
+              "lon": -79.9237884
+            },
+            "approximate_center_distance_m": 173
+          },
+          {
+            "object_type": "node",
+            "object_id": 357379256,
+            "uri": "https://www.openstreetmap.org/node/357379256",
+            "name": "Hillel Academy of Pittsburgh",
+            "center": {
+              "lat": 40.4349729,
+              "lon": -79.9249984
+            },
+            "approximate_center_distance_m": 356
+          },
+          {
+            "object_type": "way",
+            "object_id": 258174204,
+            "uri": "https://www.openstreetmap.org/way/258174204",
+            "name": "Carriage House Children's Center",
+            "center": {
+              "lat": 40.4427459,
+              "lon": -79.9267253
+            },
+            "approximate_center_distance_m": 520
+          },
+          {
+            "object_type": "node",
+            "object_id": 357378048,
+            "uri": "https://www.openstreetmap.org/node/357378048",
+            "name": "Yeshiva School",
+            "center": {
+              "lat": 40.4323292,
+              "lon": -79.9278221
+            },
+            "approximate_center_distance_m": 669
+          },
+          {
+            "object_type": "way",
+            "object_id": 505955772,
+            "uri": "https://www.openstreetmap.org/way/505955772",
+            "name": "Yeshiva Achei Tmimim School",
+            "center": {
+              "lat": 40.4385576,
+              "lon": -79.9173397
+            },
+            "approximate_center_distance_m": 712
+          },
+          {
+            "object_type": "node",
+            "object_id": 357379426,
+            "uri": "https://www.openstreetmap.org/node/357379426",
+            "name": "Maimonides Academy of Pitttsburgh",
+            "center": {
+              "lat": 40.4292993,
+              "lon": -79.9249071
+            },
+            "approximate_center_distance_m": 984
+          },
+          {
+            "object_type": "node",
+            "object_id": 10635224315,
+            "uri": "https://www.openstreetmap.org/node/10635224315",
+            "name": "Colfax Middle School",
+            "center": {
+              "lat": 40.4332939,
+              "lon": -79.9158916
+            },
+            "approximate_center_distance_m": 992
+          },
+          {
+            "object_type": "way",
+            "object_id": 607192283,
+            "uri": "https://www.openstreetmap.org/way/607192283",
+            "name": "Allderdice High School",
+            "center": {
+              "lat": 40.4295577,
+              "lon": -79.9195625
+            },
+            "approximate_center_distance_m": 1087
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "8c377c2c-9e74-4377-b236-a078471021f6",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.438129033177/-79.925736762631",
+      "title": "Grocery stores · area summary",
+      "excerpt": "Grocery stores: 8 mapped features in the 1 km search area. Closest returned point/center is about 297 m away in a straight line. Includes supermarkets, convenience stores and produce shops; hours are not verified.",
+      "retrieved_at": "2026-10-15T12:26:22.038874Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:groceries",
+      "source_updated_at": "2026-05-31T22:37:44Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "groceries",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 8,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 297,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 9659344778,
+            "uri": "https://www.openstreetmap.org/node/9659344778",
+            "name": "Panda Market",
+            "center": {
+              "lat": 40.437921,
+              "lon": -79.9222354
+            },
+            "approximate_center_distance_m": 297
+          },
+          {
+            "object_type": "node",
+            "object_id": 3371314193,
+            "uri": "https://www.openstreetmap.org/node/3371314193",
+            "name": "Murray Avenue Kosher",
+            "center": {
+              "lat": 40.4354892,
+              "lon": -79.9230204
+            },
+            "approximate_center_distance_m": 373
+          },
+          {
+            "object_type": "way",
+            "object_id": 309851311,
+            "uri": "https://www.openstreetmap.org/way/309851311",
+            "name": "Giant Eagle",
+            "center": {
+              "lat": 40.4357185,
+              "lon": -79.9225392
+            },
+            "approximate_center_distance_m": 381
+          },
+          {
+            "object_type": "node",
+            "object_id": 1371543219,
+            "uri": "https://www.openstreetmap.org/node/1371543219",
+            "name": "Ruggeri's Food Shoppe",
+            "center": {
+              "lat": 40.4386205,
+              "lon": -79.9211352
+            },
+            "approximate_center_distance_m": 393
+          },
+          {
+            "object_type": "node",
+            "object_id": 1371572642,
+            "uri": "https://www.openstreetmap.org/node/1371572642",
+            "name": "Smoke Wizard",
+            "center": {
+              "lat": 40.4379161,
+              "lon": -79.919758
+            },
+            "approximate_center_distance_m": 507
+          },
+          {
+            "object_type": "way",
+            "object_id": 739908910,
+            "uri": "https://www.openstreetmap.org/way/739908910",
+            "name": "Food Shoppe",
+            "center": {
+              "lat": 40.4415333,
+              "lon": -79.9205733
+            },
+            "approximate_center_distance_m": 578
+          },
+          {
+            "object_type": "node",
+            "object_id": 9659374236,
+            "uri": "https://www.openstreetmap.org/node/9659374236",
+            "name": "Vendor Bender",
+            "center": {
+              "lat": 40.4315845,
+              "lon": -79.9231235
+            },
+            "approximate_center_distance_m": 761
+          },
+          {
+            "object_type": "way",
+            "object_id": 314885375,
+            "uri": "https://www.openstreetmap.org/way/314885375",
+            "name": "GetGo",
+            "center": {
+              "lat": 40.4300048,
+              "lon": -79.9231788
+            },
+            "approximate_center_distance_m": 929
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "5c08b577-d467-4298-9f56-d46340fa661e",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.438129033177/-79.925736762631",
+      "title": "Public transit · area summary",
+      "excerpt": "Public transit: at least 50 mapped features in the 1 km search area. Closest returned point/center is about 154 m away in a straight line. Stop/platform features may share a station; frequency and routes are not verified.",
+      "retrieved_at": "2026-10-15T12:26:22.038977Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:transit",
+      "source_updated_at": "2026-05-31T22:37:44Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "transit",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 50,
+        "count_is_lower_bound": true,
+        "nearest_returned_center_distance_m": 154,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 5562804256,
+            "uri": "https://www.openstreetmap.org/node/5562804256",
+            "name": "Forbes Ave at Wightman St",
+            "center": {
+              "lat": 40.4381114,
+              "lon": -79.927556
+            },
+            "approximate_center_distance_m": 154
+          },
+          {
+            "object_type": "node",
+            "object_id": 3209378794,
+            "uri": "https://www.openstreetmap.org/node/3209378794",
+            "name": "Forbes Ave at Murray Ave",
+            "center": {
+              "lat": 40.4381229,
+              "lon": -79.9235469
+            },
+            "approximate_center_distance_m": 185
+          },
+          {
+            "object_type": "node",
+            "object_id": 5562804258,
+            "uri": "https://www.openstreetmap.org/node/5562804258",
+            "name": "Forbes Ave at Wightman St",
+            "center": {
+              "lat": 40.4379733,
+              "lon": -79.9279506
+            },
+            "approximate_center_distance_m": 188
+          },
+          {
+            "object_type": "node",
+            "object_id": 3209378793,
+            "uri": "https://www.openstreetmap.org/node/3209378793",
+            "name": "Forbes Ave at Murray Ave",
+            "center": {
+              "lat": 40.4379892,
+              "lon": -79.9231982
+            },
+            "approximate_center_distance_m": 215
+          },
+          {
+            "object_type": "node",
+            "object_id": 3209378795,
+            "uri": "https://www.openstreetmap.org/node/3209378795",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.4384526,
+              "lon": -79.9229327
+            },
+            "approximate_center_distance_m": 240
+          },
+          {
+            "object_type": "node",
+            "object_id": 9658784673,
+            "uri": "https://www.openstreetmap.org/node/9658784673",
+            "name": "Murray Ave at Forbes Ave",
+            "center": {
+              "lat": 40.4378149,
+              "lon": -79.9228833
+            },
+            "approximate_center_distance_m": 244
+          },
+          {
+            "object_type": "node",
+            "object_id": 9661002655,
+            "uri": "https://www.openstreetmap.org/node/9661002655",
+            "name": "Murray Ave at Darlington Rd",
+            "center": {
+              "lat": 40.437163,
+              "lon": -79.923015
+            },
+            "approximate_center_distance_m": 254
+          },
+          {
+            "object_type": "node",
+            "object_id": 9658765368,
+            "uri": "https://www.openstreetmap.org/node/9658765368",
+            "name": "Murray Ave at Bartlett St",
+            "center": {
+              "lat": 40.4362429,
+              "lon": -79.9228054
+            },
+            "approximate_center_distance_m": 325
+          },
+          {
+            "object_type": "node",
+            "object_id": 9661002654,
+            "uri": "https://www.openstreetmap.org/node/9661002654",
+            "name": "Murray Ave at Bartlett St",
+            "center": {
+              "lat": 40.4360997,
+              "lon": -79.9229759
+            },
+            "approximate_center_distance_m": 325
+          },
+          {
+            "object_type": "node",
+            "object_id": 5562804257,
+            "uri": "https://www.openstreetmap.org/node/5562804257",
+            "name": "Forbes Ave at Murdoch St",
+            "center": {
+              "lat": 40.4379194,
+              "lon": -79.930607
+            },
+            "approximate_center_distance_m": 413
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690223,
+            "uri": "https://www.openstreetmap.org/node/9675690223",
+            "name": "Beacon Street at Munhall Road",
+            "center": {
+              "lat": 40.434434,
+              "lon": -79.924849
+            },
+            "approximate_center_distance_m": 418
+          },
+          {
+            "object_type": "node",
+            "object_id": 9658715264,
+            "uri": "https://www.openstreetmap.org/node/9658715264",
+            "name": "Murray Ave at Beacon St",
+            "center": {
+              "lat": 40.4349044,
+              "lon": -79.9229137
+            },
+            "approximate_center_distance_m": 431
+          },
+          {
+            "object_type": "node",
+            "object_id": 5562804259,
+            "uri": "https://www.openstreetmap.org/node/5562804259",
+            "name": "Forbes Ave at Murdoch St",
+            "center": {
+              "lat": 40.4377952,
+              "lon": -79.9308281
+            },
+            "approximate_center_distance_m": 432
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690224,
+            "uri": "https://www.openstreetmap.org/node/9675690224",
+            "name": "Beacon St at Murray Ave",
+            "center": {
+              "lat": 40.4346196,
+              "lon": -79.9233718
+            },
+            "approximate_center_distance_m": 439
+          },
+          {
+            "object_type": "node",
+            "object_id": 9659344807,
+            "uri": "https://www.openstreetmap.org/node/9659344807",
+            "name": "Murray Ave at Beacon St",
+            "center": {
+              "lat": 40.4346454,
+              "lon": -79.92276
+            },
+            "approximate_center_distance_m": 462
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690239,
+            "uri": "https://www.openstreetmap.org/node/9675690239",
+            "name": "Wightman Street at Beacon Street",
+            "center": {
+              "lat": 40.4339978,
+              "lon": -79.9275377
+            },
+            "approximate_center_distance_m": 484
+          },
+          {
+            "object_type": "node",
+            "object_id": 9677911956,
+            "uri": "https://www.openstreetmap.org/node/9677911956",
+            "name": "Beacon St at Murray Ave",
+            "center": {
+              "lat": 40.4347983,
+              "lon": -79.9220027
+            },
+            "approximate_center_distance_m": 487
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690222,
+            "uri": "https://www.openstreetmap.org/node/9675690222",
+            "name": "Beacon Street at Wightman Street",
+            "center": {
+              "lat": 40.4339927,
+              "lon": -79.92794
+            },
+            "approximate_center_distance_m": 496
+          },
+          {
+            "object_type": "node",
+            "object_id": 9666015888,
+            "uri": "https://www.openstreetmap.org/node/9666015888",
+            "name": "Forbes Ave at Shady Ave",
+            "center": {
+              "lat": 40.4379804,
+              "lon": -79.9195704
+            },
+            "approximate_center_distance_m": 522
+          },
+          {
+            "object_type": "node",
+            "object_id": 4960676554,
+            "uri": "https://www.openstreetmap.org/node/4960676554",
+            "name": "Murray Ave at Hobart St",
+            "center": {
+              "lat": 40.4338108,
+              "lon": -79.9230319
+            },
+            "approximate_center_distance_m": 532
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675800435,
+            "uri": "https://www.openstreetmap.org/node/9675800435",
+            "name": "Beacon St opposite Wendover St",
+            "center": {
+              "lat": 40.4340396,
+              "lon": -79.9290159
+            },
+            "approximate_center_distance_m": 533
+          },
+          {
+            "object_type": "node",
+            "object_id": 9659344806,
+            "uri": "https://www.openstreetmap.org/node/9659344806",
+            "name": "Murray Ave at Hobart St",
+            "center": {
+              "lat": 40.4335841,
+              "lon": -79.9229017
+            },
+            "approximate_center_distance_m": 559
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690221,
+            "uri": "https://www.openstreetmap.org/node/9675690221",
+            "name": "Beacon St at Wendover St",
+            "center": {
+              "lat": 40.4338282,
+              "lon": -79.9292402
+            },
+            "approximate_center_distance_m": 563
+          },
+          {
+            "object_type": "node",
+            "object_id": 9666015889,
+            "uri": "https://www.openstreetmap.org/node/9666015889",
+            "name": "Forbes Ave at Shady Ave",
+            "center": {
+              "lat": 40.4381081,
+              "lon": -79.9190726
+            },
+            "approximate_center_distance_m": 564
+          },
+          {
+            "object_type": "node",
+            "object_id": 9727779537,
+            "uri": "https://www.openstreetmap.org/node/9727779537",
+            "name": "Shady Ave at Aylesboro Ave",
+            "center": {
+              "lat": 40.4402399,
+              "lon": -79.9195319
+            },
+            "approximate_center_distance_m": 575
+          },
+          {
+            "object_type": "node",
+            "object_id": 2766543187,
+            "uri": "https://www.openstreetmap.org/node/2766543187",
+            "name": "Wightman St at Hobart St",
+            "center": {
+              "lat": 40.4324683,
+              "lon": -79.9274552
+            },
+            "approximate_center_distance_m": 646
+          },
+          {
+            "object_type": "node",
+            "object_id": 9664782663,
+            "uri": "https://www.openstreetmap.org/node/9664782663",
+            "name": "Forbes Ave at Schenley Dr",
+            "center": {
+              "lat": 40.4379761,
+              "lon": -79.9333652
+            },
+            "approximate_center_distance_m": 646
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690225,
+            "uri": "https://www.openstreetmap.org/node/9675690225",
+            "name": "Beacon St at Shady Ave",
+            "center": {
+              "lat": 40.4352238,
+              "lon": -79.9191019
+            },
+            "approximate_center_distance_m": 648
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690220,
+            "uri": "https://www.openstreetmap.org/node/9675690220",
+            "name": "Beacon St at Murdoch St",
+            "center": {
+              "lat": 40.4336515,
+              "lon": -79.9306718
+            },
+            "approximate_center_distance_m": 650
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675800436,
+            "uri": "https://www.openstreetmap.org/node/9675800436",
+            "name": "Beacon St at Murdoch St",
+            "center": {
+              "lat": 40.4338045,
+              "lon": -79.9309198
+            },
+            "approximate_center_distance_m": 651
+          },
+          {
+            "object_type": "node",
+            "object_id": 9666015890,
+            "uri": "https://www.openstreetmap.org/node/9666015890",
+            "name": "Forbes Ave at Denniston St",
+            "center": {
+              "lat": 40.437996,
+              "lon": -79.9180235
+            },
+            "approximate_center_distance_m": 653
+          },
+          {
+            "object_type": "node",
+            "object_id": 4487904816,
+            "uri": "https://www.openstreetmap.org/node/4487904816",
+            "name": "Murray Ave at Phillips Ave",
+            "center": {
+              "lat": 40.4325311,
+              "lon": -79.9232196
+            },
+            "approximate_center_distance_m": 658
+          },
+          {
+            "object_type": "node",
+            "object_id": 2541477351,
+            "uri": "https://www.openstreetmap.org/node/2541477351",
+            "name": "Wilkins Avenue at Negley Avenue",
+            "center": {
+              "lat": 40.4440722,
+              "lon": -79.9258915
+            },
+            "approximate_center_distance_m": 661
+          },
+          {
+            "object_type": "node",
+            "object_id": 9649534299,
+            "uri": "https://www.openstreetmap.org/node/9649534299",
+            "name": "Murray Ave at Phillips Ave",
+            "center": {
+              "lat": 40.432259,
+              "lon": -79.923078
+            },
+            "approximate_center_distance_m": 690
+          },
+          {
+            "object_type": "node",
+            "object_id": 9664782664,
+            "uri": "https://www.openstreetmap.org/node/9664782664",
+            "name": "Forbes Avenue at Northumberland Street",
+            "center": {
+              "lat": 40.4390366,
+              "lon": -79.9341837
+            },
+            "approximate_center_distance_m": 722
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675800437,
+            "uri": "https://www.openstreetmap.org/node/9675800437",
+            "name": "Beacon St opposite #5414",
+            "center": {
+              "lat": 40.4336447,
+              "lon": -79.9321205
+            },
+            "approximate_center_distance_m": 735
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690238,
+            "uri": "https://www.openstreetmap.org/node/9675690238",
+            "name": "Wightman St at Phillips Ave",
+            "center": {
+              "lat": 40.431418,
+              "lon": -79.9274377
+            },
+            "approximate_center_distance_m": 760
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690219,
+            "uri": "https://www.openstreetmap.org/node/9675690219",
+            "name": "Beacon St at #5414",
+            "center": {
+              "lat": 40.43342,
+              "lon": -79.932446
+            },
+            "approximate_center_distance_m": 772
+          },
+          {
+            "object_type": "node",
+            "object_id": 9666015891,
+            "uri": "https://www.openstreetmap.org/node/9666015891",
+            "name": "Forbes Ave at Beechwood Blvd",
+            "center": {
+              "lat": 40.4379879,
+              "lon": -79.9163269
+            },
+            "approximate_center_distance_m": 797
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690227,
+            "uri": "https://www.openstreetmap.org/node/9675690227",
+            "name": "Mulhatton St at Darlington Rd",
+            "center": {
+              "lat": 40.4363377,
+              "lon": -79.9162034
+            },
+            "approximate_center_distance_m": 831
+          },
+          {
+            "object_type": "node",
+            "object_id": 9677911958,
+            "uri": "https://www.openstreetmap.org/node/9677911958",
+            "name": "Mulhatton St at Bartlett St",
+            "center": {
+              "lat": 40.4354863,
+              "lon": -79.9163351
+            },
+            "approximate_center_distance_m": 848
+          },
+          {
+            "object_type": "node",
+            "object_id": 9664782665,
+            "uri": "https://www.openstreetmap.org/node/9664782665",
+            "name": "Forbes Ave at Plainfield St",
+            "center": {
+              "lat": 40.4404087,
+              "lon": -79.9354197
+            },
+            "approximate_center_distance_m": 858
+          },
+          {
+            "object_type": "node",
+            "object_id": 9675690226,
+            "uri": "https://www.openstreetmap.org/node/9675690226",
+            "name": "Mulhatton St at Beacon St",
+            "center": {
+              "lat": 40.4350522,
+              "lon": -79.9163923
+            },
+            "approximate_center_distance_m": 862
+          },
+          {
+            "object_type": "node",
+            "object_id": 9660950492,
+            "uri": "https://www.openstreetmap.org/node/9660950492",
+            "name": "Murray Ave at Forward Ave",
+            "center": {
+              "lat": 40.4304588,
+              "lon": -79.9233217
+            },
+            "approximate_center_distance_m": 877
+          },
+          {
+            "object_type": "node",
+            "object_id": 9664782666,
+            "uri": "https://www.openstreetmap.org/node/9664782666",
+            "name": "Forbes Ave opposite Plainfield St",
+            "center": {
+              "lat": 40.4405616,
+              "lon": -79.9357379
+            },
+            "approximate_center_distance_m": 889
+          },
+          {
+            "object_type": "node",
+            "object_id": 9663278815,
+            "uri": "https://www.openstreetmap.org/node/9663278815",
+            "name": "Unnamed mapped feature",
+            "center": {
+              "lat": 40.432418,
+              "lon": -79.9183679
+            },
+            "approximate_center_distance_m": 890
+          },
+          {
+            "object_type": "node",
+            "object_id": 9666015892,
+            "uri": "https://www.openstreetmap.org/node/9666015892",
+            "name": "Forbes Ave at Beechwood Blvd",
+            "center": {
+              "lat": 40.4380971,
+              "lon": -79.9150527
+            },
+            "approximate_center_distance_m": 904
+          },
+          {
+            "object_type": "node",
+            "object_id": 9663495218,
+            "uri": "https://www.openstreetmap.org/node/9663495218",
+            "name": "Murray Ave at Forward Ave",
+            "center": {
+              "lat": 40.4301508,
+              "lon": -79.9235217
+            },
+            "approximate_center_distance_m": 907
+          },
+          {
+            "object_type": "node",
+            "object_id": 7983068479,
+            "uri": "https://www.openstreetmap.org/node/7983068479",
+            "name": "Forward Ave at Murry Ave",
+            "center": {
+              "lat": 40.4298253,
+              "lon": -79.9233546
+            },
+            "approximate_center_distance_m": 945
+          },
+          {
+            "object_type": "node",
+            "object_id": 9660829905,
+            "uri": "https://www.openstreetmap.org/node/9660829905",
+            "name": "Tilbury Ave at Waldron St",
+            "center": {
+              "lat": 40.4316068,
+              "lon": -79.9179958
+            },
+            "approximate_center_distance_m": 977
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    },
+    {
+      "id": "aff0990c-7acf-4dcc-80a0-f298105485e4",
+      "provider": "openstreetmap",
+      "uri": "https://www.openstreetmap.org/#map=16/40.438129033177/-79.925736762631",
+      "title": "Pharmacies · area summary",
+      "excerpt": "Pharmacies: 2 mapped features in the 1 km search area. Closest returned point/center is about 376 m away in a straight line. Opening hours and dispensing services are not verified.",
+      "retrieved_at": "2026-10-15T12:26:22.039240Z",
+      "retention": "persistent",
+      "kind": "reported",
+      "record_id": "amenities:pharmacies",
+      "source_updated_at": "2026-05-31T22:37:44Z",
+      "record_date": null,
+      "attribution": "© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
+      "match_method": "overpass_category_summary_1000m_geometry_query",
+      "details": {
+        "cached_response_retrieved_at": null,
+        "cache_stale": false,
+        "category": "pharmacies",
+        "query_radius_m": 1000,
+        "mapped_feature_count": 2,
+        "count_is_lower_bound": false,
+        "nearest_returned_center_distance_m": 376,
+        "members": [
+          {
+            "object_type": "node",
+            "object_id": 4960676734,
+            "uri": "https://www.openstreetmap.org/node/4960676734",
+            "name": "Giant Eagle Pharmacy",
+            "center": {
+              "lat": 40.4357799,
+              "lon": -79.9225344
+            },
+            "approximate_center_distance_m": 376
+          },
+          {
+            "object_type": "node",
+            "object_id": 1371572673,
+            "uri": "https://www.openstreetmap.org/node/1371572673",
+            "name": "CVS Pharmacy",
+            "center": {
+              "lat": 40.4438382,
+              "lon": -79.9276155
+            },
+            "approximate_center_distance_m": 654
+          }
+        ],
+        "license_url": "https://www.openstreetmap.org/copyright"
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "channel": "apis",
+      "provider": "census",
+      "topic": "geocoding",
+      "status": "complete",
+      "reason": "Address match selected and confirmed by the user",
+      "queries_run": 0,
+      "sources_returned": 1,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_assessments",
+      "topic": "property_assessment",
+      "status": "empty",
+      "reason": "No matching county parcel returned. This does not establish that the property is absent from county records.",
+      "queries_run": 2,
+      "sources_returned": 0,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_permits",
+      "topic": "building_permits",
+      "status": "blocked",
+      "reason": "No county parcel could be selected for this address.",
+      "queries_run": 0,
+      "sources_returned": 0,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "wprdc_closures",
+      "topic": "street_closures",
+      "status": "truncated",
+      "reason": "Same-street segments within 1 km; excludes ended records and starts beyond 90 days. Missing end dates remain uncertain, not confirmed active. Other streets are not searched. Examined at most 200 of 1080 street records; 0 records lacked usable dates/geometry. Empty results do not prove no closures.",
+      "queries_run": 2,
+      "sources_returned": 2,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "neighborhood_discussion",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 7 extraction notes from 5 sources. No targeted factual review completed.",
+      "queries_run": 2,
+      "sources_returned": 5,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "web",
+      "provider": "tavily_search",
+      "topic": "restaurant_reviews",
+      "status": "complete",
+      "reason": "Source-cited research brief available. 7 extraction notes from 8 sources. Targeted AI review completed; not independent verification.",
+      "queries_run": 3,
+      "sources_returned": 8,
+      "parcel_candidates": []
+    },
+    {
+      "channel": "apis",
+      "provider": "openstreetmap",
+      "topic": "mapped_amenities",
+      "status": "complete",
+      "reason": "Four area summaries: schools, groceries, public transit and pharmacies. One 1 km Overpass query; at most 50 supporting objects per category. Counts describe mapped features, not a verified count of distinct facilities. Missing data does not imply absence; distances are straight-line to points/centers.",
+      "queries_run": 0,
+      "sources_returned": 0,
+      "parcel_candidates": []
+    }
+  ],
+  "web": [],
+  "research": [
+    {
+      "topic": "neighborhood_discussion",
+      "summary": "Squirrel Hill North and the broader Squirrel Hill neighborhood are characterized as walkable, amenity-rich residential areas anchored by commercial corridors along Forbes Avenue and Murray Avenue. Published materials highlight a blend of historic architecture, green spaces, strong public transit connectivity, and recurring neighborhood community programming. However, available discussion sources are limited, relying heavily on property management marketing blogs, neighborhood promotional sites, and brief snippets rather than robust resident discussions or independent reporting.",
+      "findings": [
+        {
+          "id": "1a6fe631-ece7-47ce-9e41-5a772a365fee",
+          "title": "Quiet residential area with local shops",
+          "statement": "Squirrel Hill is fairly quiet outside of the main business district surrounding Murray and Forbes and has a lot of nice shops and restaurants as",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (within 1000 m of 5703 Forbes Ave, 15217; Squirrel Hill North neighborhood boundary). The address anchors the discussion to this block and the surrounding Forbes Avenue corridor, which is the core of the neighborhood’s commercial activity and residential quietness",
+          "citations": [
+            {
+              "evidence_id": "0b10c4b7-3816-41e9-96f6-a7234413b3d3",
+              "excerpt": "Squirrel Hill is fairly quiet outside of the main business district surrounding Murray and Forbes and has a lot of nice shops and restaurants as"
+            }
+          ],
+          "ui_id": "web-1a6fe631-ece7-47ce-9e41-5a772a365fee"
+        },
+        {
+          "id": "53135876-3a15-4eb8-b961-e52b988f252b",
+          "title": "Open‑air street festival celebrating community creativity",
+          "statement": "A vibrant open‑air street festival featuring local artists, live music, food trucks, and neighborhood favorites—an ideal way for residents to celebrate community creativity and enjoy a local evening out.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (festival location is a local evening out, directly tied to the neighborhood’s public‑space use). The address anchors the event to the Forbes Avenue corridor, a central public space in the area.",
+          "citations": [
+            {
+              "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+              "excerpt": "A vibrant open-air street festival featuring local artists, live music, food trucks, and neighborhood favorites—an ideal way for residents to celebrate community creativity and enjoy a local evening out."
+            }
+          ],
+          "ui_id": "web-53135876-3a15-4eb8-b961-e52b988f252b"
+        },
+        {
+          "id": "6fb402ed-2162-424a-afb6-ec0d9bc4cfa4",
+          "title": "Library event: Creative Kaleidoscope: Sacred Stitches",
+          "statement": "Squirrel Hill Library, Large Meeting Room 2:00 PM–4:30 PM September 19–26, 2026",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (meeting room is at Squirrel Hill Library, 5801 Forbes Ave, within the 1000 m radius). The event is a community‑focused activity held in a public space of the neighborhood.",
+          "citations": [
+            {
+              "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+              "excerpt": "Squirrel Hill Library, Large Meeting Room (5801 Forbes Ave) • 2:00 PM–4:30 PM [...] September 19–26, 2026"
+            }
+          ],
+          "ui_id": "web-6fb402ed-2162-424a-afb6-ec0d9bc4cfa4"
+        },
+        {
+          "id": "131d6c40-aa95-4f77-81e4-a36eef672bc5",
+          "title": "Penn Brewery Oktoberfest: festive fall celebration",
+          "statement": "A festive fall celebration with German food, live oompah music, and beer—an enjoyable regional outing for families and friends from Squirrel Hill seeking seasonal fun.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (Penn Brewery, Northside, is a local venue for a seasonal gathering, directly relevant to the neighborhood’s social calendar). The address anchors the event to the Northside area.",
+          "citations": [
+            {
+              "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+              "excerpt": "A festive fall celebration with German food, live oompah music, and beer—an enjoyable regional outing for families and friends from Squirrel Hill seeking seasonal fun."
+            }
+          ],
+          "ui_id": "web-131d6c40-aa95-4f77-81e4-a36eef672bc5"
+        },
+        {
+          "id": "79c5da8f-33b2-4a82-bb48-b269a96f2bfd",
+          "title": "Hobart Court provides walkable access to restaurants, coffee shops, local businesses, and public transportation",
+          "statement": "Hobart Court provides convenient access to neighborhood restaurants, coffee shops, local businesses, and public transportation.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (Hobart Court is a residential/commercial hub near Forbes Avenue, within the 1000 m radius). The passage highlights transport and amenity access, a key daily‑life theme.",
+          "citations": [
+            {
+              "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+              "excerpt": "Located near Forbes Avenue, Hobart Court provides convenient access to neighborhood restaurants, coffee shops, local businesses, and public transportation. Residents can enjoy walkable access to everyday conveniences while remaining connected to major Pittsburgh destinations."
+            }
+          ],
+          "ui_id": "web-79c5da8f-33b2-4a82-bb48-b269a96f2bfd"
+        },
+        {
+          "id": "f1d20368-0453-4b45-8d8e-42bae2e0bfb8",
+          "title": "Residential character: Tudor Revival and Queen Anne homes near walkable business district",
+          "statement": "Squirrel Hill North in Pittsburgh has Tudor Revival and Queen Anne homes near a walkable business district on Forbes Avenue.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (the homes and Forbes Avenue business district are the neighborhood’s core, within the 1000 m radius). The address anchors the description to the neighborhood’s physical layout.",
+          "citations": [
+            {
+              "evidence_id": "7f9f4dfa-93cd-453b-9043-3e0e8af568d5",
+              "excerpt": "Squirrel Hill North in Pittsburgh has Tudor Revival and Queen Anne homes near a walkable business district on Forbes Avenue. Highly rated schools serve the"
+            }
+          ],
+          "ui_id": "web-f1d20368-0453-4b45-8d8e-42bae2e0bfb8"
+        },
+        {
+          "id": "5d343a4f-e967-484b-8103-09270ad84d87",
+          "title": "Neighborhood reputation: charm combined with urban convenience",
+          "statement": "Squirrel Hill has earned a reputation for combining neighborhood charm with urban convenience.",
+          "kind": "opinion",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill North, Pittsburgh, PA (the reputation is a community‑wide perception, anchored to the Forbes Avenue corridor). The address anchors the discussion to the neighborhood’s identity.",
+          "citations": [
+            {
+              "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+              "excerpt": "Located in Pittsburgh's East End, Squirrel Hill has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services. [...] ## Spotlight: Hobart Court"
+            }
+          ],
+          "ui_id": "web-5d343a4f-e967-484b-8103-09270ad84d87"
+        }
+      ],
+      "limitations": [
+        "Unrelated search results were excluded from the address-area brief.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Squirrel Hill North Pittsburgh, Pennsylvania living resident experiences site:reddit.com/r/pittsburgh",
+        "Squirrel Hill North FORBES AVE Pittsburgh, Pennsylvania neighborhood news development local discussion"
+      ],
+      "evidence_ids": [
+        "0b10c4b7-3816-41e9-96f6-a7234413b3d3",
+        "2dddac19-c85e-4f0d-a371-6c9170379efe",
+        "6fbcdcf0-44d1-4292-a3cd-702d0a1ae834",
+        "7f9f4dfa-93cd-453b-9043-3e0e8af568d5",
+        "bc42e266-882e-443b-94a7-b6be66096ab3"
+      ],
+      "search_calls": 2,
+      "usage_credits": 2.0,
+      "review_completed": false,
+      "brief": {
+        "overview": {
+          "text": "Squirrel Hill North and the broader Squirrel Hill neighborhood are characterized as walkable, amenity-rich residential areas anchored by commercial corridors along Forbes Avenue and Murray Avenue. Published materials highlight a blend of historic architecture, green spaces, strong public transit connectivity, and recurring neighborhood community programming. However, available discussion sources are limited, relying heavily on property management marketing blogs, neighborhood promotional sites, and brief snippets rather than robust resident discussions or independent reporting.",
+          "citations": [
+            {
+              "evidence_id": "0b10c4b7-3816-41e9-96f6-a7234413b3d3",
+              "excerpt": "Squirrel Hill is fairly quiet outside of the main business district surrounding Murray and Forbes and has a lot of nice shops and restaurants as"
+            },
+            {
+              "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+              "excerpt": "Squirrel Hill North features excellent transit options with around 10 bus lines crossing the neighborhood, making public transportation readily accessible. Residents find multiple grocery stores nearby, including both general and specialty markets, alongside a variety of restaurants and cafes primarily along Murray Avenue. Strong educational facilities are positioned throughout the area, with primary and secondary schools conveniently located. This neighborhood offers a generous amount of green spaces, delivering opportunities for relaxation and outdoor enjoyment in nearby parks. Cycling infrastructure supports smooth bike travel, complementing other transit methods. Housing primarily consists of single detached homes supplemented by apartments, duplexes, and townhouses, contributing to a diverse housing environment."
+            },
+            {
+              "evidence_id": "7f9f4dfa-93cd-453b-9043-3e0e8af568d5",
+              "excerpt": "Squirrel Hill North in Pittsburgh has Tudor Revival and Queen Anne homes near a walkable business district on Forbes Avenue. Highly rated schools serve the"
+            },
+            {
+              "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+              "excerpt": "Located in Pittsburgh's East End, Squirrel Hill has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services. [...] ## Spotlight: Hobart Court"
+            },
+            {
+              "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+              "excerpt": "Located in Pittsburgh's East End, [Squirrel Hill](https://www.walnutcapital.com/neighborhoods/apartments-squirrel-hill-pittsburgh) has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services."
+            },
+            {
+              "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+              "excerpt": "One of the neighborhood's biggest strengths is its ability to offer both activity and tranquility. The business district is vibrant and energetic, while nearby residential streets feature mature trees, historic architecture, and easy access to"
+            }
+          ],
+          "ui_id": "brief-neighborhood_discussion-0"
+        },
+        "sections": [
+          {
+            "heading": "Neighborhood Character and Built Environment",
+            "paragraphs": [
+              {
+                "text": "Squirrel Hill is described as combining neighborhood charm with urban convenience, maintaining a balance between lively commercial activity and calm residential streets lined with mature trees and historic architecture. An online forum commenter observed that outside of the main business district surrounding Murray Avenue and Forbes Avenue, the neighborhood is fairly quiet while still offering numerous shops and dining spots.",
+                "citations": [
+                  {
+                    "evidence_id": "0b10c4b7-3816-41e9-96f6-a7234413b3d3",
+                    "excerpt": "Squirrel Hill is fairly quiet outside of the main business district surrounding Murray and Forbes and has a lot of nice shops and restaurants as"
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "Located in Pittsburgh's East End, Squirrel Hill has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services. [...] ## Spotlight: Hobart Court"
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "Located in Pittsburgh's East End, [Squirrel Hill](https://www.walnutcapital.com/neighborhoods/apartments-squirrel-hill-pittsburgh) has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services."
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "One of the neighborhood's biggest strengths is its ability to offer both activity and tranquility. The business district is vibrant and energetic, while nearby residential streets feature mature trees, historic architecture, and easy access to"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-1"
+              },
+              {
+                "text": "In Squirrel Hill North specifically, residential architecture features Tudor Revival and Queen Anne homes situated near the walkable commercial district along Forbes Avenue. Housing stock across the neighborhood predominantly comprises single detached homes, supplemented by duplexes, townhouses, and apartment complexes like Hobart Court near Forbes Avenue. Green spaces and nearby parks also provide outdoor recreation options.",
+                "citations": [
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "Squirrel Hill North features excellent transit options with around 10 bus lines crossing the neighborhood, making public transportation readily accessible. Residents find multiple grocery stores nearby, including both general and specialty markets, alongside a variety of restaurants and cafes primarily along Murray Avenue. Strong educational facilities are positioned throughout the area, with primary and secondary schools conveniently located. This neighborhood offers a generous amount of green spaces, delivering opportunities for relaxation and outdoor enjoyment in nearby parks. Cycling infrastructure supports smooth bike travel, complementing other transit methods. Housing primarily consists of single detached homes supplemented by apartments, duplexes, and townhouses, contributing to a diverse housing environment."
+                  },
+                  {
+                    "evidence_id": "7f9f4dfa-93cd-453b-9043-3e0e8af568d5",
+                    "excerpt": "Squirrel Hill North in Pittsburgh has Tudor Revival and Queen Anne homes near a walkable business district on Forbes Avenue. Highly rated schools serve the"
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "Located near Forbes Avenue, Hobart Court provides convenient access to neighborhood restaurants, coffee shops, local businesses, and public transportation. Residents can enjoy walkable access to everyday conveniences while remaining connected to major Pittsburgh destinations."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-2"
+              }
+            ]
+          },
+          {
+            "heading": "Transit, Walkability, and Commercial Corridors",
+            "paragraphs": [
+              {
+                "text": "The primary commercial hubs of Squirrel Hill center around Forbes Avenue and Murray Avenue, accommodating grocery stores, specialty markets, coffee shops, and diverse restaurants. Local apartment materials note that properties near Forbes Avenue afford walkable access to daily necessities alongside direct connections across Pittsburgh.",
+                "citations": [
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "Squirrel Hill North features excellent transit options with around 10 bus lines crossing the neighborhood, making public transportation readily accessible. Residents find multiple grocery stores nearby, including both general and specialty markets, alongside a variety of restaurants and cafes primarily along Murray Avenue. Strong educational facilities are positioned throughout the area, with primary and secondary schools conveniently located. This neighborhood offers a generous amount of green spaces, delivering opportunities for relaxation and outdoor enjoyment in nearby parks. Cycling infrastructure supports smooth bike travel, complementing other transit methods. Housing primarily consists of single detached homes supplemented by apartments, duplexes, and townhouses, contributing to a diverse housing environment."
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "Located in Pittsburgh's East End, Squirrel Hill has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services. [...] ## Spotlight: Hobart Court"
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "Located near Forbes Avenue, Hobart Court provides convenient access to neighborhood restaurants, coffee shops, local businesses, and public transportation. Residents can enjoy walkable access to everyday conveniences while remaining connected to major Pittsburgh destinations."
+                  },
+                  {
+                    "evidence_id": "bc42e266-882e-443b-94a7-b6be66096ab3",
+                    "excerpt": "Located in Pittsburgh's East End, [Squirrel Hill](https://www.walnutcapital.com/neighborhoods/apartments-squirrel-hill-pittsburgh) has earned a reputation for combining neighborhood charm with urban convenience. The community is centered around Forbes Avenue and Murray Avenue, where residents can find a wide variety of local businesses, restaurants, specialty shops, grocery stores, coffee shops, and everyday services."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-3"
+              },
+              {
+                "text": "Transit infrastructure in Squirrel Hill North includes approximately 10 bus lines traversing the area, supporting regular public transit connectivity. The neighborhood also incorporates cycling infrastructure to facilitate bicycle travel alongside vehicular and transit networks.",
+                "citations": [
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "Squirrel Hill North features excellent transit options with around 10 bus lines crossing the neighborhood, making public transportation readily accessible. Residents find multiple grocery stores nearby, including both general and specialty markets, alongside a variety of restaurants and cafes primarily along Murray Avenue. Strong educational facilities are positioned throughout the area, with primary and secondary schools conveniently located. This neighborhood offers a generous amount of green spaces, delivering opportunities for relaxation and outdoor enjoyment in nearby parks. Cycling infrastructure supports smooth bike travel, complementing other transit methods. Housing primarily consists of single detached homes supplemented by apartments, duplexes, and townhouses, contributing to a diverse housing environment."
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-4"
+              }
+            ]
+          },
+          {
+            "heading": "Community Events and Local Programming",
+            "paragraphs": [
+              {
+                "text": "Neighborhood promotional listings highlight regular community activities, such as an open-air street festival featuring regional artisans, music, and food trucks, alongside the Squirrel Hill Night Market hosted along Murray Avenue between Forbes and Beacon Avenues. Civic programming also includes library events such as 'Creative Kaleidoscope: Sacred Stitches' at the Squirrel Hill Library large meeting room located at 5801 Forbes Avenue.",
+                "citations": [
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "A vibrant open-air street festival featuring local artists, live music, food trucks, and neighborhood favorites—an ideal way for residents to celebrate community creativity and enjoy a local evening out."
+                  },
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "Squirrel Hill Library, Large Meeting Room (5801 Forbes Ave) • 2:00 PM–4:30 PM [...] September 19–26, 2026"
+                  },
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "### Squirrel Hill Night Market"
+                  },
+                  {
+                    "evidence_id": "2dddac19-c85e-4f0d-a371-6c9170379efe",
+                    "excerpt": "Murray Avenue between Forbes and Beacon Avenues, Squirrel Hill • 6:00 PM–10:00 PM"
+                  }
+                ],
+                "ui_id": "brief-neighborhood_discussion-5"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "Resident perspectives from independent forums are extremely sparse, with only one brief forum snippet available.",
+          "Multiple sources reflect marketing or promotional publications (e.g., real estate blogs, HelloNation neighborhood sites) rather than independent journalistic investigations.",
+          "Some sources lack publication dates, leaving temporal context uncertain.",
+          "Specific local governance, public safety issues, and municipal planning discussions are not represented in the available text."
+        ],
+        "follow_up_questions": [
+          "What specific civic issues, zoning debates, or development proposals are currently under review by Squirrel Hill community organizations?",
+          "What are current residents' first-hand experiences regarding parking availability, pedestrian safety, and traffic congestion around the Forbes and Murray corridor?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:22:56.237101Z"
+      },
+      "synthesis_status": "complete"
+    },
+    {
+      "topic": "restaurant_reviews",
+      "summary": "The provided dining sources offer broad neighborhood coverage of Squirrel Hill and the wider Pittsburgh dining scene, but very limited detail specific to 5703 Forbes Avenue. While general editorial roundups list numerous bakeries, specialty markets, and international dining options throughout Squirrel Hill, only one nearby establishment along Forbes Avenue—Squirrel Hill Cafe at 5802 Forbes Avenue—appears with direct review metadata. Additional dining material in the sources focuses on remote locations such as Station Square or Downtown Pittsburgh, or merely lists names without review substance.",
+      "findings": [
+        {
+          "id": "6aa90842-3b8b-4c79-8e35-cecd0848a3cc",
+          "title": "Pigeon Bagels",
+          "statement": "Pigeon Bagels is a former pop‑up bagel company now based in Squirrel Hill, known for quality bagels.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Pigeon Bagels – A former pop-up bagel company that now calls Squirrel Hill home. Some of Pittsburgh’s best!"
+            }
+          ],
+          "ui_id": "web-6aa90842-3b8b-4c79-8e35-cecd0848a3cc"
+        },
+        {
+          "id": "6d323d67-9f03-48cb-8ea4-c8d256df89a3",
+          "title": "Squirrel Hill Market",
+          "statement": "Squirrel Hill Market is a market known for massive pastrami sandwiches.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Squirrel Hill Market – A market in Squirrel Hill known for massive pastrami sandwiches."
+            }
+          ],
+          "ui_id": "web-6d323d67-9f03-48cb-8ea4-c8d256df89a3"
+        },
+        {
+          "id": "d9fc6214-9437-4690-b64d-474ee5ab1d1c",
+          "title": "Commonplace Coffee",
+          "statement": "Commonplace Coffee is a coffee chain, one of Pittsburgh’s newest, located in Squirrel Hill.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Commonplace Coffee – One of Pittsburgh’s newest coffee chains, and one of our personal favorites. [...] Pittsburgh Honey – A local honey store right in the heart of Squirrel Hill."
+            }
+          ],
+          "ui_id": "web-d9fc6214-9437-4690-b64d-474ee5ab1d1c"
+        },
+        {
+          "id": "787e0af0-e7b0-47a1-86f6-f82095216a93",
+          "title": "Pittsburgh Honey",
+          "statement": "Pittsburgh Honey is a local honey store in the heart of Squirrel Hill.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Prantl’s Bakery – Squirrel Hill location of the popular Pittsburgh bakery known for the burtn almond torte."
+            }
+          ],
+          "ui_id": "web-787e0af0-e7b0-47a1-86f6-f82095216a93"
+        },
+        {
+          "id": "c8cc870a-9f8e-4a7a-a35c-67ad26de922f",
+          "title": "Prantl’s Bakery",
+          "statement": "Prantl’s Bakery is the Squirrel Hill location of the popular Pittsburgh bakery known for burtn almond torte.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "The Chocolate Moose – Squirrel Hill’s resident chocolate and candy store."
+            }
+          ],
+          "ui_id": "web-c8cc870a-9f8e-4a7a-a35c-67ad26de922f"
+        },
+        {
+          "id": "3fb79009-c0b1-42ca-b39c-6a3744ddf2f6",
+          "title": "The Chocolate Moose",
+          "statement": "The Chocolate Moose is a chocolate and candy store in Squirrel Hill.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "Squirrel Hill",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Vendor Bender – An international themed vending machine store at the bottom of Murray Ave."
+            }
+          ],
+          "ui_id": "web-3fb79009-c0b1-42ca-b39c-6a3744ddf2f6"
+        },
+        {
+          "id": "2a96332b-b212-439b-b1a9-305ee9837e9d",
+          "title": "Squirrel Hill Cafe",
+          "statement": "Squirrel Hill Cafe is a bar with 130 reviews, 0.4 mi from 5802 Forbes Ave, Pittsburgh, PA 15217.",
+          "kind": "reported_fact",
+          "assessment": "reported",
+          "explanation": "",
+          "location_relevance": "5802 Forbes Ave, Pittsburgh, PA 15217",
+          "citations": [
+            {
+              "evidence_id": "6e99f756-8b4c-44f9-ad22-5737ddf8a7c5",
+              "excerpt": "Squirrel Hill Cafe 4.0 (130 reviews) 0.4 mi 5802 Forbes Ave, Pittsburgh, PA 15217 … rrel Hill Cafe was a pleasant surprise of a bar. The beer selection is"
+            }
+          ],
+          "ui_id": "web-2a96332b-b212-439b-b1a9-305ee9837e9d"
+        }
+      ],
+      "limitations": [
+        "2 unsupported or out-of-scope model findings omitted.",
+        "Some sources have no supplied publication date; freshness is uncertain.",
+        "Some evidence uses search passages; these may omit context from the complete page."
+      ],
+      "follow_up_questions": [],
+      "queries": [
+        "Pittsburgh, Pennsylvania restaurants near 5703 FORBES AVE, PITTSBURGH, PA, 15217 Squirrel Hill North reviews menus",
+        "Squirrel Hill North FORBES AVE Pittsburgh, Pennsylvania Squirrel Hill North Pittsburgh Pennsylvania restaurant reviews 2025",
+        "Pittsburgh, Pennsylvania Is Coughlin's Law Kitchen and Ale House still operating at 5703 Forbes Ave?"
+      ],
+      "evidence_ids": [
+        "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+        "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+        "46b7ded0-1ea8-4d03-a9a1-47b8755e7226",
+        "df9b7d3d-f5e4-44a4-9701-2c468c11ed50",
+        "216af6f2-557b-4398-96f4-5955cc8acb67",
+        "6e99f756-8b4c-44f9-ad22-5737ddf8a7c5",
+        "15fc40fa-7348-48e4-a0a0-4565a51a2e43",
+        "3f3065c5-f6cc-41fe-a9a8-9ec02062826b"
+      ],
+      "search_calls": 3,
+      "usage_credits": 3.0,
+      "review_completed": true,
+      "brief": {
+        "overview": {
+          "text": "The provided dining sources offer broad neighborhood coverage of Squirrel Hill and the wider Pittsburgh dining scene, but very limited detail specific to 5703 Forbes Avenue. While general editorial roundups list numerous bakeries, specialty markets, and international dining options throughout Squirrel Hill, only one nearby establishment along Forbes Avenue—Squirrel Hill Cafe at 5802 Forbes Avenue—appears with direct review metadata. Additional dining material in the sources focuses on remote locations such as Station Square or Downtown Pittsburgh, or merely lists names without review substance.",
+          "citations": [
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Pigeon Bagels – A former pop-up bagel company that now calls Squirrel Hill home. Some of Pittsburgh’s best!"
+            },
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Squirrel Hill Market – A market in Squirrel Hill known for massive pastrami sandwiches."
+            },
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Commonplace Coffee – One of Pittsburgh’s newest coffee chains, and one of our personal favorites. [...] Pittsburgh Honey – A local honey store right in the heart of Squirrel Hill."
+            },
+            {
+              "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+              "excerpt": "Prantl’s Bakery – Squirrel Hill location of the popular Pittsburgh bakery known for the burtn almond torte."
+            },
+            {
+              "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+              "excerpt": "Aiello’s – Squirrel Hill – $ to $$"
+            },
+            {
+              "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+              "excerpt": "Mineo’s – Squirrel Hill – $$"
+            },
+            {
+              "evidence_id": "6e99f756-8b4c-44f9-ad22-5737ddf8a7c5",
+              "excerpt": "Squirrel Hill Cafe 4.0 (130 reviews) 0.4 mi 5802 Forbes Ave, Pittsburgh, PA 15217 … rrel Hill Cafe was a pleasant surprise of a bar. The beer selection is"
+            }
+          ],
+          "ui_id": "brief-restaurant_reviews-0"
+        },
+        "sections": [
+          {
+            "heading": "Forbes Avenue Dining",
+            "paragraphs": [
+              {
+                "text": "Along the Forbes Avenue corridor near the target address, Squirrel Hill Cafe is located at 5802 Forbes Avenue. A Yelp directory entry indicates a 4.0-star rating based on 130 reviews, describing it as a pleasant surprise of a bar with a notable beer selection.",
+                "citations": [
+                  {
+                    "evidence_id": "6e99f756-8b4c-44f9-ad22-5737ddf8a7c5",
+                    "excerpt": "Squirrel Hill Cafe 4.0 (130 reviews) 0.4 mi 5802 Forbes Ave, Pittsburgh, PA 15217 … rrel Hill Cafe was a pleasant surprise of a bar. The beer selection is"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-1"
+              }
+            ]
+          },
+          {
+            "heading": "Squirrel Hill Bakeries and Specialty Food Spots",
+            "paragraphs": [
+              {
+                "text": "A local neighborhood guide highlights several specialty food and bakery stops throughout Squirrel Hill. Pigeon Bagels is noted as a former pop-up that became a permanent neighborhood fixture for bagels. Prantl’s Bakery operates a Squirrel Hill location recognized for its burnt almond torte, while Gaby et Jules is featured as a French pastry shop focusing on macarons. Allegro Hearth Bakery is noted for its bread selection, and Five Points Artisan Bakeshop operates at the edge of the neighborhood offering breads and an array of baked goods.",
+                "citations": [
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Pigeon Bagels – A former pop-up bagel company that now calls Squirrel Hill home. Some of Pittsburgh’s best!"
+                  },
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Prantl’s Bakery – Squirrel Hill location of the popular Pittsburgh bakery known for the burtn almond torte."
+                  },
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Gaby et Jules – A French pastry shop focusing on macarons. [...] Allegro Hearth Bakery – A corner Pittsburgh bakery known for their incredible bread selection."
+                  },
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Five Points Artisan Bakeshop – A bakery at the edge of Squirrel Hill serving up breads and an array of baked goods!"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-2"
+              },
+              {
+                "text": "Other highlighted specialty food retailers in the neighborhood include Squirrel Hill Market, known for large pastrami sandwiches, Commonplace Coffee, and Pittsburgh Honey, a local honey purveyor situated in the heart of Squirrel Hill. The guide also mentions The Chocolate Moose candy store and Vendor Bender, an internationally themed vending machine shop on Murray Avenue.",
+                "citations": [
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Squirrel Hill Market – A market in Squirrel Hill known for massive pastrami sandwiches."
+                  },
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Commonplace Coffee – One of Pittsburgh’s newest coffee chains, and one of our personal favorites. [...] Pittsburgh Honey – A local honey store right in the heart of Squirrel Hill."
+                  },
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "The Chocolate Moose – Squirrel Hill’s resident chocolate and candy store."
+                  },
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Vendor Bender – An international themed vending machine store at the bottom of Murray Ave."
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-3"
+              }
+            ]
+          },
+          {
+            "heading": "Squirrel Hill International and Casual Dining Options",
+            "paragraphs": [
+              {
+                "text": "Editorial dining guides classify several full-service dining establishments within Squirrel Hill across multiple international cuisines. These include Jian’s Kitchen, a Chinese restaurant specializing in Northeastern Chinese cuisine, Taiwanese Bistro Cafe 33 for Taiwanese fare, and Thai and Laotian eateries Took Took 98 and Kiin Lao & Thai Eatery. For pizza, Squirrel Hill institutions Aiello’s and Mineo’s are listed among local Pittsburgh favorites.",
+                "citations": [
+                  {
+                    "evidence_id": "9c9ff941-b37f-479d-8a4e-c4b6e80bdaed",
+                    "excerpt": "Jian’s Kitchen – Chinese restaurant with a large menu and a strong focus on Northeastern China."
+                  },
+                  {
+                    "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+                    "excerpt": "Aiello’s – Squirrel Hill – $ to $$"
+                  },
+                  {
+                    "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+                    "excerpt": "Mineo’s – Squirrel Hill – $$"
+                  },
+                  {
+                    "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+                    "excerpt": "Kiin Lao & Thai Eatery – Squirrel Hill – Laotian and Thai – $ to $$"
+                  },
+                  {
+                    "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+                    "excerpt": "Taiwanese Bistro Cafe 33 – Squirrel Hill – Taiwanese – $$"
+                  },
+                  {
+                    "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+                    "excerpt": "Took Took 98 – Squirrel Hill – Thai – $$"
+                  },
+                  {
+                    "evidence_id": "eff73447-b92a-4c4a-b72f-74b1074ff6b3",
+                    "excerpt": "Jian’s Kitchen – Squirrel Hill – Chinese – $$"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-4"
+              }
+            ]
+          },
+          {
+            "heading": "Broader Pittsburgh Venues in Search Records",
+            "paragraphs": [
+              {
+                "text": "Several venues in the record set are situated outside the Squirrel Hill neighborhood. Tupelo Honey Southern Kitchen & Bar operates in Pittsburgh's Station Square at 111 W. Station Square Drive, serving Southern brunch, lunch, and dinner with patio seating. Customer reviews for Forbes Tavern highlight a downtown location offering wings, tavern dip sandwiches, and sports viewing. Additionally, Coughlin's Law Kitchen and Ale House appears as a Pittsburgh brewpub offering pickup, delivery, burgers, and cocktails, though the sources do not confirm an operating location at 5703 Forbes Avenue.",
+                "citations": [
+                  {
+                    "evidence_id": "46b7ded0-1ea8-4d03-a9a1-47b8755e7226",
+                    "excerpt": "Pittsburgher flatbread with chicken, bacon, fries, cheese, and BBQ sauce. [...] > In town for business and stumbled into this gem... the smoked wings and the Tavern Dip (ribeye dip sandwich) was on point. And as an added bonus 90's hits on the tunes."
+                  },
+                  {
+                    "evidence_id": "46b7ded0-1ea8-4d03-a9a1-47b8755e7226",
+                    "excerpt": "> Service was efficient for Friday before New Years. Friendly staff and great place to watch a game. Close to everything downtown and easy to find parking."
+                  },
+                  {
+                    "evidence_id": "216af6f2-557b-4398-96f4-5955cc8acb67",
+                    "excerpt": "Tupelo Honey Southern Kitchen & Bar is located in the Station Square Shopping Mall in Pittsburgh, Pennsylvania."
+                  },
+                  {
+                    "evidence_id": "216af6f2-557b-4398-96f4-5955cc8acb67",
+                    "excerpt": "Pittsburgh, PA 15219"
+                  },
+                  {
+                    "evidence_id": "15fc40fa-7348-48e4-a0a0-4565a51a2e43",
+                    "excerpt": "Coughlin's Law Kitchen and Ale House in Pittsburgh, PA. Laid-back brewpub offering appetizers, salads & burgers alongside beers & craft cocktails."
+                  },
+                  {
+                    "evidence_id": "3f3065c5-f6cc-41fe-a9a8-9ec02062826b",
+                    "excerpt": "We are STILL OPEN for Pick up and Delivery. Call now to… read"
+                  }
+                ],
+                "ui_id": "brief-restaurant_reviews-5"
+              }
+            ]
+          }
+        ],
+        "limitations": [
+          "No customer reviews or operating status details were provided specifically for 5703 Forbes Avenue.",
+          "Most Squirrel Hill restaurant entries are sourced from broad neighborhood directories without full review text or dates.",
+          "Several venues in the provided search material (such as Forbes Tavern and Tupelo Honey) are located outside Squirrel Hill, including Downtown and Station Square.",
+          "Snippet evidence for Coughlin's Law Kitchen and Ale House lacks an address to verify its relationship to 5703 Forbes Avenue."
+        ],
+        "follow_up_questions": [
+          "What restaurant or commercial tenant currently occupies 5703 Forbes Avenue?",
+          "What are recent customer review trends and full operating hours for establishments within immediate walking distance along the 5700–5800 blocks of Forbes Avenue?"
+        ],
+        "model": "gemini-3.8-flash",
+        "generated_at": "2026-10-15T12:24:23.762627Z"
+      },
+      "synthesis_status": "complete"
+    }
+  ]
+}

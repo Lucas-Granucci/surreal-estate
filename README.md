@@ -144,3 +144,10 @@ separate from deterministic tests and may incur web/model charges.
 
 See [architecture](docs/architecture.md), [web API](docs/webapp-api.md), and
 [interface implementation](docs/interface-implementation.md).
+
+## Public showcase
+
+A static, read-only version shares the report reader and visual Location overview
+preview with the private app. Build reviewed sample reports with
+`python scripts/build_showcase.py --output dist/public`. No API keys or running
+model are needed to host the generated files. See [public showcase setup](docs/public-showcase.md).

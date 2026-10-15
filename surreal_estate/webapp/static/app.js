@@ -1,5 +1,6 @@
 "use strict";
 // The approved prototype supplies composition and tokens, never research data.
+const showcase = window.SURREAL_SHOWCASE || (document.documentElement.dataset.showcase === "true" ? {contactEmail: ""} : null);
 const main = document.getElementById("main");
 const dialog = document.getElementById("detail-dialog");
 const esc = (value) =>
@@ -96,6 +97,19 @@ function announce(text) {
   document.getElementById("announcement").textContent = text;
 }
 async function api(path, body, method = body ? "POST" : "GET") {
+  if (showcase) {
+    if (method !== "GET") throw new Error("This public showcase is read-only.");
+    if (path === "/api/capabilities") return { web: { available: false } };
+    if (path === "/api/runs") {
+      const response = await fetch(new URL("data/manifest.json", document.baseURI));
+      if (!response.ok) throw new Error("Sample reports are unavailable. Please reload.");
+      const manifest = await response.json();
+      return { runs: manifest.reports.map(r => ({...r, status: "complete", demo: false})), csrf: null };
+    }
+    const match = path.match(/^\/reports\/([a-z0-9-]+)\/bench\.json$/);
+    if (!match || !state.runs.some(r => r.id === match[1])) throw new Error("Sample report not found.");
+    path = new URL(`data/reports/${match[1]}.json`, document.baseURI);
+  }
   let response;
   try {
     response = await fetch(path, {
@@ -171,11 +185,12 @@ function scopeRequest() {
     request_id: state.requestId,
   };
 }
+function contactSection() {
+  return showcase ? `<section class="value-section showcase-contact" id="contact"><h2>Want to research an address?</h2><p>This public showcase contains real reports captured on their displayed dates. Live research runs privately; get in touch for a demonstration or to discuss the project.</p><a class="contact-link" href="mailto:${esc(showcase.contactEmail)}">${esc(showcase.contactEmail)}</a></section>` : "";
+}
 function home() {
-  const p = state.preview,
-    rows = p?.findings.filter((f) => f.topic !== "geocoding").slice(0, 3) || [],
-    transit = p?.evidence.find((e) => e.details.category === "transit");
-  return `<section class="hero"><h1>Know the place<br>behind the address.</h1><p class="lede">Public records, nearby places and local context. One report, with the evidence close at hand.</p><div class="hero-actions">${btn('Research an address <span aria-hidden="true">→</span>', "start", "primary")}${p ? btn("Explore saved report", "preview", "text-button") : btn("Saved reports", "saved", "text-button")}</div></section><section class="preview-wrap" aria-label="Saved report preview"><div class="preview"><div class="preview-bar"><span>${p ? esc(p.case.address) : "Your research, in one place"}</span><span>${p ? date(p.case.as_of) : "Evidence Bench"}</span></div><div class="preview-grid"><div class="preview-rail" aria-hidden="true"><span class="on">Findings</span><span>Unresolved</span><span>Sources</span><span>Research scope</span></div><div class="preview-main"><h2>The surroundings,<br>with a source.</h2>${rows.length ? rows.map((f) => `<div class="preview-finding"><b>${esc(f.title)}</b><p>${esc(f.statements[0])}</p></div>`).join("") : '<p class="preview-empty">Research an address to see its records, surroundings and available evidence here.</p>'}</div><div class="preview-evidence"><div class="eyebrow">${transit ? "OpenStreetMap" : "Evidence"}</div><h3>${transit ? "Closest returned transit features" : "Keep the source close."}</h3>${transit ? distances(transit) : '<p class="caption">Select a finding to inspect its source and understand what it can tell you.</p>'}</div></div></div></section><section class="value-section" aria-label="About SurrealEstate"><div class="value-line"><h2>Find what matters.</h2><p>Move between surroundings, public records and web research without losing the context of the address.</p></div><div class="value-line"><h2>Follow the evidence.</h2><p>Inspect the source behind a finding, including what it can—and cannot—tell you.</p></div><details class="coverage"><summary>Where does SurrealEstate have coverage?</summary><p>Property and permit coverage focuses on Pittsburgh. Mapped places and other sources vary by location. Unavailable research is identified in your report.</p></details></section>`;
+  const p = state.preview;
+  return `<section class="hero"><h1>Know the place<br>behind the address.</h1><p class="lede">Public records, nearby places and local intelligence. One report, with the evidence close at hand.</p><div class="hero-actions">${showcase ? btn('Explore sample reports <span aria-hidden="true">→</span>', "saved", "primary") : btn('Research an address <span aria-hidden="true">→</span>', "start", "primary")}${p ? btn(showcase ? "Open featured report" : "Explore saved report", "preview", "text-button") : ""}</div>${showcase ? '<p class="caption showcase-note">A public showcase of real Pittsburgh research. No live generation or sign-in required.</p>' : ""}</section><section class="preview-wrap" aria-label="Location overview preview"><div class="preview"><div class="preview-bar"><span>${p ? esc(p.case.address) : "Your research, in one place"}</span><span>${p ? date(p.case.as_of) : "Location overview"}</span></div><div class="location-preview"><h2>Location overview</h2>${p ? spatialOverview(p, false) : '<p class="preview-empty">Research an address to explore nearby places on a map, then follow each finding to its source.</p>'}${p ? btn("Explore this report", "preview", "text-button preview-open") : ""}</div></div></section><section class="value-section" aria-label="About SurrealEstate"><div class="value-line"><h2>Find what matters.</h2><p>Explore mapped surroundings, property and street records, and local intelligence drawn from discussions, reviews and other web sources.</p></div><div class="value-line"><h2>Follow the evidence.</h2><p>Read the brief, select a paragraph, and inspect the original source behind it. Coverage and missing information stay visible alongside the findings.</p></div><details class="coverage"><summary>Where does SurrealEstate have coverage?</summary><p>Property and permit coverage focuses on Pittsburgh. Mapped places and other sources vary by location. Unavailable research is identified in each report.</p></details></section>${contactSection()}`;
 }
 function distances(e) {
   const members = (e.details.members || [])
@@ -418,7 +433,7 @@ function sources() {
 }
 function scope() {
   const b = state.bench;
-  return `<dl class="scope-list"><div><dt>Address</dt><dd>${esc(b.case.address)}</dd></div><div><dt>Report date</dt><dd>${date(b.case.as_of)}</dd></div><div><dt>Research</dt><dd>${[...new Set(b.findings.map((f) => f.section === "Web research" ? "Local intelligence" : f.section))].map(esc).join("<br>")}</dd></div></dl><div class="actions">${btn("Export source JSON", "export", "secondary")}${btn("Research again", "research-again", "text-button")}</div>`;
+  return `<dl class="scope-list"><div><dt>Address</dt><dd>${esc(b.case.address)}</dd></div><div><dt>Report date</dt><dd>${date(b.case.as_of)}</dd></div><div><dt>Research</dt><dd>${[...new Set(b.findings.map((f) => f.section === "Web research" ? "Local intelligence" : f.section))].map(esc).join("<br>")}</dd></div></dl><div class="actions">${showcase ? btn("Get in touch", "contact", "secondary") : btn("Export source JSON", "export", "secondary") + btn("Research again", "research-again", "text-button")}</div>`;
 }
 const mapCategoryStyles = [
   { id: "transit", label: "Transit", shape: "circle", color: "#55769A" },
@@ -439,9 +454,9 @@ function distanceLabel(meters) {
     ? `${Number((meters / 1000).toFixed(2))} km`
     : `${Math.round(meters)} m`;
 }
-function mappedCategories() {
+function mappedCategories(bench = state.bench) {
   return mapCategoryStyles.flatMap((c) => {
-    const source = state.bench.evidence.find(
+    const source = bench.evidence.find(
       (e) =>
         e.provider === "openstreetmap" &&
         e.details?.category === c.id &&
@@ -534,9 +549,9 @@ function mapCategorySummary(categories, selected) {
   const d = category.details;
   return `<div class="map-summary"><p>${d.count_is_lower_bound ? "At least " : ""}${esc(d.mapped_feature_count ?? d.members.length)} mapped features${Number.isFinite(d.query_radius_m) ? ` within ${esc(distanceLabel(d.query_radius_m))}` : " retained"}.${d.count_is_lower_bound ? " Results capped." : ""}</p><p class="caption">Straight-line distances to mapped points or centres.</p>${btn("View locations & source", "evidence", "link-button map-evidence", `data-id="${esc(category.evidenceId)}"`)}</div>`;
 }
-function spatialOverview() {
-  const mapCategories = mappedCategories();
-  const origin = state.bench.evidence
+function spatialOverview(bench = state.bench, interactive = true) {
+  const mapCategories = mappedCategories(bench);
+  const origin = bench.evidence
     .map((e) => e.details)
     .find((d) => validCoordinates(d?.latitude, d?.longitude));
   if (!origin || !mapCategories.length)
@@ -560,7 +575,7 @@ function spatialOverview() {
     1,
   );
   const scale = 218 / radius;
-  const selected = state.mapCategory || "all";
+  const selected = interactive ? state.mapCategory || "all" : "all";
   const project = (c) => [
     260 +
       (c.lon - origin.longitude) *
@@ -594,19 +609,19 @@ function spatialOverview() {
     .join("");
   const mapCache = groups.find((c) => c.details.cached_response_retrieved_at)?.details;
   const cacheNotice = mapCache ? `<p class="map-caption${mapCache.cache_stale ? ' error' : ''}">${mapCache.cache_stale ? 'Live map refresh unavailable. Showing saved map data' : 'Using cached map data'} from ${date(mapCache.cached_response_retrieved_at)}.</p>` : "";
-  return `<div class="spatial-card"><div class="spatial-plot"><svg viewBox="0 0 520 520" role="img" aria-labelledby="map-title map-description"><title id="map-title">Mapped places around ${esc(state.bench.case.address)}</title><desc id="map-description">North-up coordinate plot of saved OpenStreetMap feature centres, with a distance reference circle around the estimated address point. Category totals and an accessible location list follow.</desc><defs><clipPath id="mapclip"><rect x="12" y="12" width="496" height="496" rx="4"/></clipPath></defs><g class="map-grid" fill="none" stroke="#DADAE0" stroke-width="0.6">${[60, 160, 260, 360, 460].map((v) => `<path d="M${v} 0V520M0 ${v}H520"/>`).join("")}</g><circle cx="260" cy="260" r="218" fill="none" stroke="#858591" stroke-width="1.3" stroke-dasharray="5 6" class="search-radius"/><g clip-path="url(#mapclip)">${markers}</g><circle cx="260" cy="260" r="12" fill="#FFFFFF" stroke="#303038" stroke-width="2" class="address-ring"/><circle cx="260" cy="260" r="4" fill="#303038" class="address-dot"/><text x="390" y="76" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius))}</text><path d="M487 47V23m-4 6 4-6 4 6" fill="none" stroke="#858591" class="north-arrow"/><text x="482" y="64" fill="#60606B" font-size="12" class="map-label">N</text><path d="M26 489h109m-109-4v8m109-8v8" fill="none" stroke="#858591" class="scale-line"/><text x="27" y="476" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius / 2))}</text></svg></div><div class="map-context"><div class="map-legend" aria-label="Mapped place categories">${mapCategories
+  return `<div class="spatial-card"><div class="spatial-plot"><svg viewBox="0 0 520 520" role="img" aria-labelledby="map-title map-description"><title id="map-title">Mapped places around ${esc(bench.case.address)}</title><desc id="map-description">North-up coordinate plot of saved OpenStreetMap feature centres, with a distance reference circle around the estimated address point. Category totals and an accessible location list follow.</desc><defs><clipPath id="mapclip"><rect x="12" y="12" width="496" height="496" rx="4"/></clipPath></defs><g class="map-grid" fill="none" stroke="#DADAE0" stroke-width="0.6">${[60, 160, 260, 360, 460].map((v) => `<path d="M${v} 0V520M0 ${v}H520"/>`).join("")}</g><circle cx="260" cy="260" r="218" fill="none" stroke="#858591" stroke-width="1.3" stroke-dasharray="5 6" class="search-radius"/><g clip-path="url(#mapclip)">${markers}</g><circle cx="260" cy="260" r="12" fill="#FFFFFF" stroke="#303038" stroke-width="2" class="address-ring"/><circle cx="260" cy="260" r="4" fill="#303038" class="address-dot"/><text x="390" y="76" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius))}</text><path d="M487 47V23m-4 6 4-6 4 6" fill="none" stroke="#858591" class="north-arrow"/><text x="482" y="64" fill="#60606B" font-size="12" class="map-label">N</text><path d="M26 489h109m-109-4v8m109-8v8" fill="none" stroke="#858591" class="scale-line"/><text x="27" y="476" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius / 2))}</text></svg></div><div class="map-context"><div class="map-legend" aria-label="Mapped place categories">${mapCategories
     .map((c) => {
       const d = c.details;
       return btn(
         `<span class="legend-inner"><span class="legend-symbol ${c.shape}" style="--marker:${c.color}" aria-hidden="true"></span><strong>${d.count_is_lower_bound ? "≥" : ""}${esc(d.mapped_feature_count ?? d.members.length)}</strong><span>${c.label}</span></span>`,
-        "map-category",
+        interactive ? "map-category" : "preview",
         "legend-row",
-        `data-category="${c.id}" aria-pressed="${selected === c.id}" aria-label="Show ${c.label.toLowerCase()} on map"`,
+        `data-category="${c.id}" aria-pressed="${selected === c.id}" aria-label="${interactive ? `Show ${c.label.toLowerCase()} on map` : `Explore ${c.label.toLowerCase()} in this report`}"`,
       );
     })
     .join(
       "",
-    )}${selected !== "all" ? btn("Show all places", "map-category", "text-button map-reset", 'data-category="all"') : ""}</div>${mapCategorySummary(mapCategories, selected)}<p class="map-attribution">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></p></div></div>${mapCache?.cache_stale ? cacheNotice : ""}<details class="location-detail place-list"><summary>View mapped locations</summary>${mapCache?.cache_stale ? "" : cacheNotice}<div class="table-scroll"><table class="overview-table"><thead><tr><th>Place</th><th>Category</th><th>Distance</th></tr></thead><tbody>${groups.flatMap((c) => c.details.members.map((m) => `<tr><td>${link(m.uri, m.name || "Unnamed mapped feature") || esc(m.name || "Unnamed mapped feature")}</td><td>${c.label}</td><td>${Number.isFinite(m.approximate_center_distance_m) ? "~" + Math.round(m.approximate_center_distance_m) + " m" : "Distance unavailable"}</td></tr>`)).join("")}</tbody></table></div><p>Distances are straight-line measurements to mapped points or centres, not travel distances. Counts describe retained mapped features, not necessarily distinct facilities. Capped categories are lower bounds. Features without saved coordinates appear only in the list. The dashed circle is a distance reference, not a property boundary.</p></details>`;
+    )}${selected !== "all" ? btn("Show all places", "map-category", "text-button map-reset", 'data-category="all"') : ""}</div>${interactive ? mapCategorySummary(mapCategories, selected) : '<div class="map-summary"><p>Nearby places, in context.</p><p class="caption">Open the report to explore each category and its evidence.</p></div>'}<p class="map-attribution">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></p></div></div>${mapCache?.cache_stale ? cacheNotice : ""}<details class="location-detail place-list"><summary>View mapped locations</summary>${mapCache?.cache_stale ? "" : cacheNotice}<div class="table-scroll"><table class="overview-table"><thead><tr><th>Place</th><th>Category</th><th>Distance</th></tr></thead><tbody>${groups.flatMap((c) => c.details.members.map((m) => `<tr><td>${link(m.uri, m.name || "Unnamed mapped feature") || esc(m.name || "Unnamed mapped feature")}</td><td>${c.label}</td><td>${Number.isFinite(m.approximate_center_distance_m) ? "~" + Math.round(m.approximate_center_distance_m) + " m" : "Distance unavailable"}</td></tr>`)).join("")}</tbody></table></div><p>Distances are straight-line measurements to mapped points or centres, not travel distances. Counts describe retained mapped features, not necessarily distinct facilities. Capped categories are lower bounds. Features without saved coordinates appear only in the list. The dashed circle is a distance reference, not a property boundary.</p></details>`;
 }
 function researchPreviews(rows) {
   const b = state.bench;
@@ -648,6 +663,7 @@ const railIcons = {
   "Research scope": "M4 7h16M4 17h16M8 4v6m8 4v6",
   new: "M12 4v16M4 12h16",
   saved: "M4 4h16v16H4zM8 4v7l4-2 4 2V4",
+  contact: "M3 5h18v14H3zM3 5l9 8 9-8",
   export: "M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6",
 };
 const railIcon = (name) =>
@@ -670,7 +686,7 @@ function reportSidebar() {
         "rail-brand rail-logo-toggle",
         'aria-label="Expand sidebar" aria-describedby="expand-sidebar-tip" aria-expanded="false" aria-controls="report-sidebar"',
       );
-  return `<aside class="report-rail" id="report-sidebar" ${mobile && expanded ? 'role="dialog" aria-modal="true" aria-label="Report navigation"' : ""}><div class="rail-top">${top}</div><nav class="rail-navigation" aria-label="Report">${["Findings", "Local intelligence", "Unresolved", "Sources", "Research scope"].map((n) => item(n, "report-nav", n, `data-nav="${n}" ${state.nav === n ? 'aria-current="page"' : ""}`)).join("")}<div class="rail-export">${item("Export JSON", "export", "export")}</div></nav><nav class="rail-global" aria-label="Reports">${item(running() ? "View progress" : "New report", running() ? "resume-progress" : "new", "new")}${item("Saved reports", "saved", "saved")}</nav></aside>`;
+  return `<aside class="report-rail" id="report-sidebar" ${mobile && expanded ? 'role="dialog" aria-modal="true" aria-label="Report navigation"' : ""}><div class="rail-top">${top}</div><nav class="rail-navigation" aria-label="Report">${["Findings", "Local intelligence", "Unresolved", "Sources", "Research scope"].map((n) => item(n, "report-nav", n, `data-nav="${n}" ${state.nav === n ? 'aria-current="page"' : ""}`)).join("")}${showcase ? "" : `<div class="rail-export">${item("Export JSON", "export", "export")}</div>`}</nav><nav class="rail-global" aria-label="Reports">${showcase ? item("Get in touch", "contact", "contact") : item(running() ? "View progress" : "New report", running() ? "resume-progress" : "new", "new")}${item(showcase ? "Sample reports" : "Saved reports", "saved", "saved")}</nav></aside>`;
 }
 function sidebarControls() {
   return `${btn(railIcon("menu"), "toggle-sidebar", "mobile-rail-toggle", `aria-label="Open sidebar" aria-expanded="${state.mobileSidebarOpen}" aria-controls="report-sidebar"`)}${btn("", "toggle-sidebar", "rail-scrim", 'aria-label="Close sidebar" tabindex="-1"')}`;
@@ -750,6 +766,7 @@ function report() {
   }</section><aside class="report-inspector" id="inspector" aria-label="Evidence inspector">${evidence(state.selected)}</aside></div>`;
 }
 function savedResults() {
+  if (showcase) return state.runs.filter(r => `${r.address} ${r.label}`.toLowerCase().includes(state.query.trim().toLowerCase())).map(r => `<article class="saved-row"><div><h2>${esc(r.label)}</h2><p>${esc(addressParts(r.address).street)}</p><p>${esc(r.description)}</p>${r.review_note ? `<p class="caption">${esc(r.review_note)}</p>` : ""}<p class="caption">Report captured ${date(r.created_at)}</p></div><div class="saved-actions">${btn('Explore report <span aria-hidden="true">→</span>', "open", "secondary", `data-id="${esc(r.id)}"`)}</div></article>`).join("") || '<p class="empty-state">No sample reports match your search.</p>';
   const runs = state.runs.filter((r) =>
     r.address.toLowerCase().includes(state.query.trim().toLowerCase()),
   );
@@ -792,7 +809,7 @@ async function deleteReport(identifier, button) {
   }
 }
 function saved() {
-  return `<section class="saved-page"><div class="saved-heading"><h1>Saved reports</h1>${btn('New research <span aria-hidden="true">↗</span>', "new", "primary")}</div>${errorHTML()}<label for="saved-search" class="sr-only">Search saved reports</label><div class="saved-search"><input type="search" id="saved-search" value="${esc(state.query)}" placeholder="Search by address"></div><div id="saved-results">${savedResults()}</div></section>`;
+  return `<section class="saved-page"><div class="saved-heading"><h1>${showcase ? "Sample reports" : "Saved reports"}</h1>${showcase ? btn("Get in touch", "contact", "text-button") : btn('New research <span aria-hidden="true">↗</span>', "new", "primary")}</div>${errorHTML()}<label for="saved-search" class="sr-only">${showcase ? "Search sample reports" : "Search saved reports"}</label><div class="saved-search"><input type="search" id="saved-search" value="${esc(state.query)}" placeholder="Search by address"></div><div id="saved-results">${savedResults()}</div>${showcase ? '<p class="caption">These are dated research examples, not live listings. Source limitations remain visible in each report.</p>' : ""}</section>`;
 }
 function render(focus = false) {
   document.body.classList.toggle("bench-page", state.page === "report");
@@ -802,22 +819,25 @@ function render(focus = false) {
     ["entry", "confirm", "channels", "progress"].includes(state.page),
   );
   document.querySelector('.app-header [data-action="saved"]').hidden =
-    document.body.classList.contains("research-flow");
+    Boolean(showcase) || document.body.classList.contains("research-flow");
   if (state.page === "progress" && document.getElementById("progress-screen"))
     updateProgress();
   else
     main.innerHTML = `<div class="${state.page === "report" ? "report-view" : state.page === "progress" ? "progress-view" : "fade-in"}">${({ home, entry, confirm, channels, progress, report, saved }[state.page] || home)()}</div>`;
   syncSidebar();
+  if (showcase && !document.querySelector(".header-github")) {
+    document.querySelector(".app-header nav").insertAdjacentHTML("beforeend", '<a class="header-github" href="https://github.com/Lucas-Granucci/surreal-estate" target="_blank" rel="noopener noreferrer" aria-label="View SurrealEstate on GitHub" title="View on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.77-.24.77-.54v-2.1c-3.14.68-3.8-1.33-3.8-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.5-.28-5.13-1.25-5.13-5.57 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.08 1.15A10.7 10.7 0 0 1 12 6.12c.95 0 1.9.13 2.8.38 2.13-1.45 3.07-1.15 3.07-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.79 1.15 3.02 0 4.33-2.63 5.29-5.14 5.57.4.35.76 1.04.76 2.1v3.07c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg></a>');
+  }
   const top = document.querySelector(".app-header nav .secondary");
-  top.dataset.action = running() ? "resume-progress" : "new";
-  top.innerHTML = running()
+  top.dataset.action = showcase ? "contact" : running() ? "resume-progress" : "new";
+  top.innerHTML = showcase ? "Get in touch" : running()
     ? "View progress"
     : 'New research <span aria-hidden="true">↗</span>';
   document.title =
     (state.page === "report" && state.bench
       ? state.bench.case.address
       : state.page === "saved"
-        ? "Saved reports"
+        ? (showcase ? "Sample reports" : "Saved reports")
         : "Know the place") + " · SurrealEstate";
   if (focus) {
     const heading = main.querySelector("h1");
@@ -866,10 +886,11 @@ async function route() {
   ].includes(page)
     ? page
     : "home";
+  if (showcase && !["home", "saved", "report"].includes(state.page)) state.page = "home";
   if (["confirm", "channels"].includes(state.page) && !state.geocoded)
     state.page = "entry";
   if (state.page === "channels" && !state.confirmed) state.page = "confirm";
-  if (page === "report") {
+  if (state.page === "report") {
     state.bench = null;
     state.mapCategory = "all";
     state.statusFilter = "All statuses";
@@ -880,7 +901,7 @@ async function route() {
   if (page === "progress" && state.job?.id !== id) state.job = null;
   render(true);
   try {
-    if (page === "report" && id) {
+    if (state.page === "report" && id) {
       const b = await api(`/reports/${encodeURIComponent(id)}/bench.json`);
       if (version !== routeVersion) return;
       state.bench = b;
@@ -888,7 +909,7 @@ async function route() {
       state.selected = null;
       state.researchTopic = null;
       render(true);
-    } else if (page === "progress" && id) {
+    } else if (!showcase && page === "progress" && id) {
       await poll(id, version);
     } else if (page === "saved") {
       await refresh();
@@ -1132,6 +1153,8 @@ document.addEventListener("click", (e) => {
   const b = e.target.closest("button[data-action]");
   if (!b || b.disabled) return;
   const a = b.dataset.action;
+  if (a === "contact" && showcase) { location.href = `mailto:${showcase.contactEmail}`; return; }
+  if (showcase && ["new", "start", "generate", "delete-report", "confirm-delete", "export", "download", "research-again", "confirm", "locate"].includes(a)) return;
   if (a === "toggle-sidebar") toggleSidebar();
   else if (a === "delete-report") {
     const run = state.runs.find((r) => r.id === b.dataset.id);

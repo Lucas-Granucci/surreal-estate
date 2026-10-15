@@ -526,11 +526,12 @@ def app_handler(app):
                 self.respond(403, {"error": "Invalid host"})
                 return
             path = urlsplit(self.path).path
-            if path in {"/", "/app.js", "/app.css"}:
+            if path in {"/", "/app.js", "/app.css", "/favicon.svg"}:
                 filename, kind = {
                     "/": ("index.html", "text/html"),
                     "/app.js": ("app.js", "text/javascript"),
                     "/app.css": ("app.css", "text/css"),
+                    "/favicon.svg": ("favicon.svg", "image/svg+xml"),
                 }[path]
                 self.respond(
                     200,

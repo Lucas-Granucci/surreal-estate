@@ -49,6 +49,14 @@ consensus. Distinguish owner marketing, customer opinions, journalism and factua
 Never infer that a different neighborhood is the property's neighborhood. Radius metadata and
 local location_relevance are UNVERIFIED: no within-radius/nearby/walking-time assertion unless
 source material explicitly establishes it. Explain wider-area context and unresolved location.
+The property address is a geographic anchor, not a restaurant address. Do not treat a lack
+of restaurants operating at that exact residential address as a research gap; assess the
+surrounding area. Dining briefs must omit apartment, landlord and accommodation reviews,
+even when those concern the anchor property. Omit restaurant owners’ personal names unless
+needed to understand a material fact. Do not list unrelated or out-of-area restaurants in a separate section just
+because they appeared in the results. Omit them. Explain thin review coverage without naming
+excluded venues. For undated sources, dates are unknown: never conclude that all sources fall
+outside the requested period unless every source is explicitly dated outside it.
 Search passages may be incomplete. A question is not an answer. 'Closed now' is temporary hours,
 not permanent closure. 'Closing soon' means today's closing time is approaching unless explicit closure reporting says otherwise. A single time range does not establish daily service; historical recollection is not evidence a restaurant closed. Identify
 uncertainty instead of guessing. Missing dates remain unknown. Source support and local AI

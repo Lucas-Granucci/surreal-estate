@@ -1,0 +1,55 @@
+{
+  "contact_email": "lucasgranucci08@gmail.com",
+  "reports": [
+    {
+      "id": "east-liberty",
+      "label": "East Liberty",
+      "description": "South Highland Avenue: mapped daily essentials, neighborhood discussions and dining.",
+      "address": "121 S HIGHLAND AVE, PITTSBURGH, PA, 15206",
+      "geography": "PITTSBURGH, PA",
+      "created_at": "2026-10-15",
+      "address_source": "https://www.walnutcapital.com/properties/walnut-on-highland",
+      "review_note": ""
+    },
+    {
+      "id": "shadyside",
+      "label": "Shadyside",
+      "description": "A residential address close to the Walnut Street commercial corridor.",
+      "address": "810 S NEGLEY AVE, PITTSBURGH, PA, 15232",
+      "geography": "Pittsburgh, Pennsylvania",
+      "created_at": "2026-10-15",
+      "address_source": "https://www.walnutcapital.com/properties/south-negley-avenue",
+      "review_note": "Some discussion sources are older or business-authored; the brief makes those limits explicit."
+    },
+    {
+      "id": "squirrel-hill",
+      "label": "Squirrel Hill",
+      "description": "Forbes Terrace: neighborhood context around a historic townhouse community.",
+      "address": "5703 FORBES AVE, PITTSBURGH, PA, 15217",
+      "geography": "Pittsburgh, Pennsylvania",
+      "created_at": "2026-10-15",
+      "address_source": "https://www.walnutcapital.com/properties/forbes-terrace",
+      "review_note": "A coverage example: the parcel lookup returned no match, and discussion material is sparse."
+    },
+    {
+      "id": "lawrenceville",
+      "label": "Lawrenceville",
+      "description": "Arsenal 201: a residential address in Lawrenceville near the Butler Street corridor.",
+      "address": "147 39TH ST, PITTSBURGH, PA, 15201",
+      "geography": "Pittsburgh, Pennsylvania",
+      "created_at": "2026-10-15",
+      "address_source": "https://arsenal201.com/",
+      "review_note": "Useful planning and development context; no resident discussion was found in the retained sources."
+    },
+    {
+      "id": "south-side",
+      "label": "South Side Flats",
+      "description": "Connection at Southside: a residential address near SouthSide Works.",
+      "address": "2984 SIDNEY ST, PITTSBURGH, PA, 15203",
+      "geography": "Pittsburgh, Pennsylvania",
+      "created_at": "2026-10-15",
+      "address_source": "https://connectionatsouthside.com/",
+      "review_note": "Strong public records and mapped context; dining sources are mainly directories rather than detailed reviews."
+    }
+  ]
+}

@@ -2407,3 +2407,15 @@ html {
 .place-list > summary { font-size: 14px; }
 
 .records-title { margin-top: 28px; margin-bottom: 17px; font-size: 20px; letter-spacing: -0.025em; }
+
+.location-preview { padding: 28px; }
+.location-preview > h2 { margin-bottom: 20px; font-size: 22px; }
+.preview-open { margin-top: 16px; }
+.showcase-contact > p { margin-top: 16px; }
+.contact-link { display: inline-block; margin-top: 16px; }
+@media (max-width:720px) { .location-preview { padding: 18px; } }
+
+.showcase-note { margin-top: 14px; }
+.header-github { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 6px; color: var(--text); }
+.header-github:hover { background: var(--hover); }
+.header-github svg { width: 22px; height: 22px; }
