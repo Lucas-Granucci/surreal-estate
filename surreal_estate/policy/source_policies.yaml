@@ -39,3 +39,8 @@ openstreetmap:
   retention: persistent
   extract: true
   hosts: [overpass-api.de, www.openstreetmap.org]
+allegheny_gis:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [gisdata.alleghenycounty.us]

@@ -7,6 +7,7 @@ from datetime import date, timedelta
 from uuid import UUID
 
 from surreal_estate.channels.apis.common import add_record, coverage, public_json
+from surreal_estate.channels.apis.parcel_resolution import resolve_parcel
 from surreal_estate.models import ParcelCandidate
 
 API = "https://data.wprdc.org/api/3/action/"
@@ -135,9 +136,11 @@ class Assessments:
     def __init__(self, http):
         self.http = http
         self.parcel = None
+        self.resolution = None
 
     async def fetch(self, case, ctx, location):
         self.parcel = None
+        self.resolution = None
         if not location or not location.allegheny:
             return coverage(
                 self.provider,
@@ -182,13 +185,7 @@ class Assessments:
             "PROPERTYSTATE": "PA",
         }
         rows, total = await client.rows(filters, ASSESSMENT_FIELDS, 21, '"PARID" asc')
-        if total > 20 or len(rows) > 20:
-            return coverage(
-                self.provider,
-                self.topic,
-                "blocked",
-                "Too many assessment address candidates; no parcel selected.",
-            )
+        limited = total > 21 or len(rows) > 21
         # Verify response fields as well as the server filter. Never pick the first parcel.
         rows = [
             r
@@ -200,13 +197,13 @@ class Assessments:
         if any(not r.get("PARID") for r in rows):
             raise ValueError("Assessment record missing parcel ID")
         parcels = {str(r["PARID"]) for r in rows}
-        if (case.parcel_id and case.parcel_id not in parcels) or (not case.parcel_id and len(parcels) != 1):
+        if (case.parcel_id and case.parcel_id not in parcels) or (
+            not case.parcel_id and not parcels
+        ):
             reason = (
                 "The selected parcel does not match this address's county candidates. Review the candidates and select again."
-                if case.parcel_id else
-                f"{len(parcels)} distinct parcels share this address. Select the intended parcel below to continue assessment and building-permit research."
-                if parcels else
-                "No matching county parcel returned. This does not establish that the property is absent from county records."
+                if case.parcel_id
+                else "No matching county parcel returned. This does not establish that the property is absent from county records."
             )
             result = coverage(
                 self.provider,
@@ -219,22 +216,45 @@ class Assessments:
                 ParcelCandidate(
                     parcel_id=identifier,
                     address=f"{row['PROPERTYHOUSENUM']} {row['PROPERTYADDRESS']}, {row.get('PROPERTYCITY') or ''} PA {zipcode}",
-                    property_use=str(row.get("USEDESC") or row.get("CLASSDESC") or "Use not supplied"),
-                    assessed_value=str(row["COUNTYTOTAL"]) if row.get("COUNTYTOTAL") is not None else None,
+                    property_use=str(
+                        row.get("USEDESC") or row.get("CLASSDESC") or "Use not supplied"
+                    ),
+                    assessed_value=str(row["COUNTYTOTAL"])
+                    if row.get("COUNTYTOTAL") is not None
+                    else None,
                     lot_area=str(row["LOTAREA"]) if row.get("LOTAREA") is not None else None,
                     source_url=client.uri,
-                ) for identifier, row in distinct.items()
+                )
+                for identifier, row in distinct.items()
             ]
             return result
-        self.parcel = case.parcel_id or next(iter(parcels))
-        rows = [row for row in rows if str(row["PARID"]) == self.parcel]
+        if case.parcel_id:
+            self.parcel = case.parcel_id
+        elif len({parcel_key(p) for p in parcels}) > 1 or limited:
+            self.parcel, self.resolution = await resolve_parcel(
+                self.http,
+                ctx,
+                rows,
+                number[1],
+                road,
+                zipcode,
+                limited=limited,
+            )
+        else:
+            self.parcel = sorted(parcels)[0]
+        rows = [row for row in rows if parcel_key(row["PARID"]) == parcel_key(self.parcel)]
         result = coverage(
             self.provider,
             self.topic,
             "complete",
             "User-selected parcel validated against exact address candidates; this is not parcel-boundary verification."
-            if case.parcel_id else "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
+            if case.parcel_id
+            else "Unique exact house number/street/ZIP match; address matching is not a parcel-boundary verification.",
         )
+        if self.resolution:
+            result.coverage[0].reason = (
+                f"Automatically selected parcel {self.parcel}. " + self.resolution["reason"]
+            )
         for row in rows:
             values = []
             for key, title in [
@@ -251,6 +271,16 @@ class Assessments:
                 + ("; ".join(values) or "address record returned")
                 + ". Assessment records are not current appraisals or proof of condition."
             )
+            if self.resolution:
+                statement = (
+                    f"Automatically selected parcel {self.parcel}"
+                    + (
+                        " (uncertain match). "
+                        if self.resolution["uncertain"]
+                        else " (county GIS supported). "
+                    )
+                    + statement
+                )
             add_record(
                 result,
                 provider=self.provider,
@@ -259,14 +289,25 @@ class Assessments:
                 title=f"Allegheny County assessment · {self.parcel}",
                 statement=statement,
                 scope=location.address,
-                details=client.details(row),
+                details={
+                    **client.details(row),
+                    **({"parcel_resolution": self.resolution} if self.resolution else {}),
+                },
                 record_id=self.parcel,
                 updated=client.updated,
                 record_date=row.get("ASOFDATE"),
                 attribution=client.attribution,
-                match_method="user_selected_exact_address_candidate" if case.parcel_id else "unique_exact_number_street_zip_no_unit",
+                match_method=self.resolution["method"]
+                if self.resolution
+                else "user_selected_exact_address_candidate"
+                if case.parcel_id
+                else "unique_exact_number_street_zip_no_unit",
                 flags=[
-                    "match_requires_user_review",
+                    *(
+                        ["parcel_selection_uncertain"]
+                        if self.resolution and self.resolution["uncertain"]
+                        else []
+                    ),
                     "assessment_not_appraisal",
                     "current_snapshot_not_historical",
                 ],
@@ -281,7 +322,7 @@ class Permits:
     def __init__(self, http):
         self.http = http
 
-    async def fetch(self, case, ctx, location, parcel):
+    async def fetch(self, case, ctx, location, parcel, resolution=None):
         if not location or not location.pittsburgh:
             return coverage(
                 self.provider,
@@ -294,7 +335,7 @@ class Permits:
                 self.provider,
                 self.topic,
                 "blocked",
-                "A unique county parcel match is required; no neighboring parcel's permits attached.",
+                "No county parcel could be selected for this address.",
             )
         client = await WPRDC(self.http, ctx, self.provider, "pli-permits", "PLI Permits").resolve()
         rows, total = await client.rows(
@@ -308,11 +349,19 @@ class Permits:
             "truncated" if limited else "complete" if rows else "empty",
             "Up to 50 most recently issued permits on the matched parcel, including Building & Development Applications. Feed starts June 2019; plumbing excluded. No records is not proof of no work or no permits.",
         )
+        if resolution:
+            result.coverage[0].reason = (
+                f"Permits for automatically selected parcel {parcel}"
+                + (" (uncertain match). " if resolution["uncertain"] else ". ")
+                + result.coverage[0].reason
+            )
         for row in rows[:50]:
             if not row.get("permit_id"):
                 raise ValueError("Permit record missing identifier")
             description = str(row.get("work_description") or "No work description")[:160]
             statement = f"PLI {row.get('permit_id')}: {row.get('permit_type')}; issued {row.get('issue_date') or 'date unavailable'}; status {row.get('status') or 'unavailable'}. {description}. A permit does not prove work was completed."
+            if resolution and resolution["uncertain"]:
+                statement = f"Uncertain parcel match: automatically selected {parcel}. " + statement
             add_record(
                 result,
                 provider=self.provider,
@@ -321,13 +370,21 @@ class Permits:
                 title=f"Pittsburgh PLI permit · {row.get('permit_id')}",
                 statement=statement,
                 scope=location.address,
-                details=client.details(row),
+                details={
+                    **client.details(row),
+                    **({"parcel_resolution": resolution} if resolution else {}),
+                },
                 record_id=row.get("permit_id"),
                 updated=client.updated,
                 record_date=row.get("issue_date"),
                 attribution=client.attribution,
                 match_method="exact_county_parcel_id",
                 flags=[
+                    *(
+                        ["parcel_selection_uncertain"]
+                        if resolution and resolution["uncertain"]
+                        else []
+                    ),
                     "permit_not_completion",
                     "plumbing_excluded",
                     "current_snapshot_not_historical",
@@ -409,7 +466,7 @@ class Closures:
                 continue
             if distance > 1000:
                 continue
-            description = ' '.join(str(row.get('work_description') or '').split())
+            description = " ".join(str(row.get("work_description") or "").split())
             work = f" Work described: {description[:180]}." if description else ""
             statement = f"DOMI closure {row.get('closure_id')} on {road}, about {distance:.0f} m from the interpolated address point: {row.get('from_date') or 'start unknown'} to {row.get('to_date') or 'end unknown'}.{work} Permit records do not confirm work is underway."
             details = client.details(row)

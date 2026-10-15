@@ -118,11 +118,15 @@ class App:
         self.csrf = secrets.token_urlsafe(32)
         self.lock = threading.RLock()
         self.jobs = {}
+        self.deleted_reports = set()
         self.contexts = {}
         for path in self.directory.glob("job-*.json"):
             try:
                 job = json.loads(path.read_text())
                 if path.name != f"job-{job['id']}.json" or not self.valid_id(job["id"]):
+                    continue
+                if job["status"] == "deleted":
+                    self.deleted_reports.update([job["id"], job.get("source_report_id")])
                     continue
                 if job["status"] == "running":
                     job.update(
@@ -156,7 +160,7 @@ class App:
             try:
                 outcome = load_snapshot_outcome(str(path))
                 report = outcome.report
-                if report.id in known or not self.valid_id(report.id) or report.id in self.jobs:
+                if report.id in known or report.id in self.deleted_reports or not self.valid_id(report.id) or report.id in self.jobs:
                     continue
                 identifier = report.id
                 target = self.directory / f"report-{identifier}.json"
@@ -201,6 +205,26 @@ class App:
         temporary = target.with_suffix(".tmp")
         temporary.write_text(json.dumps(job), encoding="utf-8")
         temporary.replace(target)
+
+    def delete(self, identifier):
+        """Delete a finished report; retain a tombstone to prevent automatic reimport."""
+        with self.lock:
+            if not self.valid_id(identifier) or identifier not in self.jobs:
+                raise KeyError(identifier)
+            if self.jobs[identifier]["status"] == "running" or identifier in self.contexts:
+                raise RuntimeError("Research is still running. Wait until it finishes before deleting it.")
+            target = self.directory / f"report-{identifier}.json"
+            source_report_id = identifier
+            if target.exists():
+                source_report_id = load_snapshot_outcome(str(target)).report.id
+            self.save_job({"id": identifier, "status": "deleted", "source_report_id": source_report_id})
+            try:
+                target.unlink(missing_ok=True)
+            except OSError:
+                self.save_job(self.jobs[identifier])
+                raise
+            self.deleted_reports.update([identifier, source_report_id])
+            del self.jobs[identifier]
 
     def geocode(self, request):
         from surreal_estate.channels.apis.census import CensusGeocoder
@@ -561,6 +585,29 @@ def app_handler(app):
                     self.respond(404, {"error": "Saved report unavailable"})
             else:
                 self.respond(404, {"error": "Page not found"})
+
+        def do_DELETE(self):
+            if not self.allowed_host() or self.headers.get("X-CSRF-Token") != app.csrf:
+                self.respond(403, {"error": "Refresh the page and try again."})
+                return
+            origin = self.headers.get("Origin")
+            if origin and origin != "http://" + self.headers.get("Host", ""):
+                self.respond(403, {"error": "Cross-origin request rejected"})
+                return
+            path = urlsplit(self.path).path
+            if not path.startswith("/api/runs/"):
+                self.respond(404, {"error": "Report not found"})
+                return
+            try:
+                app.delete(path.removeprefix("/api/runs/"))
+            except KeyError:
+                self.respond(404, {"error": "Report not found"})
+            except RuntimeError as exc:
+                self.respond(409, {"error": str(exc)})
+            except (OSError, ValueError):
+                self.respond(500, {"error": "Cannot delete the report. Check the report directory permissions."})
+            else:
+                self.respond(200, {"deleted": True})
 
         def do_POST(self):
             if not self.allowed_host() or self.headers.get("X-CSRF-Token") != app.csrf:

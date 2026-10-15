@@ -207,3 +207,71 @@ async def test_one_web_topic_failure_does_not_suppress_the_next():
     ]
     assert "PRIVATE" not in result.model_dump_json()
     assert channel.displays[0].topic == "restaurant_reviews"
+
+
+def test_delete_report_removes_sources_and_survives_restart(tmp_path):
+    app = App(tmp_path, fixture_executor)
+    job = app.start(confirmed_request(app))
+    wait_for_job(app, job["id"])
+    identifier = job["id"]
+    headers, body = request(app, f"/api/runs/{identifier}", method="DELETE")
+    assert b"200 OK" in headers
+    assert json.loads(body) == {"deleted": True}
+    assert identifier not in app.jobs
+    assert not (tmp_path / f"report-{identifier}.json").exists()
+    assert identifier not in App(tmp_path).jobs
+    headers, _ = request(app, f"/reports/{identifier}/bench.json")
+    assert b"404" in headers
+
+
+def test_deleted_import_does_not_reappear_and_original_is_untouched(tmp_path):
+    original = save_development_snapshot(outcome_fixture(), path=str(tmp_path / "legacy.json"))
+    before = original.read_bytes()
+    app = App(tmp_path)
+    identifier = next(iter(app.jobs))
+    app.delete(identifier)
+    assert original.read_bytes() == before
+    assert App(tmp_path).jobs == {}
+
+
+@pytest.mark.parametrize("kwargs", [
+    {"token": False},
+    {"origin": "https://foreign.example"},
+    {"host": "foreign.example"},
+])
+def test_delete_requires_same_origin_host_and_csrf(tmp_path, kwargs):
+    save_development_snapshot(outcome_fixture(), path=str(tmp_path / "legacy.json"))
+    app = App(tmp_path)
+    identifier = next(iter(app.jobs))
+    headers, _ = request(app, f"/api/runs/{identifier}", method="DELETE", **kwargs)
+    assert b"403" in headers
+    assert identifier in app.jobs
+
+
+def test_delete_rejects_running_and_unknown_reports(tmp_path):
+    save_development_snapshot(outcome_fixture(), path=str(tmp_path / "legacy.json"))
+    app = App(tmp_path)
+    identifier = next(iter(app.jobs))
+    app.jobs[identifier]["status"] = "running"
+    headers, _ = request(app, f"/api/runs/{identifier}", method="DELETE")
+    assert b"409" in headers
+    assert identifier in app.jobs
+    headers, _ = request(app, "/api/runs/not-a-valid-id", method="DELETE")
+    assert b"404" in headers
+
+
+def test_failed_delete_preserves_report(tmp_path, monkeypatch):
+    from pathlib import Path
+
+    save_development_snapshot(outcome_fixture(), path=str(tmp_path / "legacy.json"))
+    app = App(tmp_path)
+    identifier = next(iter(app.jobs))
+
+    def denied(*args, **kwargs):
+        raise PermissionError("test")
+
+    monkeypatch.setattr(Path, "unlink", denied)
+    headers, _ = request(app, f"/api/runs/{identifier}", method="DELETE")
+    assert b"500" in headers
+    assert identifier in app.jobs
+    assert identifier in App(tmp_path).jobs

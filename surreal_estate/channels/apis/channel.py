@@ -73,7 +73,7 @@ class StructuredDataChannel:
         assessment = Assessments(self.http)
         assessment_result = await attempt(assessment, location)
         parcel = assessment.parcel if assessment_result.evidence else None
-        await attempt(Permits(self.http), location, parcel)
+        await attempt(Permits(self.http), location, parcel, assessment.resolution)
         await attempt(FEMA(self.http), location)
         await attempt(FEMA(self.http, panels=True), location)
         await attempt(OpenStreetMap(self.http), location)

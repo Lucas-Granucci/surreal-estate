@@ -23,6 +23,7 @@ Responses are `no-store`. POST bodies are limited to 8 KiB.
 | `GET /api/capabilities` | `{apis:{available:true},web:{available:boolean}}`. Checks valid local configuration and whether the configured Ollama model is installed. Does not call paid generation or guarantee downstream service availability. |
 | `POST /api/geocode` | `{address, geography?}` → `{candidates:[{confirmation,address,latitude,longitude}]}`. Address 5–200 characters; geography 3–120, defaults to Pittsburgh, Pennsylvania. Uses Census, returns at most 20 candidates. Empty array means no match; upstream failure is 502. |
 | `POST /api/runs` | `{address,geography?,confirmation,channels,topics?,request_id?,parcel_id?}` → 202 run object. `channels`: nonempty subset of `apis`, `web`; `topics`: `neighborhood_discussion`, `restaurant_reviews`. Web requires at least one topic. |
+| `DELETE /api/runs/{id}` | Deletes a completed or failed saved report and its app-owned snapshot; returns `{deleted:true}`. Requires the same CSRF/host/origin checks as POST. Running runs return 409; unknown IDs return 404. |
 | `GET /api/runs` | `{runs:[…],csrf}` sorted newest first. Includes completed, running, interrupted and imported reports. |
 | `GET /api/runs/{id}` | Run state, address, geography, selected channels/topics, created date, partial flag when complete, message, elapsed seconds, and `progress:{steps:[{id,label,state}],detail,sources_checked}`. States: waiting, active, done, stopped, skipped. No estimated percentage. |
 | `GET /reports/{id}/dashboard` | The application shell opening that report. Hash routes support refresh and browser back/forward. |
@@ -101,3 +102,18 @@ Explicit web topic selections are completed before the policy gate if the model
 planner omits a supported topic and the existing call budget permits it. Each
 query still passes normal address, geography, topic and budget validation. A failed
 web query records its own coverage error and allows the next selected topic to run.
+
+Deletion retains a minimal job tombstone containing the run/source-report IDs so
+automatic snapshot import cannot restore it after restart. Original imported
+files remain unchanged. A file-removal failure restores the saved job metadata.
+
+For new runs, multiple exact-address parcel candidates no longer block research.
+County address-point links and intersecting boundaries rank candidates; unresolved
+ties use normalized parcel ID order. Assessment and permit evidence retain a
+`details.parcel_resolution` object containing the selected ID, candidate IDs and
+signals, lookup URLs/status, ranking reason, and `uncertain` flag. Findings expose
+uncertain selections explicitly. GIS failures or insufficient spare budget fall
+back to retained candidates. Explicit parcel IDs still require an exact candidate
+match. Missing candidates, unsupported complex addresses and source outages are
+not replaced with fabricated parcel IDs. Saved reports remain unchanged; research
+again to apply the new resolver.

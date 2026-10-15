@@ -23,7 +23,7 @@ unchanged. Compatibility uses existing Pydantic defaults for source metadata and
 parcel candidates; legacy OSM observations remain displayable as observations.
 
 Underlying capability limits are not missing endpoints: county/city records have
-geographic coverage restrictions; ambiguous parcels block dependent permits;
+geographic coverage restrictions; ambiguous parcels use a documented automatic ranking/fallback;
 older reports may lack candidate IDs; Census supplies an estimated street point;
 OSM provides mapped features and straight-line distances, not travel times;
 web responses provide model accounts and source references, not independently
@@ -72,3 +72,20 @@ for the current section, without a selected background or bar.
 Offline Overview regression coverage: `scripts/verify_overview.cjs` (Playwright).
 It checks category/status filters, evidence access, missing coordinates, and both
 system themes at desktop and mobile widths without provider requests.
+
+Overview also owns mapped surroundings: the redundant All topics and Surroundings
+filters are removed. The desktop plot is capped at 420px with compact category controls
+and count/coverage information beside it. Selecting a category updates both the summary
+and the evidence inspector using that category’s source ID, keeping groceries
+and pharmacies distinct. Mobile stacks the summary below a 320px plot and opens
+full evidence through View locations & source. Report loading starts without
+selected evidence; switching views clears the category and evidence together.
+Finding rows are clickable across their surface, with keyboard-accessible title
+buttons, chevrons, hover/focus treatment and selected states. Disclosures remain
+independently operable. Report interactions do not replay the entry animation,
+and reserved scrollbar space keeps the layout stable between long and short views.
+
+Saved reports include Delete for completed and failed runs, with confirmation,
+error/retry feedback, and persistent deletion. Running research cannot be deleted.
+The Overview map section spans the full content width; the coordinate plot stays
+capped at 420px and the adjacent category controls fill the remaining space.

@@ -92,19 +92,19 @@ function save() {
 function announce(text) {
   document.getElementById("announcement").textContent = text;
 }
-async function api(path, body) {
+async function api(path, body, method = body ? "POST" : "GET") {
   let response;
   try {
     response = await fetch(path, {
       cache: "no-store",
-      ...(body
+      ...(method !== "GET"
         ? {
-            method: "POST",
+            method,
             headers: {
               "Content-Type": "application/json",
               "X-CSRF-Token": state.csrf,
             },
-            body: JSON.stringify(body),
+            ...(body ? { body: JSON.stringify(body) } : {}),
           }
         : {}),
     });
@@ -343,7 +343,9 @@ function mappedCategories() {
         e.details?.category === c.id &&
         Array.isArray(e.details.members),
     );
-    return source ? [{ ...c, details: source.details }] : [];
+    return source
+      ? [{ ...c, evidenceId: source.id, details: source.details }]
+      : [];
   });
 }
 function overviewFinding(topic) {
@@ -422,6 +424,13 @@ function overviewRows() {
     };
   });
 }
+function mapCategorySummary(categories, selected) {
+  const category = categories.find((c) => c.id === selected);
+  if (!category)
+    return `<div class="map-summary"><p>Select a category to explore its locations and source.</p><p class="caption">Community-mapped features · straight-line distances, not travel distances.</p></div>`;
+  const d = category.details;
+  return `<div class="map-summary"><p>${d.count_is_lower_bound ? "At least " : ""}${esc(d.mapped_feature_count ?? d.members.length)} mapped features${Number.isFinite(d.query_radius_m) ? ` within ${esc(distanceLabel(d.query_radius_m))}` : " retained"}.${d.count_is_lower_bound ? " Results capped." : ""}</p><p class="caption">Straight-line distances to mapped points or centres.</p>${btn("View locations & source", "evidence", "link-button map-evidence", `data-id="${esc(category.evidenceId)}"`)}</div>`;
+}
 function spatialOverview() {
   const mapCategories = mappedCategories();
   const origin = state.bench.evidence
@@ -480,7 +489,7 @@ function spatialOverview() {
         .join(""),
     )
     .join("");
-  return `<div class="spatial-card"><div class="spatial-plot"><svg viewBox="0 0 520 520" role="img" aria-labelledby="map-title map-description"><title id="map-title">Mapped places around ${esc(state.bench.case.address)}</title><desc id="map-description">North-up coordinate plot of saved OpenStreetMap feature centres, with a distance reference circle around the estimated address point. Category totals and an accessible location list follow.</desc><defs><clipPath id="mapclip"><rect x="12" y="12" width="496" height="496" rx="4"/></clipPath></defs><g class="map-grid" fill="none" stroke="#DADAE0" stroke-width="0.6">${[60, 160, 260, 360, 460].map((v) => `<path d="M${v} 0V520M0 ${v}H520"/>`).join("")}</g><circle cx="260" cy="260" r="218" fill="none" stroke="#858591" stroke-width="1.3" stroke-dasharray="5 6" class="search-radius"/><g clip-path="url(#mapclip)">${markers}</g><circle cx="260" cy="260" r="12" fill="#FFFFFF" stroke="#303038" stroke-width="2" class="address-ring"/><circle cx="260" cy="260" r="4" fill="#303038" class="address-dot"/><text x="390" y="76" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius))}</text><path d="M487 47V23m-4 6 4-6 4 6" fill="none" stroke="#858591" class="north-arrow"/><text x="482" y="64" fill="#60606B" font-size="12" class="map-label">N</text><path d="M26 489h109m-109-4v8m109-8v8" fill="none" stroke="#858591" class="scale-line"/><text x="27" y="476" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius / 2))}</text></svg></div><div class="map-legend">${mapCategories
+  return `<div class="spatial-card"><div class="spatial-plot"><svg viewBox="0 0 520 520" role="img" aria-labelledby="map-title map-description"><title id="map-title">Mapped places around ${esc(state.bench.case.address)}</title><desc id="map-description">North-up coordinate plot of saved OpenStreetMap feature centres, with a distance reference circle around the estimated address point. Category totals and an accessible location list follow.</desc><defs><clipPath id="mapclip"><rect x="12" y="12" width="496" height="496" rx="4"/></clipPath></defs><g class="map-grid" fill="none" stroke="#DADAE0" stroke-width="0.6">${[60, 160, 260, 360, 460].map((v) => `<path d="M${v} 0V520M0 ${v}H520"/>`).join("")}</g><circle cx="260" cy="260" r="218" fill="none" stroke="#858591" stroke-width="1.3" stroke-dasharray="5 6" class="search-radius"/><g clip-path="url(#mapclip)">${markers}</g><circle cx="260" cy="260" r="12" fill="#FFFFFF" stroke="#303038" stroke-width="2" class="address-ring"/><circle cx="260" cy="260" r="4" fill="#303038" class="address-dot"/><text x="390" y="76" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius))}</text><path d="M487 47V23m-4 6 4-6 4 6" fill="none" stroke="#858591" class="north-arrow"/><text x="482" y="64" fill="#60606B" font-size="12" class="map-label">N</text><path d="M26 489h109m-109-4v8m109-8v8" fill="none" stroke="#858591" class="scale-line"/><text x="27" y="476" fill="#60606B" font-size="12" class="map-label">${esc(distanceLabel(radius / 2))}</text></svg></div><div class="map-context"><div class="map-legend" aria-label="Mapped place categories">${mapCategories
     .map((c) => {
       const d = c.details;
       return btn(
@@ -492,7 +501,7 @@ function spatialOverview() {
     })
     .join(
       "",
-    )}${selected !== "all" ? btn("Show all places", "map-category", "text-button map-reset", 'data-category="all"') : ""}</div></div><p class="map-caption">Saved feature centres · estimated address point · north up. © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></p><details class="location-detail place-list"><summary>View mapped locations</summary><div class="table-scroll"><table class="overview-table"><thead><tr><th>Place</th><th>Category</th><th>Distance</th></tr></thead><tbody>${groups.flatMap((c) => c.details.members.map((m) => `<tr><td>${link(m.uri, m.name || "Unnamed mapped feature") || esc(m.name || "Unnamed mapped feature")}</td><td>${c.label}</td><td>${Number.isFinite(m.approximate_center_distance_m) ? "~" + Math.round(m.approximate_center_distance_m) + " m" : "Distance unavailable"}</td></tr>`)).join("")}</tbody></table></div><p>Distances are straight-line measurements to mapped points or centres, not travel distances. Counts describe retained mapped features, not necessarily distinct facilities. Capped categories are lower bounds. Features without saved coordinates appear only in the list. The dashed circle is a distance reference, not a property boundary.</p></details>`;
+    )}${selected !== "all" ? btn("Show all places", "map-category", "text-button map-reset", 'data-category="all"') : ""}</div>${mapCategorySummary(mapCategories, selected)}</div></div><p class="map-caption">Saved feature centres · estimated address point · north up. © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></p><details class="location-detail place-list"><summary>View mapped locations</summary><div class="table-scroll"><table class="overview-table"><thead><tr><th>Place</th><th>Category</th><th>Distance</th></tr></thead><tbody>${groups.flatMap((c) => c.details.members.map((m) => `<tr><td>${link(m.uri, m.name || "Unnamed mapped feature") || esc(m.name || "Unnamed mapped feature")}</td><td>${c.label}</td><td>${Number.isFinite(m.approximate_center_distance_m) ? "~" + Math.round(m.approximate_center_distance_m) + " m" : "Distance unavailable"}</td></tr>`)).join("")}</tbody></table></div><p>Distances are straight-line measurements to mapped points or centres, not travel distances. Counts describe retained mapped features, not necessarily distinct facilities. Capped categories are lower bounds. Features without saved coordinates appear only in the list. The dashed circle is a distance reference, not a property boundary.</p></details>`;
 }
 function overview() {
   const rows = overviewRows();
@@ -512,18 +521,15 @@ function report() {
     gaps = fs.filter((f) => f.unresolved),
     topics = [
       "Overview",
-      "All topics",
-      ...["Surroundings", "Records", "Street permits", "Local accounts"].filter(
-        (t) => fs.some((f) => f.section === t),
+      ...["Records", "Street permits", "Local accounts"].filter((t) =>
+        fs.some((f) => f.section === t),
       ),
     ];
   if (!topics.includes(state.filter)) state.filter = "Overview";
   const rows = fs.filter(
     (f) =>
       (state.nav !== "Unresolved" || f.unresolved) &&
-      (state.nav !== "Findings" ||
-        state.filter === "All topics" ||
-        f.section === state.filter),
+      (state.nav !== "Findings" || f.section === state.filter),
   );
   return `<div class="report-shell"><nav class="report-rail" aria-label="Report">${["Findings", "Unresolved", "Sources", "Research scope"].map((n) => btn(n, "report-nav", "", `data-nav="${n}" ${state.nav === n ? 'aria-current="page"' : ""}`)).join("")}<div class="export">${btn('Export JSON <span aria-hidden="true">↗</span>', "export")}</div></nav><section class="report-work"><header class="report-heading"><h1>${esc(addressParts(b.case.address).street)}</h1><p>${esc(addressParts(b.case.address).locality || b.case.geography)} · Report dated ${date(b.case.as_of)}${b.demo ? " · Synthetic demo" : ""}</p></header>${errorHTML()}${state.nav === "Findings" ? `${gaps.length ? `<div class="notice"><span>${gaps.length === 1 ? `${esc(gaps[0].title)} needs attention.` : `${gaps.length} research topics are unresolved.`}</span>${btn("Review", "review-gap")}</div>` : ""}<div class="filters" aria-label="Filter findings">${topics.map((t) => btn(t, "filter", "", `data-filter="${t}" aria-pressed="${state.filter === t}"`)).join("")}</div>` : `<h2 class="panel-title" tabindex="-1">${state.nav}</h2>`}${
     state.nav === "Sources"
@@ -536,14 +542,14 @@ function report() {
             ? rows
                 .map(
                   (f) =>
-                    `<article class="finding ${state.selected === f.id ? "selected" : ""}" id="${f.id}"><div><h2>${esc(f.title)}</h2><p>${esc(f.statements[0] || "No finding returned.")}</p>${
+                    `<article class="finding ${state.selected === f.id ? "selected" : ""}" id="${f.id}"><div><h2>${btn(esc(f.title), "evidence", "finding-select", `data-id="${f.id}" aria-label="Inspect evidence for ${esc(f.title)}" aria-pressed="${state.selected === f.id}"`)}</h2><p>${esc(f.statements[0] || "No finding returned.")}</p>${
                       f.statements.length > 1
                         ? `<details><summary>${f.statements.length - 1} more ${f.topic === "street_closures" ? "records" : "findings"}</summary>${f.statements
                             .slice(1)
                             .map((t) => `<p>${esc(t)}</p>`)
                             .join("")}</details>`
                         : ""
-                    }<p class="qualifier">${esc(f.qualifier)}</p></div>${btn("Evidence", "evidence", "", `data-id="${f.id}" aria-label="Inspect evidence for ${esc(f.title)}"`)}</article>`,
+                    }<p class="qualifier">${esc(f.qualifier)}</p></div><svg class="finding-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></article>`,
                 )
                 .join("")
             : `<p class="empty-state">${state.nav === "Unresolved" ? "No unresolved topics were recorded." : "No findings were returned for this topic."}</p>`
@@ -557,16 +563,45 @@ function savedResults() {
     ? runs
         .map(
           (r) =>
-            `<article class="saved-row"><div><h2>${esc(r.address)}</h2><p>${esc(r.geography || "")} · ${date(r.created_at)}</p><p>${r.demo ? "Synthetic demo · " : ""}${r.status === "complete" ? (r.partial ? "Some topics unresolved" : "Report ready") : r.status === "failed" ? "Research interrupted" : "Research in progress"}</p></div>${btn(r.status === "complete" ? 'Open report <span aria-hidden="true">→</span>' : "View progress", r.status === "complete" ? "open" : "watch", "secondary", `data-id="${r.id}"`)}</article>`,
+            `<article class="saved-row"><div><h2>${esc(r.address)}</h2><p>${esc(r.geography || "")} · ${date(r.created_at)}</p><p>${r.demo ? "Synthetic demo · " : ""}${r.status === "complete" ? (r.partial ? "Some topics unresolved" : "Report ready") : r.status === "failed" ? "Research interrupted" : "Research in progress"}</p></div><div class="saved-actions">${btn(r.status === "complete" ? 'Open report <span aria-hidden="true">→</span>' : "View progress", r.status === "complete" ? "open" : "watch", "secondary", `data-id="${r.id}"`)}${r.status !== "running" ? btn("Delete", "delete-report", "text-button delete-report", `data-id="${r.id}" aria-label="Delete report for ${esc(r.address)}"`) : ""}</div></article>`,
         )
         .join("")
     : `<p class="empty-state">${state.query ? `No saved reports match “${esc(state.query)}”.` : "Your saved reports will appear here."}</p>${state.query ? btn("Clear search", "clear-search", "text-button") : ""}`;
+}
+async function deleteReport(identifier, button) {
+  button.disabled = true;
+  button.textContent = "Deleting…";
+  try {
+    await api(
+      `/api/runs/${encodeURIComponent(identifier)}`,
+      undefined,
+      "DELETE",
+    );
+    state.runs = state.runs.filter((r) => r.id !== identifier);
+    if (state.previewId === identifier) {
+      state.preview = null;
+      state.previewId = null;
+    }
+    if (state.reportId === identifier) {
+      state.bench = null;
+      state.reportId = null;
+    }
+    state.error = "";
+    closeDialog(false);
+    render();
+    document.getElementById("saved-search")?.focus({ preventScroll: true });
+    announce("Report deleted.");
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = "Delete report";
+    document.getElementById("delete-error").textContent = error.message;
+  }
 }
 function saved() {
   return `<section class="saved-page"><div class="saved-heading"><h1>Saved reports</h1>${btn('New research <span aria-hidden="true">↗</span>', "new", "primary")}</div>${errorHTML()}<label for="saved-search" class="sr-only">Search saved reports</label><div class="saved-search"><input type="search" id="saved-search" value="${esc(state.query)}" placeholder="Search by address"></div><div id="saved-results">${savedResults()}</div></section>`;
 }
 function render(focus = false) {
-  main.innerHTML = `<div class="fade-in">${({ home, entry, confirm, channels, progress, report, saved }[state.page] || home)()}</div>`;
+  main.innerHTML = `<div class="${state.page === "report" ? "report-view" : "fade-in"}">${({ home, entry, confirm, channels, progress, report, saved }[state.page] || home)()}</div>`;
   const top = document.querySelector(".app-header nav .secondary");
   top.dataset.action = running() ? "resume-progress" : "new";
   top.innerHTML = running()
@@ -643,10 +678,7 @@ async function route() {
       if (version !== routeVersion) return;
       state.bench = b;
       state.reportId = id;
-      state.selected =
-        b.findings.find((f) => f.category === "transit")?.id ||
-        b.findings.find((f) => f.topic !== "geocoding")?.id ||
-        null;
+      state.selected = null;
       render(true);
     } else if (page === "progress" && id) {
       await poll(id, version);
@@ -758,9 +790,23 @@ function closeDialog(restore = true) {
 }
 function openEvidence(id, trigger) {
   state.selected = id;
-  document
-    .querySelectorAll(".finding")
-    .forEach((e) => e.classList.toggle("selected", e.id === id));
+  if (document.getElementById("spatial-overview")) {
+    const category = mappedCategories().find((c) => c.evidenceId === id);
+    state.mapCategory = category?.id || "all";
+    // Avoid replacing a focused map control when its selection already matches.
+    const pressed =
+      document.querySelector('.legend-row[aria-pressed="true"]')?.dataset
+        .category || "all";
+    if (pressed !== state.mapCategory)
+      document.getElementById("spatial-overview").innerHTML = spatialOverview();
+  }
+  document.querySelectorAll(".finding").forEach((e) => {
+    e.classList.toggle("selected", e.id === id);
+    e.querySelector(".finding-select")?.setAttribute(
+      "aria-pressed",
+      String(e.id === id),
+    );
+  });
   const pane = document.getElementById("inspector");
   if (pane) {
     pane.innerHTML = evidence(id);
@@ -862,7 +908,15 @@ document.addEventListener("click", (e) => {
   const b = e.target.closest("button[data-action]");
   if (!b || b.disabled) return;
   const a = b.dataset.action;
-  if (a === "home" || a === "saved") go(a);
+  if (a === "delete-report") {
+    const run = state.runs.find((r) => r.id === b.dataset.id);
+    if (!run) return;
+    openDialog(
+      "Delete saved report?",
+      `<p>${esc(run.address)}</p><p class="caption">This removes the saved report and its sources from this app. Original imported files, if any, remain unchanged.</p><p id="delete-error" class="error" role="alert"></p><div class="actions">${btn("Cancel", "close-dialog", "secondary")}${btn("Delete report", "confirm-delete", "primary", `data-id="${esc(run.id)}"`)}</div>`,
+    );
+  } else if (a === "confirm-delete") deleteReport(b.dataset.id, b);
+  else if (a === "home" || a === "saved") go(a);
   else if (a === "start") go(running() ? `progress/${running().id}` : "entry");
   else if (a === "new") newSearch();
   else if (a === "reset-confirm") {
@@ -924,6 +978,7 @@ document.addEventListener("click", (e) => {
     go("entry");
   } else if (a === "report-nav") {
     state.nav = b.dataset.nav;
+    state.mapCategory = "all";
     state.selected = null;
     render();
     main
@@ -931,6 +986,7 @@ document.addEventListener("click", (e) => {
       ?.focus({ preventScroll: true });
   } else if (a === "filter") {
     state.filter = b.dataset.filter;
+    state.mapCategory = "all";
     state.selected = null;
     render();
     main
@@ -939,10 +995,16 @@ document.addEventListener("click", (e) => {
   } else if (a === "map-category") {
     state.mapCategory = b.dataset.category;
     document.getElementById("spatial-overview").innerHTML = spatialOverview();
-    (
+    const trigger =
       document.querySelector(`[data-category="${state.mapCategory}"]`) ||
-      document.querySelector("[data-category]")
-    )?.focus({ preventScroll: true });
+      document.querySelector("[data-category]");
+    const category = mappedCategories().find((c) => c.id === state.mapCategory);
+    state.selected = category?.evidenceId || null;
+    const pane = document.getElementById("inspector");
+    pane.innerHTML = evidence(state.selected);
+    pane.scrollTop = 0;
+    returnFocus = trigger;
+    trigger?.focus({ preventScroll: true });
   } else if (a === "evidence") openEvidence(b.dataset.id, b);
   else if (a === "review-gap") {
     state.nav = "Unresolved";
@@ -954,10 +1016,14 @@ document.addEventListener("click", (e) => {
       return;
     }
     state.selected = null;
+    state.mapCategory = "all";
+    if (document.getElementById("spatial-overview"))
+      document.getElementById("spatial-overview").innerHTML = spatialOverview();
     document.getElementById("inspector").innerHTML = evidence(null);
-    document
-      .querySelectorAll(".finding")
-      .forEach((x) => x.classList.remove("selected"));
+    document.querySelectorAll(".finding").forEach((x) => {
+      x.classList.remove("selected");
+      x.querySelector(".finding-select")?.setAttribute("aria-pressed", "false");
+    });
     if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
   } else if (a === "close-dialog") closeDialog();
   else if (a === "clear-search") {

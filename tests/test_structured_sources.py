@@ -80,12 +80,18 @@ class PublicAPIs:
             }
         ]
         self.total_override = None
+        self.address_points = []
+        self.parcel_features = []
 
     def __call__(self, request):
         self.requests.append(request)
         path, params = request.url.path, request.url.params
         if self.fail_provider and self.fail_provider in str(request.url):
             return httpx.Response(503, text="upstream unavailable")
+        if "AC_AddressPointsWithLabels" in path:
+            return httpx.Response(200, json={"features": self.address_points})
+        if "/Parcels/" in path:
+            return httpx.Response(200, json={"features": self.parcel_features})
         if "geocoder" in path:
             loc = self.location
             match = {
@@ -224,13 +230,15 @@ async def test_ambiguous_geocode_blocks_dependent_requests():
     assert ctx.counts["api"] == len(apis.requests) == 1
 
 
-async def test_shared_address_parcels_are_not_arbitrarily_selected():
+async def test_shared_address_parcels_use_documented_stable_fallback():
     apis = PublicAPIs()
     apis.assessments.append({**apis.assessments[0], "PARID": "DIFFERENT"})
     result, _ = await fetch(apis)
-    assert next(c for c in result.coverage if c.topic == "property_assessment").status == "blocked"
-    assert next(c for c in result.coverage if c.topic == "building_permits").status == "blocked"
-    assert not any(e.provider in {"wprdc_assessments", "wprdc_permits"} for e in result.evidence)
+    assert next(c for c in result.coverage if c.topic == "property_assessment").status == "complete"
+    assert next(c for c in result.coverage if c.topic == "building_permits").status == "complete"
+    assessment = next(e for e in result.evidence if e.provider == "wprdc_assessments")
+    assert assessment.details["parcel_resolution"]["uncertain"]
+    assert assessment.match_method == "stable_parcel_id_fallback"
     assert any(e.provider == "fema_nfhl" for e in result.evidence)
 
 
@@ -735,16 +743,17 @@ async def test_no_match_gives_an_actionable_address_error():
     assert "ZIP code" in result.coverage[0].reason
 
 
-async def test_ambiguous_parcels_return_candidates_without_attaching_evidence():
+async def test_ambiguous_parcels_retain_alternatives_and_continue_permits():
     apis = PublicAPIs()
     apis.assessments.append({**apis.assessments[0], "PARID": "SECOND", "USEDESC": "COUNTY GOVERNMENT"})
     result, _ = await fetch(apis)
     assessment = next(c for c in result.coverage if c.topic == "property_assessment")
-    assert assessment.status == "blocked"
-    assert {candidate.parcel_id for candidate in assessment.parcel_candidates} == {"0002J00002000000", "SECOND"}
-    assert not any(e.provider == "wprdc_assessments" for e in result.evidence)
-    assert not any(r.url.params.get("id") == "pli-permits" for r in apis.requests)
-    assert all("OWNER" not in c.model_dump_json() for c in assessment.parcel_candidates)
+    assert assessment.status == "complete"
+    evidence = next(e for e in result.evidence if e.provider == "wprdc_assessments")
+    candidates = evidence.details["parcel_resolution"]["candidates"]
+    assert {c["parcel_id"] for c in candidates} == {"0002J00002000000", "SECOND"}
+    assert any(r.url.params.get("id") == "pli-permits" for r in apis.requests)
+    assert all("OWNER" not in str(c) for c in candidates)
 
 
 @pytest.mark.parametrize("parcel_id,expected", [("0002J00002000000", "complete"), ("UNRELATED", "blocked")])

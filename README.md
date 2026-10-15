@@ -128,7 +128,7 @@ Every live `research` run includes these sources, with or without `--web`:
 | Source | What is included | Setup |
 | --- | --- | --- |
 | Census Geocoder | Normalized address, interpolated coordinates, county and municipal geography | None |
-| Allegheny County assessments / WPRDC | Unique parcel match, recorded building attributes, assessed values and sale fields | None |
+| Allegheny County assessments / WPRDC | Automatically resolved parcel, recorded building attributes, assessed values and sale fields | None |
 | Pittsburgh PLI / WPRDC | Up to 50 latest permits on the uniquely matched parcel, including Building & Development Applications | None |
 | FEMA NFHL | Flood-zone intersection and map-panel effective dates at the interpolated address point | None |
 | OpenStreetMap / Overpass | Four concise area summaries: schools, grocery stores, transit stops and pharmacies within a 1 km query | None |
@@ -141,9 +141,14 @@ omissions or planning errors cannot suppress it.
 
 WPRDC resource IDs are resolved from current catalog entries on every run. County
 and city boundaries come from Census geographic identifiers, not postal city names.
-Assessment matching requires a unique exact house number/street/ZIP with no unit
-or fraction; ambiguous parcels are blocked rather than chosen. PLI lookup requires
-that parcel, starts with the feed's June 2019 coverage, and excludes plumbing.
+Assessment matching starts with exact house number/street/ZIP candidates without
+units or fractions. Multiple parcel IDs are ranked using county address-point
+parcel links and intersecting parcel boundaries. Ties or unavailable GIS use a
+stable normalized parcel-ID fallback, explicitly labeled as uncertain. Candidate
+IDs, GIS checks and the selection reason are retained with the assessment and
+permits. At most two additional GIS calls are made, preserving the downstream
+research budget. No candidate still means no parcel can be selected. PLI lookup uses
+the selected parcel, starts with the feed's June 2019 coverage, and excludes plumbing.
 Closures search the matched street only, not every nearby street; missing end dates
 and active flags remain uncertain. No returned records is not proof of absence.
 

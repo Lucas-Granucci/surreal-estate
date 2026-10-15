@@ -1878,3 +1878,199 @@ select:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
+
+/* Keep the full coordinate plot beside the selected category's useful details. */
+.filters {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+.spatial-card {
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  width: 100%;
+  align-items: start;
+  background: var(--surface);
+}
+.spatial-plot {
+  background: var(--raised);
+}
+.map-context {
+  min-width: 0;
+  border-left: 1px solid var(--border);
+}
+.map-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-left: 0;
+}
+.legend-row {
+  height: auto;
+  min-height: 56px;
+  padding: 10px;
+}
+.legend-row:nth-child(odd) {
+  border-right: 1px solid var(--border);
+}
+.legend-inner {
+  grid-template-columns: 10px auto 1fr;
+  gap: 7px;
+}
+.legend-inner strong {
+  font-size: 18px;
+}
+.legend-inner > span:last-child {
+  font-size: 12px;
+}
+.map-reset {
+  grid-column: 1 / -1;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 0;
+}
+.map-summary {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.map-summary h3 {
+  font-size: 17px;
+}
+.map-summary p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.map-summary .caption {
+  font-size: 12px;
+}
+.map-summary .link-button {
+  font-size: 13px;
+}
+@media (min-width: 1121px) and (max-width: 1300px) {
+  .spatial-card {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .spatial-card {
+    grid-template-columns: 1fr;
+  }
+  .spatial-plot {
+    width: 100%;
+    max-width: 320px;
+    margin: auto;
+  }
+  .map-context {
+    border-left: 0;
+  }
+  .map-legend {
+    min-height: 0;
+  }
+}
+
+/* Stable report geometry and a single, keyboard-accessible target per finding. */
+html {
+  scrollbar-gutter: stable;
+}
+.spatial-plot {
+  width: 100%;
+  max-width: 420px;
+}
+.map-label {
+  font-size: 16px;
+}
+.map-context {
+  align-self: stretch;
+}
+.map-summary {
+  padding: 12px 14px;
+}
+.map-summary p:first-child {
+  margin-top: 0;
+}
+.map-reset {
+  visibility: visible;
+}
+.finding {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  cursor: pointer;
+}
+.finding:hover {
+  background: var(--hover);
+}
+.finding.selected {
+  background: var(--selected);
+}
+.finding .finding-select {
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+}
+.finding-select::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.finding .finding-select:active {
+  transform: none;
+}
+.finding .finding-select:focus-visible {
+  outline: none;
+}
+.finding:has(.finding-select:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+.finding details {
+  position: relative;
+  z-index: 1;
+  cursor: auto;
+}
+.finding-chevron {
+  width: 20px;
+  height: 20px;
+  align-self: start;
+  margin-top: 2px;
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.finding.selected .finding-chevron {
+  stroke: var(--text);
+}
+@media (min-width: 1121px) {
+  .map-evidence {
+    display: none;
+  }
+}
+@media (max-width: 720px) {
+  .spatial-plot {
+    max-width: 320px;
+  }
+}
+.report-shell button:active:not(:disabled) {
+  transform: none;
+}
+
+.saved-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.delete-report {
+  color: var(--error);
+}
+@media (max-width: 720px) {
+  .saved-actions {
+    flex-wrap: wrap;
+  }
+}

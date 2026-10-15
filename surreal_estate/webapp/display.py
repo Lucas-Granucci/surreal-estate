@@ -95,6 +95,8 @@ def bench_response(payload):
                 texts = [f"{len(sources)} returned street-closure permit segments."]
         if topic.startswith("flood"):
             qualifier = "Public records · estimated street point, not a building determination"
+        if any(evidence[i].get("details", {}).get("parcel_resolution", {}).get("uncertain") for i in sources):
+            qualifier += " · Automatically selected parcel; uncertain match"
         if not texts:
             texts = list(dict.fromkeys(c["reason"] for c in status))
             if any(c["status"] == "error" for c in status):
