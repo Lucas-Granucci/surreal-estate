@@ -49,7 +49,33 @@ paragraph ends and an evidence action for original cited passages. The inspector
 groups passages from the same source. Writer failures retain extraction notes and
 sources, with an explicit limitation; older reports do not trigger paid rewriting.
 
-Web research is a dedicated sidebar destination. Findings has compact topic previews
-with a first-sentence excerpt, coverage status and a direct Read brief action. It has
-no Web research filter, and web topics are excluded from the adjacent records status
-table to avoid duplicate entries. Older reports link to available research notes.
+Local intelligence is the product name for agentic web research. Findings has four
+views: Location overview (the default, with mapped places), Local intelligence
+(topic previews with direct Read brief links), Property & street records (assessment,
+building permits and street permits together), and Report coverage (status and gaps
+for every channel, including Local intelligence). Full briefs remain in the dedicated
+Local intelligence sidebar reader. Topic previews derive from returned topic data,
+so additional topics need no new overview layout. Older reports link to available
+research notes; unselected research shows an explicit empty state.
+
+Flood-map context and panel channels are retired and excluded from the app, including
+old report projections. The location overview shows the original retrieval date for
+cached maps; a failed refresh using older saved data has an explicit notice. Map
+caches normally reuse data for 24 hours and allow a dated outage fallback for seven days.
+
+Brief paragraphs use the same full-surface evidence interaction as findings, with a
+chevron, hover/focus background and one introductory source hint. Inline citations
+remain independent links. Repeated synthesis/review disclaimers and per-paragraph
+text buttons are omitted. Collapsed navigation items expose the same styled tooltip
+as the expand control, on hover and keyboard focus. A successful capped public-record
+search is described as limited coverage in the report banner.
+
+Map attribution sits at the bottom right of the category panel. Routine cache dates
+are disclosed with the mapped locations; stale outage notices stay visible. The
+redundant map caption is omitted. Navigation has its own stacking layer above report
+content, and paragraph overlay controls stay transparent in every pointer state.
+
+Research scope is a concise address/date/research summary with export and rerun actions;
+coverage detail lives in Report coverage. Public-facing section labels normalize saved
+Web research to Local intelligence. Property & street records has a matching in-page
+heading. Local intelligence uses a compass icon, distinct from Findings and Sources.

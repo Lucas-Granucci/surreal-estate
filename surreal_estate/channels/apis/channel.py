@@ -4,7 +4,7 @@ import httpx
 
 from surreal_estate.channels.apis.census import CensusGeocoder
 from surreal_estate.channels.apis.common import coverage, merge
-from surreal_estate.channels.apis.spatial import FEMA, OpenStreetMap
+from surreal_estate.channels.apis.spatial import OpenStreetMap
 from surreal_estate.channels.apis.wprdc import Assessments, Closures, Permits
 from surreal_estate.errors import failure_reason
 from surreal_estate.models import ChannelResult, ResearchPlan
@@ -49,6 +49,8 @@ class StructuredDataChannel:
                 status = (
                     "blocked"
                     if isinstance(exc, PolicyDenied)
+                    else "unavailable"
+                    if isinstance(exc, httpx.ConnectError)
                     else "truncated"
                     if isinstance(exc, (TimeoutError, BudgetExceeded))
                     else "error"
@@ -70,12 +72,12 @@ class StructuredDataChannel:
         census = CensusGeocoder(self.http)
         census_result = await attempt(census)
         location = census.location if census_result.evidence else None
+        ctx.geocoded_location = location
+        # Give the map its own early opportunity, before dependent parcel lookups.
+        await attempt(OpenStreetMap(self.http), location)
         assessment = Assessments(self.http)
         assessment_result = await attempt(assessment, location)
         parcel = assessment.parcel if assessment_result.evidence else None
         await attempt(Permits(self.http), location, parcel, assessment.resolution)
-        await attempt(FEMA(self.http), location)
-        await attempt(FEMA(self.http, panels=True), location)
-        await attempt(OpenStreetMap(self.http), location)
         await attempt(Closures(self.http), location)
         return self.partial_result

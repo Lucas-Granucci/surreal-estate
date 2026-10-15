@@ -1,4 +1,5 @@
 import json
+from urllib.parse import parse_qs
 
 import httpx
 import pytest
@@ -149,26 +150,12 @@ class PublicAPIs:
                     },
                 },
             )
-        if "/MapServer/" in path:
-            assert params["geometry"] == "-79.996,40.438" and params["inSR"] == "4326"
-            attrs = (
-                {
-                    "OBJECTID": 1,
-                    "DFIRM_ID": "42003C",
-                    "FLD_AR_ID": "A1",
-                    "FLD_ZONE": "X",
-                    "SFHA_TF": "F",
-                }
-                if "/28/" in path
-                else {"OBJECTID": 2, "FIRM_PAN": "42003C0001", "EFF_DATE": 1415836800000}
-            )
-            return httpx.Response(200, json={"features": [{"attributes": attrs}]})
         if path.endswith("interpreter"):
             assert request.method == "POST"
-            assert request.url.host == "overpass-api.de"
-            assert request.headers["content-type"] == "text/plain; charset=utf-8"
+            assert request.url.host in {"overpass-api.de", "overpass.private.coffee"}
+            assert request.headers["content-type"] == "application/x-www-form-urlencoded"
             assert "github.com/Lucas-Granucci/surreal-estate" in request.headers["user-agent"]
-            query = request.content.decode()
+            query = parse_qs(request.content.decode())["data"][0]
             assert query.startswith("[out:json]") and "out body center 51;" in query
             assert "data=" not in query and "%5B" not in query
             assert "around:1000,40.438,-79.996" in query and "51" in query
@@ -201,10 +188,10 @@ async def fetch(apis, budget=None):
 async def test_default_sources_return_provenance_and_survive_export():
     apis = PublicAPIs()
     result, ctx = await fetch(apis)
-    assert len(result.coverage) == 7
+    assert len(result.coverage) == 5
     assert all(c.status == "complete" for c in result.coverage)
-    assert ctx.counts["api"] == 10 == sum(c.queries_run for c in result.coverage)
-    assert len(result.evidence) == 10
+    assert ctx.counts["api"] == 8 == sum(c.queries_run for c in result.coverage)
+    assert len(result.evidence) == 8
     assessment = next(e for e in result.evidence if e.provider == "wprdc_assessments")
     assert "year built" not in assessment.excerpt
     assert assessment.details["record"]["YEARBLT"] is None
@@ -225,7 +212,7 @@ async def test_ambiguous_geocode_blocks_dependent_requests():
     apis.ambiguous = True
     result, ctx = await fetch(apis)
     assert not result.evidence
-    assert len(result.coverage) == 7
+    assert len(result.coverage) == 5
     assert all(c.status == "blocked" for c in result.coverage)
     assert ctx.counts["api"] == len(apis.requests) == 1
 
@@ -239,7 +226,7 @@ async def test_shared_address_parcels_use_documented_stable_fallback():
     assessment = next(e for e in result.evidence if e.provider == "wprdc_assessments")
     assert assessment.details["parcel_resolution"]["uncertain"]
     assert assessment.match_method == "stable_parcel_id_fallback"
-    assert any(e.provider == "fema_nfhl" for e in result.evidence)
+    assert not any(e.provider == "fema_nfhl" for e in result.evidence)
 
 
 async def test_postal_city_does_not_enable_city_sources_outside_jurisdiction():
@@ -259,9 +246,9 @@ async def test_postal_city_does_not_enable_city_sources_outside_jurisdiction():
 
 async def test_failure_does_not_erase_completed_sources_or_skip_later_sources():
     apis = PublicAPIs()
-    apis.fail_provider = "hazards.fema.gov"
+    apis.fail_provider = "id=pli-permits"
     result, _ = await fetch(apis)
-    assert all(c.status == "error" for c in result.coverage if c.provider == "fema_nfhl")
+    assert all(c.status == "error" for c in result.coverage if c.provider == "wprdc_permits")
     assert any(e.provider == "wprdc_assessments" for e in result.evidence)
     assert any(e.provider == "openstreetmap" for e in result.evidence)
     assert any(e.provider == "wprdc_closures" for e in result.evidence)
@@ -271,9 +258,9 @@ async def test_budget_exhaustion_retains_data_and_marks_every_remaining_provider
     apis = PublicAPIs()
     result, ctx = await fetch(apis, Budget(max_api_calls=3))
     assert ctx.counts["api"] == len(apis.requests) == 3
-    assert len(result.evidence) == 2
-    assert len(result.coverage) == 7
-    assert all(c.status == "truncated" for c in result.coverage[2:])
+    assert {e.provider for e in result.evidence} == {"census", "openstreetmap"}
+    assert len(result.coverage) == 5
+    assert all(c.status in {"truncated", "blocked"} for c in result.coverage[2:])
 
 
 async def test_partial_overpass_response_is_not_treated_as_complete():
@@ -326,7 +313,7 @@ async def test_default_data_runs_without_llm_and_despite_web_planning_failure():
         apis = PublicAPIs()
         async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
             outcome = await run(fixture_case(), RunContext(), planner, StructuredDataChannel(http))
-        assert len(outcome.report.result.evidence) == 10
+        assert len(outcome.report.result.evidence) == 8
         html = render_dashboard(build_frontend_response(outcome))
         assert "OpenStreetMap contributors" in html and "2026-10-09" in html
         assert "recorded observations" in html and "Record details &amp; provenance" in html
@@ -344,7 +331,7 @@ async def test_model_cannot_omit_baseline_sources_or_cause_duplicate_calls():
             fixture_case(), RunContext(), WebOnlyPlanner(), StructuredDataChannel(http)
         )
     assert outcome.report.plan.channels == ["apis", "listing"]
-    assert len(apis.requests) == 10
+    assert len(apis.requests) == 8
 
 
 async def test_provider_endpoint_policy_blocks_dispatch():
@@ -403,20 +390,6 @@ async def test_result_caps_are_reported_instead_of_claiming_completeness():
     assert permits.coverage[0].status == closures.coverage[0].status == "truncated"
 
 
-async def test_fema_http_200_error_and_empty_features_are_distinct():
-    from surreal_estate.channels.apis.spatial import FEMA
-
-    for payload, raises in [({"error": {"code": 500}}, True), ({"features": []}, False)]:
-        async with httpx.AsyncClient(
-            transport=httpx.MockTransport(lambda r: httpx.Response(200, json=payload))
-        ) as http:
-            if raises:
-                with pytest.raises(ValueError, match="FEMA"):
-                    await FEMA(http).fetch(fixture_case(), RunContext(), matched_location())
-            else:
-                result = await FEMA(http).fetch(fixture_case(), RunContext(), matched_location())
-                assert result.coverage[0].status == "empty" and not result.observations
-                assert "not a finding of no flood risk" in result.coverage[0].reason
 
 
 async def test_oversized_public_response_is_rejected():
@@ -467,9 +440,10 @@ async def test_global_timeout_keeps_completed_baseline_records():
 
 async def test_cli_selects_default_channel_without_instantiating_models(monkeypatch):
     from argparse import Namespace
+
     from surreal_estate import cli
-    from surreal_estate.orchestrator.runner import RunOutcome
     from surreal_estate.models import ChannelResult
+    from surreal_estate.orchestrator.runner import RunOutcome
 
     seen = []
 
@@ -482,7 +456,7 @@ async def test_cli_selects_default_channel_without_instantiating_models(monkeypa
 
     monkeypatch.setattr(cli, "run", fake_run)
     monkeypatch.setattr(cli, "NemotronClient", forbidden)
-    monkeypatch.setattr(cli, "GroundedSearchClient", forbidden)
+    monkeypatch.setattr(cli, "GeminiBriefWriter", forbidden)
     await cli.execute(
         Namespace(
             command="research",
@@ -497,7 +471,7 @@ async def test_cli_selects_default_channel_without_instantiating_models(monkeypa
     assert isinstance(seen[0][1], StructuredDataChannel)
 
 
-async def test_overpass_raw_post_has_queue_time_and_preserves_way_centers():
+async def test_overpass_form_post_has_queue_time_and_preserves_way_centers():
     from surreal_estate.channels.apis.spatial import OVERPASS_ENDPOINT, OpenStreetMap
 
     requests = []
@@ -506,8 +480,8 @@ async def test_overpass_raw_post_has_queue_time_and_preserves_way_centers():
         requests.append(request)
         assert str(request.url) == OVERPASS_ENDPOINT
         assert request.method == "POST"
-        assert request.content.startswith(b"[out:json][timeout:10]")
-        assert request.headers["content-type"] == "text/plain; charset=utf-8"
+        assert parse_qs(request.content.decode())["data"][0].startswith("[out:json][timeout:10]")
+        assert request.headers["content-type"] == "application/x-www-form-urlencoded"
         assert "github.com/Lucas-Granucci/surreal-estate" in request.headers["user-agent"]
         assert request.extensions["timeout"]["read"] == 35
         return httpx.Response(
@@ -602,7 +576,7 @@ async def test_amenity_summary_categories_and_independent_caps():
     ]
 
     def response(request):
-        query = request.content.decode()
+        query = parse_qs(request.content.decode())["data"][0]
         for category in ("schools", "groceries", "transit", "pharmacies"):
             assert f")->.{category};.{category} out body center 51;" in query
         assert all(word not in query for word in ("restaurant", "cafe", "park", "clinic"))
@@ -653,6 +627,7 @@ async def test_duplicate_stop_tags_count_once_and_excluded_places_are_ignored():
 
 async def test_supporting_place_names_stay_inside_closed_dashboard_details():
     from html.parser import HTMLParser
+
     from surreal_estate.orchestrator.runner import RunOutcome
     from surreal_estate.synthesis.dossier import synthesize
 
@@ -727,7 +702,7 @@ async def test_street_only_address_unlocks_dependent_providers():
     async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
         result = await StructuredDataChannel(http).run(case, RunContext())
     assert all(c.status == "complete" for c in result.coverage)
-    assert len(apis.requests) == 10
+    assert len(apis.requests) == 8
     census = next(e for e in result.evidence if e.provider == "census")
     assert census.details["submitted_address"] == "414 Grant Street, Pittsburgh, Pennsylvania"
     assert case.address == "414 Grant Street"
@@ -775,20 +750,6 @@ async def test_explicit_parcel_choice_is_validated_before_permits(parcel_id, exp
         assert not any(e.provider == "wprdc_assessments" for e in result.evidence)
 
 
-async def test_fema_connection_diagnostic_names_fema_not_ollama_or_exception_text():
-    apis = PublicAPIs()
-    def transport(request):
-        if request.url.host == "hazards.fema.gov":
-            raise httpx.ConnectError("SECRET provider response", request=request)
-        return apis(request)
-    async with httpx.AsyncClient(transport=httpx.MockTransport(transport)) as http:
-        result = await StructuredDataChannel(http).run(fixture_case(), RunContext())
-    for item in result.coverage:
-        if item.provider == "fema_nfhl":
-            assert item.status == "error" and "FEMA (hazards.fema.gov)" in item.reason
-            assert "before an HTTP response" in item.reason
-            assert "Ollama" not in item.reason and "SECRET" not in item.reason
-    assert next(c for c in result.coverage if c.topic == "mapped_amenities").status == "complete"
 
 
 async def test_closure_work_description_reaches_observations():
@@ -798,3 +759,111 @@ async def test_closure_work_description_reaches_observations():
         result = await Closures(http).fetch(fixture_case(), RunContext(), matched_location())
     assert 'DLCO DOING HPFF MANHOLE INSPECTIONS MH 3514' in result.observations[0].statement
     assert 'Permit records do not confirm work is underway' in result.observations[0].statement
+
+
+async def test_transient_gateway_failure_retries_with_budget_accounting():
+    calls = []
+    def handle(request):
+        calls.append(request)
+        return httpx.Response(502) if len(calls) == 1 else httpx.Response(200, json={'ok': True})
+    ctx = RunContext()
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handle)) as http:
+        data, _ = await public_json(http, ctx, 'wprdc_assessments',
+            'https://data.wprdc.org/api/3/action/package_show')
+    assert data == {'ok': True}
+    assert ctx.counts['api'] == 2
+
+
+async def test_overpass_mirror_recovers_and_shared_cache_avoids_new_requests():
+    from surreal_estate.channels.apis.spatial import OpenStreetMap
+    apis = PublicAPIs()
+    calls = []
+    def handle(request):
+        calls.append(request)
+        if request.url.host == 'overpass-api.de':
+            return httpx.Response(502)
+        return apis(request)
+    shared = {}
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handle)) as http:
+        first = await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache=shared), matched_location())
+        cached_ctx = RunContext(public_cache=shared)
+        second = await OpenStreetMap(http).fetch(fixture_case(), cached_ctx, matched_location())
+    assert len(calls) == 3
+    assert len(first.evidence) == len(second.evidence) == 4
+    assert all(e.details['query_endpoint'].startswith('https://overpass.private.coffee') for e in first.evidence)
+    assert all(e.details['cached_response_retrieved_at'] for e in second.evidence)
+    assert not cached_ctx.counts
+
+
+async def test_successful_map_cache_survives_new_context(tmp_path):
+    from surreal_estate.channels.apis.spatial import OpenStreetMap
+    apis = PublicAPIs()
+    async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
+        await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    async with httpx.AsyncClient(transport=httpx.MockTransport(lambda r: pytest.fail('cached map should avoid network'))) as http:
+        result = await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    assert len(result.evidence) == 4
+    assert all(e.details['cached_response_retrieved_at'] for e in result.evidence)
+
+
+async def test_map_survives_provider_outage_with_dated_stale_cache(tmp_path):
+    from datetime import UTC, datetime, timedelta
+
+    from surreal_estate.channels.apis.spatial import OpenStreetMap
+    apis = PublicAPIs()
+    async with httpx.AsyncClient(transport=httpx.MockTransport(apis)) as http:
+        first = await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    cache = next(tmp_path.glob('*.json'))
+    stored = json.loads(cache.read_text())
+    stored['retrieved_at'] = (datetime.now(UTC) - timedelta(days=2)).isoformat()
+    cache.write_text(json.dumps(stored))
+    requests = []
+    def fail(request):
+        requests.append(request)
+        return httpx.Response(500)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(fail)) as http:
+        result = await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    assert len(result.evidence) == len(first.evidence) == 4
+    assert result.coverage[0].status == 'truncated'
+    assert 'Live map refresh failed' in result.coverage[0].reason
+    assert len(requests) == 2
+    assert all(e.details['cache_stale'] for e in result.evidence)
+    assert all(e.retrieved_at.isoformat() == stored['retrieved_at'] for e in result.evidence)
+
+
+async def test_retired_fema_is_never_contacted():
+    apis = PublicAPIs()
+    result, _ = await fetch(apis)
+    assert not any(c.provider == 'fema_nfhl' for c in result.coverage)
+    assert not any(r.url.host == 'hazards.fema.gov' for r in apis.requests)
+
+
+async def test_hour_old_map_survives_outage_without_network(tmp_path):
+    from datetime import UTC, datetime, timedelta
+
+    from surreal_estate.channels.apis.spatial import OpenStreetMap
+    async with httpx.AsyncClient(transport=httpx.MockTransport(PublicAPIs())) as http:
+        await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    cache = next(tmp_path.glob('*.json'))
+    data = json.loads(cache.read_text())
+    data['retrieved_at'] = (datetime.now(UTC) - timedelta(hours=1)).isoformat()
+    cache.write_text(json.dumps(data))
+    async with httpx.AsyncClient(transport=httpx.MockTransport(lambda r: pytest.fail('hour-old data should survive the former 15-minute expiry'))) as http:
+        result = await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    assert len(result.evidence) == 4
+    assert not any(e.details['cache_stale'] for e in result.evidence)
+
+
+async def test_week_old_map_is_not_silently_reused(tmp_path):
+    from datetime import UTC, datetime, timedelta
+
+    from surreal_estate.channels.apis.spatial import OpenStreetMap
+    async with httpx.AsyncClient(transport=httpx.MockTransport(PublicAPIs())) as http:
+        await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())
+    cache = next(tmp_path.glob('*.json'))
+    data = json.loads(cache.read_text())
+    data['retrieved_at'] = (datetime.now(UTC) - timedelta(days=8)).isoformat()
+    cache.write_text(json.dumps(data))
+    async with httpx.AsyncClient(transport=httpx.MockTransport(lambda r: httpx.Response(500))) as http:
+        with pytest.raises(httpx.HTTPStatusError):
+            await OpenStreetMap(http).fetch(fixture_case(), RunContext(public_cache_dir=str(tmp_path)), matched_location())

@@ -1,11 +1,11 @@
-"""Read-only Gemini model discovery. No generation or grounded-content logging."""
+"""Read-only Gemini model discovery. No generation or content logging."""
 
 import re
 
-from surreal_estate.llm.gemini import GroundedSearchClient
+from surreal_estate.llm.brief import GeminiBriefWriter
 
 
-async def inspect_models(client: GroundedSearchClient) -> tuple[bool, list[str]]:
+async def inspect_models(client: GeminiBriefWriter) -> tuple[bool, list[str]]:
     available = set()
     page_token = None
     seen = set()

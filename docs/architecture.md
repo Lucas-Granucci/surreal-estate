@@ -1,230 +1,69 @@
-# Architecture and decisions
+# Architecture
 
-## Downstream handoff
+SurrealEstate combines fixed public-data adapters with bounded web research.
+Public sources run independently of the model planner. Completed evidence remains
+available when another provider fails.
 
-CLI development runs now save `DevelopmentSnapshot` JSON under
-`exports/<run-id>.json` before opening the viewer, including original/re-check
-web responses, source metadata and supports. This is a local display-debugging
-copy, explicitly labeled `development_debug` / `development_file`, separate from
-durable evidence exports and SQLite. Files persist until manually deleted;
-`exports/` is Git-ignored and `--no-save-json` disables saving.
-An explicit `--export PATH` saves the same full snapshot at that path, replacing
-its previous contents. `--durable-export PATH` selects the filtered contract.
-The viewer includes an escaped, indented full JSON section and pretty-prints its
-JSON endpoint and Nemotron's JSON responses. Debug request and
-response payloads are excluded. Viewer model text is rendered with markdown-it-py,
-with raw HTML disabled, unsafe URL schemes rejected and remote images suppressed;
-the provider text stored in the JSON is unchanged.
+## Execution
 
-For same-application user viewing, `synthesis/frontend.py` builds a separate
-`FrontendResponse`: the main report plus original/re-check web responses, all
-source chunks, support mappings and Search Suggestions. The token-protected
-viewer exposes it at `/<token>/result.json` with no-store headers. A frontend can
-acknowledge completion with `POST /<token>/release`; this clears the display
-buffers and ends the viewer, which also expires after 15 minutes. The frontend
-contract is documented in [frontend-response.md](frontend-response.md).
+1. Reuse the user's confirmed Census match, or perform a bounded Census lookup.
+2. Fetch mapped surroundings, then county assessments, parcel resolution, permits
+   and same-street closures. Flood-map adapters are removed.
+3. Validate the local Nemotron plan against selected channels, topics and geography.
+4. Resolve the Pittsburgh neighborhood from the confirmed point when available.
+5. Tavily retrieves sources for neighborhood/street-aware discovery queries.
+6. Nemotron extracts notes with exact passage references and optionally requests a
+   targeted check. Unrelated discussion results and unsupported findings are omitted.
+7. Gemini writes a cited thematic brief from supplied material without search tools.
+8. Validate provenance, assemble the report, and save the display snapshot.
 
-The optional durable step is `--durable-export PATH`: a versioned `ResearchExport` JSON
-bundle, written before the dashboard starts. `store/export.py` and SQLite share
-`durable_report()` as their retention boundary. The export carries the property
-case, plan, durable observations and evidence, rebuilt claims, coverage, and demo
-marker. Consumers resolve claim IDs to observation/evidence IDs and retain source
-qualifiers and flags. `omissions` explicitly identifies excluded web topics and
-evidence/observation counts. The Pydantic model exposes a JSON Schema.
+Tavily is the only live search provider. The old Gemini grounded-search client and
+same-provider grounded re-check agent are deleted. Historical saved web response
+models/rendering remain for read-only compatibility. Synthetic search fixtures
+support fully offline evaluation and never imply live evidence.
 
-Live Google-grounded content and debug payloads never enter the durable handoff. Thus
-the current web channel cannot supply downstream tour-script inputs; it remains
-a separate transient display. Filling that gap requires a source/permission
-model allowing downstream processing, not a change to serialization alone.
+## Source boundaries
 
-## Current scope
+Provider policy defines extraction, retention and approved public-data hosts.
+Tavily evidence contains returned passages/page content and original URLs. Structured
+adapters restrict fields and geography and retain provider attribution. No arbitrary
+model-generated URL becomes a backend fetch target. Local Ollama must use loopback.
 
-One Python package, asyncio, Pydantic contracts, httpx clients and SQLAlchemy/SQLite.
-Pittsburgh, Pennsylvania is the first geography. Local Ollama runs
-`nemotron-3-nano:4b`; Gemini `gemini-3.8-flash` provides Google Search grounding.
-The CLI and temporary loopback dashboard are the entry points. There is no agent
-framework, crawler, public deployment or separate agent service. Audience is still
-pending; use remains local research.
+Gemini writing receives bounded, policy-approved evidence and unverified local
+notes. It returns structured paragraphs with source references. The backend attaches
+original excerpts, rejects unknown refs and incomplete responses, and permits one
+format-repair attempt. Source support is not independent factual verification.
 
-## Data flow
+## Resilience and budgets
 
-```mermaid
-flowchart TD
-    C[PropertyCase and priorities] --> A[Default structured APIs]
-    A --> P[Optional local Nemotron web planner]
-    P --> G[Policy gate: scope, dates, budgets]
-    G --> R[Sequential channel runner]
-    R --> B[Channel B: explicit not implemented]
-    R --> W[Channel C: neighborhood or restaurant query]
-    W --> GS[Gemini search]
-    GS --> D[Original answer + links + Search Suggestions]
-    C --> FC[Separate local Nemotron fact-check planner]
-    W --> FC
-    FC --> FG[Fact-check policy gate]
-    FG --> GC[Gemini claim re-check with Google Search]
-    GS -->|Original answer goes directly back to Gemini| GC
-    GC --> CD[Re-check answer + links + Search Suggestions]
-    A --> O[Evidence, observations, coverage]
-    B --> O
-    O --> S[Deterministic synthesis and retention-filtered SQLite]
-    D --> UI[In-memory dashboard and debug inspector]
-    CD --> UI
-```
+A run permits two web topics, six Tavily searches, eight local model calls, four
+Gemini writing attempts including repairs, and 24 public API dispatches. The shared
+deadline is 300 seconds. Every HTTP dispatch consumes its corresponding budget.
+Public responses are capped at 2 MB. Model requests have a 60-second ceiling;
+public requests are normally 12 seconds, with bounded longer windows for Overpass
+and the neighborhood boundary query.
 
-Nemotron has two separate stateless roles, system prompts and structured outputs:
+Transient public gateway/transport failures receive one retry. Overpass can use a
+second approved endpoint. Admission rejection respects the operator's pause.
+Validated map responses are cached in memory and local source-cache files: 24-hour
+normal reuse, with an explicitly dated fallback up to seven days old after refresh
+failure. Expired, incomplete or malformed responses are not represented as new data.
+WPRDC catalog resolution is cached for five minutes. Source outages are coverage
+limitations and never evidence that records or features do not exist.
 
-- **Research planner:** selects channels and emits bounded `ResearchQuerySpec` objects.
-- **Fact-check planner:** emits a `FactCheckPlan` for each displayed live search result.
-  It receives only the property case and approved query, never the grounded answer.
-  Python validates the plan and calls its Gemini re-check tool once.
+## Storage and display
 
-The checker plans location, date, independent-source, contradiction and opinion/fact
-checks. Restaurant research also checks restaurant identity, general vicinity and review
-freshness. It does not require proving the radius or precise dates to retain useful themes. Gemini receives its earlier answer directly and is instructed to
-assess each material claim as corroborated, contradicted, unresolved or opinion,
-with explanations, citations, dates and useful follow-up questions.
+`RunReport.result` holds evidence, observations, coverage and research. Each
+`WebResearch` may contain a `ResearchBrief`, paragraph citations, extraction notes,
+queries, limitations and synthesis status. Evidence IDs must exist in the report.
+SQLite and durable export filter retention and rebuild claims; briefs are omitted
+if their cited evidence cannot be retained. Debug events and credentials are not
+persisted in the report.
 
-Opinions are first-class findings: retain them with attribution and an explicit opinion
-label, without demanding objective truth or independent agreement. Mixed statements
-are split into factual components to check and subjective components to preserve.
-Lack of a precise review date is a limitation, not a reason to discard an opinion.
+The Evidence Bench presents records and a map on Findings, compact web previews,
+and full briefs on the Web research page. Inspectors show original cited passages.
+The bench projection hides retired flood entries in historical snapshots while
+preserving original snapshot files. Cached maps visibly show their retrieval date.
 
-These verdicts are Gemini model assessments. They are not independently verified
-facts, a calibrated confidence score or an automated guarantee of source independence.
-The result remains a readable attributed answer, not parsed verification JSON or a
-new dossier claim. Repeated search results do not establish independent evidence.
-A re-check failure leaves the original search display available.
-
-## Live grounding policy
-
-The [Gemini grounding terms](https://ai.google.dev/gemini-api/terms) restrict downstream
-analysis and permit specified resubmission of a grounded answer to Google to refine
-it. On 2026-10-03 the user selected **Nemotron-planned Gemini re-checks** rather than
-sending grounded text to Nemotron. This is the conservative integration boundary;
-it does not constitute legal clearance for production.
-
-Both displayed answers retain their own source links and Search Suggestions and
-remain transient in the live viewer, with the explicitly enabled local development
-snapshot exception described above. The source policy continues to set `extract: false`
-for `gemini_search`. Neither original nor re-checked content is sent to Nemotron,
-merged into official observations or persisted to SQLite; development snapshots
-save their full display payloads for local debugging.
-Debug response payloads remain transient and are not an export endpoint. Review
-terms, attribution and display behavior before production launch.
-
-Synthetic fixtures retain the original extraction/verifier pipeline for tests. Its
-same-segment text/date/geography checks validate textual support, not factual truth.
-There is no live extracted-evidence provider yet.
-
-## Channel C specialists
-
-`neighborhood_discussion` uses discussion sources, exact case geography and a bounded
-date window. `restaurant_reviews` uses review sources with an exact property-address
-anchor and a default 1,000-meter approximate radius (schema bounds: 100–5,000 meters).
-The research planner is prompted for one query per selected supported topic.
-
-Restaurant prompts use broad semantic Google Search across general reviews, local
-food publications and Google Reviews for up to three restaurants in the immediate
-vicinity of the address. `address_anchor` and `radius_meters` remain in the JSON for
-downstream use; the model is not required to verify an exact radius or numeric
-proximity. The date bounds are recency context, not strict publication-date filters.
-Prefer recent review themes. If snippets lack specific themes, provide an attributed
-general reputation summary based on available search results, labeled as opinion.
-
-There is no `site:yelp.com` operator, Yelp-specific failure clause or Google Places
-API integration. Source links and grounded metadata remain necessary for display;
-no evidence is invented to fill genuine source gaps. Direct page fetching, reviewer
-identification and full review reproduction remain outside this pipeline.
-
-Live CLI defaults to both supported topics. Repeat `--topic` to select a subset.
-The offline demo still uses its fixed synthetic neighborhood fixture.
-
-## Contracts and persistence
-
-The top-of-viewer source inventory derives API providers from returned evidence
-and coverage provider IDs, user-document entries from supplied evidence, and web
-links from actual display grounding chunks. Web links are deduplicated across
-search and re-check while retaining topic/stage labels and cited/uncited status.
-Unknown redirect destinations are not inferred. Proposed sources are documented
-separately in [proposed-sources.md](proposed-sources.md).
-
-Every channel returns `ChannelResult(observations, evidence, coverage)`; evidence
-references must resolve. Census also exposes `fetch(case, ctx)`. Successful live web
-coverage says `complete` with **Search completed · displayed separately**. That status
-means successful retrieval/display, not factual verification. The checker contributes
-its own `fact_checker` coverage row. Empty, blocked, truncated and error outcomes
-remain distinct.
-
-`LiveDisplay` includes topic and stage so original and re-check panels can be followed.
-These displays and `RunOutcome.debug_events` are outside the persisted `RunReport`.
-The SQLite store filters provider retention, rebuilds claims from durable evidence,
-and removes web/fact-check coverage details and trace text. It uses a small JSON
-run envelope; normalized tables and migrations can follow multi-user requirements.
-
-## Budgets, orchestration and failures
-
-Defaults per run: two initial grounded requests, two separately budgeted fact-check
-requests, four local LLM calls, 12 public-data API calls (10 for the full structured path), 2,048 generated tokens per local call and 4,096 per Gemini call, 60 seconds per model request, 12 seconds per public-data request (35 for Overpass admission/execution) and 2 MB per response, and a shared 180-second deadline. The checker usually
-adds one local Nemotron call and one Gemini call per displayed research result.
-There are no automatic retries or model fallbacks. Calls reserve their budget before
-dispatch; the checker checks its search budget before spending another local call.
-Oversized plans and mismatched geography/address fail closed. Before validating a
-fact-check plan, the runner adds policy-required checks omitted by the model and
-deduplicates its checklist. This changes neither scope nor factual assessments;
-the model proposal, added checks and effective plan are all visible in debug output.
-
-`max_queries` defaults to 3 (allowed values 1–3) and is guidance for Gemini's internal
-searches in both research and re-check requests. Each specification still dispatches
-one API request; the plan gate checks `len(plan.queries)` against the application-call
-budget. The prompt has no one-search restriction. Gemini controls its actual search
-count, so this field is not an enforced provider-side cap. Output caps are not total billing
-caps. Provider quotas and usage reporting govern deployment costs. Query caching,
-provider-specific rate limits and durable cost accounting are not implemented.
-
-## Debug view
-
-The dashboard presents a completed-run snapshot with numbered request/response steps:
-research Nemotron → research policy → Gemini search → fact-check Nemotron → fact-check
-policy → Gemini re-check. Exact submitted JSON, readable prompts, full responses,
-parsed handoffs, duration and HTTP status are inspectable. Only the two implemented
-model roles and policy stages are captured as detailed events; channel traces also
-show structured-provider and listing execution. This is actual payload inspection, not inferred reasoning.
-
-Authentication headers are never captured and known key values are redacted. All
-JSON/HTML content is escaped; Search Suggestions are rendered in a sandboxed iframe.
-Loopback-only binding, random URL token and no-store headers remain in place. SSH
-port forwarding exposes this temporary viewer to the operator's browser. There is no
-live progress stream, public dashboard or static grounded-content export.
-
-## Next integrations
-
-The default structured channel calls Census geography, WPRDC assessments and PLI,
-FEMA hazard/panel layers, OSM/Overpass and same-street DOMI closures. The fixed
-baseline runs before optional model planning and is never omitted by a model.
-Structured-only research uses a deterministic plan and does not need Ollama.
-Each provider failure is isolated; the runner retains completed results on timeout.
-Census IDs gate county/city jurisdictions. Assessment ambiguity blocks parcel
-selection and parcel-specific permits. Public data is a current snapshot, not a
-historical reconstruction for the case date. Evidence retains structured records,
-source/record dates, attribution and match method under the existing policy gate.
-
-ACS/EPA, PDF page evidence, photo questions, assessor discrepancies, structured
-conflict analysis and labeled-property evaluation remain future work. Census
-coordinates are address-range interpolation, not parcel identity or condition.
-
-References: [Ollama chat](https://docs.ollama.com/api/chat),
-[Gemini GenerateContent grounding](https://ai.google.dev/gemini-api/docs/generate-content/google-search),
-[Census geocoder](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.html).
-
-## Small-model scope reliability
-
-Live testing exposed Nemotron copying future dates and abbreviated geography into
-query specs. The planner now builds a per-case constrained JSON schema: geography,
-address anchor and the default past-year date bounds are constants. The fact-check
-schema likewise fixes its topic/geography to the approved query. The model still
-selects channels, topics and checks; it cannot rewrite those scope identifiers.
-The deterministic policy gate remains in place after schema validation.
-
-Gemini 3.8 Flash uses LOW thinking with a 4,096-token generation cap. Live testing
-showed a re-check exhausting the earlier 2,048-token cap before returning citation
-support; truncated responses now remain explicitly truncated rather than empty.
+The local HTTP server binds to loopback, validates host/origin and CSRF for mutations,
+saves completed reports, and preserves deletion tombstones across restart.

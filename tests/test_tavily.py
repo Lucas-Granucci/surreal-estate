@@ -126,7 +126,7 @@ async def test_review_corrects_draft_and_failure_retains_sources():
     research = result.research[0]
     assert research.review_completed
     assert research.findings[0].citations[0].evidence_id == correction.id
-    assert research.search_calls == 2
+    assert research.search_calls == 3
     class FailingSearch(Search):
         async def search_sources(self, *args, review=False):
             if review:

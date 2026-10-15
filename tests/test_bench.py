@@ -134,6 +134,7 @@ def test_stopped_stage_never_becomes_success():
 async def test_explicit_topics_complete_a_planner_omission_without_expanding_scope():
     from surreal_estate.evals.fixtures import (
         FixtureAPI,
+        FixtureExtractor,
         FixturePlanner,
         FixtureSearch,
         fixture_case,
@@ -149,16 +150,14 @@ async def test_explicit_topics_complete_a_planner_omission_without_expanding_sco
         async def search(self, spec, ctx):
             self.topics.append(spec.topic)
             response = await super().search(spec, ctx)
-            return response.model_copy(
-                update={"provider": "gemini_search", "search_entry_point": "<div>Suggestions</div>"}
-            )
+            return response
 
     search = TrackingSearch()
     case = fixture_case().model_copy(
         update={"priorities": ["neighborhood_discussion", "restaurant_reviews"]}
     )
     outcome = await run(
-        case, RunContext(), FixturePlanner(), FixtureAPI(), search=search, selected_channels=["web"]
+        case, RunContext(), FixturePlanner(), FixtureAPI(), search=search, extractor=FixtureExtractor(), selected_channels=["web"]
     )
     assert {q.topic for q in outcome.report.plan.queries} == set(case.priorities)
     assert all(
@@ -174,7 +173,12 @@ async def test_one_web_topic_failure_does_not_suppress_the_next():
     import httpx
 
     from surreal_estate.channels.web.channel import WebChannel
-    from surreal_estate.evals.fixtures import FixturePlanner, FixtureSearch, fixture_case
+    from surreal_estate.evals.fixtures import (
+        FixtureExtractor,
+        FixturePlanner,
+        FixtureSearch,
+        fixture_case,
+    )
     from surreal_estate.orchestrator.context import RunContext
 
     case = fixture_case().model_copy(
@@ -195,18 +199,16 @@ async def test_one_web_topic_failure_does_not_suppress_the_next():
             if spec.topic == "neighborhood_discussion":
                 raise httpx.ConnectError("PRIVATE transport error")
             response = await super().search(spec, ctx)
-            return response.model_copy(
-                update={"provider": "gemini_search", "search_entry_point": "<div>Suggestions</div>"}
-            )
+            return response
 
-    channel = WebChannel([first, second], Search())
+    channel = WebChannel([first, second], Search(), FixtureExtractor())
     result = await channel.run(case, ctx)
     assert [(c.topic, c.status) for c in result.coverage] == [
         ("neighborhood_discussion", "error"),
         ("restaurant_reviews", "complete"),
     ]
     assert "PRIVATE" not in result.model_dump_json()
-    assert channel.displays[0].topic == "restaurant_reviews"
+    assert any(o.topic == "restaurant_reviews" for o in result.observations)
 
 
 def test_delete_report_removes_sources_and_survives_restart(tmp_path):
@@ -275,3 +277,17 @@ def test_failed_delete_preserves_report(tmp_path, monkeypatch):
     assert b"500" in headers
     assert identifier in app.jobs
     assert identifier in App(tmp_path).jobs
+
+
+def test_retired_flood_channels_are_hidden_in_saved_report_projection():
+    from surreal_estate.evals.fixtures import fixture_case
+    from surreal_estate.models import ChannelResult, Coverage, RunReport
+    from surreal_estate.orchestrator.runner import RunOutcome
+    from surreal_estate.synthesis.frontend import build_frontend_response
+    from surreal_estate.webapp.display import bench_response
+    report = RunReport(case=fixture_case(), result=ChannelResult(coverage=[
+        Coverage(channel='apis', provider='fema_nfhl', topic=topic, status='error', reason='Old failure')
+        for topic in ['flood_hazard', 'flood_map_panels']]))
+    bench = bench_response(build_frontend_response(RunOutcome(report, [])))
+    assert not bench['coverage']
+    assert not bench['findings']

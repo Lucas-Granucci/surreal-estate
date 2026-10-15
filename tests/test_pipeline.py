@@ -3,8 +3,6 @@ from datetime import timedelta
 
 import pytest
 
-from surreal_estate.channels.web.channel import WebChannel
-from surreal_estate.channels.web.extractor import Extractor
 from surreal_estate.channels.web.verifier import verify
 from surreal_estate.evals.fixtures import (
     FixtureAPI,
@@ -15,11 +13,10 @@ from surreal_estate.evals.fixtures import (
 )
 from surreal_estate.models import ChannelResult, Coverage, Evidence, Observation, RunReport
 from surreal_estate.orchestrator.context import Budget, RunContext
-from surreal_estate.orchestrator.runner import RunOutcome, run
+from surreal_estate.orchestrator.runner import run
 from surreal_estate.policy.gate import PolicyDenied, PolicyGate
 from surreal_estate.store.sqlite import Store
 from surreal_estate.synthesis.dossier import render_markdown, synthesize
-from surreal_estate.synthesis.viewer import render_html
 
 
 async def setup_fixture():
@@ -103,7 +100,7 @@ async def test_plan_over_budget_does_not_call_channels():
 
     outcome = await run(
         fixture_case(),
-        RunContext(budget=Budget(max_grounded_calls=0)),
+        RunContext(budget=Budget(max_web_topics=0)),
         FixturePlanner(),
         ExplodingAPI(),
     )
@@ -126,46 +123,8 @@ async def test_timeout_returns_coverage():
     assert "TimeoutError" in outcome.report.result.coverage[0].reason
 
 
-async def test_live_gemini_never_reaches_extractor_or_dossier():
-    case, ctx, plan, response, extraction = await setup_fixture()
-    response.provider = "gemini_search"
-    response.search_entry_point = "<div>Google Search</div>"
-
-    class Search:
-        async def search(self, *args):
-            return response
-
-    class MustNotExtract:
-        async def extract(self, *args):
-            raise AssertionError("Gemini extraction forbidden")
-
-    channel = WebChannel(plan.queries, Search(), MustNotExtract())
-    result = await channel.run(case, ctx)
-    assert not result.evidence and not result.observations
-    assert len(channel.displays) == 1
-    outcome = RunOutcome(RunReport(case=case, result=result), channel.displays)
-    assert response.text not in outcome.report.model_dump_json()
-    html = render_html(outcome)
-    assert response.text in html
-    assert "&lt;div&gt;Google Search&lt;/div&gt;" in html
-    with pytest.raises(PolicyDenied):
-        await Extractor(None).extract(plan.queries[0], response, ctx)
-    with pytest.raises(PolicyDenied):
-        verify(plan.queries[0], response, extraction, ctx.policy)
 
 
-async def test_missing_search_suggestions_blocks_display():
-    case, ctx, plan, response, _ = await setup_fixture()
-    response.provider = "gemini_search"
-
-    class Search:
-        async def search(self, *args):
-            return response
-
-    channel = WebChannel(plan.queries, Search())
-    result = await channel.run(case, ctx)
-    assert result.coverage[0].status == "blocked"
-    assert channel.displays == []
 
 
 def test_store_blocks_ephemeral_evidence_and_derived_claims(tmp_path):

@@ -122,6 +122,7 @@ class App:
         self.jobs = {}
         self.deleted_reports = set()
         self.contexts = {}
+        self.public_cache = {}
         for path in self.directory.glob("job-*.json"):
             try:
                 job = json.loads(path.read_text())
@@ -180,7 +181,7 @@ class App:
                     "status": "complete",
                     "demo": report.demo,
                     "partial": any(
-                        c.status in {"error", "blocked", "truncated", "not_implemented"}
+                        c.status in {"error", "blocked", "truncated", "not_implemented", "unavailable"}
                         and c.reason != "Not selected for this run"
                         for c in report.result.coverage
                     ),
@@ -328,7 +329,8 @@ class App:
             }
             self.save_job(job)
             self.jobs[identifier] = job
-            self.contexts[identifier] = RunContext(confirmed_geocode=confirmed)
+            self.contexts[identifier] = RunContext(confirmed_geocode=confirmed,
+                public_cache=self.public_cache, public_cache_dir=str(self.directory / "source-cache"))
             threading.Thread(target=self.work, args=(identifier, request), daemon=True).start()
             return dict(job)
 
@@ -343,7 +345,7 @@ class App:
             temporary.replace(target)
             coverage = outcome.report.result.coverage
             partial = any(
-                c.status in {"error", "truncated", "blocked", "not_implemented"}
+                c.status in {"error", "truncated", "blocked", "not_implemented", "unavailable"}
                 and c.reason != "Not selected for this run"
                 for c in coverage
             )
@@ -439,8 +441,6 @@ class App:
             "geocoding": "Checking the address",
             "property_assessment": "Checking property records",
             "building_permits": "Reading building permits",
-            "flood_hazard": "Checking flood maps",
-            "flood_map_panels": "Reading flood map details",
             "mapped_amenities": "Finding nearby places",
             "street_closures": "Checking street closures",
         }
@@ -482,7 +482,6 @@ class App:
                 if event[0] == "source":
                     job["message"] = "Researching public records and nearby places…"
                 elif event[:2] == ["channel", "web"] or event[:2] in (
-                    ["call", "grounded"],
                     ["call", "factcheck"],
                 ):
                     job["message"] = "Reading web sources and checking claims…"

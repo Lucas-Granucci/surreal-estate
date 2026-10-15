@@ -7,8 +7,8 @@ import pytest
 
 from surreal_estate.channels.web.planner import Planner
 from surreal_estate.evals.fixtures import FixtureAPI, FixturePlanner, fixture_case
-from surreal_estate.llm.gemini import GroundedSearchClient
 from surreal_estate.llm.nemotron import NemotronClient
+from surreal_estate.llm.tavily import TavilyClient
 from surreal_estate.orchestrator.context import Budget, RunContext
 from surreal_estate.orchestrator.runner import run
 from surreal_estate.store.sqlite import Store
@@ -47,7 +47,7 @@ async def test_debug_http_error_retains_redacted_response():
         )
     ) as http:
         with pytest.raises(httpx.HTTPStatusError):
-            await GroundedSearchClient(http, api_key=secret).search(spec, ctx)
+            await TavilyClient(http, api_key=secret).search_sources("local research", spec, ctx)
     event = ctx.debug.events[0]
     assert event.status == "error"
     assert event.http_status == 403
@@ -66,7 +66,7 @@ async def test_timeout_closes_debug_event():
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
         with pytest.raises(TimeoutError):
-            await GroundedSearchClient(http, api_key="fake").search(spec, ctx)
+            await TavilyClient(http, api_key="fake").search_sources("local research", spec, ctx)
     assert ctx.debug.events[0].status == "error"
     assert ctx.debug.events[0].error == "TimeoutError"
 
@@ -105,7 +105,7 @@ async def test_debug_does_not_enter_store(tmp_path):
 
 
 async def test_rejected_policy_decision_is_inspectable():
-    ctx = RunContext(budget=Budget(max_grounded_calls=0))
+    ctx = RunContext(budget=Budget(max_web_topics=0))
     outcome = await run(fixture_case(), ctx, FixturePlanner(), FixtureAPI())
     event = outcome.debug_events[0]
     assert event.stage == "Policy gate"

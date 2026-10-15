@@ -47,7 +47,6 @@ async def run(
     *,
     search=None,
     extractor=None,
-    fact_checker=None,
     demo=False,
     selected_channels: list[str] | None = None,
 ) -> RunOutcome:
@@ -98,7 +97,7 @@ async def run(
                     for topic in dict.fromkeys(case.priorities):
                         if (topic in {"neighborhood_discussion", "restaurant_reviews"}
                                 and topic not in {q.topic for q in queries}
-                                and len(queries) < ctx.budget.max_grounded_calls):
+                                and len(queries) < ctx.budget.max_web_topics):
                             queries.append(ResearchQuerySpec(
                                 topic=topic, geography=case.geography,
                                 address_anchor=case.address, radius_meters=1000,
@@ -120,7 +119,7 @@ async def run(
                 },
             )
             try:
-                ctx.policy.plan(plan, case, ctx.budget.max_grounded_calls)
+                ctx.policy.plan(plan, case, ctx.budget.max_web_topics)
             except PolicyDenied as exc:
                 ctx.debug.finish(
                     event, parsed={"decision": "blocked", "reason": str(exc)}, error=exc
@@ -148,7 +147,7 @@ async def run(
     if plan is not None:
         channels = {"apis": api_channel, "listing": ListingChannel()}
         if search is not None:
-            channels["web"] = WebChannel(plan.queries, search, extractor, fact_checker)
+            channels["web"] = WebChannel(plan.queries, search, extractor)
         for name in plan.channels:
             if name == "apis" and api_ran:
                 continue

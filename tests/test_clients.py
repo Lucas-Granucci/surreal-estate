@@ -6,7 +6,6 @@ import pytest
 from surreal_estate.channels.apis.census import CensusGeocoder
 from surreal_estate.channels.web.planner import Planner
 from surreal_estate.evals.fixtures import FixturePlanner, fixture_case
-from surreal_estate.llm.gemini import GroundedSearchClient, parse_response
 from surreal_estate.llm.nemotron import NemotronClient
 from surreal_estate.orchestrator.context import Budget, BudgetExceeded, RunContext
 
@@ -48,13 +47,13 @@ async def test_incomplete_ollama_json_fails_closed():
 
 @pytest.mark.parametrize("web_enabled,budget", [(False, 2), (True, 0)])
 async def test_planner_disallows_web_queries_without_web(web_enabled, budget):
-    ctx = RunContext(budget=Budget(max_grounded_calls=budget))
+    ctx = RunContext(budget=Budget(max_web_topics=budget))
 
     def handler(request):
         body = json.loads(request.content)
         payload = json.loads(body["messages"][1]["content"])
         assert payload["allowed_channels"] == ["apis", "listing"]
-        assert payload["allowed_grounded_calls"] == 0
+        assert payload["allowed_web_topics"] == 0
         fields = body["format"]["properties"]
         assert fields["queries"]["maxItems"] == 0
         assert fields["channels"]["items"]["enum"] == ["apis", "listing"]
@@ -76,55 +75,8 @@ async def test_planner_disallows_web_queries_without_web(web_enabled, budget):
     assert result.queries == []
 
 
-async def test_gemini_request_no_json_mode_and_preserves_metadata():
-    ctx = RunContext()
-    spec = (await FixturePlanner().plan(fixture_case(), ctx)).queries[0]
-
-    def handler(request):
-        body = json.loads(request.content)
-        assert body["tools"] == [{"google_search": {}}]
-        assert "responseMimeType" not in body["generationConfig"]
-        assert request.headers["x-goog-api-key"] == "test-key"
-        assert "test-key" not in str(request.url)
-        return httpx.Response(
-            200,
-            json={
-                "candidates": [
-                    {
-                        "finishReason": "STOP",
-                        "content": {
-                            "parts": [{"text": "hidden", "thought": True}, {"text": "Answer"}]
-                        },
-                        "groundingMetadata": {
-                            "groundingChunks": [
-                                {"retrievedContext": {}},
-                                {"web": {"uri": "https://example.org", "title": "Example"}},
-                            ],
-                            "groundingSupports": [
-                                {
-                                    "segment": {"text": "Answer", "endIndex": 6},
-                                    "groundingChunkIndices": [1],
-                                }
-                            ],
-                            "searchEntryPoint": {"renderedContent": "<div>Suggestions</div>"},
-                            "webSearchQueries": ["q"],
-                        },
-                    }
-                ]
-            },
-        )
-
-    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
-        result = await GroundedSearchClient(http, "test-key").search(spec, ctx)
-    assert result.text == "Answer"
-    assert len(result.chunks) == 2 and result.chunks[0].uri is None
-    assert result.supports[0].chunk_indices == [1]
-    assert result.search_entry_point == "<div>Suggestions</div>"
-    assert not result.truncated
 
 
-def test_empty_gemini_candidates_are_honest_empty():
-    assert parse_response({"promptFeedback": {"blockReason": "SAFETY"}}).text == ""
 
 
 @pytest.mark.parametrize("matches, status", [([], "empty"), ([{}, {}], "blocked")])
@@ -164,8 +116,8 @@ async def test_census_records_single_match_and_request_provenance():
 
 
 def test_call_budget_is_reserved_before_dispatch():
-    ctx = RunContext(budget=Budget(max_grounded_calls=1))
-    ctx.reserve("grounded")
+    ctx = RunContext(budget=Budget(max_web_search_calls=1))
+    ctx.reserve("web_search")
     with pytest.raises(BudgetExceeded):
-        ctx.reserve("grounded")
-    assert ctx.counts["grounded"] == 1
+        ctx.reserve("web_search")
+    assert ctx.counts["web_search"] == 1

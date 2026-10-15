@@ -49,7 +49,7 @@ async def test_county_evidence_ranks_only_exact_candidates(linked, boundary, exp
     assert e.record_id == expected
     resolution = e.details["parcel_resolution"]
     assert resolution["uncertain"] == (expected != "SECOND")
-    assert ctx.counts["api"] == 12
+    assert ctx.counts["api"] == 10
     permit_request = next(
         r for r in apis.requests if r.url.params.get("resource_id", "").startswith("2222")
     )
@@ -111,7 +111,7 @@ async def test_gis_failure_does_not_block_assessments_or_permits():
 async def test_budget_reserved_for_other_sources():
     apis = candidates()
     result, ctx = await fetch(apis, Budget(max_api_calls=10))
-    assert ctx.counts["api"] == 10
+    assert ctx.counts["api"] == 8
     assert all(c.status == "complete" for c in result.coverage)
     assert not any("gisdata" in r.url.host for r in apis.requests)
 

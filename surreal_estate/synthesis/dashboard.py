@@ -6,8 +6,7 @@ from urllib.parse import urlencode
 
 from surreal_estate.synthesis.frontend import FrontendResponse
 from surreal_estate.synthesis.markdown import render_model_markdown
-from surreal_estate.synthesis.report_visuals import nearby_map, closure_timeline, closure_details
-
+from surreal_estate.synthesis.report_visuals import closure_details, closure_timeline, nearby_map
 
 # Keep the report and research form on the same design system.
 
@@ -153,8 +152,7 @@ def render_dashboard(payload: FrontendResponse, *, app_mode: bool = False) -> st
     )
     # One order drives both the sidebar and the actual report sections.
     topic_order = ["mapped_amenities", "amenities", "street_closures", "road_projects",
-                   "neighborhood_discussion", "restaurant_reviews", "geocoding", "flood_hazard",
-                   "flood_map_panels", "property_assessment", "building_permits"]
+                   "neighborhood_discussion", "restaurant_reviews", "geocoding", "property_assessment", "building_permits"]
     ranks = {topic: index for index, topic in enumerate(topic_order)}
     topics.sort(key=lambda topic: ranks.get(topic, len(ranks)))
     evidence = {item.id: item for item in report.result.evidence}
@@ -165,7 +163,6 @@ def render_dashboard(payload: FrontendResponse, *, app_mode: bool = False) -> st
     topic_titles = {
         "neighborhood_discussion": "What locals say", "restaurant_reviews": "Where to eat",
         "amenities": "Around the block", "mapped_amenities": "Around the block", "road_projects": "Street closures", "street_closures": "Street closures",
-        "flood_hazard": "Flood hazard", "flood_map_panels": "Flood map details",
         "geocoding": "Address match", "property_assessment": "Property assessment",
         "building_permits": "Building permits",
     }
@@ -173,7 +170,7 @@ def render_dashboard(payload: FrontendResponse, *, app_mode: bool = False) -> st
     gaps = [item for item in report.result.coverage
             if item.status != "complete" and item.reason != "Not selected for this run"]
     topic_indices = {topic: index for index, topic in enumerate(topics)}
-    property_topics = {"geocoding", "property_assessment", "building_permits", "flood_hazard", "flood_map_panels"}
+    property_topics = {"geocoding", "property_assessment", "building_permits"}
     neighborhood_topics = {"neighborhood_discussion", "restaurant_reviews", "mapped_amenities", "amenities", "street_closures", "road_projects"}
     navigation = ['<a href="#overview">Overview</a>']
     for group_title, group_topics in [("Neighborhood", neighborhood_topics), ("Property & records", property_topics), ("Other research", set(topics) - property_topics - neighborhood_topics)]:
@@ -346,8 +343,7 @@ def render_dashboard(payload: FrontendResponse, *, app_mode: bool = False) -> st
         for item in coverage:
             if item.parcel_candidates:
                 parts.append(parcel_choices(item.parcel_candidates, report.case, app_mode=app_mode))
-            if item.provider == "fema_nfhl" and item.status in {"error", "truncated"}:
-                parts.append('<p><a href="https://msc.fema.gov/portal/home" target="_blank" rel="noopener noreferrer">Open FEMA’s Map Service Center ↗</a></p>')
+            parts.append('<p><a href="https://msc.fema.gov/portal/home" target="_blank" rel="noopener noreferrer">Open FEMA’s Map Service Center ↗</a></p>')
             parts.append(
                 f'<p><span class="tag {item.status}">{label(item.status)}</span> {escape(item.reason)}</p>'
             )

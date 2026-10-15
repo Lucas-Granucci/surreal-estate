@@ -1,9 +1,8 @@
 # Tavily research
 
 New live research uses Tavily Search and local Ollama/Nemotron for discovery and research
-processing, then Gemini for the final cited brief, with no Gemini search/grounding tools. The
-Gemini client and prior display transport remain for legacy diagnostics and saved
-reports; CLI `research --web` does not invoke them.
+processing, then Gemini for the final cited brief, with no Gemini search/grounding tools. The old Gemini search client and grounded re-check agent are deleted. Historical
+saved responses retain read-only display compatibility.
 
 ## Setup
 
@@ -41,7 +40,7 @@ The optional third search targets a material uncertainty. The final local pass
 reconsiders the brief against original and additional evidence, incorporating
 corrections and preserving attributed opinions. Failed checks retain the first brief.
 
-Default budget: two topics, six Tavily searches, eight local model calls, 180-second
+Default budget: two topics, six Tavily searches, eight local model calls, 300-second
 run deadline, 60 seconds per request. Advanced searches cost two credits; Basic costs
 one. Per-call returned usage is aggregated; failed calls have unknown billing.
 No automatic provider fallback or Gemini grounding is enabled.
@@ -61,8 +60,7 @@ retrieval context. Facts/opinions and AI review assessments have visible labels.
 Limits, follow-up questions, source list, queries and credit usage are separate
 reading sections/disclosures. Mobile uses the existing accessible evidence dialog.
 
-New Tavily findings/evidence survive snapshots, SQLite and durable export. Existing
-Gemini source policy is unchanged. Tavily material is processable under the configured
+New Tavily findings/evidence survive snapshots, SQLite and durable export. The retired Gemini search policy is removed. Tavily material is processable under the configured
 provider policy; this does not confer universal rights to publisher content or
 promise complete Reddit/Yelp access. No scraping of Gemini-returned links occurs.
 
@@ -108,3 +106,23 @@ To create a new brief from an existing Tavily snapshot without new web searches:
 
 This preserves the original and creates a new report ID. It does not process saved
 Gemini grounded answers or send them to the writer.
+
+## Source recovery and local search context
+
+Public requests retry transient gateway/transport errors once, with every dispatch
+counted against a 24-call API budget. The map runs early, uses documented form-encoded
+Overpass QL, retries a transient primary failure, then tries the documented Private.coffee
+mirror. Admission rejections respect a 30-second pause. Both public servers can still
+be unavailable. Successful map responses are cached for 24 hours in memory and in
+local `source-cache` files; an unavailable refresh can fall back to saved data up to seven days old, with a visible date and refresh-failure notice; cache reuse preserves the retrieval timestamp and is
+identified in coverage. WPRDC catalogs are cached in memory for five minutes.
+Permanent connection failures appear as unavailable coverage, never absent features.
+
+An official Pittsburgh neighborhood polygon query supplies search context from the
+confirmed/geocoded point. If unavailable, street context is retained. The former
+citywide discussion-query override is removed. Discussion discovery uses neighborhood
+and street queries; unrelated sources are excluded when the neighborhood is resolved.
+Dining discovery retains the exact address and street. Gemini writes only the current
+topic, omits unidentified restaurant reviews, and distinguishes historical plans and
+temporary daily closing indicators from current operations. Narrow deterministic
+checks reject unsupported daily-service and permanent-closure statements.

@@ -7,6 +7,8 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from urllib.parse import urlsplit
 
+import httpx
+
 from surreal_estate.models import ChannelResult, Coverage, Evidence, Observation
 from surreal_estate.orchestrator.context import RunContext
 
@@ -42,6 +44,24 @@ async def public_json(
     data=None,
     content: str | None = None,
     request_seconds: float = 12.0,
+    retries: int = 1,
+):
+    """Retry transient failures once; each dispatch consumes the run's API budget."""
+    for attempt in range(retries + 1):
+        try:
+            return await _public_json(http, ctx, provider, url, params=params, data=data,
+                                      content=content, request_seconds=request_seconds)
+        except (httpx.TransportError, TimeoutError, httpx.HTTPStatusError) as exc:
+            if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code not in {502, 503, 504}:
+                raise
+            if attempt == retries or ctx.remaining < 2:
+                raise
+            ctx.trace.append(f"source:{provider}:retrying")
+            await asyncio.sleep(0.3)
+
+
+async def _public_json(
+    http, ctx, provider, url, *, params=None, data=None, content=None, request_seconds=12.0,
 ):
     """One budget reservation per dispatch; bounded time and body, no implicit retries."""
     if data is not None and content is not None:
@@ -74,7 +94,7 @@ async def public_json(
                     raise ValueError("Public-data response exceeds size limit")
             payload = json.loads(chunks)
             if not isinstance(payload, dict):
-                raise ValueError("Expected a public-data JSON object")
+                raise TypeError("Expected a public-data JSON object")
             return payload, str(response.url)
 
 

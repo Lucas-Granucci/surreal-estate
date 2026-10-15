@@ -59,7 +59,7 @@ async def resolve_parcel(http, ctx, rows, number, road, zipcode, *, limited=Fals
     signals = {k: {"address_link": False, "boundary_match": False} for k in identifiers}
     checks = []
     points = []
-    # Reserve the usual seven downstream API requests for permits/FEMA/OSM/closures.
+    # Reserve downstream permit/closure calls, including their bounded retries.
     if ctx.budget.max_api_calls - ctx.counts.get("api", 0) >= 9 and ctx.remaining > 10:
         try:
             features, uri = await query(

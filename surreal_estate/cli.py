@@ -19,7 +19,6 @@ from surreal_estate.evals.fixtures import (
 )
 from surreal_estate.llm.brief import GeminiBriefWriter
 from surreal_estate.llm.diagnostics import inspect_models
-from surreal_estate.llm.gemini import GroundedSearchClient
 from surreal_estate.llm.nemotron import NemotronClient
 from surreal_estate.llm.tavily import TavilyClient
 from surreal_estate.models import PropertyCase
@@ -35,7 +34,7 @@ from surreal_estate.synthesis.viewer import serve
 async def diagnose_gemini():
     load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
     async with httpx.AsyncClient(follow_redirects=False, trust_env=False) as http:
-        client = GroundedSearchClient(http)
+        client = GeminiBriefWriter(http)
         print(f"Configured Gemini model: {client.model}")
         print("Endpoint: Gemini Developer API / v1beta / generateContent")
         present, models = await inspect_models(client)
@@ -44,7 +43,7 @@ async def diagnose_gemini():
         for model in models:
             print(f"  {model}")
         print(
-            "Listing does not guarantee project generation access, grounding support, or free-tier quota."
+            "Listing does not guarantee project generation access, free-tier quota."
         )
         return 0 if present else 1
 
@@ -52,7 +51,7 @@ async def diagnose_gemini():
 async def execute(args, *, ctx=None):
     # Explicit path avoids searching parent directories for unrelated credentials.
     load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
-    ctx = ctx or RunContext()
+    ctx = ctx or RunContext(public_cache_dir="exports/source-cache")
     if args.command == "demo":
         outcome = await run(
             fixture_case(),

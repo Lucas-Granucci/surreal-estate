@@ -1,368 +1,146 @@
-# Surreal Estate
+# SurrealEstate
 
-Small Python/asyncio property-research backend. Pittsburgh is the initial geography.
-Structured-data runs use a fixed set of public APIs and need no model or API keys.
-With `--web`, local Ollama `nemotron-3-nano:4b` plans typed Channel C calls.
-No agent framework, crawler, autonomous shell tools, or public deployment.
+Local, evidence-first property research. Public records and mapped surroundings are
+combined with Tavily web research, local Nemotron processing, and Gemini brief writing.
 
-## Local web app
+## Run locally
 
-Start the app once, then enter addresses and choose research channels in the browser:
-
-```sh
-.venv/bin/surreal-estate app
-# Open http://127.0.0.1:8765
-```
-
-The approved Evidence Bench interface starts with an address, a real Census match,
-and three research choices: public records & nearby places, local discussions,
-and dining research. It uses the approved graphite palette, embedded IBM Plex Sans,
-and system-controlled light/dark themes. Desktop evidence appears alongside the
-findings; mobile evidence opens in a full-screen dialog. Findings, unresolved
-research, sources, scope and full JSON export remain one step away.
-
-Address input and channel choices survive refresh in the browser session.
-Confirmation is checked again after reload, expiration or server restart. The
-pipeline uses the server-held resolved address and coordinates consistently.
-Street-only inputs default to Pittsburgh; include city, state or ZIP for other US
-addresses. Coordinates are street-range estimates, not verified building points.
-
-Public sources need no keys. Optional web research uses the existing Gemini/Ollama
-configuration; unavailable choices are disabled. Selected topics control actual
-research. Progress comes from backend execution stages, without estimated
-percentages. Repeated submissions with the same request ID return the same run.
-Failed and partial research retain available results and expose recovery actions.
-
-Reports are saved locally under `exports/web-app` and survive restart. Existing
-saved reports still open; valid older standalone snapshots are imported additively
-without changing their original files. `--data-dir PATH` changes the directory;
-`--port 9000` changes the port. Keep one app process per directory. The separate
-policy-filtered SQLite/durable export path is unchanged; no SQL migration is needed.
-
-Provider records, model text, citations, source slots and Search Suggestions remain
-available. Missing parcel IDs, unavailable flood data and unverified model accounts
-are never replaced with prototype findings. Candidate parcel records, when returned,
-remain visible in evidence; explicit parcel research remains supported by the API
-and CLI (`research --address '...' --parcel-id ID`).
-
-The server is loopback-only and uses same-origin CSRF protection. The original
-`research`, `demo`, and `view` commands remain available. See the
-[screen implementation map](docs/interface-implementation.md) and
-[API, storage compatibility and configuration contracts](docs/webapp-api.md).
-
-## Run
+Python 3.11 or newer is required.
 
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -e '.[dev]'
+.venv/bin/surreal-estate app --port 8765 --data-dir exports/web-app
+```
+
+Open `http://127.0.0.1:8765`. The app binds to loopback. Reports are saved locally
+and survive restart; deleting a saved report prevents it from being reimported.
+
+The interface follows `design/SurrealEstate.html`, with graphite colors, IBM Plex
+Sans, system light/dark themes, a collapsible sidebar and an evidence inspector.
+Findings provides records, mapped places and compact web-topic previews. Full Local
+discussions and Dining reviews briefs live on Web research; preview links open the
+corresponding topic. Source excerpts appear beside the brief, or in a mobile dialog.
+
+For an entirely offline synthetic demonstration:
+
+```sh
 .venv/bin/surreal-estate demo --db demo.db
-.venv/bin/pytest -q
 ```
 
-The demo runs entirely offline with synthetic evidence; it makes no claims about
-its Pittsburgh fixture address. The demo SQLite database can be discarded.
+## Public records and nearby places
 
-Default live structured research (no Ollama or API key required):
+These sources need no API key or model:
+
+| Source | Coverage |
+| --- | --- |
+| Census Geocoder | Address match and jurisdiction context |
+| WPRDC county assessments | Exact address candidates and recorded property values |
+| Allegheny County GIS | Address-point and parcel-boundary signals for ambiguous candidates |
+| WPRDC PLI permits | Records on the selected county parcel |
+| WPRDC DOMI street closures | Bounded same-street segments and recorded work descriptions |
+| OpenStreetMap / Overpass | Education, groceries, transit and pharmacies within a 1 km query |
+
+Flood-map channels have been removed. Existing snapshots retain their original raw
+data, but retired flood entries are excluded from the app.
+
+Assessment values are recorded values, not current appraisals. Parcel selection
+checks county candidates and labels any stable fallback as uncertain. Unit,
+fractional and ranged addresses require explicit handling. Permit absence does not
+establish absence of work. Closure dates and geometry limit which segments appear.
+
+Mapped results describe OSM features rather than verified distinct facilities.
+Each category has a 50-feature cap; capped counts are lower bounds. Distances are
+straight-line measurements to points or centers, not walking times or entrances.
+School quality, attendance zones and transit service frequency are not inferred.
+
+The map runs before parcel-dependent lookups. Public requests retry transient
+502/503/504 and transport failures once, within the 24-dispatch API budget and
+300-second shared deadline. Overpass uses form-encoded QL, a project-identifying
+User-Agent, and bounded primary/mirror requests. Successful map results are cached
+for 24 hours; if a live refresh fails, saved results up to seven days old can be
+shown with their retrieval date and an explicit refresh-unavailable notice. Cached
+results never change their original retrieval time. A new location without saved
+data still depends on an available source. WPRDC catalogs have a five-minute cache.
 
 ```sh
-.venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --db research.db
+.venv/bin/surreal-estate research --address '121 S Highland Ave, Pittsburgh, PA 15206'
+.venv/bin/python scripts/smoke_sources.py --address '121 S Highland Ave, Pittsburgh, PA 15206'
 ```
 
-Add Tavily web research with local Nemotron (`nemotron-3-nano:4b`):
+## Web research
 
-1. Create an account at https://app.tavily.com and obtain an API key.
-2. Set `TAVILY_API_KEY` in the project `.env`; do not commit or share that file.
-3. Set `TAVILY_SEARCH_DEPTH=basic` (or `advanced`, which costs twice as many search credits).
-4. Start Ollama with the configured model, then restart the app if it was already running.
+Copy `.env.example` to `.env` and set:
+
+- `TAVILY_API_KEY` from [Tavily](https://app.tavily.com).
+- `TAVILY_SEARCH_DEPTH=basic` or `advanced`.
+- `OLLAMA_BASE_URL=http://127.0.0.1:11434` and the installed `OLLAMA_MODEL`.
+- `GEMINI_API_KEY` and optional `GEMINI_SYNTHESIS_MODEL` for final brief writing.
+
+Start Ollama with the configured model and restart the app after configuration
+changes. Exported environment variables take precedence over `.env`. Credentials
+are redacted from debugging and excluded from Git.
+
+Tavily is the only live search provider. Nemotron plans searches, extracts
+source-linked notes and optionally requests a targeted factual check. An official
+Pittsburgh boundary lookup supplies neighborhood context; street context remains
+when that lookup is unavailable. Searches preserve the address area and exclude
+unrelated discussion results. A topic has two discovery queries and at most one
+check query, within six searches per report.
+
+Gemini receives supplied source material and writes the final thematic brief. It
+has no search, grounding or URL-context tools. Paragraph citations resolve to
+original passages; invalid formats receive one bounded repair attempt. Unknown
+refs, truncated output and unsupported business-hours inferences are rejected.
+Writer failures retain research notes and sources. Opinions and AI assessments
+remain distinct from public records and independent verification.
+
+The former Gemini search client and its grounded re-check agent have been deleted.
+Read-only compatibility remains for historical saved web responses.
 
 ```sh
-.venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --web --db research.db
+.venv/bin/surreal-estate research --address '121 S Highland Ave, Pittsburgh, PA 15206' --web
 .venv/bin/python scripts/smoke_tavily.py
-```
-
-New web research uses Tavily exclusively for search. Local Nemotron plans searches,
-extracts source-linked research notes and reviews material factual uncertainties.
-Gemini writes the final source-cited brief from that material without search tools;
-set the existing `GEMINI_API_KEY` and optional `GEMINI_SYNTHESIS_MODEL` in `.env`. A topic uses up to two discovery searches and one
-targeted check, within a six-search budget per report. Each finding links to exact
-supporting excerpts; unknown publication dates remain unknown. Opinions remain
-separate from reported facts. A model assessment is not independent verification.
-
-The report's **Web research** view puts the brief in the main reading column and
-selected source excerpts in the evidence inspector (a dialog on smaller screens).
-Sources, limitations, follow-up questions, queries and returned credit usage remain
-accessible. New Tavily research is included in local snapshots, SQLite and durable
-exports. Saved Gemini reports remain readable under their original display-only
-boundary; they are not reprocessed. Provider/source rights still govern content use.
-
-See [Tavily research architecture and configuration](docs/tavily-research.md).
-
-## Default structured-data sources
-
-Every live `research` run includes these sources, with or without `--web`:
-
-| Source | What is included | Setup |
-| --- | --- | --- |
-| Census Geocoder | Normalized address, interpolated coordinates, county and municipal geography | None |
-| Allegheny County assessments / WPRDC | Automatically resolved parcel, recorded building attributes, assessed values and sale fields | None |
-| Pittsburgh PLI / WPRDC | Up to 50 latest permits on the uniquely matched parcel, including Building & Development Applications | None |
-| FEMA NFHL | Flood-zone intersection and map-panel effective dates at the interpolated address point | None |
-| OpenStreetMap / Overpass | Four concise area summaries: schools, grocery stores, transit stops and pharmacies within a 1 km query | None |
-| Pittsburgh DOMI / WPRDC | Same-street closure segments within 1 km; records not ended as of the case date, starting no more than 90 days ahead | None |
-
-**No new API keys or `.env` entries are needed.** Gemini credentials remain optional
-and apply only to `--web`. `demo` stays offline and synthetic; `view` only reopens
-saved data. The structured baseline runs before optional model planning, so model
-omissions or planning errors cannot suppress it.
-
-WPRDC resource IDs are resolved from current catalog entries on every run. County
-and city boundaries come from Census geographic identifiers, not postal city names.
-Assessment matching starts with exact house number/street/ZIP candidates without
-units or fractions. Multiple parcel IDs are ranked using county address-point
-parcel links and intersecting parcel boundaries. Ties or unavailable GIS use a
-stable normalized parcel-ID fallback, explicitly labeled as uncertain. Candidate
-IDs, GIS checks and the selection reason are retained with the assessment and
-permits. At most two additional GIS calls are made, preserving the downstream
-research budget. No candidate still means no parcel can be selected. PLI lookup uses
-the selected parcel, starts with the feed's June 2019 coverage, and excludes plumbing.
-Closures search the matched street only, not every nearby street; missing end dates
-and active flags remain uncertain. No returned records is not proof of absence.
-
-Evidence JSON includes selected structured fields, record/resource IDs, publication
-and record dates when supplied, attribution, and matching methods. Owner names and
-mailing addresses are not requested. These public records are eligible for the
-existing durable export/SQLite path; OSM attribution and ODbL licensing are retained.
-Assessments describe recorded values, not current appraisals. FEMA uses an
-interpolated point, not parcel/building boundaries. OSM distances are straight-line
-point/center distances, not walking times or confirmed entrances.
-
-Calls are sequential and bounded: 12 API calls per run (10 on the full successful
-path), 12 seconds per request (35 seconds for Overpass queue/execution time) and 2 MB
-per response, with no automatic retries. Empty, blocked,
-truncated and failed sources appear individually in coverage; completed sources
-survive later failures. The shared 180-second deadline still applies.
-
-The OSM adapter uses `https://overpass-api.de/api/interpreter` with a raw
-Overpass QL POST body and a User-Agent identifying this project's repository.
-This replaces the failing Private.coffee endpoint. Live verification returned
-usable objects around the sample Pittsburgh address. Results are now summarized
-into exactly four categories, not one finding per place. Each category has its own
-50-object cap; a dense transit category cannot crowd out schools or groceries.
-Successful summaries are marked complete even when a category reaches its cap;
-limit metadata remains available in the data. Supporting names, links and tags
-remain in expandable details. Restaurants, cafés,
-parks and clinics are excluded by default. Counts describe mapped features, not
-verified distinct facilities; capped counts are lower bounds, and the closest
-returned point/center need not be the area's nearest amenity. School attendance
-zones/quality and transit service frequency are not inferred.
-Each record includes the query endpoint in its provenance. No API key is needed.
-Public Overpass availability varies; errors remain isolated, with no immediate
-retries on throttling. Run research again to replace a previously failed snapshot. A bounded live check is available:
-
-```sh
-.venv/bin/python scripts/smoke_sources.py --address '1430 McKenna Ave, Pittsburgh, PA 15205'
-```
-
-It calls no models, saves no output files, and reports source status and counts.
-
-## Structured downstream export
-
-CLI runs save a development display snapshot to `exports/<run-id>.json` by default.
-Use `--export exports/property.json` to choose the filename for that full snapshot:
-
-```sh
-.venv/bin/surreal-estate research \
-  --address '414 Grant Street, Pittsburgh, PA 15219' \
-  --web --viewer --export exports/property.json
-```
-
-The development JSON contains `schema_version`, `purpose`, `retention`, `report`
-and `web`. `web[]` holds both original search and re-check entries, with full text,
-source URL/title chunks, supported segments and citation mappings, search queries,
-Search Suggestions and truncation status. It is pretty-printed with two-space
-indentation. An explicit filename is overwritten on subsequent runs; default
-run-ID filenames preserve each run. Consumers can validate with
-`DevelopmentSnapshot.model_validate_json(...)` from `surreal_estate.synthesis.frontend`.
-The dashboard's **View full JSON** link opens the same data in an indented,
-scrollable section; `/result.json` is also pretty-printed. Nemotron's JSON output
-is indented in the debug inspector. Model summaries remain Markdown-rendered.
-
-For policy-filtered processing exports, use `--durable-export PATH`. This writes
-`ResearchExport` (including `omissions`) and excludes live grounded content.
-`--db research.db` applies the same retention filter to SQLite. These explicit
-durable paths remain separate from the full development snapshots. Debug request
-and response payloads are excluded from both JSON contracts. The offline
-`demo --export exports/demo.json` exercises snapshot saving with synthetic evidence.
-
-## What's implemented
-
-- Pydantic channel contracts and provenance references; SQLAlchemy/SQLite run store.
-- Local Nemotron research planner, separate fact-check planner, and fixture-only extractor.
-- Typed query policy, call budgets, deadlines, deterministic sequential runner,
-  execution trace, explicit error/empty/not-implemented coverage.
-- Census geography lookup, county assessments, city PLI permits and DOMI closures, FEMA map context, and OSM amenities; explicit matching, attribution and bounded public requests.
-- Gemini grounded client preserving chunk/support indexing and Search Suggestions;
-  isolated in-memory display, no extraction or persistence of live results.
-- Conservative fixture verifier: same-support text/date/geography, citation existence,
-  single-URL source flag; deterministic dossier synthesis and offline tests.
-
-## Deliberately next
-
-Audience (private buyer vs agent tool vs public reports) is not yet decided.
-Next: ACS, EPA, API caching,
-PDF/page citations, photo questions, assessor discrepancies, semantic conflict
-analysis, and labeled-property evaluation are not yet implemented.
-
-See [architecture and decisions](docs/architecture.md) for boundaries and limitations.
-See [proposed sources](docs/proposed-sources.md) for API, upload and open-web
-integration candidates for Pittsburgh. The viewer lists each run's actual sources
-at the top, grouped into Channels A/B/C, with returned and cited web links.
-
-## SSH browser viewer and model diagnostics
-
-Check the configured model against Google's model list without generating content:
-
-```sh
 .venv/bin/surreal-estate gemini-models
 ```
 
-This loads `.env`, prints the effective model and lists models supporting
-`generateContent`. It does not establish grounding support or project quota.
-Google's [model availability notice](https://ai.google.dev/gemini-api/docs/deprecations#gemini-2.5-flash-models)
-currently restricts 2.5 access to prior users, so the published free allowance alone
-is not a guarantee of access for a new project. No automatic model substitution occurs.
+The model diagnostic lists generation-capable models without generating content.
+See [Tavily research](docs/tavily-research.md) for processing, budgets and limitations.
 
-On your laptop, establish a tunnel (replace `user@remote-host`):
-
-```sh
-ssh -N -L 8765:127.0.0.1:8765 user@remote-host
-```
-
-In your SSH terminal on the remote machine, run:
+## Snapshots and downstream processing
 
 ```sh
 .venv/bin/surreal-estate research \
-  --address '414 Grant Street, Pittsburgh, PA 15219' \
-  --web --viewer --port 8765
+  --address '121 S Highland Ave, Pittsburgh, PA 15206' --web \
+  --export exports/property.json --durable-export exports/property-durable.json --db research.db
+.venv/bin/surreal-estate view exports/property.json --port 8766
 ```
 
-Open the complete `http://127.0.0.1:8765/<random-token>` URL printed by the remote
-command in your laptop's browser. Keep both the tunnel and research process running.
-The viewer is loopback-only and remains available even when a channel fails. It
-shows the plan, channel statuses, supported observations, execution trace and any
-separate Gemini responses. This is a completed-run snapshot, not live streaming.
-Use `demo --viewer --port 8765` to test the viewer without external calls.
-If the port is in use, choose another port in both commands. `--port 0` retains
-random-port behavior. Results remain in memory; no static Gemini HTML export is made.
+Snapshots preserve reports and source-linked briefs. Explicit filenames replace
+prior files; generated report IDs preserve separate runs. SQLite and durable
+exports apply source-retention policy and rebuild claims from retained evidence.
+Debug request/response payloads are excluded from saved reports. Historical
+transient web content is not converted into downstream evidence.
 
-
-## Dashboard debugger
-
-Use `--web --viewer --port 8765` as above. After the run, open **Inspect prompts &
-responses**. Numbered steps show:
-
-1. **Nemotron / ResearchPlan:** actual system/user messages, request schema and
-   generation options, provider response, parsed plan, timing, HTTP status.
-2. **Policy gate:** case, proposed plan and budgets, allowed/blocked decision.
-3. **Gemini / grounded search:** exact query specification, endpoint/model,
-   prompt and `google_search` configuration, full response JSON, search queries,
-   grounding chunks/supports, completion metadata and reported token usage.
-4. **Nemotron / FactCheckPlan:** separate agent's checks based only on the case/topic.
-5. **Fact-check policy:** model-proposed checks, required checks added by the runner,
-   deduplicated effective checklist, scope validation and allowed/blocked outcome.
-6. **Gemini / claim re-check:** original answer sent back to Gemini with Google Search
-   to assess claims and provide citations, uncertainties and follow-up questions.
-
-The main result section keeps the Gemini answer alongside its links and Search
-Suggestions. The debug panel is a read-only run snapshot, not a live console or
-an agent's inferred reasoning. It shows actual submitted/returned payloads. Open
-**Full response JSON** for all provider-returned fields, including errors.
-
-`RunContext.debug` collects redacted request/response snapshots; `RunOutcome`
-passes them to the viewer separately from `RunReport`. They are never written to
-SQLite, printed to the CLI, or exported to files. Authentication headers are not
-captured and known API key values are redacted. Closing the process releases them.
-
-The CLI reads `.env` at startup. Existing shell variables still take precedence:
-if an old model was exported, `unset GEMINI_MODEL` before running to use `.env`.
-A real end-to-end test is available (uses local Ollama, Census and paid Gemini):
+To rewrite a saved Tavily brief without repeating searches:
 
 ```sh
-.venv/bin/python scripts/smoke_research.py
+.venv/bin/python scripts/synthesize_brief.py INPUT.json --topic restaurant_reviews --output exports/brief.json
 ```
 
-It prints only call statuses and grounding counts, not prompts or response text.
+This creates a new report ID and preserves the original snapshot.
 
-
-## Fact-checking and nearby restaurant reviews
-
-Live runs default to both `neighborhood_discussion` and `restaurant_reviews`.
-Each successful displayed search is followed by a separate Nemotron-planned Gemini
-re-check. The original and re-check appear in labeled panels. Successful retrieval
-now says **Search completed · displayed separately**. Re-check assessments can
-identify corroborated, contradicted, unresolved and opinion claims, but do not
-promote any of them to independently verified dossier facts.
-
-To test only nearby restaurant reviews:
+## Verification
 
 ```sh
-.venv/bin/surreal-estate research \
-  --address '414 Grant Street, Pittsburgh, PA 15219' \
-  --topic restaurant_reviews --web --viewer --port 8765
+.venv/bin/pytest -q
+node --check surreal_estate/webapp/static/app.js
 ```
 
-The query uses Google Search for general restaurant reviews, local food publications
-and Google Reviews in the immediate vicinity of the property. There is no Yelp-only
-site filter and no Google Places API integration. `address_anchor` and `radius_meters`
-remain in the specification for downstream use; exact radius/distance verification
-is not a requirement for including a restaurant. The date window is recency context,
-not an exact-date filter. Recent review themes are preferred; when snippets lack
-specific themes, the model summarizes reputation from available search results.
+Tests cover source recovery, map caching and outages, parcel matching, policy and
+provenance, credential redaction, query context, citations, synthesis failures,
+exports, report persistence and local web endpoints. Live provider checks are
+separate from deterministic tests and may incur web/model charges.
 
-Opinions are retained, labeled and attributed. The re-check verifies factual parts
-of a statement separately and does not reject subjective perspectives for lacking
-independent agreement or precise dates. Missing attribution/evidence still cannot
-be replaced with invented claims. Reputation summaries remain opinion, not verified facts.
-
-The checker plans scope/date/independence/contradiction/opinion checks plus restaurant
-identity, proximity and review freshness. It never receives the original grounded
-text: Python sends that text back to Gemini to refine its answer, preserving the
-agreed provider-policy boundary. See the updated architecture diagram for the split.
-
-Defaults permit up to two initial Gemini calls plus two fact-check calls and four
-local model calls, within the same 180-second run deadline. A Gemini call may make
-multiple internal searches. `max_queries` defaults to 3 as search guidance inside
-each request; it is not a guaranteed provider-side cap. API-call limits count query
-specifications, not this search guidance. Re-check failures keep the original result available.
-All live grounded answers, model assessments and debug payloads remain memory-only.
-
-The live smoke test accepts honest empty-source responses; it fails on missing
-requested topics, transport/validation failures and truncation. Passing does not
-mean review evidence was found or that any claim was corroborated. Unit tests exercise
-supported opinion-only responses and re-check failures deterministically.
-
-Run just the restaurant integration check with:
-
-```sh
-.venv/bin/python scripts/smoke_research.py --topic restaurant_reviews
-```
-
-## Property dashboard
-
-Open **Open property dashboard →** from the debug dashboard, or use the
-**Property dashboard** URL printed by `demo --viewer` / `research --viewer`.
-The responsive report includes an overview, topic navigation, original searches
-and re-checks, expandable sources and citation mappings, an evidence library,
-research coverage, and the full results JSON. Source numbers preserve the provider's
-original ordering, including slots with no URL. Model summaries and assessments
-remain labeled separately from supported dossier observations.
-
-Reopen a previously generated development results JSON without calling providers:
-
-```sh
-.venv/bin/surreal-estate view exports/<run-id>.json --port 8765
-```
-
-Both dashboards share the existing loopback-only, no-store viewer and its
-15-minute expiration. The property dashboard links back to the debug dashboard;
-saved files do not contain the original run's in-memory debug payloads.
+See [architecture](docs/architecture.md), [web API](docs/webapp-api.md), and
+[interface implementation](docs/interface-implementation.md).

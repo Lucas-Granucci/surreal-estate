@@ -1,4 +1,5 @@
 """Bounded Tavily discovery. Source passages, never provider-generated answers."""
+import asyncio
 import ipaddress
 import os
 from urllib.parse import urlsplit
@@ -48,10 +49,11 @@ class TavilyClient:
         # Publication dates and the requested window are assessed by the local agent.
         event = ctx.debug.begin("Tavily · source search", {"topic": spec.topic, "body": body})
         try:
-            data = await ctx.debug.post(
-                event, self.http, "https://api.tavily.com/search", json=body,
-                headers={"Authorization": "Bearer " + self.api_key}, timeout=timeout,
-            )
+            async with asyncio.timeout(timeout):
+                data = await ctx.debug.post(
+                    event, self.http, "https://api.tavily.com/search", json=body,
+                    headers={"Authorization": "Bearer " + self.api_key}, timeout=timeout,
+                )
             sources = []
             for item in data.get("results", [])[:5]:
                 if not isinstance(item, dict) or not public_url(item.get("url")):

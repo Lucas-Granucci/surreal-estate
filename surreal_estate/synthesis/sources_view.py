@@ -38,7 +38,6 @@ def render_sources(outcome: RunOutcome) -> str:
                 "wprdc_assessments": "Allegheny County assessments · WPRDC",
                 "wprdc_permits": "Pittsburgh PLI permits · WPRDC",
                 "wprdc_closures": "Pittsburgh DOMI closures · WPRDC",
-                "fema_nfhl": "FEMA National Flood Hazard Layer",
                 "openstreetmap": "OpenStreetMap contributors · ODbL",
             }.get(provider, provider)
             items = [e for e in api_evidence if e.provider == provider]
@@ -79,18 +78,6 @@ def render_sources(outcome: RunOutcome) -> str:
             "<p class='muted'>Upload and extraction flow is not yet implemented.</p>"
         )
     parts.append("</div><div><h3>Channel C · Open web</h3>")
-    gemini = any(d.response.provider == "gemini_search" for d in outcome.displays)
-    if gemini:
-        parts.append("<p><strong>Gemini API + Google Search grounding</strong></p>")
-        models = sorted(
-            {
-                e.request["model"]
-                for e in outcome.debug_events
-                if e.stage.startswith("Gemini") and e.request.get("model")
-            }
-        )
-        if models:
-            parts.append("<p class='muted'>Model: " + escape(", ".join(models)) + "</p>")
     refs = {}
     for display in outcome.displays:
         cited = {i for support in display.response.supports for i in support.chunk_indices}

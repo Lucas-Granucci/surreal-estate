@@ -1,106 +1,20 @@
-"""FEMA point intersections and bounded, attributed OpenStreetMap context."""
+"""Bounded, cached and attributed OpenStreetMap context."""
 
+import asyncio
+import hashlib
+import json
+import time
 from datetime import UTC, datetime
+from pathlib import Path
+from uuid import uuid4
+
+import httpx
 
 from surreal_estate.channels.apis.common import add_record, coverage, distance_m, public_json
+from surreal_estate.orchestrator.context import BudgetExceeded
 
 OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter"
-
-FEMA_SERVICE = "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer"
-
-
-class FEMA:
-    provider = "fema_nfhl"
-
-    def __init__(self, http, *, panels=False):
-        self.http = http
-        self.panels = panels
-        self.topic = "flood_map_panels" if panels else "flood_hazard"
-        self.layer = 3 if panels else 28
-
-    async def fetch(self, case, ctx, location):
-        if not location:
-            return coverage(
-                self.provider,
-                self.topic,
-                "blocked",
-                "An unambiguous geocoded point is required for FEMA map context.",
-            )
-        fields = (
-            "OBJECTID,DFIRM_ID,FIRM_PAN,EFF_DATE,SOURCE_CIT"
-            if self.panels
-            else "OBJECTID,DFIRM_ID,FLD_AR_ID,FLD_ZONE,ZONE_SUBTY,SFHA_TF,SOURCE_CIT"
-        )
-        data, uri = await public_json(
-            self.http,
-            ctx,
-            self.provider,
-            f"{FEMA_SERVICE}/{self.layer}/query",
-            params={
-                "f": "json",
-                "geometry": f"{location.longitude},{location.latitude}",
-                "geometryType": "esriGeometryPoint",
-                "inSR": 4326,
-                "spatialRel": "esriSpatialRelIntersects",
-                "outFields": fields,
-                "returnGeometry": "false",
-                "resultRecordCount": 6,
-            },
-        )
-        if data.get("error") or not isinstance(data.get("features"), list):
-            raise ValueError("FEMA service returned an error or missing features")
-        features = data["features"]
-        limited = data.get("exceededTransferLimit", False) or len(features) > 5
-        result = coverage(
-            self.provider,
-            self.topic,
-            "truncated" if limited else "complete" if features else "empty",
-            "FEMA point intersection at Census interpolated coordinates. An empty result is unavailable mapped context, not a finding of no flood risk. Multiple intersections are retained without selecting a parcel-wide zone.",
-        )
-        for feature in features[:5]:
-            row = feature["attributes"]
-            effective = None
-            if self.panels:
-                if row.get("EFF_DATE") is not None:
-                    effective = (
-                        datetime.fromtimestamp(float(row["EFF_DATE"]) / 1000, UTC)
-                        .date()
-                        .isoformat()
-                    )
-                identifier = row.get("FIRM_PAN") or row.get("OBJECTID")
-                text = f"FEMA map panel {identifier}; effective date {effective or 'unavailable'}. The panel intersects the interpolated address point; it is not a parcel-boundary determination."
-            else:
-                if not row.get("FLD_ZONE"):
-                    raise ValueError("FEMA hazard feature missing zone")
-                identifier = row.get("FLD_AR_ID") or row.get("OBJECTID")
-                text = f"FEMA maps zone {row['FLD_ZONE']} ({row.get('ZONE_SUBTY') or 'subtype unspecified'}) at the interpolated address point; special flood hazard area field: {row.get('SFHA_TF') or 'unspecified'}. Preliminary map context, not a parcel or building flood determination."
-            add_record(
-                result,
-                provider=self.provider,
-                topic=self.topic,
-                uri=uri,
-                title=f"FEMA NFHL · {'panel' if self.panels else 'hazard area'} {identifier}",
-                statement=text,
-                scope=location.address,
-                record_id=identifier,
-                record_date=effective,
-                details={
-                    "service": FEMA_SERVICE,
-                    "layer_id": self.layer,
-                    "attributes": row,
-                    "latitude": location.latitude,
-                    "longitude": location.longitude,
-                },
-                attribution="Federal Emergency Management Agency · National Flood Hazard Layer",
-                match_method="point_intersection_census_interpolated_coordinates",
-                flags=[
-                    "address_range_interpolation",
-                    "not_parcel_flood_determination",
-                    "current_map_not_historical",
-                ],
-            )
-        return result
-
+OVERPASS_MIRROR = "https://overpass.private.coffee/api/interpreter"
 
 # One independent result cap per category prevents dense transit data from
 # crowding schools or groceries out of the same request.
@@ -148,6 +62,7 @@ class OpenStreetMap:
         self.http = http
 
     async def fetch(self, case, ctx, location):
+        ctx.policy.require(self.provider, extraction=True)
         if not location:
             return coverage(
                 self.provider,
@@ -160,15 +75,56 @@ class OpenStreetMap:
         for category, (_, selectors) in AMENITY_CATEGORIES.items():
             query += "(" + "".join(f"nwr{around}{selector};" for selector in selectors) + ")"
             query += f"->.{category};.{category} out body center {CATEGORY_LIMIT + 1};"
-        # Raw QL and project identification are required by the verified endpoint.
-        data, _ = await public_json(
-            self.http, ctx, self.provider, OVERPASS_ENDPOINT, content=query, request_seconds=35.0
-        )
-        if data.get("remark"):
-            raise ValueError("Overpass returned an incomplete query result")
+        # Form-encoded QL follows the documented Overpass HTTP interface.
+        cache_key = ("overpass", query)
+        cached = ctx.public_cache.get(cache_key)
+        cache_path = (Path(ctx.public_cache_dir) / (hashlib.sha256(query.encode()).hexdigest() + ".json")
+                      if ctx.public_cache_dir else None)
+        if not cached and cache_path:
+            try:
+                if cache_path.stat().st_size <= 2_000_000:
+                    stored = json.loads(cache_path.read_text())
+                    age = (datetime.now(UTC) - datetime.fromisoformat(stored["retrieved_at"])).total_seconds()
+                    valid = (isinstance(stored.get("data"), dict)
+                             and isinstance(stored["data"].get("elements"), list)
+                             and not stored["data"].get("remark"))
+                    if valid and 0 <= age < 7 * 86400 and stored["endpoint"] in {OVERPASS_ENDPOINT, OVERPASS_MIRROR}:
+                        cached = (time.monotonic() - age, stored["data"], stored["endpoint"], stored["retrieved_at"])
+            except (OSError, ValueError, KeyError, TypeError):
+                pass  # Cache availability never determines whether live research can run.
+        stale = cached if cached and 0 <= time.monotonic() - cached[0] < 7 * 86400 else None
+        stale_used = False
+        endpoint = OVERPASS_ENDPOINT
+        cached_at = None
+        if cached and 0 <= time.monotonic() - cached[0] < 86400:
+            _, data, endpoint, cached_at = cached
+        else:
+            for endpoint in (OVERPASS_ENDPOINT, OVERPASS_MIRROR):
+                try:
+                    data, _ = await public_json(
+                        self.http, ctx, self.provider, endpoint, data={"data": query},
+                        request_seconds=(8.0 if stale else 35.0) if endpoint == OVERPASS_ENDPOINT else 12.0,
+                        retries=1 if endpoint == OVERPASS_ENDPOINT else 0,
+                    )
+                    if data.get("remark") or not isinstance(data.get("elements"), list):
+                        raise ValueError("Overpass returned an incomplete query result")
+                    break
+                except (httpx.HTTPError, TimeoutError, ValueError, BudgetExceeded) as exc:
+                    if endpoint == OVERPASS_MIRROR or isinstance(exc, BudgetExceeded):
+                        if stale:
+                            _, data, endpoint, cached_at = stale
+                            stale_used = True
+                            break
+                        raise
+                    if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code in {406, 429}:
+                        # The public operator requests a pause after rate/admission rejection.
+                        if ctx.remaining < 36:
+                            raise
+                        await asyncio.sleep(30)
+                    ctx.trace.append("source:openstreetmap:trying_mirror")
         elements = data["elements"]
         if not isinstance(elements, list):
-            raise ValueError("Overpass elements must be a list")
+            raise TypeError("Overpass elements must be a list")
         groups = {key: {} for key in AMENITY_CATEGORIES}
         for element in elements:
             kind, identifier = element["type"], element["id"]
@@ -253,7 +209,9 @@ class OpenStreetMap:
                 attribution="© OpenStreetMap contributors · Open Database License (ODbL) · https://www.openstreetmap.org/copyright",
                 match_method="overpass_category_summary_1000m_geometry_query",
                 details={
-                    "query_endpoint": OVERPASS_ENDPOINT,
+                    "query_endpoint": endpoint,
+                    "cached_response_retrieved_at": cached_at,
+                    "cache_stale": stale_used,
                     "category": category,
                     "query_radius_m": 1000,
                     "mapped_feature_count": len(members),
@@ -272,4 +230,24 @@ class OpenStreetMap:
                 + (["category_results_capped"] if limited else []),
                 official=False,
             )
+        if not cached_at:
+            if len(ctx.public_cache) >= 128:
+                ctx.public_cache.pop(next(iter(ctx.public_cache)), None)
+            retrieved_at = datetime.now(UTC).isoformat()
+            ctx.public_cache[cache_key] = (time.monotonic(), data, endpoint, retrieved_at)
+            if cache_path:
+                try:
+                    cache_path.parent.mkdir(parents=True, exist_ok=True)
+                    temporary = cache_path.with_suffix(f".{uuid4().hex}.tmp")
+                    temporary.write_text(json.dumps({"data": data, "endpoint": endpoint, "retrieved_at": retrieved_at}))
+                    temporary.replace(cache_path)
+                except OSError:
+                    ctx.trace.append("source:openstreetmap:cache_write_unavailable")
+        else:
+            for evidence in result.evidence:
+                evidence.retrieved_at = datetime.fromisoformat(cached_at)
+            result.coverage[0].reason += f" Using saved map response retrieved at {cached_at}."
+        if stale_used:
+            result.coverage[0].status = "truncated"
+            result.coverage[0].reason += " Live map refresh failed; showing saved map data, not a fresh lookup."
         return result

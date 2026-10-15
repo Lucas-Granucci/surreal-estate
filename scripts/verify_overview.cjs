@@ -178,7 +178,7 @@ const bench = {
   );
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const headerBefore = await page.locator(".report-heading").boundingBox();
-  await page.getByRole("button", { name: "Records", exact: true }).click();
+  await page.getByRole("button", { name: "Property & street records", exact: true }).click();
   assert.equal(
     await page
       .locator(".report-view")
@@ -205,7 +205,7 @@ const bench = {
   await reportNavigation("Sources");
   assert.equal(await page.locator("#inspector .evidence-title").count(), 0);
   await reportNavigation("Findings");
-  await page.getByRole("button", { name: "Overview", exact: true }).click();
+  await page.getByRole("button", { name: "Location overview", exact: true }).click();
   assert.equal(
     await page.locator(".spatial-plot svg g[clip-path] > g").count(),
     4,
@@ -246,6 +246,7 @@ const bench = {
   );
   await page.getByRole("button", { name: "Show all places" }).click();
   assert.equal(await page.locator("#inspector .evidence-title").count(), 0);
+  await page.getByRole("button", { name: "Report coverage", exact: true }).click();
   await page.getByLabel("Filter research status").selectOption("Blocked");
   assert.equal(await page.locator(".research-table tbody tr").count(), 2);
   await page.locator(".research-table button").first().click();
@@ -257,6 +258,7 @@ const bench = {
     /No records found/,
   );
   await page.getByLabel("Filter research status").selectOption("All statuses");
+  await page.getByRole("button", { name: "Location overview", exact: true }).click();
   fs.mkdirSync(path.join(root, ".impeccable/review/overview"), {
     recursive: true,
   });
@@ -367,7 +369,7 @@ const bench = {
         assert(!(await page.locator("#report-sidebar").isVisible()));
         await reportNavigation("Findings");
         await page
-          .getByRole("button", { name: "Overview", exact: true })
+          .getByRole("button", { name: "Location overview", exact: true })
           .click();
       }
       await page.evaluate(() => window.scrollTo(0, 0));
@@ -383,11 +385,12 @@ const bench = {
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       );
+      await page.getByRole("button", { name: "Report coverage", exact: true }).click();
       assert.equal(
         await page.locator(".mobile-status-list").isVisible(),
         width === 390,
       );
-      await page.getByRole("button", { name: "Records", exact: true }).click();
+      await page.getByRole("button", { name: "Property & street records", exact: true }).click();
       await page.locator(".finding-select").first().focus();
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.screenshot({
@@ -397,7 +400,7 @@ const bench = {
         ),
         fullPage: true,
       });
-      await page.getByRole("button", { name: "Overview", exact: true }).click();
+      await page.getByRole("button", { name: "Location overview", exact: true }).click();
       assert.equal(await page.locator("#inspector .evidence-title").count(), 0);
       assert.equal(
         await page.locator('.legend-row[aria-pressed="true"]').count(),

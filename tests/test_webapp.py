@@ -6,14 +6,20 @@ from types import SimpleNamespace
 from uuid import uuid4
 
 import pytest
+from test_frontend import FakeSocket, outcome_fixture
 
 from surreal_estate import cli
-from surreal_estate.evals.fixtures import FixtureAPI, FixturePlanner, FixtureSearch, fixture_case
+from surreal_estate.evals.fixtures import (
+    FixtureAPI,
+    FixtureExtractor,
+    FixturePlanner,
+    FixtureSearch,
+    fixture_case,
+)
 from surreal_estate.models import ChannelResult, Coverage
 from surreal_estate.orchestrator.context import RunContext
 from surreal_estate.orchestrator.runner import run
 from surreal_estate.webapp.server import AddressRequest, App, ResearchRequest, app_handler, research
-from test_frontend import FakeSocket, outcome_fixture
 
 
 def request(app, path, *, method="GET", payload=None, token=True, host="localhost:8765", origin=None):
@@ -156,10 +162,10 @@ async def test_selected_web_channel_does_not_run_default_structured_channel():
     class DisplaySearch(FixtureSearch):
         async def search(self, *args):
             response = await super().search(*args)
-            return response.model_copy(update={"provider": "gemini_search", "search_entry_point": "<div>Suggestions</div>"})
-    result = await run(fixture_case(), RunContext(), FixturePlanner(), NeverAPI(), search=DisplaySearch(), selected_channels=["web"])
+            return response
+    result = await run(fixture_case(), RunContext(), FixturePlanner(), NeverAPI(), search=DisplaySearch(), extractor=FixtureExtractor(), selected_channels=["web"])
     assert result.report.plan.channels == ["web"]
-    assert result.displays
+    assert result.report.result.observations
     assert all(c.reason == "Not selected for this run" for c in result.report.result.coverage if c.channel == "apis")
 
 
@@ -202,8 +208,9 @@ def test_app_cli_starts_server(monkeypatch, tmp_path):
 
 def test_report_visuals_use_real_coordinates_dates_and_escape_names():
     from datetime import date
+
     from surreal_estate.models import Evidence
-    from surreal_estate.synthesis.report_visuals import nearby_map, closure_timeline
+    from surreal_estate.synthesis.report_visuals import closure_timeline, nearby_map
 
     def evidence(provider, **details):
         return Evidence(provider=provider, uri="https://example.org/source", title="Permit <unsafe>", excerpt="Source", retention="persistent", kind="official_record", details=details)

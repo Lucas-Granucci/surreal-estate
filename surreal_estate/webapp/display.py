@@ -12,8 +12,6 @@ TOPICS = {
     "geocoding": ("Address match", "Records"),
     "property_assessment": ("Property assessment", "Records"),
     "building_permits": ("Building permits", "Records"),
-    "flood_hazard": ("Flood-map context", "Records"),
-    "flood_map_panels": ("Flood map panels", "Records"),
     "mapped_amenities": ("Mapped surroundings", "Surroundings"),
     "street_closures": ("Street-closure permits", "Street permits"),
     "neighborhood_discussion": ("Local discussions", "Web research"),
@@ -25,12 +23,16 @@ CATEGORIES = {
     "pharmacies": "Pharmacies",
     "schools": "Mapped education features",
 }
-GAPS = {"blocked", "error", "truncated", "not_implemented", "attempted"}
+GAPS = {"blocked", "error", "truncated", "not_implemented", "attempted", "unavailable"}
 
 
 def bench_response(payload):
     data = payload.model_dump(mode="json")
     result = data["report"]["result"]
+    # Retired channels stay in original snapshots, but no longer appear in the app.
+    result["coverage"] = [c for c in result["coverage"] if c["provider"] != "fema_nfhl"]
+    result["observations"] = [o for o in result["observations"] if o["topic"] not in {"flood_hazard", "flood_map_panels"}]
+    result["evidence"] = [e for e in result["evidence"] if e["provider"] != "fema_nfhl"]
     evidence = {e["id"]: e for e in result["evidence"]}
     groups = defaultdict(list)
     for observation in result["observations"]:
@@ -85,7 +87,7 @@ def bench_response(payload):
         elif any(evidence[i]["provider"] == "openstreetmap" for i in sources):
             qualifier = "Community-mapped · straight-line distances, not travel distances"
         if web:
-            qualifier = "AI-assisted web research · not independently verified"
+            qualifier = "AI-assisted local intelligence · not independently verified"
             texts = [
                 "Web summary and separate AI review."
                 if any(data["web"][i]["label"] == "model_assessment" for i in web)
@@ -94,7 +96,7 @@ def bench_response(payload):
         research = next((w for w in result["research"] if w["topic"] == topic), None)
         if research:
             sources = research["evidence_ids"]
-            qualifier = "Web research · AI synthesis with source excerpts"
+            qualifier = "Local intelligence · AI synthesis with source excerpts"
             texts = [f'{len(research["findings"])} source-linked findings from {len(sources)} sources.']
         if topic == "street_closures":
             qualifier = "Public records · permits do not confirm work is underway"
@@ -150,7 +152,6 @@ def bench_response(payload):
 
     merge("groceries", "pharmacies", "Groceries & pharmacies")
     merge("property_assessment", "building_permits", "Assessment & building permits")
-    merge("flood_hazard", "flood_map_panels", "Flood-map context")
     # Keep location evidence available in Sources, without dominating Findings.
     order = {"transit": 0, "groceries": 1, "pharmacies": 2, "schools": 6}
     rows.sort(

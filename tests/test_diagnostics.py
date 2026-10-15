@@ -5,7 +5,7 @@ import pytest
 
 from surreal_estate.cli import main
 from surreal_estate.errors import ConfigurationError, failure_reason
-from surreal_estate.llm.gemini import GroundedSearchClient
+from surreal_estate.llm.brief import GeminiBriefWriter
 
 
 @pytest.mark.parametrize("key", [None, "", "   "])
@@ -35,11 +35,11 @@ def test_missing_key_cli_diagnosis_without_network(monkeypatch, capsys, key, tmp
 
 
 async def test_invalid_model_does_not_expose_value(monkeypatch):
-    monkeypatch.setenv("GEMINI_MODEL", "https://secret.example/key=SECRET")
+    monkeypatch.setenv("GEMINI_SYNTHESIS_MODEL", "https://secret.example/key=SECRET")
     async with httpx.AsyncClient() as http:
         with pytest.raises(ConfigurationError) as error:
-            GroundedSearchClient(http, api_key="SECRET")
-    assert "GEMINI_MODEL" in str(error.value)
+            GeminiBriefWriter(http, api_key="SECRET")
+    assert "GEMINI_SYNTHESIS_MODEL" in str(error.value)
     assert "SECRET" not in str(error.value)
 
 
@@ -88,7 +88,7 @@ async def test_model_discovery_pagination_and_method_filtering():
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
         present, models = await inspect_models(
-            GroundedSearchClient(http, api_key="test-key", model="gemini-2.5-flash")
+            GeminiBriefWriter(http, api_key="test-key", model="gemini-2.5-flash")
         )
     assert present
     assert models == ["gemini-2.5-flash"]

@@ -135,7 +135,7 @@ const appUrl = process.env.APP_URL || "http://127.0.0.1:8765";
   await page.getByRole("radio").check();
   await page.getByRole("button", { name: "Confirm location" }).tap();
   await page
-    .getByText("Web research is unavailable for this session.")
+    .getByText("Local intelligence is unavailable for this session.")
     .waitFor();
   assert(await page.locator("[name=local]").isDisabled());
   assert(await page.locator("[name=dining]").isDisabled());

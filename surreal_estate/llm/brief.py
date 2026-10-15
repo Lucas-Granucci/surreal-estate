@@ -7,6 +7,7 @@ import re
 from pydantic import Field
 
 from surreal_estate.errors import BriefResponseError, ConfigurationError
+from surreal_estate.llm.claim_checks import unsupported_hours_claim
 from surreal_estate.models import (
     BriefParagraph,
     BriefSection,
@@ -49,11 +50,15 @@ Never infer that a different neighborhood is the property's neighborhood. Radius
 local location_relevance are UNVERIFIED: no within-radius/nearby/walking-time assertion unless
 source material explicitly establishes it. Explain wider-area context and unresolved location.
 Search passages may be incomplete. A question is not an answer. 'Closed now' is temporary hours,
-not permanent closure; historical recollection is not evidence a restaurant closed. Identify
+not permanent closure. 'Closing soon' means today's closing time is approaching unless explicit closure reporting says otherwise. A single time range does not establish daily service; historical recollection is not evidence a restaurant closed. Identify
 uncertainty instead of guessing. Missing dates remain unknown. Source support and local AI
 review are not independent verification. Do not manufacture positive or negative review themes.
 No poster/reviewer identities, demographic desirability, safety or school-quality verdicts,
-structural/legal conclusions. Omit unrelated material rather than filling space.
+structural/legal conclusions. Omit unrelated material rather than filling space. Keep strictly to the current specification topic, not other case priorities. Do not include citywide police blotters or unrelated neighborhoods. If no relevant local evidence remains, keep sections empty.
+Omit dining reviews when the restaurant identity is unclear. Never combine a review fragment
+with a different listing to guess its subject. Omit staff names and irrelevant personal details.
+Resolve pronouns and comparison subjects before attributing an opinion to a neighborhood;
+if the subject is ambiguous, omit that statement. Separate dated redevelopment history from current conditions.
 Overview: the useful takeaway AND the material coverage limitations, with citations. Sections:
 only substantiated themes, in 1-3 concise paragraphs each; never metadata-only sections.
 When evidence is too thin to answer, say specifically what is missing and keep sections empty.
@@ -116,6 +121,8 @@ def attach_citations(written, refs, model):
             raise ValueError("Brief referenced an unknown source passage")
         if re.search(r"https?://|<[^>]+>|\]\(", p.text):
             raise ValueError("Brief text must use structured source references")
+        if unsupported_hours_claim(p.text, " ".join(refs[r].excerpt for r in p.source_refs)):
+            raise ValueError("Brief inferred business hours or permanent closure without support")
         return BriefParagraph(text=p.text, citations=[refs[r] for r in dict.fromkeys(p.source_refs)])
     return ResearchBrief(overview=paragraph(written.overview), sections=[
         BriefSection(heading=s.heading, paragraphs=[paragraph(p) for p in s.paragraphs])

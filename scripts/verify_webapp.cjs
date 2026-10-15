@@ -93,7 +93,6 @@ const assert = require("assert");
   await page
     .getByRole("button", { name: "Research scope", exact: true })
     .click();
-  await page.getByText("Coverage and missing data", { exact: true }).click();
   await capture("scope");
   await page.getByRole("button", { name: "Unresolved", exact: true }).click();
   await capture("unresolved");

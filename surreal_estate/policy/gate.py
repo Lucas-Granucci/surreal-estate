@@ -5,7 +5,6 @@ import yaml
 
 from surreal_estate.models import (
     Evidence,
-    FactCheckPlan,
     PropertyCase,
     ResearchPlan,
     ResearchQuerySpec,
@@ -50,7 +49,7 @@ class PolicyGate:
     def plan(self, plan: ResearchPlan, case: PropertyCase, max_calls: int):
         # Each spec dispatches one API call; internal search guidance is separate.
         if len(plan.queries) > max_calls:
-            raise PolicyDenied("Plan exceeds grounded-call budget")
+            raise PolicyDenied("Plan exceeds web-topic budget")
         keys = [q.model_dump_json() for q in plan.queries]
         if len(keys) != len(set(keys)):
             raise PolicyDenied("Duplicate query specs")
@@ -68,19 +67,3 @@ class PolicyGate:
             and (urlsplit(str(evidence.uri)).hostname in rule["hosts"]
                  or (rule.get("public_web") and public_url(str(evidence.uri))))
         )
-
-    @staticmethod
-    def required_factcheck_checks(spec: ResearchQuerySpec) -> list[str]:
-        required = ["location", "dates", "independent_sources", "contradictions", "opinion_vs_fact"]
-        if spec.topic == "restaurant_reviews":
-            required += ["restaurant_identity", "distance", "review_freshness"]
-        return required
-
-    def factcheck(self, plan: FactCheckPlan, spec: ResearchQuerySpec, case: PropertyCase):
-        self.query(spec, case)
-        if plan.topic != spec.topic or plan.geography != spec.geography:
-            raise PolicyDenied("Fact-check scope differs from approved research query")
-        if not set(self.required_factcheck_checks(spec)) <= set(plan.checks) or len(
-            plan.checks
-        ) != len(set(plan.checks)):
-            raise PolicyDenied("Fact-check plan is missing required checks or contains duplicates")

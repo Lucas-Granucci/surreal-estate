@@ -44,7 +44,7 @@ def test_sources_at_top_show_actual_apis_uploads_and_unique_web_links():
     assert html.index("Sources for this run") < html.index("Research plan")
     assert "U.S. Census Geocoder" in inventory and "Census match" in inventory
     assert "HOA budget.pdf" in inventory
-    assert "Gemini API + Google Search grounding" in inventory
+    assert "Gemini API + Google Search grounding" not in inventory
     assert "1 source links · 1 cited" in inventory
     assert inventory.count('href="https://example.org/review"') == 1
     assert "Search result" in inventory and "Claim re-check" in inventory

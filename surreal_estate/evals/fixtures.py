@@ -58,7 +58,7 @@ class FixtureSearch:
     provider = "synthetic_web"
 
     async def search(self, spec, ctx):
-        ctx.reserve("grounded")
+        ctx.reserve("web_search")
         text = f"Synthetic discussion dated {spec.end_date} in {spec.geography} reported temporary sidewalk work."
         return GroundedResponse(
             provider=self.provider,

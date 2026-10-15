@@ -3,7 +3,9 @@
 import json
 import math
 import re
+import time
 from datetime import date, timedelta
+from itertools import pairwise
 from uuid import UUID
 
 from surreal_estate.channels.apis.common import add_record, coverage, public_json
@@ -37,6 +39,11 @@ class WPRDC:
         self.metadata = None
 
     async def resolve(self):
+        cache_key = ("wprdc_catalog", self.dataset, self.resource_name)
+        cached = self.ctx.public_cache.get(cache_key)
+        if cached and time.monotonic() - cached[0] < 300:
+            _, self.metadata, self.resource = cached
+            return self
         data, _ = await public_json(
             self.http, self.ctx, self.provider, API + "package_show", params={"id": self.dataset}
         )
@@ -54,6 +61,9 @@ class WPRDC:
             raise ValueError("Current WPRDC DataStore resource unavailable or ambiguous")
         self.resource = choices[0]
         UUID(self.resource["id"])
+        if len(self.ctx.public_cache) >= 128:
+            self.ctx.public_cache.pop(next(iter(self.ctx.public_cache)), None)
+        self.ctx.public_cache[cache_key] = (time.monotonic(), self.metadata, self.resource)
         return self
 
     @property
@@ -154,7 +164,7 @@ class Assessments:
             not number
             or not requested
             or number[1] != requested[1]
-            or re.search(r"\b(APT|UNIT|SUITE|STE)\b|#|\d/\d|^\d+-", case.address, re.I)
+            or re.search(r"\b(APT|UNIT|SUITE|STE)\b|#|\d/\d|^\d+-", case.address, re.IGNORECASE)
         ):
             return coverage(
                 self.provider,
@@ -241,7 +251,7 @@ class Assessments:
                 limited=limited,
             )
         else:
-            self.parcel = sorted(parcels)[0]
+            self.parcel = min(parcels)
         rows = [row for row in rows if parcel_key(row["PARID"]) == parcel_key(self.parcel)]
         result = coverage(
             self.provider,
@@ -407,7 +417,7 @@ def segment_distance(location, points):
             raise ValueError("Invalid closure geometry")
         xy.append(((lon - location.longitude) * 111320 * scale, (lat - location.latitude) * 111320))
     distances = [math.hypot(x, y) for x, y in xy]
-    for (ax, ay), (bx, by) in zip(xy, xy[1:]):
+    for (ax, ay), (bx, by) in pairwise(xy):
         dx, dy = bx - ax, by - ay
         t = max(0, min(1, -(ax * dx + ay * dy) / (dx * dx + dy * dy))) if dx or dy else 0
         distances.append(math.hypot(ax + t * dx, ay + t * dy))

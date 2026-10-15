@@ -60,7 +60,11 @@ not universal coverage. The app remains a single-user local application. Optiona
 web research still depends on Gemini credentials and an available local model.
 
 
-The Findings view now opens on Overview. Its north-up coordinate plot uses saved
+The Findings view opens on Location overview. Local intelligence contains compact
+agentic-research topic previews, linking to the full briefs in the Local intelligence
+sidebar reader. Property & street records combines assessment, building permits and
+street-closure permits. Report coverage summarizes every pipeline channel and its gaps.
+The Location overview's north-up coordinate plot uses saved
 OSM member centres and an estimated address point, with category filters and an
 accessible location list. Missing coordinates are never synthesized. The distance
 reference expands to include retained centres; it is not a property boundary.
@@ -73,7 +77,7 @@ Offline Overview regression coverage: `scripts/verify_overview.cjs` (Playwright)
 It checks category/status filters, evidence access, missing coordinates, and both
 system themes at desktop and mobile widths without provider requests.
 
-Overview also owns mapped surroundings: the redundant All topics and Surroundings
+Location overview owns mapped surroundings: the redundant All topics and Surroundings
 filters are removed. The desktop plot is capped at 420px with compact category controls
 and count/coverage information beside it. Selecting a category updates both the summary
 and the evidence inspector using that category’s source ID, keeping groceries
@@ -87,7 +91,7 @@ and reserved scrollbar space keeps the layout stable between long and short view
 
 Saved reports include Delete for completed and failed runs, with confirmation,
 error/retry feedback, and persistent deletion. Running research cannot be deleted.
-The Overview map section spans the full content width; the coordinate plot stays
+The Location overview map section spans the full content width; the coordinate plot stays
 capped at 420px and the adjacent category controls fill the remaining space.
 
 The report page owns a collapsible sidebar instead of the app top header. Branding

@@ -16,7 +16,6 @@ def failure_reason(exc: Exception, *, provider: str | None = None) -> str:
         return str(exc)
     if provider:
         source = {
-            "fema_nfhl": "FEMA (hazards.fema.gov)",
             "census": "Census Geocoder",
             "openstreetmap": "OpenStreetMap / Overpass",
             "wprdc_assessments": "WPRDC assessments",
@@ -40,7 +39,7 @@ def failure_reason(exc: Exception, *, provider: str | None = None) -> str:
                 ):
                     return (
                         "HTTP 404: Google restricts this model to prior users. Choose an accessible "
-                        "GEMINI_MODEL after checking grounding support and pricing; no automatic fallback."
+                        "GEMINI_SYNTHESIS_MODEL after checking generation access and pricing; no automatic fallback."
                     )
             except (ValueError, AttributeError):
                 pass

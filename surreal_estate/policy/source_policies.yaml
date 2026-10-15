@@ -14,12 +14,6 @@ synthetic_web:
   retention: persistent
   extract: true
   hosts: [example.org]
-gemini_search:
-  enabled: true
-  retention: ephemeral
-  extract: false
-  refine_with_same_provider: true
-  hosts: []
 wprdc_assessments:
   enabled: true
   retention: persistent
@@ -35,16 +29,16 @@ wprdc_closures:
   retention: persistent
   extract: true
   hosts: [data.wprdc.org]
-fema_nfhl:
-  enabled: true
-  retention: persistent
-  extract: true
-  hosts: [hazards.fema.gov]
 openstreetmap:
   enabled: true
   retention: persistent
   extract: true
-  hosts: [overpass-api.de, www.openstreetmap.org]
+  hosts: [overpass-api.de, overpass.private.coffee, www.openstreetmap.org]
+pittsburgh_neighborhoods:
+  enabled: true
+  retention: persistent
+  extract: true
+  hosts: [pghbridgis.pittsburghpa.gov]
 allegheny_gis:
   enabled: true
   retention: persistent

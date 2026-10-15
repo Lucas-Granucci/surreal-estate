@@ -13,15 +13,13 @@ class BudgetExceeded(RuntimeError):
 
 
 class Budget(Model):
-    max_grounded_calls: int = Field(default=2, ge=0, le=5)
-    max_factcheck_calls: int = Field(default=2, ge=0, le=5)
+    max_web_topics: int = Field(default=2, ge=0, le=5)
     max_llm_calls: int = Field(default=8, ge=1, le=12)
     max_web_search_calls: int = Field(default=6, ge=0, le=12)
     max_synthesis_calls: int = Field(default=4, ge=0, le=5)
-    max_api_calls: int = Field(default=12, ge=0, le=32)
+    max_api_calls: int = Field(default=24, ge=0, le=32)
     output_tokens_per_call: int = Field(default=4096, ge=128, le=8192)
-    grounded_output_tokens_per_call: int = Field(default=4096, ge=128, le=8192)
-    deadline_seconds: float = Field(default=180, gt=0, le=600)
+    deadline_seconds: float = Field(default=300, gt=0, le=600)
     request_seconds: float = Field(default=60, gt=0, le=180)
 
 
@@ -32,6 +30,10 @@ class RunContext:
     policy: PolicyGate = field(default_factory=PolicyGate)
     trace: list[str] = field(default_factory=list)
     counts: dict[str, int] = field(default_factory=dict)
+    public_cache: dict = field(default_factory=dict)
+    public_cache_dir: str | None = None
+    research_area: dict = field(default_factory=dict)
+    geocoded_location: object | None = None
     confirmed_geocode: tuple[dict, str] | None = None
     started: float = field(default_factory=time.monotonic)
 
@@ -42,8 +44,6 @@ class RunContext:
     def reserve(self, kind: str) -> float:
         limits = {
             "llm": self.budget.max_llm_calls,
-            "grounded": self.budget.max_grounded_calls,
-            "factcheck": self.budget.max_factcheck_calls,
             "api": self.budget.max_api_calls,
             "web_search": self.budget.max_web_search_calls,
             "synthesis": self.budget.max_synthesis_calls,

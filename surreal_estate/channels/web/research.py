@@ -6,7 +6,9 @@ from typing import Annotated, Literal
 import httpx
 from pydantic import Field, create_model
 
+from surreal_estate.channels.web.locality import anchored_queries, local_spec, relevant_source
 from surreal_estate.errors import failure_reason
+from surreal_estate.llm.claim_checks import unsupported_hours_claim
 from surreal_estate.models import (
     ChannelResult,
     Coverage,
@@ -135,7 +137,7 @@ records. A forum question alone is not an answer or evidence of residents' views
 unanswered questions in follow_up_questions instead. Never summarize an entire population's
 views from an individual thread. Label location and hours as reported_fact, never opinion.
 Each finding should make one concise point. Never substitute the property address for a business
-address. Do not extrapolate opening days from partial hours. A heading, slider or navigation
+address. Do not extrapolate opening days from partial hours. 'Closing soon', 'Closed now' and 'Open now' are temporary daily-hours indicators, not evidence of permanent closure. Never infer daily opening from one day's time range. A heading, slider or navigation
 label alone does not establish a business's location, opening status or review reputation.
 A few reviews do not establish community consensus. Do not identify posters/reviewers.
 Keep unknown dates unknown and label clearly older material as historical. Explain missing dates and whether evidence covers this address or
@@ -214,7 +216,7 @@ def validate_findings(draft, sources, topic=None):
             metadata = True
         duplicate = any(finding.statement.strip().casefold() in f.statement.strip().casefold()
                         for f in accepted)
-        if supported and numeric_support and not irrelevant and not metadata and not question_only and not preview_only and not duplicate:
+        if supported and not unsupported_hours_claim(finding.statement, cited_text) and numeric_support and not irrelevant and not metadata and not question_only and not preview_only and not duplicate:
             kind = finding.kind
             if re.search(r"\b(location|hours|address|operating|closed)\b", finding.title, re.IGNORECASE):
                 kind = "reported_fact"
@@ -249,6 +251,7 @@ class ResearchAgent:
         self.writer = writer
 
     async def research(self, case, spec, ctx):
+        spec = await local_spec(spec, self.search, ctx)
         sources, queries, limitations = [], [], []
         credits = 0
         review_completed = False
@@ -270,13 +273,10 @@ class ResearchAgent:
                 "neighborhood living discussions Reddit" if spec.topic == "neighborhood_discussion"
                 else "restaurant reviews near " + (spec.address_anchor or spec.geography))]
             limitations.append("Used an address-area query because the planner returned no usable search text.")
-        if spec.topic == "neighborhood_discussion":
-            plain_queries[0] = f"{spec.geography} neighborhood living experiences site:reddit.com/r/pittsburgh" if "pittsburgh" in spec.geography.lower() else f"{spec.geography} neighborhood living experiences site:reddit.com"
+        plain_queries = anchored_queries(spec, plain_queries)
+        if not spec.neighborhood:
+            limitations.append("Neighborhood boundary was not resolved; discovery used the street as local context.")
         for query in plain_queries:
-            if spec.topic == "neighborhood_discussion" and spec.address_anchor:
-                # Exact building numbers tend to retrieve municipal footers, not local discussion.
-                street = spec.address_anchor.split(",")[0]
-                query = re.sub(re.escape(street), "", query, flags=re.IGNORECASE)
             # Constrain geography even when the planner forgets it.
             if spec.geography.casefold() not in query.casefold():
                 query = spec.geography + " " + query
@@ -286,6 +286,11 @@ class ResearchAgent:
             try:
                 found, used = await self.search.search_sources(query, spec, ctx)
                 credits += used
+                if spec.neighborhood and spec.topic == "neighborhood_discussion":
+                    local = [source for source in found if relevant_source(source, spec)]
+                    if len(local) != len(found):
+                        limitations.append("Unrelated search results were excluded from the address-area brief.")
+                    found = local
                 known = {str(s.uri) for s in sources}
                 sources.extend(s for s in found if str(s.uri) not in known)
             except ERRORS as exc:
@@ -336,6 +341,9 @@ class ResearchAgent:
                 limitations.append("Local synthesis incomplete: " + failure_reason(exc) + "; sources retained.")
         else:
             status = "empty" if status == "complete" else status
+        if spec.topic == "neighborhood_discussion" and not sources:
+            status = "truncated"
+            limitations.append("Insufficient address-area discussion coverage; no local conclusions were inferred.")
         findings = draft.findings if draft else []
         if sources and not findings:
             status = "truncated"

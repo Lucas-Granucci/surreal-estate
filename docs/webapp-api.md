@@ -77,7 +77,7 @@ Web research can incur provider charges. Unavailable web choices are disabled;
 the app provides a readiness recheck. Provider failures remain coverage gaps.
 
 Census resolves US addresses. Property/permit coverage is geographically bounded;
-FEMA/public Overpass availability varies. There are no travel-time, school-quality,
+Public Overpass availability varies; maps use dated cached results during temporary outages. Flood-map channels have been removed. There are no travel-time, school-quality,
 or independently verified web-conflict providers. Older snapshots may lack parcel
 candidate IDs; the interface preserves that missing data rather than inventing it.
 

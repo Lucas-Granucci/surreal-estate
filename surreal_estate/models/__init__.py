@@ -77,7 +77,7 @@ class Coverage(Model):
     provider: str | None = None
     topic: str
     status: Literal[
-        "complete", "attempted", "blocked", "empty", "truncated", "error", "not_implemented"
+        "complete", "attempted", "blocked", "empty", "truncated", "error", "not_implemented", "unavailable"
     ]
     reason: str
     queries_run: int = Field(default=0, ge=0)
@@ -183,6 +183,8 @@ class ResearchQuerySpec(Model):
     # Search guidance within one Gemini request, not an application-call budget.
     max_queries: Literal[1, 2, 3] = 3
     address_anchor: str | None = Field(default=None, max_length=200)
+    neighborhood: str | None = Field(default=None, max_length=120)
+    neighborhood_source: HttpUrl | None = None
     radius_meters: int = Field(default=1000, ge=100, le=5000)
 
     @model_validator(mode="after")
@@ -203,24 +205,6 @@ class ResearchPlan(Model):
         if self.queries and "web" not in self.channels:
             raise ValueError("Queries require web channel")
         return self
-
-
-class FactCheckPlan(Model):
-    topic: Topic
-    geography: str
-    checks: list[
-        Literal[
-            "location",
-            "dates",
-            "independent_sources",
-            "contradictions",
-            "opinion_vs_fact",
-            "restaurant_identity",
-            "distance",
-            "review_freshness",
-        ]
-    ] = Field(min_length=3, max_length=8)
-    max_queries: Literal[1, 2, 3] = 3
 
 
 class GroundingChunk(Model):
