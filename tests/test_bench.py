@@ -97,7 +97,7 @@ def test_legacy_observation_and_empty_blocked_sources_stay_distinct():
 
 
 def test_capabilities_missing_key_is_unavailable_without_network(monkeypatch):
-    monkeypatch.setenv("GEMINI_API_KEY", "")
+    monkeypatch.setenv("TAVILY_API_KEY", "")
     assert capabilities() == {"apis": {"available": True}, "web": {"available": False}}
 
 

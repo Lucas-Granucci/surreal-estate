@@ -50,6 +50,25 @@ def render_markdown(report: RunReport) -> str:
             lines.append("  - Flags: " + ", ".join(claim.flags))
     if not report.claims:
         lines.append("No supported observations available.")
+    for research in report.result.research:
+        lines += ["", "## " + research.topic.replace("_", " ").title(), ""]
+        if research.brief:
+            def prose(paragraph, output=lines):
+                links = " ".join(f"[source](<{evidence[c.evidence_id].uri}>)" for c in paragraph.citations)
+                output.extend([paragraph.text + " " + links, ""])
+            prose(research.brief.overview)
+            for section in research.brief.sections:
+                lines += ["### " + section.heading, ""]
+                for paragraph in section.paragraphs:
+                    prose(paragraph)
+            lines += ["### Extraction notes (local AI)", ""]
+        for finding in research.findings:
+            lines.append(f"- [{finding.kind}; AI assessment: {finding.assessment}] {finding.statement}")
+            for citation in finding.citations:
+                lines.append(f"  - Source: <{evidence[citation.evidence_id].uri}>")
+                lines.append("  - Supporting excerpt: " + citation.excerpt)
+        for limitation in research.limitations:
+            lines.append("- Limitation: " + limitation)
     lines += ["", "## Coverage", ""]
     for item in report.result.coverage:
         lines.append(f"- {item.channel}/{item.topic}: {item.status} — {item.reason}")

@@ -97,6 +97,35 @@ const bench = {
   let savedRuns = [],
     deletionFails = false,
     deleteCount = 0;
+  async function reportNavigation(name) {
+    if (!(await page.locator("#report-sidebar").isVisible()))
+      await page
+        .getByRole("button", { name: "Open sidebar", exact: true })
+        .click();
+    await page
+      .locator("#report-sidebar")
+      .getByRole("button", { name, exact: true })
+      .click();
+  }
+  let progressPolls = 0;
+  const progressJob = {
+    id: "progress-fixture",
+    address: "100 Fixture Street, Pittsburgh, PA",
+    geography: "Pittsburgh, PA",
+    status: "running",
+    message: "Checking sources",
+    progress: {
+      detail: "Checking sources",
+      steps: [
+        {
+          id: "apis",
+          label: "Public records & nearby places",
+          state: "active",
+        },
+        { id: "report", label: "Organize report", state: "waiting" },
+      ],
+    },
+  };
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.route("http://overview.test/**", (route) => {
@@ -113,6 +142,10 @@ const bench = {
       return route.fulfill({ json: { deleted: true } });
     }
     let data;
+    if (url.pathname === "/api/runs/progress-fixture") {
+      progressPolls++;
+      return route.fulfill({ json: progressJob });
+    }
     if (url.pathname.endsWith("/bench.json")) data = bench;
     else if (url.pathname === "/api/runs")
       data = { runs: savedRuns, csrf: "offline" };
@@ -134,6 +167,14 @@ const bench = {
   assert.equal(
     await page.locator('.legend-row[aria-pressed="true"]').count(),
     0,
+  );
+  assert(!(await page.locator(".app-header").isVisible()));
+  assert(await page.locator("#report-sidebar .rail-brand").isVisible());
+  assert(
+    await page
+      .locator("#report-sidebar")
+      .getByRole("button", { name: "New report", exact: true })
+      .isVisible(),
   );
   await page.emulateMedia({ reducedMotion: "no-preference" });
   const headerBefore = await page.locator(".report-heading").boundingBox();
@@ -161,9 +202,9 @@ const bench = {
     await finding.locator(".finding-select").getAttribute("aria-pressed"),
     "true",
   );
-  await page.getByRole("button", { name: "Sources", exact: true }).click();
+  await reportNavigation("Sources");
   assert.equal(await page.locator("#inspector .evidence-title").count(), 0);
-  await page.getByRole("button", { name: "Findings", exact: true }).click();
+  await reportNavigation("Findings");
   await page.getByRole("button", { name: "Overview", exact: true }).click();
   assert.equal(
     await page.locator(".spatial-plot svg g[clip-path] > g").count(),
@@ -248,6 +289,87 @@ const bench = {
         );
         await page.keyboard.press("Escape");
       }
+      if (width > 720) {
+        const selected = await page
+          .locator("#inspector .evidence-title")
+          .innerText();
+        await page
+          .getByRole("button", { name: "Collapse sidebar", exact: true })
+          .click();
+        assert(
+          (await page.locator("#report-sidebar").boundingBox()).width === 64,
+        );
+        assert.equal(
+          await page.locator("#inspector .evidence-title").innerText(),
+          selected,
+        );
+        const logo = page.locator(".rail-logo-toggle");
+        await page.mouse.move(800, 20);
+        await logo.evaluate((e) => e.blur());
+        assert(await logo.locator(".rail-logo-default").isVisible());
+        assert(!(await logo.locator(".rail-logo-expand").isVisible()));
+        await logo.hover();
+        assert(await logo.locator(".rail-logo-expand").isVisible());
+        assert(await page.getByRole("tooltip").isVisible());
+        const centers = await page
+          .locator("#report-sidebar")
+          .evaluate((rail) => {
+            const center = (e) => {
+              const r = e.getBoundingClientRect();
+              return r.x + r.width / 2;
+            };
+            return [
+              center(rail.querySelector(".rail-logo-default svg")),
+              center(rail.querySelector(".rail-global svg")),
+            ];
+          });
+        // The default logo is hidden on hover; compare the displayed expand icon instead.
+        const expandCenter = await logo
+          .locator(".rail-logo-expand svg")
+          .evaluate((e) => {
+            const r = e.getBoundingClientRect();
+            return r.x + r.width / 2;
+          });
+        assert(Math.abs(expandCenter - centers[1]) < 1);
+        await page.screenshot({
+          path: path.join(
+            root,
+            `.impeccable/review/overview/rail-collapsed-${colorScheme}.png`,
+          ),
+          fullPage: true,
+        });
+        await page
+          .getByRole("button", { name: "Expand sidebar", exact: true })
+          .click();
+        assert(
+          (await page.locator("#report-sidebar").boundingBox()).width === 232,
+        );
+      } else {
+        await page
+          .getByRole("button", { name: "Open sidebar", exact: true })
+          .click();
+        assert(await page.locator(".report-work").evaluate((e) => e.inert));
+        assert.equal(
+          await page.locator("#report-sidebar").getAttribute("aria-modal"),
+          "true",
+        );
+        await page.screenshot({
+          path: path.join(
+            root,
+            `.impeccable/review/overview/rail-mobile-${colorScheme}.png`,
+          ),
+          fullPage: true,
+        });
+        await page.keyboard.press("Escape");
+        assert(!(await page.locator("#report-sidebar").isVisible()));
+        assert(!(await page.locator(".report-work").evaluate((e) => e.inert)));
+        await reportNavigation("Sources");
+        assert(!(await page.locator("#report-sidebar").isVisible()));
+        await reportNavigation("Findings");
+        await page
+          .getByRole("button", { name: "Overview", exact: true })
+          .click();
+      }
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.screenshot({
         path: path.join(
@@ -317,7 +439,7 @@ const bench = {
       created_at: "2026-10-14",
     },
   ];
-  await page.goto("http://overview.test/#saved");
+  await reportNavigation("Saved reports");
   await page
     .getByRole("heading", { name: "Saved reports", exact: true })
     .waitFor();
@@ -363,6 +485,80 @@ const bench = {
   );
   assert.equal(await page.locator(".saved-row").count(), 1);
   assert.match(await page.locator(".saved-row").innerText(), /200 In Progress/);
+  await page.goto("http://overview.test/#entry");
+  assert.equal(
+    await page
+      .getByRole("button", { name: "Saved reports", exact: true })
+      .count(),
+    0,
+  );
+  await page.goto("http://overview.test/#progress/progress-fixture");
+  await page.locator("#progress-screen .spinner").waitFor();
+  assert.equal(
+    await page
+      .getByRole("button", { name: "Saved reports", exact: true })
+      .count(),
+    0,
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const before = await page.locator("#progress-screen h1").boundingBox();
+  await page.evaluate(() => {
+    window.progressScreen = document.getElementById("progress-screen");
+    window.progressSpinner = document.querySelector(
+      "#progress-screen .spinner",
+    );
+  });
+  const initialPolls = progressPolls;
+  progressJob.progress.detail =
+    "Researching public records and mapped surroundings, then preparing the saved report.";
+  await page.waitForFunction(
+    (text) => document.querySelector(".status-message").textContent === text,
+    progressJob.progress.detail,
+  );
+  assert(progressPolls > initialPolls);
+  assert(
+    await page.evaluate(
+      () =>
+        window.progressScreen === document.getElementById("progress-screen") &&
+        window.progressSpinner ===
+          document.querySelector("#progress-screen .spinner"),
+    ),
+  );
+  const after = await page.locator("#progress-screen h1").boundingBox();
+  assert.equal(before.y, after.y);
+  assert.equal(before.x, after.x);
+  assert.equal(
+    await page
+      .locator(".progress-view")
+      .evaluate((e) => getComputedStyle(e).animationName),
+    "none",
+  );
+  progressJob.progress.steps[0].state = "done";
+  progressJob.progress.steps[1].state = "active";
+  await page.locator('[data-step="apis"] .status-mark.done').waitFor();
+  assert.equal(
+    await page.locator('[data-step="apis"] small').innerText(),
+    "Finished",
+  );
+  assert.equal(
+    await page.locator('[data-step="report"] small').innerText(),
+    "In progress",
+  );
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.screenshot({
+      path: path.join(
+        root,
+        `.impeccable/review/overview/progress-stable-${width}.png`,
+      ),
+      fullPage: true,
+    });
+    assert(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    );
+  }
   assert.deepEqual(errors, []);
   await browser.close();
   console.log(

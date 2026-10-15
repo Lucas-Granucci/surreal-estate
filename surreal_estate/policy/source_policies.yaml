@@ -3,6 +3,12 @@ census:
   retention: persistent
   extract: true
   hosts: [geocoding.geo.census.gov]
+tavily_search:
+  enabled: true
+  retention: persistent
+  extract: true
+  public_web: true
+  hosts: []
 synthetic_web:
   enabled: true
   retention: persistent

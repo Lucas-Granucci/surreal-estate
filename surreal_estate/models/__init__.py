@@ -85,10 +85,61 @@ class Coverage(Model):
     parcel_candidates: list[ParcelCandidate] = Field(default_factory=list, max_length=20)
 
 
+class WebCitation(Model):
+    evidence_id: str
+    excerpt: str = Field(min_length=1, max_length=1000)
+
+
+class WebFinding(Model):
+    id: str = Field(default_factory=identifier)
+    title: str = Field(min_length=1, max_length=120)
+    statement: str = Field(min_length=1, max_length=700)
+    kind: Literal["reported_fact", "opinion", "mixed"]
+    assessment: Literal["reported", "support_found", "conflicting", "unresolved"] = "reported"
+    explanation: str = Field(default="", max_length=700)
+    location_relevance: str = Field(default="", max_length=300)
+    citations: list[WebCitation] = Field(min_length=1, max_length=5)
+
+
+class BriefParagraph(Model):
+    text: str = Field(min_length=1, max_length=2200)
+    citations: list[WebCitation] = Field(min_length=1, max_length=8)
+
+
+class BriefSection(Model):
+    heading: str = Field(min_length=1, max_length=120)
+    paragraphs: list[BriefParagraph] = Field(min_length=1, max_length=5)
+
+
+class ResearchBrief(Model):
+    overview: BriefParagraph
+    sections: list[BriefSection] = Field(default_factory=list, max_length=8)
+    limitations: list[str] = Field(default_factory=list, max_length=10)
+    follow_up_questions: list[str] = Field(default_factory=list, max_length=5)
+    model: str
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+
+
+class WebResearch(Model):
+    topic: str
+    summary: str = Field(default="", max_length=1200)
+    findings: list[WebFinding] = Field(default_factory=list, max_length=10)
+    limitations: list[str] = Field(default_factory=list, max_length=12)
+    follow_up_questions: list[str] = Field(default_factory=list, max_length=5)
+    queries: list[str] = Field(default_factory=list)
+    evidence_ids: list[str] = Field(default_factory=list)
+    search_calls: int = 0
+    usage_credits: float = 0
+    review_completed: bool = False
+    brief: ResearchBrief | None = None
+    synthesis_status: Literal["not_run", "complete", "error"] = "not_run"
+
+
 class ChannelResult(Model):
     observations: list[Observation] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
     coverage: list[Coverage] = Field(default_factory=list)
+    research: list[WebResearch] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def valid_provenance(self):
@@ -97,6 +148,19 @@ class ChannelResult(Model):
             raise ValueError("Duplicate evidence IDs")
         if any(not set(o.evidence_ids) <= set(ids) for o in self.observations):
             raise ValueError("Observation references missing evidence")
+        for research in self.research:
+            if not set(research.evidence_ids) <= set(ids):
+                raise ValueError("Research references missing evidence")
+            if any(c.evidence_id not in research.evidence_ids
+                   for f in research.findings for c in f.citations):
+                raise ValueError("Finding references missing research source")
+            if research.brief:
+                paragraphs = [research.brief.overview] + [
+                    p for section in research.brief.sections for p in section.paragraphs
+                ]
+                if any(c.evidence_id not in research.evidence_ids
+                       for p in paragraphs for c in p.citations):
+                    raise ValueError("Brief references missing research source")
         return self
 
 

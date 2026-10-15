@@ -89,3 +89,29 @@ Saved reports include Delete for completed and failed runs, with confirmation,
 error/retry feedback, and persistent deletion. Running research cannot be deleted.
 The Overview map section spans the full content width; the coordinate plot stays
 capped at 420px and the adjacent category controls fill the remaining space.
+
+The report page owns a collapsible sidebar instead of the app top header. Branding
+and collapse controls sit above the report views; New report/View progress and
+Saved reports stay in a separate bottom navigation group. Desktop collapse keeps
+a 64px icon rail and retains evidence, filters and scroll. Mobile uses an overlay
+drawer with focus containment, an inert report, Escape/backdrop dismissal and
+focus restoration. Other pages retain the standard app header.
+
+The brand mark shares the navigation icon centreline. In the collapsed rail it
+remains at the top and becomes the expand affordance on hover or keyboard focus,
+with an Expand sidebar tooltip. Branding uses the primary text color. Saved reports
+is hidden during address entry, confirmation, channel selection and progress.
+Progress polling patches existing status nodes rather than recreating the screen;
+unchanged spinners, focus and heading position survive each update.
+
+
+## Tavily web research (2026-10-15)
+
+New runs use Tavily Search exclusively and local Nemotron planning, synthesis and
+targeted review. `report.result.research` / bench `research` carry source-linked
+findings and exact original passage references. Web research has a dedicated
+main-column reader with topic tabs; the inspector carries selected source excerpts,
+publication/retrieval context and original links. The same evidence opens in the
+mobile dialog. New findings survive snapshots and durable export; saved Gemini
+responses remain readable separately. See `docs/tavily-research.md` for setup,
+budgets, failure behavior and the storage contract.

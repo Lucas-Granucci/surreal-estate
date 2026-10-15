@@ -34,14 +34,16 @@ def capabilities():
     """Read-only configuration/readiness check; no generation or paid calls."""
     from dotenv import load_dotenv
 
-    from surreal_estate.llm.gemini import GroundedSearchClient
+    from surreal_estate.llm.brief import GeminiBriefWriter
     from surreal_estate.llm.nemotron import NemotronClient
+    from surreal_estate.llm.tavily import TavilyClient
 
     load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
     available = False
     try:
         with httpx.Client(trust_env=False, timeout=2) as client:
-            GroundedSearchClient(client)
+            TavilyClient(client)
+            GeminiBriefWriter(client)
             planner = NemotronClient(client)
             response = client.get(planner.base_url + "/api/tags")
             response.raise_for_status()
@@ -452,7 +454,12 @@ class App:
             None,
         )
         if any(s["state"] == "active" and s["id"] == "web" for s in steps):
-            detail = "Reading sources and checking claims"
+            web_events = [event.split(":") for event in trace if event.startswith("web:")]
+            phase = web_events[-1][-1] if web_events else "searching"
+            detail = {"planning": "Planning source searches locally", "searching": "Searching web sources",
+                      "reading": "Organizing source-linked findings", "checking": "Checking factual uncertainties",
+                      "synthesizing": "Writing the final research brief",
+                      "finished": "Saving web research"}.get(phase, "Reading web sources")
         if job.get("stage") == "report":
             detail = "Organizing findings and saving sources"
         return {

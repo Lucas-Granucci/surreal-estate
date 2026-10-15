@@ -17,12 +17,12 @@ web query specs, only for neighborhood_discussion or restaurant_reviews if reque
 Other specialist topics are not yet implemented: do not create queries for them.
 For neighborhood_discussion use source_types=["discussion"]. For restaurant_reviews
 use source_types=["reviews"], address_anchor equal to the exact case.address, and
-radius_meters=1000 as downstream metadata. Gemini will search for restaurant reviews,
+radius_meters=1000 as downstream metadata. Tavily will search for restaurant reviews,
 local food publications and Google Reviews in the immediate vicinity of the address.
 The radius is not a distance-verification requirement. Prefer recent review themes;
 the date window is search context, not a requirement for exact review timestamps.
 Create one query per supported priority, within the call budget; avoid duplicate topics.
-Use the exact case geography and max_queries=3 (internal search guidance within one API call).
+Use the exact case geography and max_queries=3 (up to two discovery queries and one targeted check).
 Copy start_date and end_date exactly
 from query_window; never calculate dates or use today's date from memory.
 Only use topics listed in case.priorities. Do not invent addresses, sources or findings.

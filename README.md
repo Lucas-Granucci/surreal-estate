@@ -68,58 +68,34 @@ Default live structured research (no Ollama or API key required):
 .venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --db research.db
 ```
 
-Add Gemini grounding explicitly (requires local Ollama with `nemotron-3-nano:4b`). The default is `gemini-3.8-flash` with
-Google Search enabled. This project uses a billing-enabled Gemini account;
-model tokens and search usage can incur charges. See [current pricing](https://ai.google.dev/gemini-api/docs/pricing).
-Older 2.5 models may appear in the model catalog while rejecting new-user requests.
+Add Tavily web research with local Nemotron (`nemotron-3-nano:4b`):
+
+1. Create an account at https://app.tavily.com and obtain an API key.
+2. Set `TAVILY_API_KEY` in the project `.env`; do not commit or share that file.
+3. Set `TAVILY_SEARCH_DEPTH=basic` (or `advanced`, which costs twice as many search credits).
+4. Start Ollama with the configured model, then restart the app if it was already running.
 
 ```sh
-export GEMINI_API_KEY='your-key'
-export GEMINI_MODEL=gemini-3.8-flash
 .venv/bin/surreal-estate research --address '414 Grant Street, Pittsburgh, PA 15219' --web --db research.db
+.venv/bin/python scripts/smoke_tavily.py
 ```
 
-`--web` prints a random, loopback-only URL after research completes. Open it to see
-Gemini's separate answer, links, and Search Suggestions. The CLI also prints a
-`Frontend JSON` URL containing the main report and both web responses with their
-source links, citation mappings and Search Suggestions. This response is for
-same-application user display and includes live web content. See
-[the frontend response contract](docs/frontend-response.md).
-Ctrl-C ends the viewer; results also expire after 15 minutes, or when the frontend
-acknowledges viewing with `POST /<token>/release`.
-Live responses never enter SQLite or terminal output. During development, CLI runs
-also save `exports/<run-id>.json`, including the main report, original Gemini answer,
-re-check, source chunks, supports and Search Suggestions. The CLI prints the filename
-before opening the viewer. Each run gets its own file; failed runs are saved too.
-Use `--no-save-json` to disable this development snapshot. `exports/` is Git-ignored.
-These files persist after the viewer closes; delete them when finished debugging.
-Snapshots are labeled `development_debug` / `development_file` and exclude debug
-request/response payloads. Model text is preserved exactly in JSON and rendered
-as Markdown in the viewer (headings, lists, tables, links, emphasis and code).
-The viewer
-sets `Cache-Control: no-store`, disables access logs, and sandboxes provider HTML.
-It is a development viewer, not a reviewed production display implementation.
-No live Gemini call occurs unless `--web` is supplied. The CLI automatically loads
-`.env` from the current working directory; run commands from the project root to
-use its `.env`. See `.env.example` for variable names. Exported environment variables
-take precedence, including empty values; use `unset GEMINI_API_KEY` to let the file
-supply the key if your shell already defines it. `.env` is ignored by Git.
+New web research uses Tavily exclusively for search. Local Nemotron plans searches,
+extracts source-linked research notes and reviews material factual uncertainties.
+Gemini writes the final source-cited brief from that material without search tools;
+set the existing `GEMINI_API_KEY` and optional `GEMINI_SYNTHESIS_MODEL` in `.env`. A topic uses up to two discovery searches and one
+targeted check, within a six-search budget per report. Each finding links to exact
+supporting excerpts; unknown publication dates remain unknown. Opinions remain
+separate from reported facts. A model assessment is not independent verification.
 
-If `--web` reports a missing key, add `GEMINI_API_KEY=your-key` to `.env`, or set it
-in the same zsh terminal without putting its value in shell history:
+The report's **Web research** view puts the brief in the main reading column and
+selected source excerpts in the evidence inspector (a dialog on smaller screens).
+Sources, limitations, follow-up questions, queries and returned credit usage remain
+accessible. New Tavily research is included in local snapshots, SQLite and durable
+exports. Saved Gemini reports remain readable under their original display-only
+boundary; they are not reprocessed. Provider/source rights still govern content use.
 
-```zsh
-read -rs 'GEMINI_API_KEY?Paste Gemini API key: '
-printf '\n'
-export GEMINI_API_KEY
-export GEMINI_MODEL=gemini-3.8-flash
-```
-
-Configuration errors name the setting without showing its value. Provider errors
-report the HTTP status and a static troubleshooting hint; raw response bodies and
-request headers are not logged. Redacted JSON responses are available only in the in-memory dashboard debugger. A 429 indicates a rate/quota limit, not necessarily
-a requirement to enable billing.
-
+See [Tavily research architecture and configuration](docs/tavily-research.md).
 
 ## Default structured-data sources
 

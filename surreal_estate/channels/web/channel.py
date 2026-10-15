@@ -34,9 +34,16 @@ class WebChannel:
         self.displays: list[LiveDisplay] = []
 
     async def run(self, case: PropertyCase, ctx: RunContext) -> ChannelResult:
-        observations, evidence, coverage = [], [], []
+        observations, evidence, coverage, research = [], [], [], []
         for spec in self.queries:
             ctx.policy.query(spec, case)
+            if getattr(self.search, "provider", None) == "tavily_search":
+                result = await self.extractor.research(case, spec, ctx)
+                observations.extend(result.observations)
+                evidence.extend(result.evidence)
+                coverage.extend(result.coverage)
+                research.extend(result.research)
+                continue
             try:
                 response = await self.search.search(spec, ctx)
             except (httpx.HTTPError, ValueError, KeyError, TypeError, TimeoutError, BudgetExceeded) as exc:
@@ -102,7 +109,8 @@ class WebChannel:
                     reason="Planner proposed no supported queries",
                 )
             )
-        return ChannelResult(observations=observations, evidence=evidence, coverage=coverage)
+        return ChannelResult(observations=observations, evidence=evidence, coverage=coverage,
+                             research=research)
 
     async def _recheck(self, case, spec, original, ctx) -> Coverage:
         before = ctx.counts.get("factcheck", 0)

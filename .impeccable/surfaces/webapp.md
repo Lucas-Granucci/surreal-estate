@@ -12,7 +12,7 @@ FORM: Implement the approved HTML reference directly. Keep the approved spacing,
 
 ## Layout and interaction
 
-The report uses navigation / findings / evidence columns (176px / flexible / 340px), widening outer columns at 1500px. At 1120px and below evidence opens in a dialog. At 720px and below the report navigation becomes a horizontally scrollable top row, preview content stacks, filters become two columns and evidence uses a full-screen dialog. The landing hero, preview and value rows retain separate widths. See DESIGN.md for exact tokens and dimensions.
+The report uses a collapsible navigation sidebar / findings / evidence layout (232px / flexible / 340px), widening at 1500px. The sidebar contains branding at the top and global report actions at the bottom; the report has no app top header. Collapsing leaves a 64px icon rail; the top brand mark becomes the expand control on hover or keyboard focus. Branding uses primary text, aligned with the navigation icon centreline. At 1120px and below evidence opens in a dialog. At 720px and below the sidebar opens as a modal drawer from a compact menu button, preview content stacks, filters become two columns and evidence uses a full-screen dialog. The landing hero, preview and value rows retain separate widths. See DESIGN.md for exact tokens and dimensions.
 
 A finding selection highlights its row and opens its actual evidence. Qualifiers remain beside findings; records, links and raw evidence use concise disclosures. Findings, Unresolved, Sources and Research scope are separate report views. Public records/community mapping and model summaries/AI reviews stay distinguishable. No invented distance, travel time, property claim or progress percentage is permitted. Permits do not verify active work; geocoding provides an estimated street point.
 
@@ -27,3 +27,29 @@ The prototype’s fixture content is not product data. The backend exposes a dis
 ## Quality bar
 
 Match the approved composition in both system themes; keep controls legible at mobile widths; retain keyboard focus and reduced-motion support; never hide factual qualifications merely to shorten the view. Existing uppercase metadata labels and text-symbol status/close controls are inherited implementation details, not new reusable design rules.
+
+The research flow hides Saved reports. Progress updates in place without replaying
+entry animation or replacing unchanged status nodes and spinners.
+
+
+## Tavily web research (2026-10-15)
+
+New runs use Tavily Search exclusively, local Nemotron planning and targeted review,
+and Gemini API writing of the final brief without search/grounding tools.
+`report.result.research` / bench `research` carry source-linked
+findings and exact original passage references. Web research has a dedicated
+main-column reader with topic tabs; the inspector carries selected source excerpts,
+publication/retrieval context and original links. The same evidence opens in the
+mobile dialog. New findings survive snapshots and durable export; saved Gemini
+responses remain readable separately. See `docs/tavily-research.md` for setup,
+budgets, failure behavior and the storage contract.
+
+The main reader prioritizes Gemini's thematic prose, with numbered source links at
+paragraph ends and an evidence action for original cited passages. The inspector
+groups passages from the same source. Writer failures retain extraction notes and
+sources, with an explicit limitation; older reports do not trigger paid rewriting.
+
+Web research is a dedicated sidebar destination. Findings has compact topic previews
+with a first-sentence excerpt, coverage status and a direct Read brief action. It has
+no Web research filter, and web topics are excluded from the adjacent records status
+table to avoid duplicate entries. Older reports link to available research notes.

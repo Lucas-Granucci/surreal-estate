@@ -16,8 +16,8 @@ TOPICS = {
     "flood_map_panels": ("Flood map panels", "Records"),
     "mapped_amenities": ("Mapped surroundings", "Surroundings"),
     "street_closures": ("Street-closure permits", "Street permits"),
-    "neighborhood_discussion": ("Local discussions", "Local accounts"),
-    "restaurant_reviews": ("Dining research", "Local accounts"),
+    "neighborhood_discussion": ("Local discussions", "Web research"),
+    "restaurant_reviews": ("Dining reviews", "Web research"),
 }
 CATEGORIES = {
     "transit": "Nearby transit",
@@ -49,6 +49,8 @@ def bench_response(payload):
             groups[(item["topic"], None)] = []
     for web in data["web"]:
         groups.setdefault((web["topic"], None), [])
+    for research in result["research"]:
+        groups.setdefault((research["topic"], None), [])
     rows = []
     for (topic, category), observations in groups.items():
         title, section = TOPICS.get(topic, (topic.replace("_", " ").capitalize(), "Records"))
@@ -89,6 +91,11 @@ def bench_response(payload):
                 if any(data["web"][i]["label"] == "model_assessment" for i in web)
                 else "Web summary with source references."
             ]
+        research = next((w for w in result["research"] if w["topic"] == topic), None)
+        if research:
+            sources = research["evidence_ids"]
+            qualifier = "Web research · AI synthesis with source excerpts"
+            texts = [f'{len(research["findings"])} source-linked findings from {len(sources)} sources.']
         if topic == "street_closures":
             qualifier = "Public records · permits do not confirm work is underway"
             if sources:
@@ -119,9 +126,12 @@ def bench_response(payload):
                 "qualifier": qualifier,
                 "evidence_ids": sources,
                 "web_indices": web,
+                "research_topic": topic if research or web else None,
                 "coverage": status,
                 "unresolved": any(c["status"] in GAPS for c in status)
-                or any(data["web"][i]["response"]["truncated"] for i in web),
+                or any(data["web"][i]["response"]["truncated"] for i in web)
+                or bool(research and any(f["assessment"] in {"conflicting", "unresolved"}
+                                         for f in research["findings"])),
             }
         )
 
@@ -149,7 +159,16 @@ def bench_response(payload):
         )
     )
     for web in data["web"]:
-        web["rendered_html"] = render_model_markdown(web["response"]["text"])
+        web["rendered_html"] = render_model_markdown(cited_model_text(web["response"]))
+    for research in result["research"]:
+        for finding in research["findings"]:
+            finding["ui_id"] = "web-" + finding["id"]
+        if research["brief"]:
+            paragraphs = [research["brief"]["overview"]] + [
+                p for s in research["brief"]["sections"] for p in s["paragraphs"]
+            ]
+            for i, paragraph in enumerate(paragraphs):
+                paragraph["ui_id"] = f'brief-{research["topic"]}-{i}'
     return {
         "version": "1.0",
         "case": data["report"]["case"],
@@ -158,4 +177,27 @@ def bench_response(payload):
         "evidence": list(evidence.values()),
         "coverage": coverage,
         "web": data["web"],
+        "research": result["research"],
     }
+
+
+def cited_model_text(response):
+    """Attach provider citations without treating answer segments as source quotes."""
+    text = response["text"]
+    insertions = defaultdict(set)
+    for support in response["supports"]:
+        segment = support["text"]
+        if not segment:
+            continue
+        start = text.find(segment)
+        if start < 0:
+            continue
+        for index in support["chunk_indices"]:
+            if 0 <= index < len(response["chunks"]):
+                uri = response["chunks"][index]["uri"]
+                if uri:
+                    insertions[start + len(segment)].add((index, uri))
+    for end in sorted(insertions, reverse=True):
+        links = " " + " ".join(f"[{i + 1}](<{uri}>)" for i, uri in sorted(insertions[end]))
+        text = text[:end] + links + text[end:]
+    return text

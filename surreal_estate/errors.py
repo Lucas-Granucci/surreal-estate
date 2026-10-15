@@ -7,7 +7,13 @@ class ConfigurationError(ValueError):
     """Messages must be static developer-authored text, safe to show to the user."""
 
 
+class BriefResponseError(ValueError):
+    """Static, safe explanation of a rejected final-writing response."""
+
+
 def failure_reason(exc: Exception, *, provider: str | None = None) -> str:
+    if isinstance(exc, BriefResponseError):
+        return str(exc)
     if provider:
         source = {
             "fema_nfhl": "FEMA (hazards.fema.gov)",

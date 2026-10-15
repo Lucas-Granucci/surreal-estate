@@ -117,3 +117,15 @@ back to retained candidates. Explicit parcel IDs still require an exact candidat
 match. Missing candidates, unsupported complex addresses and source outages are
 not replaced with fabricated parcel IDs. Saved reports remain unchanged; research
 again to apply the new resolver.
+
+
+## Tavily web research (2026-10-15)
+
+New runs use Tavily Search exclusively and local Nemotron planning, synthesis and
+targeted review. `report.result.research` / bench `research` carry source-linked
+findings and exact original passage references. Web research has a dedicated
+main-column reader with topic tabs; the inspector carries selected source excerpts,
+publication/retrieval context and original links. The same evidence opens in the
+mobile dialog. New findings survive snapshots and durable export; saved Gemini
+responses remain readable separately. See `docs/tavily-research.md` for setup,
+budgets, failure behavior and the storage contract.

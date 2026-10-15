@@ -44,8 +44,8 @@ async def main(topics=None):
                 "Validation fields:",
                 [(item["loc"], item["type"]) for item in event.parsed["validation_errors"]],
             )
-        if event.stage.startswith("Gemini"):
-            print("Grounding metadata:", event.parsed)
+        if event.stage.startswith("Tavily"):
+            print("Search metadata:", event.parsed)
             if isinstance(event.response, dict):
                 print(
                     "Completion reasons:",
@@ -67,17 +67,8 @@ async def main(topics=None):
     }
     if attempted != set(topics):
         raise SystemExit("A requested topic was blocked, failed, or truncated; see coverage above")
-    for item in coverage:
-        if item.channel == "fact_checker" and item.status not in {"complete", "empty"}:
-            raise SystemExit("A fact-check stage failed or was truncated; see coverage above")
-        if (
-            item.channel == "web"
-            and item.status == "complete"
-            and not any(
-                check.channel == "fact_checker" and check.topic == item.topic for check in coverage
-            )
-        ):
-            raise SystemExit("Displayed search result did not reach fact-checking")
+    if any(not research.findings for research in outcome.report.result.research):
+        raise SystemExit("No supported findings produced for a requested topic")
     print(
         "Pipeline smoke test passed. Empty coverage is an honest absence of support, not verified evidence."
     )

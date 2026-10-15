@@ -12,8 +12,23 @@ def durable_report(report: RunReport, policy: PolicyGate) -> RunReport:
     evidence = [e for e in report.result.evidence if policy.persistable(e)]
     allowed = {e.id for e in evidence}
     observations = [o for o in report.result.observations if set(o.evidence_ids) <= allowed]
-    coverage = [c for c in report.result.coverage if c.channel not in {"web", "fact_checker"}]
-    result = ChannelResult(evidence=evidence, observations=observations, coverage=coverage)
+    coverage = [c for c in report.result.coverage
+                if c.channel not in {"web", "fact_checker"} or c.provider == "tavily_search"]
+    research = []
+    for w in report.result.research:
+        brief = w.brief
+        if brief:
+            paragraphs = [brief.overview] + [p for s in brief.sections for p in s.paragraphs]
+            if any(c.evidence_id not in allowed for p in paragraphs for c in p.citations):
+                brief = None
+        research.append(w.model_copy(update={
+            "evidence_ids": [i for i in w.evidence_ids if i in allowed],
+            "findings": [f for f in w.findings if all(c.evidence_id in allowed for c in f.citations)],
+            "brief": brief, "summary": w.summary if brief else "",
+            "synthesis_status": w.synthesis_status if brief or w.brief is None else "not_run",
+        }))
+    result = ChannelResult(evidence=evidence, observations=observations, coverage=coverage,
+                           research=research)
     return report.model_copy(update={"result": result, "claims": synthesize(result), "trace": []})
 
 

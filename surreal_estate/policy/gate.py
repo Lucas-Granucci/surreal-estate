@@ -59,12 +59,14 @@ class PolicyGate:
 
     def persistable(self, evidence: Evidence) -> bool:
         rule = self.rules.get(evidence.provider)
+        from surreal_estate.llm.tavily import public_url
         return bool(
             rule
             and rule["enabled"]
             and rule["retention"] == "persistent"
             and evidence.retention == "persistent"
-            and urlsplit(str(evidence.uri)).hostname in rule["hosts"]
+            and (urlsplit(str(evidence.uri)).hostname in rule["hosts"]
+                 or (rule.get("public_web") and public_url(str(evidence.uri))))
         )
 
     @staticmethod

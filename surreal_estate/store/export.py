@@ -37,7 +37,8 @@ def build_export(report: RunReport, policy: PolicyGate) -> ResearchExport:
         report=durable,
         omissions=ExportOmissions(
             web_topics=sorted(
-                {c.topic for c in report.result.coverage if c.channel in {"web", "fact_checker"}}
+                {c.topic for c in report.result.coverage
+                 if c.channel in {"web", "fact_checker"} and c.provider != "tavily_search"}
             ),
             evidence_count=len(report.result.evidence) - len(durable.result.evidence),
             observation_count=len(report.result.observations) - len(durable.result.observations),

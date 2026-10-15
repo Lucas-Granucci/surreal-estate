@@ -37,7 +37,7 @@ class DebugLog:
 
     def clean(self, value):
         secrets = self.secrets | {
-            os.getenv(name, "") for name in ("GEMINI_API_KEY", "GOOGLE_API_KEY")
+            os.getenv(name, "") for name in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "TAVILY_API_KEY")
         }
         if isinstance(value, str):
             for secret in sorted(filter(None, secrets), key=len, reverse=True):

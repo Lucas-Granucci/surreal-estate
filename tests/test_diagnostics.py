@@ -11,10 +11,10 @@ from surreal_estate.llm.gemini import GroundedSearchClient
 @pytest.mark.parametrize("key", [None, "", "   "])
 def test_missing_key_cli_diagnosis_without_network(monkeypatch, capsys, key, tmp_path):
     monkeypatch.chdir(tmp_path)
-    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.delenv("TAVILY_API_KEY", raising=False)
     monkeypatch.setenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
     if key is not None:
-        monkeypatch.setenv("GEMINI_API_KEY", key)
+        monkeypatch.setenv("TAVILY_API_KEY", key)
     monkeypatch.setattr(
         sys,
         "argv",
@@ -30,8 +30,8 @@ def test_missing_key_cli_diagnosis_without_network(monkeypatch, capsys, key, tmp
         main()
     assert error.value.code == 2
     output = capsys.readouterr().err
-    assert "GEMINI_API_KEY is missing or empty" in output
-    assert "same terminal" in output
+    assert "TAVILY_API_KEY is missing" in output
+    assert ".env" in output
 
 
 async def test_invalid_model_does_not_expose_value(monkeypatch):

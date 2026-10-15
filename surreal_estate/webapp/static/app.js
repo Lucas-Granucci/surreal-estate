@@ -64,11 +64,14 @@ const state = {
   bench: null,
   preview: null,
   query: "",
+  sidebarCollapsed: false,
+  mobileSidebarOpen: false,
   nav: "Findings",
   filter: "Overview",
   mapCategory: "all",
   statusFilter: "All statuses",
   selected: null,
+  researchTopic: null,
   busy: false,
   error: "",
   csrf: null,
@@ -172,7 +175,7 @@ function home() {
   const p = state.preview,
     rows = p?.findings.filter((f) => f.topic !== "geocoding").slice(0, 3) || [],
     transit = p?.evidence.find((e) => e.details.category === "transit");
-  return `<section class="hero"><h1>Know the place<br>behind the address.</h1><p class="lede">Public records, nearby places and local context. One report, with the evidence close at hand.</p><div class="hero-actions">${btn('Research an address <span aria-hidden="true">→</span>', "start", "primary")}${p ? btn("Explore saved report", "preview", "text-button") : btn("Saved reports", "saved", "text-button")}</div></section><section class="preview-wrap" aria-label="Saved report preview"><div class="preview"><div class="preview-bar"><span>${p ? esc(p.case.address) : "Your research, in one place"}</span><span>${p ? date(p.case.as_of) : "Evidence Bench"}</span></div><div class="preview-grid"><div class="preview-rail" aria-hidden="true"><span class="on">Findings</span><span>Unresolved</span><span>Sources</span><span>Research scope</span></div><div class="preview-main"><h2>The surroundings,<br>with a source.</h2>${rows.length ? rows.map((f) => `<div class="preview-finding"><b>${esc(f.title)}</b><p>${esc(f.statements[0])}</p></div>`).join("") : '<p class="preview-empty">Research an address to see its records, surroundings and available evidence here.</p>'}</div><div class="preview-evidence"><div class="eyebrow">${transit ? "OpenStreetMap" : "Evidence"}</div><h3>${transit ? "Closest returned transit features" : "Keep the source close."}</h3>${transit ? distances(transit) : '<p class="caption">Select a finding to inspect its source and understand what it can tell you.</p>'}</div></div></div></section><section class="value-section" aria-label="About SurrealEstate"><div class="value-line"><h2>Find what matters.</h2><p>Move between surroundings, public records and local accounts without losing the context of the address.</p></div><div class="value-line"><h2>Follow the evidence.</h2><p>Inspect the source behind a finding, including what it can—and cannot—tell you.</p></div><details class="coverage"><summary>Where does SurrealEstate have coverage?</summary><p>Property and permit coverage focuses on Pittsburgh. Mapped places and other sources vary by location. Unavailable research is identified in your report.</p></details></section>`;
+  return `<section class="hero"><h1>Know the place<br>behind the address.</h1><p class="lede">Public records, nearby places and local context. One report, with the evidence close at hand.</p><div class="hero-actions">${btn('Research an address <span aria-hidden="true">→</span>', "start", "primary")}${p ? btn("Explore saved report", "preview", "text-button") : btn("Saved reports", "saved", "text-button")}</div></section><section class="preview-wrap" aria-label="Saved report preview"><div class="preview"><div class="preview-bar"><span>${p ? esc(p.case.address) : "Your research, in one place"}</span><span>${p ? date(p.case.as_of) : "Evidence Bench"}</span></div><div class="preview-grid"><div class="preview-rail" aria-hidden="true"><span class="on">Findings</span><span>Unresolved</span><span>Sources</span><span>Research scope</span></div><div class="preview-main"><h2>The surroundings,<br>with a source.</h2>${rows.length ? rows.map((f) => `<div class="preview-finding"><b>${esc(f.title)}</b><p>${esc(f.statements[0])}</p></div>`).join("") : '<p class="preview-empty">Research an address to see its records, surroundings and available evidence here.</p>'}</div><div class="preview-evidence"><div class="eyebrow">${transit ? "OpenStreetMap" : "Evidence"}</div><h3>${transit ? "Closest returned transit features" : "Keep the source close."}</h3>${transit ? distances(transit) : '<p class="caption">Select a finding to inspect its source and understand what it can tell you.</p>'}</div></div></div></section><section class="value-section" aria-label="About SurrealEstate"><div class="value-line"><h2>Find what matters.</h2><p>Move between surroundings, public records and web research without losing the context of the address.</p></div><div class="value-line"><h2>Follow the evidence.</h2><p>Inspect the source behind a finding, including what it can—and cannot—tell you.</p></div><details class="coverage"><summary>Where does SurrealEstate have coverage?</summary><p>Property and permit coverage focuses on Pittsburgh. Mapped places and other sources vary by location. Unavailable research is identified in your report.</p></details></section>`;
 }
 function distances(e) {
   const members = (e.details.members || [])
@@ -204,7 +207,7 @@ function confirm() {
   return `<section class="setup">${step("Confirm")}<h1>Is this the right place?</h1>${state.candidates.length ? `<fieldset><legend class="sr-only">Choose the matching address</legend>${state.candidates.map((c) => `<label class="candidate"><input type="radio" name="candidate" value="${esc(c.confirmation)}" ${state.chosen === c.confirmation ? "checked" : ""}><span><strong>${esc(addressParts(c.address).street)}</strong><span>${esc(addressParts(c.address).locality)}</span><span>US Census address match</span></span></label>`).join("")}</fieldset><details class="location-detail"><summary>About this location match</summary><p>Census places this address along a street range. It is an estimated street point, not a building entrance or parcel boundary.</p>${chosen() ? `<p>${esc(chosen().latitude)}, ${esc(chosen().longitude)}</p>` : ""}</details>` : '<p class="empty-state">No matching address found. Check the street number, city, state or ZIP code.</p>'}${errorHTML()}<div class="actions">${btn("Confirm location", "confirm", "primary", state.chosen ? "" : "disabled")}${btn("Edit address", "edit-address", "text-button")}</div></section>`;
 }
 function channels() {
-  return `<section class="setup">${step("Research")}<h1>What should we research?</h1><div class="address-context"><span>${esc(chosen()?.address || state.address)}</span>${btn("Edit", "edit-address", "text-button small-button", state.busy ? "disabled" : "")}</div><label class="channel"><input type="checkbox" name="apis" ${state.channels.apis ? "checked" : ""} ${state.busy ? "disabled" : ""}><span><strong>Public records & nearby places</strong><p>Property and permit records, mapped surroundings and flood-map context.</p></span></label><p class="group-label">Optional web research</p>${!state.capabilitiesLoaded ? '<p class="muted" role="status">Checking availability…</p>' : !state.webAvailable ? `<p class="error" role="status">Web research is unavailable for this session.</p>${btn("Check again", "capabilities", "text-button small-button")}` : ""}${[
+  return `<section class="setup">${step("Research")}<h1>What should we research?</h1><div class="address-context"><span>${esc(chosen()?.address || state.address)}</span>${btn("Edit", "edit-address", "text-button small-button", state.busy ? "disabled" : "")}</div><label class="channel"><input type="checkbox" name="apis" ${state.channels.apis ? "checked" : ""} ${state.busy ? "disabled" : ""}><span><strong>Public records & nearby places</strong><p>Property and permit records, mapped surroundings and flood-map context.</p></span></label><p class="group-label">Web research</p>${!state.capabilitiesLoaded ? '<p class="muted" role="status">Checking availability…</p>' : !state.webAvailable ? `<p class="error" role="status">Web research is unavailable for this session.</p>${btn("Check again", "capabilities", "text-button small-button")}` : ""}${[
     [
       "local",
       "Local discussions",
@@ -212,7 +215,7 @@ function channels() {
     ],
     [
       "dining",
-      "Dining research",
+      "Dining reviews",
       "Nearby restaurants and themes from reviews.",
     ],
   ]
@@ -222,12 +225,53 @@ function channels() {
     )
     .join(
       "",
-    )}<details class="location-detail"><summary>How web research works</summary><p>AI summarizes web sources and provides a separate review of its claims. Opinions and model assessments remain distinct from public records.</p></details>${errorHTML()}<div class="actions">${btn(state.busy ? "Starting research…" : "Generate report", "generate", "primary", hasChannels() && !state.busy ? "" : "disabled")}${btn("Back", "back-confirm", "text-button", state.busy ? "disabled" : "")}</div></section>`;
+    )}<details class="location-detail"><summary>How web research works</summary><p>Tavily finds source material. A local AI plans research and checks factual uncertainties; Gemini writes a source-cited brief from the supplied material, without web search. Opinions and AI assessments remain distinct from public records.</p></details>${errorHTML()}<div class="actions">${btn(state.busy ? "Starting research…" : "Generate report", "generate", "primary", hasChannels() && !state.busy ? "" : "disabled")}${btn("Back", "back-confirm", "text-button", state.busy ? "disabled" : "")}</div></section>`;
 }
 function progress() {
   const j = state.job;
-  return `<section class="setup"><div class="eyebrow">${!j ? "Loading research" : j.status === "running" ? "Research in progress" : j.status === "failed" ? "Research interrupted" : "Report ready"}</div><h1>${esc(addressParts(j?.address || "Your research").street)}</h1><p class="lede">${esc(j?.geography || "")}</p><div class="status-list" aria-live="polite">${(j?.progress?.steps || []).map((s) => `<div class="status-row"><span class="status-mark ${s.state === "done" ? "done" : ""}" aria-hidden="true">${s.state === "done" ? "✓" : s.state === "active" ? '<span class="spinner"></span>' : s.state === "waiting" ? "○" : "—"}</span><span>${esc(s.label)}</span><small>${esc({ done: "Finished", active: "In progress", waiting: "Waiting", stopped: "Stopped", skipped: "Not run" }[s.state] || s.state)}</small></div>`).join("")}</div><p class="status-message">${esc(j?.status === "running" ? j.progress?.detail || j.message : j?.message || "Loading…")}</p>${errorHTML()}<div class="actions">${j?.status === "complete" ? btn("Explore report", "open", "primary", `data-id="${j.id}"`) : ""}${j?.status === "failed" ? btn("Try again", "retry", "primary") : ""}${state.error ? btn("Reconnect", "reconnect", "secondary") : ""}${btn("Saved reports", "saved", "text-button")}</div></section>`;
+  return `<section class="setup" id="progress-screen"><div class="eyebrow" id="progress-state">${!j ? "Loading research" : j.status === "running" ? "Research in progress" : j.status === "failed" ? "Research interrupted" : "Report ready"}</div><h1>${esc(addressParts(j?.address || "Your research").street)}</h1><p class="lede">${esc(j?.geography || "")}</p><div class="status-list" aria-live="polite">${(j?.progress?.steps || []).map((s) => `<div class="status-row" data-step="${esc(s.id)}"><span class="status-mark ${s.state === "done" ? "done" : ""}" aria-hidden="true">${s.state === "done" ? "✓" : s.state === "active" ? '<span class="spinner"></span>' : s.state === "waiting" ? "○" : "—"}</span><span>${esc(s.label)}</span><small>${esc({ done: "Finished", active: "In progress", waiting: "Waiting", stopped: "Stopped", skipped: "Not run" }[s.state] || s.state)}</small></div>`).join("")}</div><p class="status-message">${esc(j?.status === "running" ? j.progress?.detail || j.message : j?.message || "Loading…")}</p><div id="progress-error">${errorHTML()}</div><div class="actions" id="progress-actions">${j?.status === "complete" ? btn("Explore report", "open", "primary", `data-id="${j.id}"`) : ""}${j?.status === "failed" ? btn("Try again", "retry", "primary") : ""}${state.error ? btn("Reconnect", "reconnect", "secondary") : ""}</div></section>`;
 }
+function updateProgress() {
+  const current = document.getElementById("progress-screen");
+  const template = document.createElement("template");
+  template.innerHTML = progress();
+  const next = template.content.firstElementChild;
+  for (const selector of [
+    "#progress-state",
+    "h1",
+    ".lede",
+    ".status-message",
+  ]) {
+    const old = current.querySelector(selector),
+      fresh = next.querySelector(selector);
+    if (old.textContent !== fresh.textContent)
+      old.textContent = fresh.textContent;
+  }
+  const oldRows = [...current.querySelectorAll(".status-row")];
+  const newRows = [...next.querySelectorAll(".status-row")];
+  if (
+    oldRows.map((r) => r.dataset.step).join("|") !==
+    newRows.map((r) => r.dataset.step).join("|")
+  ) {
+    current.querySelector(".status-list").replaceChildren(...newRows);
+  } else
+    oldRows.forEach((row, i) => {
+      const replacements = [...newRows[i].children];
+      for (let j = 0; j < row.children.length; j++) {
+        const old = row.children[j],
+          replacement = replacements[j];
+        if (old.outerHTML !== replacement.outerHTML)
+          old.replaceWith(replacement);
+      }
+    });
+  for (const selector of ["#progress-error", "#progress-actions"]) {
+    const old = current.querySelector(selector),
+      fresh = next.querySelector(selector);
+    if (old.innerHTML !== fresh.innerHTML)
+      old.replaceChildren(...fresh.childNodes);
+  }
+}
+
 function metadata(e) {
   return `<dl class="meta">${[
     ["Retrieved", e.retrieved_at],
@@ -265,10 +309,70 @@ function sourceDetails(e) {
 
 function webDetails(w) {
   const r = w.response;
-  return `<div class="evidence-section"><h3>${w.label === "model_assessment" ? "AI review" : "Web summary"}</h3><p class="caption">Model-reported · not independently verified${r.truncated ? " · Response incomplete" : ""}</p><details><summary>Read ${w.label === "model_assessment" ? "the AI review" : "the summary"}</summary><div class="web-prose">${w.rendered_html}</div></details>${r.search_entry_point ? `<p class="caption">Google Search Suggestions</p><iframe class="suggestions" title="Google Search Suggestions" sandbox="allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" srcdoc="${esc(r.search_entry_point)}"></iframe>` : ""}<details><summary>Sources and supporting passages</summary>${r.chunks.map((c, i) => `<div class="record"><strong>Source ${i + 1}</strong>${link(c.uri, c.title || "Open source") || "<p>Source URL not supplied</p>"}</div>`).join("")}${r.supports.map((s) => `<div class="record"><p>${esc(s.text)}</p><p class="caption">Sources: ${s.chunk_indices.map((i) => i + 1).join(", ") || "Not supplied"}</p></div>`).join("")}${raw(r, "Full saved response")}</details></div>`;
+  return `<div class="evidence-section"><h3>${w.label === "model_assessment" ? "AI review" : "Web summary"}</h3><p class="caption">Model-reported · not independently verified${r.truncated ? " · Response incomplete" : ""}</p><details><summary>Read ${w.label === "model_assessment" ? "the AI review" : "the summary"}</summary><div class="web-prose">${w.rendered_html}</div></details>${r.search_entry_point ? `<p class="caption">Google Search Suggestions</p><iframe class="suggestions" title="Google Search Suggestions" sandbox="allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" srcdoc="${esc(r.search_entry_point)}"></iframe>` : ""}<details><summary>Sources and cited answer passages</summary>${r.chunks.map((c, i) => `<div class="record"><strong>Source ${i + 1}</strong>${link(c.uri, c.title || "Open source") || "<p>Source URL not supplied</p>"}</div>`).join("")}${r.supports.map((s) => `<div class="record"><p>${esc(s.text)}</p><p class="caption">Sources: ${s.chunk_indices.map((i) => i + 1).join(", ") || "Not supplied"}</p></div>`).join("")}${raw(r, "Full saved response")}</details></div>`;
+}
+const researchTitles = { neighborhood_discussion: "Local discussions", restaurant_reviews: "Dining reviews" };
+function selectedWebFinding(id) {
+  for (const research of state.bench?.research || []) {
+    const finding = research.findings.find((f) => f.ui_id === id);
+    if (finding) return { research, finding };
+    if (research.brief) {
+      const paragraphs = [{ heading: "Research overview", paragraph: research.brief.overview }, ...research.brief.sections.flatMap((section) => section.paragraphs.map((paragraph) => ({ heading: section.heading, paragraph })))];
+      const entry = paragraphs.find((entry) => entry.paragraph.ui_id === id);
+      if (entry) return { research, finding: { title: entry.heading, kind: "synthesized brief", assessment: "source linked", explanation: "Gemini synthesis of supplied research; source support is not independent verification.", citations: entry.paragraph.citations } };
+    }
+  }
+  return null;
+}
+function webFindingEvidence(research, finding) {
+  const groups = [...new Set(finding.citations.map((c) => c.evidence_id))].map((id) => ({ evidence_id: id, excerpts: [...new Set(finding.citations.filter((c) => c.evidence_id === id).map((c) => c.excerpt))] }));
+  return `<div class="evidence-head">${btn("Close", "close-evidence", "text-button small-button")}</div><h2 class="evidence-title" tabindex="-1">${esc(finding.title)}</h2><p class="caption">${esc(finding.kind.replaceAll("_", " "))} · ${esc(finding.assessment.replaceAll("_", " "))} · AI assessment</p>${finding.explanation ? `<p class="evidence-summary">${esc(finding.explanation)}</p>` : ""}${groups.map((c) => {
+    const source = state.bench.evidence.find((e) => e.id === c.evidence_id);
+    if (!source) return "";
+    return `<section class="evidence-section"><h3>${esc(source.title)}</h3>${c.excerpts.map((excerpt) => `<blockquote>${esc(excerpt)}</blockquote>`).join("")}<p class="caption">${esc(source.attribution || "Web source")} · ${source.source_updated_at ? date(source.source_updated_at) : "Publication date not supplied"}</p><p class="caption">${source.details.content_kind === "mixed" ? "Returned page content and search passages" : source.details.content_kind === "page_content" ? "Returned page content" : "Search passage; complete page unavailable"}</p>${link(source.uri, "Read original source")}<details><summary>Retrieval details</summary>${metadata(source)}</details></section>`;
+  }).join("")}${btn("Read full research", "read-research", "secondary", `data-topic="${esc(research.topic)}"`)}`;
+}
+function synthesizedBrief(r) {
+  const brief = r.brief;
+  const paragraph = (p) => {
+    const ids = [...new Set(p.citations.map((c) => c.evidence_id))];
+    return `<div class="brief-paragraph ${state.selected === p.ui_id ? "selected" : ""}" id="${esc(p.ui_id)}"><p>${esc(p.text)} <span class="brief-inline-sources" aria-label="Paragraph sources">${ids.map((id) => { const source = state.bench.evidence.find((e) => e.id === id); const number = r.evidence_ids.indexOf(id) + 1; return source ? link(source.uri, `[${number}]`) : ""; }).join(" ")}</span></p>${btn("Inspect paragraph evidence", "evidence", "text-button brief-inspect", `data-id="${esc(p.ui_id)}" aria-pressed="${state.selected === p.ui_id}"`)}</div>`;
+  };
+  const used = new Set([brief.overview, ...brief.sections.flatMap((s) => s.paragraphs)].flatMap((p) => p.citations.map((c) => c.evidence_id)));
+  return `<article class="synthesized-brief" aria-label="Synthesized research brief"><p class="caption brief-byline">Written with ${esc(brief.model)} · Sources retrieved by Tavily · ${date(brief.generated_at)}</p>${paragraph(brief.overview)}${brief.sections.map((section) => `<section class="brief-section"><h3>${esc(section.heading)}</h3>${section.paragraphs.map(paragraph).join("")}</section>`).join("")}<details class="brief-source-list"><summary>Sources cited in this brief</summary>${r.evidence_ids.filter((id) => used.has(id)).map((id) => { const source = state.bench.evidence.find((e) => e.id === id); return source ? `<div class="record">${link(source.uri, `[${r.evidence_ids.indexOf(id) + 1}] ${source.title}`)}<p class="caption">${source.source_updated_at ? date(source.source_updated_at) : "Publication date not supplied"}</p></div>` : ""; }).join("")}</details></article>`;
+}
+function researchReader() {
+  const b = state.bench;
+  const topics = [...new Set([...(b.research || []).map((r) => r.topic), ...b.web.map((w) => w.topic), ...b.findings.filter((f) => f.research_topic).map((f) => f.topic)])];
+  if (!topics.length) return '<p class="empty-state">Web research was not selected for this report.</p>';
+  if (!topics.includes(state.researchTopic)) state.researchTopic = topics[0];
+  const topic = state.researchTopic;
+  const r = (b.research || []).find((r) => r.topic === topic);
+  const legacy = b.web.filter((w) => w.topic === topic);
+  const tabs = `<nav class="research-tabs" aria-label="Web research topics">${topics.map((t) => btn(researchTitles[t] || t, "research-topic", "", `data-topic="${esc(t)}" aria-pressed="${t === topic}"`)).join("")}</nav>`;
+  let content;
+  if (r) {
+    content = `<p class="research-intro">${r.brief ? `Research brief · ${r.evidence_ids.length} sources` : `${r.findings.length} extraction notes · ${r.evidence_ids.length} sources`}. ${r.review_completed ? "Targeted AI review completed." : "No targeted factual review completed."}</p>${!r.brief ? `<p class="caption">${r.synthesis_status === "error" ? "Final writing was unavailable. Source-linked research notes are shown below." : "This saved report contains extraction notes. New runs include a synthesized brief."}</p>` : ""}<p class="caption">AI synthesis of returned web material. Source support is not independent verification.</p>${r.brief ? synthesizedBrief(r) : r.findings.map((f) => `<article class="research-finding ${state.selected === f.ui_id ? "selected" : ""}" id="${f.ui_id}"><div class="research-finding-head"><h3>${esc(f.title)}</h3><span class="research-kind">${esc(f.kind.replaceAll("_", " "))}</span></div><p>${esc(f.statement)}</p>${f.location_relevance ? `<p class="caption">${esc(f.location_relevance)}</p>` : ""}${f.assessment !== "reported" || f.explanation ? `<p class="research-assessment ${f.assessment === "conflicting" ? "has-conflict" : ""}"><strong>${esc(f.assessment.replaceAll("_", " "))} · AI assessment</strong>${f.explanation ? ` — ${esc(f.explanation)}` : ""}</p>` : ""}<div class="research-citations">${btn(`Inspect ${f.citations.length === 1 ? "source" : "sources"}`, "evidence", "secondary small-button", `data-id="${f.ui_id}" aria-pressed="${state.selected === f.ui_id}"`)}${f.citations.map((c, i) => {const source = b.evidence.find((e) => e.id === c.evidence_id); return source ? link(source.uri, `[${i + 1}] ${source.attribution || source.title}`) : "";}).join("")}</div></article>`).join("")}${!r.brief && !r.findings.length ? '<p class="empty-state">No supported findings were produced. Returned sources remain available below.</p>' : ""}${[...new Set([...r.limitations, ...(r.brief?.limitations || [])])].length ? `<section class="research-notes"><h3>Limits of this research</h3><ul>${[...new Set([...r.limitations, ...(r.brief?.limitations || [])])].map((x) => `<li>${esc(x)}</li>`).join("")}</ul></section>` : ""}${[...new Set([...r.follow_up_questions, ...(r.brief?.follow_up_questions || [])])].length ? `<section class="research-notes"><h3>Questions to explore next</h3><ul>${[...new Set([...r.follow_up_questions, ...(r.brief?.follow_up_questions || [])])].map((x) => `<li>${esc(x)}</li>`).join("")}</ul></section>` : ""}<details class="research-scope"><summary>Sources & search scope</summary><p>${r.search_calls} search requests · ${r.usage_credits} Tavily credits reported.</p>${r.evidence_ids.map((id) => {const e = b.evidence.find((e) => e.id === id); return e ? `<div class="record">${link(e.uri, e.title)}<p class="caption">${e.source_updated_at ? date(e.source_updated_at) : "Publication date not supplied"}</p>${btn("Inspect source", "evidence", "text-button small-button", `data-id="${esc(id)}"`)}</div>` : "";}).join("")}<details><summary>Search queries</summary><ul>${r.queries.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></details></details>`;
+  } else if (legacy.length) {
+    content = `<p class="caption">Saved Gemini research · model-reported, not independently verified. Cited answer passages are not original source excerpts.</p>${legacy.map((w) => `<section class="legacy-research"><h3>${w.label === "model_assessment" ? "AI re-check" : "Original research"}</h3>${w.response.truncated ? '<p class="error">This saved response is incomplete.</p>' : ""}<div class="web-prose">${w.rendered_html}</div>${w.response.search_entry_point ? `<p class="caption">Associated Google Search Suggestions</p><iframe class="suggestions" title="Google Search Suggestions" sandbox="allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer" srcdoc="${esc(w.response.search_entry_point)}"></iframe>` : ""}<details><summary>Sources for this response</summary>${w.response.chunks.map((c, i) => `<div class="record">${link(c.uri, `[${i + 1}] ${c.title || "Source"}`)}</div>`).join("")}</details></section>`).join("")}`;
+  } else {
+    content = `<p class="empty-state">No research brief was returned.</p>${b.coverage.filter((c) => c.topic === topic).map((c) => `<p>${esc(c.reason)}</p>`).join("")}`;
+  }
+  return `<section class="research-reader">${tabs}<h2 class="research-title" tabindex="-1">${esc(researchTitles[topic] || topic)}</h2>${content}</section>`;
+}
+function openResearch(topic) {
+  closeDialog(false);
+  state.nav = "Web research";
+  state.researchTopic = topic;
+  state.selected = null;
+  state.mobileSidebarOpen = false;
+  render();
+  main.querySelector(".research-title")?.focus({ preventScroll: true });
 }
 function evidence(id) {
   const b = state.bench;
+  const webFinding = selectedWebFinding(id);
+  if (webFinding) return webFindingEvidence(webFinding.research, webFinding.finding);
   if (!id || !b)
     return '<div class="empty-inspector"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16v18H4zM8 8h8M8 12h8M8 16h5"/></svg><p>Select a finding<br>to inspect its evidence.</p></div>';
   const f = id.startsWith("overview-")
@@ -377,7 +481,7 @@ function overviewRows() {
     mapped_amenities: "Mapped surroundings",
     street_closures: "Street-closure permits",
     neighborhood_discussion: "Local discussions",
-    restaurant_reviews: "Dining research",
+    restaurant_reviews: "Dining reviews",
   };
   return topics.map((topic) => {
     const coverage = b.coverage.filter((c) => c.topic === topic);
@@ -417,6 +521,7 @@ function overviewRows() {
       finding?.statements.join(" ") ||
       "No research outcome was retained.";
     return {
+      topic,
       title: esc(titles[topic] || finding?.title || topic.replaceAll("_", " ")),
       outcome: esc(outcome),
       id: finding ? `overview-${topic}` : null,
@@ -503,25 +608,108 @@ function spatialOverview() {
       "",
     )}${selected !== "all" ? btn("Show all places", "map-category", "text-button map-reset", 'data-category="all"') : ""}</div>${mapCategorySummary(mapCategories, selected)}</div></div><p class="map-caption">Saved feature centres · estimated address point · north up. © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a></p><details class="location-detail place-list"><summary>View mapped locations</summary><div class="table-scroll"><table class="overview-table"><thead><tr><th>Place</th><th>Category</th><th>Distance</th></tr></thead><tbody>${groups.flatMap((c) => c.details.members.map((m) => `<tr><td>${link(m.uri, m.name || "Unnamed mapped feature") || esc(m.name || "Unnamed mapped feature")}</td><td>${c.label}</td><td>${Number.isFinite(m.approximate_center_distance_m) ? "~" + Math.round(m.approximate_center_distance_m) + " m" : "Distance unavailable"}</td></tr>`)).join("")}</tbody></table></div><p>Distances are straight-line measurements to mapped points or centres, not travel distances. Counts describe retained mapped features, not necessarily distinct facilities. Capped categories are lower bounds. Features without saved coordinates appear only in the list. The dashed circle is a distance reference, not a property boundary.</p></details>`;
 }
+function researchPreviews(rows) {
+  const b = state.bench;
+  const topics = [...new Set([...(b.research || []).map((r) => r.topic), ...b.web.map((w) => w.topic), ...b.findings.filter((f) => f.section === "Web research").map((f) => f.topic), ...b.coverage.filter((c) => c.channel === "web").map((c) => c.topic)])];
+  if (!topics.length) return "";
+  return `<section class="overview-section research-previews" aria-label="Web research previews"><h2>Web research</h2>${topics.map((topic) => {
+    const research = (b.research || []).find((r) => r.topic === topic);
+    const row = rows.find((r) => r.topic === topic);
+    const text = research?.brief?.overview.text || research?.findings[0]?.statement;
+    const sentence = text?.split(/(?<=[.!?])\s+(?=[A-Z])/)[0];
+    const excerpt = sentence && sentence.length > 360 ? sentence.slice(0, 360).replace(/\s+\S*$/, "") + "…" : sentence;
+    const status = row?.status || "Unknown";
+    const label = research?.brief ? "Read brief" : "View research";
+    return `<article class="research-preview"><div class="research-preview-heading"><h3>${esc(researchTitles[topic] || topic.replaceAll("_", " "))}</h3><span class="status-label status-${status.toLowerCase()}">${status}</span></div><p>${excerpt ? esc(excerpt) : row?.outcome || "No research summary was retained."}</p>${research?.synthesis_status === "error" ? '<p class="caption">Final brief unavailable; research notes and sources are available.</p>' : ""}${btn(`${label}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>`, "read-research", "text-button research-preview-link", `data-topic="${esc(topic)}" aria-label="${label}: ${esc(researchTitles[topic] || topic)}"`)}</article>`;
+  }).join("")}</section>`;
+}
 function overview() {
-  const rows = overviewRows();
+  const allRows = overviewRows();
+  const webTopics = new Set([...(state.bench.research || []).map((r) => r.topic), ...state.bench.web.map((w) => w.topic), ...state.bench.coverage.filter((c) => c.channel === "web").map((c) => c.topic)]);
+  const rows = allRows.filter((r) => !webTopics.has(r.topic));
   const shown = rows.filter(
     (r) =>
       !state.statusFilter ||
       state.statusFilter === "All statuses" ||
       r.status === state.statusFilter,
   );
-  return `<section class="overview-section" aria-label="Location overview"><h2>Location overview</h2><div id="spatial-overview">${spatialOverview()}</div></section><section class="overview-section" aria-label="Research overview"><div class="overview-heading"><h2>Research overview</h2><label><span class="sr-only">Filter research status</span><select id="status-filter">${["All statuses", "Complete", "Blocked", "Limited", "Failed", "Unavailable", "Unknown"].map((v) => `<option ${v === (state.statusFilter || "All statuses") ? "selected" : ""}>${v}</option>`).join("")}</select></label></div><div class="table-scroll research-table" tabindex="0" role="region" aria-label="Research status table"><table class="overview-table"><thead><tr><th>Research</th><th>Outcome</th><th>Status</th></tr></thead><tbody>${shown.length ? shown.map((r) => `<tr><th scope="row">${!r.id ? r.title : btn(r.title, "evidence", "table-topic", `data-id="${r.id}"`)}</th><td>${r.outcome}</td><td><span class="status-label status-${r.status.toLowerCase().replace(" ", "-")}">${r.status}</span></td></tr>`).join("") : `<tr><td colspan="3" class="empty-status">No ${esc((state.statusFilter || "").toLowerCase())} research recorded in this report.</td></tr>`}</tbody></table></div><ul class="mobile-status-list" aria-label="Research status">${shown.length ? shown.map((r) => `<li><div class="mobile-status-heading">${!r.id ? `<strong>${r.title}</strong>` : btn(r.title, "evidence", "mobile-topic", `data-id="${r.id}"`)}<span class="status-label status-${r.status.toLowerCase().replace(" ", "-")}">${r.status}</span></div><p>${r.outcome}</p></li>`).join("") : `<li>No ${esc((state.statusFilter || "").toLowerCase())} research recorded in this report.</li>`}</ul><details class="location-detail"><summary>What these statuses mean</summary><p>Complete means the research finished, not that its claims are independently verified. Limited indicates capped results; blocked research needs missing information. Failed is a research error, while unavailable means a source could not be used. Unknown means no completion status was retained. A successful search with no matches is shown as complete with “No records found” in its outcome.</p></details></section>`;
+  return `<section class="overview-section" aria-label="Location overview"><h2>Location overview</h2><div id="spatial-overview">${spatialOverview()}</div></section>${researchPreviews(allRows)}<section class="overview-section" aria-label="Research overview"><div class="overview-heading"><h2>Research overview</h2><label><span class="sr-only">Filter research status</span><select id="status-filter">${["All statuses", "Complete", "Blocked", "Limited", "Failed", "Unavailable", "Unknown"].map((v) => `<option ${v === (state.statusFilter || "All statuses") ? "selected" : ""}>${v}</option>`).join("")}</select></label></div><div class="table-scroll research-table" tabindex="0" role="region" aria-label="Research status table"><table class="overview-table"><thead><tr><th>Research</th><th>Outcome</th><th>Status</th></tr></thead><tbody>${shown.length ? shown.map((r) => `<tr><th scope="row">${!r.id ? r.title : btn(r.title, "evidence", "table-topic", `data-id="${r.id}"`)}</th><td>${r.outcome}</td><td><span class="status-label status-${r.status.toLowerCase().replace(" ", "-")}">${r.status}</span></td></tr>`).join("") : `<tr><td colspan="3" class="empty-status">No ${esc((state.statusFilter || "").toLowerCase())} research recorded in this report.</td></tr>`}</tbody></table></div><ul class="mobile-status-list" aria-label="Research status">${shown.length ? shown.map((r) => `<li><div class="mobile-status-heading">${!r.id ? `<strong>${r.title}</strong>` : btn(r.title, "evidence", "mobile-topic", `data-id="${r.id}"`)}<span class="status-label status-${r.status.toLowerCase().replace(" ", "-")}">${r.status}</span></div><p>${r.outcome}</p></li>`).join("") : `<li>No ${esc((state.statusFilter || "").toLowerCase())} research recorded in this report.</li>`}</ul><details class="location-detail"><summary>What these statuses mean</summary><p>Complete means the research finished, not that its claims are independently verified. Limited indicates capped results; blocked research needs missing information. Failed is a research error, while unavailable means a source could not be used. Unknown means no completion status was retained. A successful search with no matches is shown as complete with “No records found” in its outcome.</p></details></section>`;
+}
+const railIcons = {
+  brand: "M3 19V8l9-5 9 5v11H3Zm9-16v16M3 8l9 5 9-5",
+  collapse: "M4 4h16v16H4zM9 4v16m7-12-3 4 3 4",
+  expand: "M4 4h16v16H4zM9 4v16m4-12 3 4-3 4",
+  menu: "M4 6h16M4 12h16M4 18h16",
+  Findings: "M5 3h14v18H5zM8 8h8M8 12h8M8 16h5",
+  Unresolved: "M12 8v5m0 3v.1M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18",
+  Sources: "M8 3h12v14H8zM4 7v14h12M11 7h6m-6 4h6",
+  "Research scope": "M4 7h16M4 17h16M8 4v6m8 4v6",
+  new: "M12 4v16M4 12h16",
+  saved: "M4 4h16v16H4zM8 4v7l4-2 4 2V4",
+  export: "M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6",
+};
+const railIcon = (name) =>
+  `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${railIcons[name]}"/></svg>`;
+function reportSidebar() {
+  const mobile = matchMedia("(max-width:720px)").matches;
+  const expanded = mobile ? state.mobileSidebarOpen : !state.sidebarCollapsed;
+  const item = (label, action, icon, attrs = "") =>
+    btn(
+      `${railIcon(icon)}<span class="rail-label">${label}</span>`,
+      action,
+      "rail-item",
+      `aria-label="${label}" title="${label}" ${attrs}`,
+    );
+  const top = expanded
+    ? `${btn(`${railIcon("brand")}<span class="rail-label">SurrealEstate</span>`, "home", "brand rail-brand", 'aria-label="SurrealEstate home" title="SurrealEstate home"')}${btn(railIcon("collapse"), "toggle-sidebar", "rail-toggle", 'aria-label="Collapse sidebar" aria-expanded="true" aria-controls="report-sidebar"')}`
+    : btn(
+        `<span class="rail-logo-default">${railIcon("brand")}</span><span class="rail-logo-expand">${railIcon("expand")}</span><span class="rail-tooltip" id="expand-sidebar-tip" role="tooltip">Expand sidebar</span>`,
+        "toggle-sidebar",
+        "rail-brand rail-logo-toggle",
+        'aria-label="Expand sidebar" aria-describedby="expand-sidebar-tip" aria-expanded="false" aria-controls="report-sidebar"',
+      );
+  return `<aside class="report-rail" id="report-sidebar" ${mobile && expanded ? 'role="dialog" aria-modal="true" aria-label="Report navigation"' : ""}><div class="rail-top">${top}</div><nav class="rail-navigation" aria-label="Report">${["Findings", "Web research", "Unresolved", "Sources", "Research scope"].map((n) => item(n, "report-nav", (n === "Web research" ? "Sources" : n), `data-nav="${n}" ${state.nav === n ? 'aria-current="page"' : ""}`)).join("")}<div class="rail-export">${item("Export JSON", "export", "export")}</div></nav><nav class="rail-global" aria-label="Reports">${item(running() ? "View progress" : "New report", running() ? "resume-progress" : "new", "new")}${item("Saved reports", "saved", "saved")}</nav></aside>`;
+}
+function sidebarControls() {
+  return `${btn(railIcon("menu"), "toggle-sidebar", "mobile-rail-toggle", `aria-label="Open sidebar" aria-expanded="${state.mobileSidebarOpen}" aria-controls="report-sidebar"`)}${btn("", "toggle-sidebar", "rail-scrim", 'aria-label="Close sidebar" tabindex="-1"')}`;
+}
+function sidebarShellClass() {
+  return `report-shell${state.sidebarCollapsed ? " rail-collapsed" : ""}${state.mobileSidebarOpen ? " mobile-rail-open" : ""}`;
+}
+function syncSidebar() {
+  const mobile = matchMedia("(max-width:720px)").matches;
+  const open = state.page === "report" && mobile && state.mobileSidebarOpen;
+  document.body.classList.toggle("sidebar-open", open);
+  document.querySelector(".report-work")?.toggleAttribute("inert", open);
+  document
+    .querySelector(".report-shell > .report-inspector")
+    ?.toggleAttribute("inert", open);
+  const toolbar = document.querySelector(".mobile-rail-toggle");
+  if (toolbar) toolbar.setAttribute("aria-expanded", String(open));
+}
+function toggleSidebar() {
+  const mobile = matchMedia("(max-width:720px)").matches;
+  if (mobile) state.mobileSidebarOpen = !state.mobileSidebarOpen;
+  else state.sidebarCollapsed = !state.sidebarCollapsed;
+  const shell = document.querySelector(".report-shell");
+  shell.className = sidebarShellClass();
+  document.getElementById("report-sidebar").outerHTML = reportSidebar();
+  syncSidebar();
+  const target =
+    mobile && !state.mobileSidebarOpen
+      ? ".mobile-rail-toggle"
+      : "#report-sidebar [data-action=toggle-sidebar]";
+  document.querySelector(target)?.focus({ preventScroll: true });
 }
 function report() {
   const b = state.bench;
   if (!b)
-    return `<section class="setup"><h1>Opening report…</h1>${errorHTML()}${btn("Saved reports", "saved", "text-button")}</section>`;
+    return `<div class="${sidebarShellClass()}">${sidebarControls()}${reportSidebar()}<section class="report-work setup"><h1>Opening report…</h1>${errorHTML()}</section></div>`;
   const fs = findings(),
     gaps = fs.filter((f) => f.unresolved),
     topics = [
       "Overview",
-      ...["Records", "Street permits", "Local accounts"].filter((t) =>
+      ...["Records", "Street permits"].filter((t) =>
         fs.some((f) => f.section === t),
       ),
     ];
@@ -531,8 +719,10 @@ function report() {
       (state.nav !== "Unresolved" || f.unresolved) &&
       (state.nav !== "Findings" || f.section === state.filter),
   );
-  return `<div class="report-shell"><nav class="report-rail" aria-label="Report">${["Findings", "Unresolved", "Sources", "Research scope"].map((n) => btn(n, "report-nav", "", `data-nav="${n}" ${state.nav === n ? 'aria-current="page"' : ""}`)).join("")}<div class="export">${btn('Export JSON <span aria-hidden="true">↗</span>', "export")}</div></nav><section class="report-work"><header class="report-heading"><h1>${esc(addressParts(b.case.address).street)}</h1><p>${esc(addressParts(b.case.address).locality || b.case.geography)} · Report dated ${date(b.case.as_of)}${b.demo ? " · Synthetic demo" : ""}</p></header>${errorHTML()}${state.nav === "Findings" ? `${gaps.length ? `<div class="notice"><span>${gaps.length === 1 ? `${esc(gaps[0].title)} needs attention.` : `${gaps.length} research topics are unresolved.`}</span>${btn("Review", "review-gap")}</div>` : ""}<div class="filters" aria-label="Filter findings">${topics.map((t) => btn(t, "filter", "", `data-filter="${t}" aria-pressed="${state.filter === t}"`)).join("")}</div>` : `<h2 class="panel-title" tabindex="-1">${state.nav}</h2>`}${
-    state.nav === "Sources"
+  return `<div class="${sidebarShellClass()}">${sidebarControls()}${reportSidebar()}<section class="report-work"><header class="report-heading"><h1>${esc(addressParts(b.case.address).street)}</h1><p>${esc(addressParts(b.case.address).locality || b.case.geography)} · Report dated ${date(b.case.as_of)}${b.demo ? " · Synthetic demo" : ""}</p></header>${errorHTML()}${state.nav === "Findings" ? `${gaps.length ? `<div class="notice"><span>${gaps.length === 1 ? `${esc(gaps[0].title)} needs attention.` : `${gaps.length} research topics are unresolved.`}</span>${btn("Review", "review-gap")}</div>` : ""}<div class="filters" aria-label="Filter findings">${topics.map((t) => btn(t, "filter", "", `data-filter="${t}" aria-pressed="${state.filter === t}"`)).join("")}</div>` : `<h2 class="panel-title" tabindex="-1">${state.nav}</h2>`}${
+    state.nav === "Web research"
+      ? researchReader()
+      : state.nav === "Sources"
       ? sources()
       : state.nav === "Research scope"
         ? scope()
@@ -601,7 +791,19 @@ function saved() {
   return `<section class="saved-page"><div class="saved-heading"><h1>Saved reports</h1>${btn('New research <span aria-hidden="true">↗</span>', "new", "primary")}</div>${errorHTML()}<label for="saved-search" class="sr-only">Search saved reports</label><div class="saved-search"><input type="search" id="saved-search" value="${esc(state.query)}" placeholder="Search by address"></div><div id="saved-results">${savedResults()}</div></section>`;
 }
 function render(focus = false) {
-  main.innerHTML = `<div class="${state.page === "report" ? "report-view" : "fade-in"}">${({ home, entry, confirm, channels, progress, report, saved }[state.page] || home)()}</div>`;
+  document.body.classList.toggle("bench-page", state.page === "report");
+  document.querySelector(".app-header").hidden = state.page === "report";
+  document.body.classList.toggle(
+    "research-flow",
+    ["entry", "confirm", "channels", "progress"].includes(state.page),
+  );
+  document.querySelector('.app-header [data-action="saved"]').hidden =
+    document.body.classList.contains("research-flow");
+  if (state.page === "progress" && document.getElementById("progress-screen"))
+    updateProgress();
+  else
+    main.innerHTML = `<div class="${state.page === "report" ? "report-view" : state.page === "progress" ? "progress-view" : "fade-in"}">${({ home, entry, confirm, channels, progress, report, saved }[state.page] || home)()}</div>`;
+  syncSidebar();
   const top = document.querySelector(".app-header nav .secondary");
   top.dataset.action = running() ? "resume-progress" : "new";
   top.innerHTML = running()
@@ -623,6 +825,7 @@ function render(focus = false) {
   }
 }
 function go(page) {
+  state.mobileSidebarOpen = false;
   closeDialog(false);
   state.error = "";
   location.hash = page === "home" ? "home" : page;
@@ -679,6 +882,7 @@ async function route() {
       state.bench = b;
       state.reportId = id;
       state.selected = null;
+      state.researchTopic = null;
       render(true);
     } else if (page === "progress" && id) {
       await poll(id, version);
@@ -789,6 +993,11 @@ function closeDialog(restore = true) {
   }
 }
 function openEvidence(id, trigger) {
+  const topicFinding = id?.startsWith("overview-") ? overviewFinding(id.slice(9)) : state.bench.findings.find((f) => f.id === id);
+  if (topicFinding?.research_topic || topicFinding?.web_indices?.length) {
+    openResearch(topicFinding.research_topic || topicFinding.topic);
+    return;
+  }
   state.selected = id;
   if (document.getElementById("spatial-overview")) {
     const category = mappedCategories().find((c) => c.evidenceId === id);
@@ -800,9 +1009,9 @@ function openEvidence(id, trigger) {
     if (pressed !== state.mapCategory)
       document.getElementById("spatial-overview").innerHTML = spatialOverview();
   }
-  document.querySelectorAll(".finding").forEach((e) => {
+  document.querySelectorAll(".finding, .research-finding, .brief-paragraph").forEach((e) => {
     e.classList.toggle("selected", e.id === id);
-    e.querySelector(".finding-select")?.setAttribute(
+    e.querySelector(".finding-select, [data-action=evidence]")?.setAttribute(
       "aria-pressed",
       String(e.id === id),
     );
@@ -814,6 +1023,7 @@ function openEvidence(id, trigger) {
   }
   if (matchMedia("(max-width:1120px)").matches) {
     const title =
+      selectedWebFinding(id)?.finding.title ||
       state.bench.findings.find((f) => f.id === id)?.title ||
       state.bench.evidence.find((e) => e.id === id)?.title ||
       "Evidence";
@@ -908,7 +1118,8 @@ document.addEventListener("click", (e) => {
   const b = e.target.closest("button[data-action]");
   if (!b || b.disabled) return;
   const a = b.dataset.action;
-  if (a === "delete-report") {
+  if (a === "toggle-sidebar") toggleSidebar();
+  else if (a === "delete-report") {
     const run = state.runs.find((r) => r.id === b.dataset.id);
     if (!run) return;
     openDialog(
@@ -977,13 +1188,23 @@ document.addEventListener("click", (e) => {
     save();
     go("entry");
   } else if (a === "report-nav") {
+    state.mobileSidebarOpen = false;
     state.nav = b.dataset.nav;
     state.mapCategory = "all";
     state.selected = null;
     render();
-    main
-      .querySelector(`[data-nav="${state.nav}"]`)
-      ?.focus({ preventScroll: true });
+    if (matchMedia("(max-width:720px)").matches) {
+      const heading = main.querySelector(".panel-title, .report-heading h1");
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      }
+    } else
+      main
+        .querySelector(`[data-nav="${state.nav}"]`)
+        ?.focus({ preventScroll: true });
+  } else if (a === "research-topic" || a === "read-research") {
+    openResearch(b.dataset.topic);
   } else if (a === "filter") {
     state.filter = b.dataset.filter;
     state.mapCategory = "all";
@@ -1020,9 +1241,9 @@ document.addEventListener("click", (e) => {
     if (document.getElementById("spatial-overview"))
       document.getElementById("spatial-overview").innerHTML = spatialOverview();
     document.getElementById("inspector").innerHTML = evidence(null);
-    document.querySelectorAll(".finding").forEach((x) => {
+    document.querySelectorAll(".finding, .research-finding, .brief-paragraph").forEach((x) => {
       x.classList.remove("selected");
-      x.querySelector(".finding-select")?.setAttribute("aria-pressed", "false");
+      x.querySelector(".finding-select, [data-action=evidence]")?.setAttribute("aria-pressed", "false");
     });
     if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
   } else if (a === "close-dialog") closeDialog();
@@ -1058,12 +1279,48 @@ dialog.addEventListener("click", (e) => {
 });
 window.addEventListener("keydown", (e) => {
   if (
+    state.page === "report" &&
+    !dialog.open &&
+    state.mobileSidebarOpen &&
+    matchMedia("(max-width:720px)").matches
+  ) {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      toggleSidebar();
+      return;
+    }
+    if (e.key === "Tab") {
+      const items = [...document.querySelectorAll("#report-sidebar button")];
+      const first = items[0],
+        last = items.at(-1);
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+    return;
+  }
+  if (
     e.key === "Escape" &&
     !dialog.open &&
     state.page === "report" &&
     state.selected
   )
     document.querySelector('[data-action="close-evidence"]')?.click();
+});
+matchMedia("(max-width:720px)").addEventListener("change", () => {
+  state.mobileSidebarOpen = false;
+  if (state.page === "report") {
+    const shell = document.querySelector(".report-shell");
+    if (shell) {
+      shell.className = sidebarShellClass();
+      document.getElementById("report-sidebar").outerHTML = reportSidebar();
+      syncSidebar();
+    }
+  }
 });
 window.addEventListener("hashchange", route);
 (async () => {

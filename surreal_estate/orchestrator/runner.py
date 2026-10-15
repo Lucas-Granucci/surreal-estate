@@ -8,7 +8,13 @@ from pydantic import ValidationError
 from surreal_estate.channels.listing.channel import ListingChannel
 from surreal_estate.channels.web.channel import LiveDisplay, WebChannel
 from surreal_estate.errors import failure_reason
-from surreal_estate.models import ChannelResult, Coverage, PropertyCase, ResearchQuerySpec, RunReport
+from surreal_estate.models import (
+    ChannelResult,
+    Coverage,
+    PropertyCase,
+    ResearchQuerySpec,
+    RunReport,
+)
 from surreal_estate.orchestrator.context import BudgetExceeded, RunContext
 from surreal_estate.orchestrator.debug import DebugEvent
 from surreal_estate.policy.gate import PolicyDenied
@@ -229,6 +235,7 @@ async def run(
         observations=[o for r in results for o in r.observations],
         evidence=[e for r in results for e in r.evidence],
         coverage=[c for r in results for c in r.coverage],
+        research=[w for r in results for w in r.research],
     )
     return RunOutcome(
         RunReport(
